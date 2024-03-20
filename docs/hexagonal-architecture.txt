@@ -6,13 +6,13 @@ application
 │       └── EntityRequest.java
 └── adapter
     └── primary
-        └── EntityController.java
+        └── EntityController.java (uses EntityUseCases)
 
 core
 ├── domain
 │   └── Entity.java
 ├── service
-│   ├── EntityService.java (implements UseCases)
+│   ├── EntityService.java (implements UseCases; uses EntityRepository, EntityMapper)
 │   └── EntityMapperService.java (implements EntityMapper)
 └── port
     ├── primary
@@ -24,8 +24,9 @@ core
 infrastructure
 ├── adapter
 │   └── secondary
-│       └── EntityJpaRepository.java (extends EntityRepository, JpaRepository)
-├── scheme
-│	└── EntityScheme.java
+│       └── EntityJpaRepository.java <<interface>>  (extends JpaRepository)
+│       └── CinemaDatabaseGateway.java (implements EntityRepository; uses EntityJpaRepository)
+├── schema
+│	└── EntitySchema.java
 └── config
     └── BeanConfiguration.java

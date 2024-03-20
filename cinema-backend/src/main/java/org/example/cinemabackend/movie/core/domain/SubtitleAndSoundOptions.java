@@ -5,4 +5,11 @@ public class SubtitleAndSoundOptions {
     private boolean dubbing;
     private boolean voiceOver;
     private boolean originalLanguage;
+
+    public SubtitleAndSoundOptions(boolean subtitles, boolean dubbing, boolean voiceOver, boolean originalLanguage) {
+        this.subtitles = subtitles;
+        this.dubbing = dubbing;
+        this.voiceOver = voiceOver;
+        this.originalLanguage = originalLanguage;
+    }
 }

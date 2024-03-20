@@ -5,4 +5,5 @@ import org.example.cinemabackend.cinema.core.domain.Cinema;
 
 public interface CinemaMapper {
     CinemaResource mapCinemaToCinemaResource(Cinema cinema);
+
 }

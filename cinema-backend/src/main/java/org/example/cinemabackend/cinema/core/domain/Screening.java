@@ -2,11 +2,22 @@ package org.example.cinemabackend.cinema.core.domain;
 
 import org.example.cinemabackend.movie.core.domain.Movie;
 
-import java.text.SimpleDateFormat;
-import java.util.Map;
-import java.util.Set;
+import java.util.List;
 
 public class Screening {
     private Movie movie;
-    private Map<ScreeningRoom, Set<SimpleDateFormat>> screeningTimes;
+    private List<ScreeningTime> screeningTimes;
+
+    public Screening(Movie movie, List<ScreeningTime> screeningTimes) {
+        this.movie = movie;
+        this.screeningTimes = screeningTimes;
+    }
+
+    public Movie getMovie() {
+        return movie;
+    }
+
+    public List<ScreeningTime> getScreeningTimes() {
+        return screeningTimes;
+    }
 }

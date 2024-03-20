@@ -3,4 +3,9 @@ package org.example.cinemabackend.movie.core.domain;
 public class FilmMember {
     private String firstName;
     private String lastName;
+
+    public FilmMember(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
 }

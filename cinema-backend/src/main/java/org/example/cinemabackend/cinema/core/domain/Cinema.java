@@ -8,9 +8,50 @@ public class Cinema extends AbstractEntity<Long> {
     private String name;
     private String description;
     private Address address;
-    private Set<Screening> repertory;
     private Image image;
+    private Set<Screening> repertory;
     private Set<ScreeningRoom> screeningRooms;
+    private Set<ContactDetails> contactDetails;
 
-    private ContactDetails contactDetails;
+    public Cinema(String name, String description, Address address, Image image, Set<Screening> repertory, Set<ScreeningRoom> screeningRooms, Set<ContactDetails> contactDetails) {
+        this.name = name;
+        this.description = description;
+        this.address = address;
+        this.repertory = repertory;
+        this.image = image;
+        this.screeningRooms = screeningRooms;
+        this.contactDetails = contactDetails;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public Set<Screening> getRepertory() {
+        return repertory;
+    }
+
+    public Set<ScreeningRoom> getScreeningRooms() {
+        return screeningRooms;
+    }
+
+    public Set<ContactDetails> getContactDetails() {
+        return contactDetails;
+    }
 }

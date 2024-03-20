@@ -9,12 +9,21 @@ import org.example.cinemabackend.cinema.core.port.secondary.CinemaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 class CinemaService implements CinemaUseCases {
 
     private final CinemaRepository cinemaRepository;
     private final CinemaMapper cinemaMapper;
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<CinemaResource> getCinemas() {
+        final var cinemas = cinemaRepository.findAll();
+        return cinemas.stream().map(cinemaMapper::mapCinemaToCinemaResource).toList();
+    }
 
     @Override
     @Transactional(readOnly = true)

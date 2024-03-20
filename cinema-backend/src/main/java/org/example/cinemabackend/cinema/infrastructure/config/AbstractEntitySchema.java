@@ -4,20 +4,21 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serializable;
 
+@Getter
+@Setter
 @MappedSuperclass
-public class AbstractEntitySchema<ID extends Serializable> implements Serializable {
+public abstract class AbstractEntitySchema<ID extends Serializable> implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private ID id;
 
-    public ID getId() {
-        return id;
-    }
-
-    public void setId(ID id) {
-        this.id = id;
-    }
 }

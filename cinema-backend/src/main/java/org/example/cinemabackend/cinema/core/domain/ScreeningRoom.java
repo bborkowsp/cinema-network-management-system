@@ -9,4 +9,21 @@ public class ScreeningRoom {
     private Set<Seat> seats;
     private Set<ProjectionTechnology> supportedTechnologies;
 
+    public ScreeningRoom(String screeningRoomName, Set<Seat> seats, Set<ProjectionTechnology> supportedTechnologies) {
+        this.screeningRoomName = screeningRoomName;
+        this.seats = seats;
+        this.supportedTechnologies = supportedTechnologies;
+    }
+
+    public String getScreeningRoomName() {
+        return screeningRoomName;
+    }
+
+    public Set<Seat> getSeats() {
+        return seats;
+    }
+
+    public Set<ProjectionTechnology> getSupportedTechnologies() {
+        return supportedTechnologies;
+    }
 }

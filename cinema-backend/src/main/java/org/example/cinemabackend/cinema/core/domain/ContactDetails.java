@@ -1,8 +1,19 @@
 package org.example.cinemabackend.cinema.core.domain;
 
-import java.util.Map;
-
 public class ContactDetails {
-    private Map<String, String> contactDetails;
-    private Map<String, String> openingHours;
+    private String department;
+    private ContactType contactType;
+
+    public ContactDetails(String department, ContactType contactType) {
+        this.department = department;
+        this.contactType = contactType;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public ContactType getContactType() {
+        return contactType;
+    }
 }
