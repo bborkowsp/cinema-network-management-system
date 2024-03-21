@@ -2,6 +2,7 @@ package org.example.cinemabackend.cinema.core.service;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import org.example.cinemabackend.cinema.application.dto.request.CreateCinemaRequest;
 import org.example.cinemabackend.cinema.application.dto.resource.CinemaResource;
 import org.example.cinemabackend.cinema.core.port.primary.CinemaMapper;
 import org.example.cinemabackend.cinema.core.port.primary.CinemaUseCases;
@@ -30,5 +31,19 @@ class CinemaService implements CinemaUseCases {
     public CinemaResource getCinema(String name) {
         final var cinema = cinemaRepository.findByName(name).orElseThrow();
         return cinemaMapper.mapCinemaToCinemaResource(cinema);
+    }
+
+    @Override
+    @Transactional
+    public void createCinema(CreateCinemaRequest createCinemaRequest) {
+        validateCinemaDoesntExist(createCinemaRequest.name());
+        final var cinema = cinemaMapper.mapCreateCinemaRequestToCinema(createCinemaRequest);
+        cinemaRepository.save(cinema);
+    }
+
+    private void validateCinemaDoesntExist(String name) {
+        if (cinemaRepository.existsByName(name)) {
+            throw new IllegalArgumentException("Cinema with name " + name + " already exists.");
+        }
     }
 }

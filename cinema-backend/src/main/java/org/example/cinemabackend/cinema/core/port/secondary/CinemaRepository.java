@@ -11,4 +11,6 @@ public interface CinemaRepository {
     Cinema save(Cinema cinema);
 
     List<Cinema> findAll();
+
+    boolean existsByName(String name);
 }

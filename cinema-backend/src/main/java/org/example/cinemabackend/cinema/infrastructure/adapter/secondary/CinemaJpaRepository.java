@@ -9,4 +9,6 @@ import java.util.Optional;
 @Repository
 public interface CinemaJpaRepository extends JpaRepository<CinemaSchema, Long> {
     Optional<CinemaSchema> findByName(String name);
+
+    boolean existsByName(String name);
 }

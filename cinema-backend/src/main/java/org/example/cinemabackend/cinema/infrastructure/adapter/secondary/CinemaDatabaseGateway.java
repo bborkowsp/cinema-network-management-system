@@ -29,4 +29,9 @@ class CinemaDatabaseGateway implements CinemaRepository {
     public List<Cinema> findAll() {
         return cinemaJpaRepository.findAll().stream().map(CinemaSchema::toCinema).toList();
     }
+
+    @Override
+    public boolean existsByName(String name) {
+        return cinemaJpaRepository.existsByName(name);
+    }
 }

@@ -23,6 +23,15 @@ public class Cinema extends AbstractEntity<Long> {
         this.contactDetails = contactDetails;
     }
 
+    public Cinema(String name, String description, Address address, Image image, Set<ScreeningRoom> screeningRooms, Set<ContactDetails> contactDetails) {
+        this.name = name;
+        this.description = description;
+        this.address = address;
+        this.image = image;
+        this.screeningRooms = screeningRooms;
+        this.contactDetails = contactDetails;
+    }
+
     public String getName() {
         return this.name;
     }

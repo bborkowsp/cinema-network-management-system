@@ -4,12 +4,6 @@ import jakarta.persistence.Embeddable;
 import lombok.*;
 import org.example.cinemabackend.movie.core.domain.Image;
 
-//@Data
-//@Entity
-//@Builder
-//@AllArgsConstructor
-//@EqualsAndHashCode(callSuper = false)
-//@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Value
 @Embeddable
