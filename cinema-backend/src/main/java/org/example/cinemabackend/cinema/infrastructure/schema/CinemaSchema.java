@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CinemaSchema extends AbstractEntitySchema<Long> {
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, name = "cinema_name")
     private String name;
 
     @Column(nullable = false, length = 2000)
@@ -28,8 +28,7 @@ public class CinemaSchema extends AbstractEntitySchema<Long> {
     @NotNull
     private AddressSchema address;
 
-    @NotNull
-    @OneToOne(cascade = CascadeType.ALL, optional = false, orphanRemoval = true)
+    @Embedded
     private ImageSchema image;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)

@@ -25,7 +25,6 @@ public class ScreeningRoomSchema extends AbstractEntitySchema<Long> {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<ProjectionTechnologySchema> supportedTechnologies = new HashSet<>();
-    ;
 
     public static ScreeningRoomSchema fromScreeningRoom(ScreeningRoom screeningRoom) {
         return ScreeningRoomSchema.builder()

@@ -52,7 +52,7 @@ public class MovieSchema extends AbstractEntitySchema<Long> {
     @NotNull
     private VideoFileSchema movieFile;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<ImageSchema> images;
 
     @ElementCollection(fetch = FetchType.EAGER)

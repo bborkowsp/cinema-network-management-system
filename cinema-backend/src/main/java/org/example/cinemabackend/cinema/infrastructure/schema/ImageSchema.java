@@ -1,27 +1,28 @@
 package org.example.cinemabackend.cinema.infrastructure.schema;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
+import jakarta.persistence.Embeddable;
 import lombok.*;
-import org.example.cinemabackend.cinema.infrastructure.config.AbstractEntitySchema;
 import org.example.cinemabackend.movie.core.domain.Image;
 
-@Data
-@Entity
+//@Data
+//@Entity
+//@Builder
+//@AllArgsConstructor
+//@EqualsAndHashCode(callSuper = false)
+//@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
+@Value
+@Embeddable
 @Builder
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = false)
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ImageSchema extends AbstractEntitySchema<Long> {
+@NoArgsConstructor(force = true)
+public class ImageSchema {
 
-    @Column(nullable = false)
-    private String name;
+    String name;
 
-    @Column(nullable = false)
-    private String type;
+    String type;
 
-    @Column(nullable = false)
-    private byte[] image;
+    byte[] image;
 
     public static ImageSchema fromImage(Image image) {
         return ImageSchema.builder()
