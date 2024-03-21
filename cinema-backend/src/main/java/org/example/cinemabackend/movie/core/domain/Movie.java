@@ -33,4 +33,56 @@ public class Movie extends AbstractEntity<Long> {
         this.genres = genres;
         this.projectionTechnologies = projectionTechnologies;
     }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getOriginalTitle() {
+        return originalTitle;
+    }
+
+    public Double getDuration() {
+        return duration;
+    }
+
+    public LocalDate getReleaseDate() {
+        return releaseDate;
+    }
+
+    public ProductionDetails getProductionDetails() {
+        return productionDetails;
+    }
+
+    public Description getDescription() {
+        return description;
+    }
+
+    public SubtitleAndSoundOptions getSubtitleAndSoundOptions() {
+        return subtitleAndSoundOptions;
+    }
+
+    public AgeRestriction getAgeRestriction() {
+        return ageRestriction;
+    }
+
+    public VideoFile getMovieFile() {
+        return movieFile;
+    }
+
+    public Set<Image> getImages() {
+        return images;
+    }
+
+    public Set<VideoFile> getTrailers() {
+        return trailers;
+    }
+
+    public Set<Genre> getGenres() {
+        return genres;
+    }
+
+    public Set<ProjectionTechnology> getProjectionTechnologies() {
+        return projectionTechnologies;
+    }
 }

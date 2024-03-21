@@ -37,9 +37,9 @@ public class ScreeningRoomSchema extends AbstractEntitySchema<Long> {
 
     public ScreeningRoom toScreeningRoom() {
         return new ScreeningRoom(
-                screeningRoomName,
-                seats.stream().map(SeatSchema::toSeat).collect(Collectors.toSet()),
-                supportedTechnologies.stream().map(ProjectionTechnologySchema::toProjectionTechnology).collect(Collectors.toSet())
+                this.screeningRoomName,
+                this.seats.stream().map(SeatSchema::toSeat).collect(Collectors.toSet()),
+                this.supportedTechnologies.stream().map(ProjectionTechnologySchema::toProjectionTechnology).collect(Collectors.toSet())
         );
     }
 }

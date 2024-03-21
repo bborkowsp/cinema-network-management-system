@@ -8,4 +8,12 @@ public class Description {
         this.shortDescription = shortDescription;
         this.longDescription = longDescription;
     }
+
+    public String getShortDescription() {
+        return shortDescription;
+    }
+
+    public String getLongDescription() {
+        return longDescription;
+    }
 }

@@ -41,14 +41,16 @@ public class CinemaSchema extends AbstractEntitySchema<Long> {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ContactDetailsSchema> contactDetails = new HashSet<>();
 
-    public CinemaSchema(Cinema cinema) {
-        this.name = cinema.getName();
-        this.description = cinema.getDescription();
-        this.address = AddressSchema.fromAddress(cinema.getAddress());
-        this.image = ImageSchema.fromImage(cinema.getImage());
-        this.repertory = cinema.getRepertory().stream().map(ScreeningSchema::fromScreening).collect(Collectors.toSet());
-        this.screeningRooms = cinema.getScreeningRooms().stream().map(ScreeningRoomSchema::fromScreeningRoom).collect(Collectors.toSet());
-        this.contactDetails = cinema.getContactDetails().stream().map(ContactDetailsSchema::fromContactDetails).collect(Collectors.toSet());
+    public static CinemaSchema fromCinema(Cinema cinema) {
+        return CinemaSchema.builder()
+                .name(cinema.getName())
+                .description(cinema.getDescription())
+                .address(AddressSchema.fromAddress(cinema.getAddress()))
+                .image(ImageSchema.fromImage(cinema.getImage()))
+                .repertory(cinema.getRepertory().stream().map(ScreeningSchema::fromScreening).collect(Collectors.toSet()))
+                .screeningRooms(cinema.getScreeningRooms().stream().map(ScreeningRoomSchema::fromScreeningRoom).collect(Collectors.toSet()))
+                .contactDetails(cinema.getContactDetails().stream().map(ContactDetailsSchema::fromContactDetails).collect(Collectors.toSet()))
+                .build();
     }
 
     public Cinema toCinema() {

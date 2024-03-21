@@ -20,7 +20,7 @@ public class ScreeningSchema extends AbstractEntitySchema<Long> {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private MovieSchema movie;
 
-    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ScreeningTimeScheme> screeningTimes = new ArrayList<>();
 
     public static ScreeningSchema fromScreening(Screening screening) {

@@ -17,4 +17,24 @@ public class ProductionDetails {
         this.originalLanguages = originalLanguages;
         this.productionCountries = productionCountries;
     }
+
+    public LocalDate getWorldPremiereDate() {
+        return worldPremiereDate;
+    }
+
+    public FilmMember getDirector() {
+        return director;
+    }
+
+    public Set<FilmMember> getActors() {
+        return actors;
+    }
+
+    public Set<String> getOriginalLanguages() {
+        return originalLanguages;
+    }
+
+    public Set<String> getProductionCountries() {
+        return productionCountries;
+    }
 }

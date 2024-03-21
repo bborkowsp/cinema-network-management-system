@@ -2,7 +2,6 @@ package org.example.cinemabackend.shared.seeder;
 
 import com.github.javafaker.Faker;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.example.cinemabackend.cinema.core.domain.*;
 import org.example.cinemabackend.cinema.core.port.secondary.CinemaRepository;
 import org.example.cinemabackend.movie.core.domain.*;
@@ -47,9 +46,6 @@ class CinemaSeeder implements Seeder {
     }
 
     private ContactType createContactType() {
-        System.out.println("Creating contact type");
-        System.out.println(faker.phoneNumber().cellPhone());
-
         return new ContactType("+48 123 123 123", faker.internet().emailAddress());
     }
 
@@ -107,14 +103,15 @@ class CinemaSeeder implements Seeder {
         final var subtitleAndSoundOptions = createSubtitleAndSoundOptions();
         final var ageRestriction = createAgeRestriction();
         final var movieFile = createMovieFile();
-        return new Movie(faker.book().title(),
+        return new Movie(faker.book().title() + uniqueString(),
                 faker.book().title(),
                 faker.number().randomDouble(2, 60, 180),
-                faker.date().birthday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
-                productionDetails, description, subtitleAndSoundOptions, ageRestriction,
+                faker.date().birthday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), productionDetails, description, subtitleAndSoundOptions, ageRestriction,
                 movieFile, createImages(), createTrailers(), createGenres(), createProjectionTechnologies());
+    }
 
-
+    private String uniqueString() {
+        return faker.lorem().fixedString(4);
     }
 
     private Set<ProjectionTechnology> createProjectionTechnologies() {
@@ -194,9 +191,4 @@ class CinemaSeeder implements Seeder {
         return new Address(faker.address().streetAddress(), faker.address().buildingNumber(), faker.address().city(), faker.address().zipCode(), faker.address().country());
     }
 
-    @Slf4j
-    private static class Logger {
-        public static void info(String s) {
-        }
-    }
 }

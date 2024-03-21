@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 class CinemaMapperService implements CinemaMapper {
     @Override
     public CinemaResource mapCinemaToCinemaResource(Cinema cinema) {
-        return null;
+        return CinemaResource.builder()
+                .name(cinema.getName())
+                .build();
     }
 }

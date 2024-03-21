@@ -10,4 +10,16 @@ public class VideoFile {
         this.type = type;
         this.video = video;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public byte[] getVideo() {
+        return video;
+    }
 }

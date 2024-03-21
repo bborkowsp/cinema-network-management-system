@@ -17,7 +17,7 @@ class CinemaDatabaseGateway implements CinemaRepository {
 
     @Override
     public Cinema save(Cinema cinema) {
-        return this.cinemaJpaRepository.save(new CinemaSchema(cinema)).toCinema();
+        return this.cinemaJpaRepository.save(CinemaSchema.fromCinema(cinema)).toCinema();
     }
 
     @Override

@@ -1,4 +1,9 @@
 package org.example.cinemabackend.cinema.application.dto.resource;
 
-public record CinemaResource() {
+import lombok.Builder;
+
+@Builder
+public record CinemaResource(
+        String name
+) {
 }

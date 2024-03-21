@@ -12,4 +12,20 @@ public class SubtitleAndSoundOptions {
         this.voiceOver = voiceOver;
         this.originalLanguage = originalLanguage;
     }
+
+    public boolean isSubtitles() {
+        return subtitles;
+    }
+
+    public boolean isDubbing() {
+        return dubbing;
+    }
+
+    public boolean isVoiceOver() {
+        return voiceOver;
+    }
+
+    public boolean isOriginalLanguage() {
+        return originalLanguage;
+    }
 }
