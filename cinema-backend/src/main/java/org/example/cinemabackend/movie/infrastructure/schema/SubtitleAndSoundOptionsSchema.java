@@ -11,6 +11,7 @@ import org.example.cinemabackend.movie.core.domain.SubtitleAndSoundOptions;
 @AllArgsConstructor
 @NoArgsConstructor(force = true)
 public class SubtitleAndSoundOptionsSchema {
+    
     boolean subtitles;
     boolean dubbing;
     boolean voiceOver;

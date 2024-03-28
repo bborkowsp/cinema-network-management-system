@@ -1,4 +1,4 @@
-package org.example.cinemabackend.cinema.core.domain;
+package org.example.cinemabackend.reservation.core.domain;
 
 import java.io.Serializable;
 

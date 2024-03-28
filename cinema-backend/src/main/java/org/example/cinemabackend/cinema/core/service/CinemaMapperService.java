@@ -2,7 +2,7 @@ package org.example.cinemabackend.cinema.core.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.application.dto.request.CreateCinemaRequest;
-import org.example.cinemabackend.cinema.application.dto.resource.CinemaResource;
+import org.example.cinemabackend.cinema.application.dto.response.CinemaResponse;
 import org.example.cinemabackend.cinema.core.domain.Cinema;
 import org.example.cinemabackend.cinema.core.port.primary.*;
 import org.springframework.stereotype.Service;
@@ -17,8 +17,8 @@ class CinemaMapperService implements CinemaMapper {
     private final ContactDetailsMapper contactDetailsMapper;
 
     @Override
-    public CinemaResource mapCinemaToCinemaResource(Cinema cinema) {
-        return CinemaResource.builder()
+    public CinemaResponse mapCinemaToCinemaResponse(Cinema cinema) {
+        return CinemaResponse.builder()
                 .name(cinema.getName())
                 .build();
     }

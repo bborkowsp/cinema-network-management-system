@@ -11,4 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 class MovieController {
     private final MovieUseCases movieUseCases;
+
+
 }

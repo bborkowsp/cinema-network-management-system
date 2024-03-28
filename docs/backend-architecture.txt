@@ -1,0 +1,31 @@
+module
+├── application
+│   ├── dto
+│   │   ├── resource
+│   │   │   └── EntityResource.java
+│   │   └── request
+│   │       └── EntityRequest.java
+│   └── adapter
+│       └── primary
+│           └── EntityController.java (uses EntityUseCases)
+├── core
+│   ├── domain
+│   │   └── Entity.java
+│   ├── service
+│   │   ├── EntityService.java (implements UseCases; uses EntityRepository, EntityMapper)
+│   │   └── EntityMapperService.java (implements EntityMapper)
+│   └── port
+│       ├── primary
+│       │   ├── UseCases.java <<interface>>
+│       │   └── EntityMapper.java <<interface>>
+│       └── secondary
+│           └── EntityRepository.java <<interface>>
+└── infrastructure
+    ├── adapter
+    │   └── secondary
+    │       ├── EntityJpaRepository.java <<interface>>  (extends JpaRepository)
+    │       └── CinemaDatabaseGateway.java (implements EntityRepository; uses EntityJpaRepository)
+    ├── schema
+    │   └── EntitySchema.java
+    └── config
+        └── BeanConfiguration.java

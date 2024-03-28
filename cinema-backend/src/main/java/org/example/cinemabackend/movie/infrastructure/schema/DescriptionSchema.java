@@ -12,6 +12,7 @@ import org.example.cinemabackend.movie.core.domain.Description;
 @AllArgsConstructor
 @NoArgsConstructor(force = true)
 public class DescriptionSchema {
+    
     @Column(length = 500)
     String shortDescription;
 

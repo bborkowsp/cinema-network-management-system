@@ -1,0 +1,10 @@
+module
+├── components
+│
+└── dtos
+│    ├── response
+│    │    └── entity.resource.ts
+│    ├── request
+│          └── entity.request.ts
+└── services
+      └── entity.service.ts

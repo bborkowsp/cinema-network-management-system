@@ -3,7 +3,7 @@ package org.example.cinemabackend.cinema.core.service;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.application.dto.request.CreateCinemaRequest;
-import org.example.cinemabackend.cinema.application.dto.resource.CinemaResource;
+import org.example.cinemabackend.cinema.application.dto.response.CinemaResponse;
 import org.example.cinemabackend.cinema.core.port.primary.CinemaMapper;
 import org.example.cinemabackend.cinema.core.port.primary.CinemaUseCases;
 import org.example.cinemabackend.cinema.core.port.secondary.CinemaRepository;
@@ -21,16 +21,16 @@ class CinemaService implements CinemaUseCases {
 
     @Override
     @Transactional(readOnly = true)
-    public List<CinemaResource> getCinemas() {
+    public List<CinemaResponse> getCinemas() {
         final var cinemas = cinemaRepository.findAll();
-        return cinemas.stream().map(cinemaMapper::mapCinemaToCinemaResource).toList();
+        return cinemas.stream().map(cinemaMapper::mapCinemaToCinemaResponse).toList();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public CinemaResource getCinema(String name) {
+    public CinemaResponse getCinema(String name) {
         final var cinema = cinemaRepository.findByName(name).orElseThrow();
-        return cinemaMapper.mapCinemaToCinemaResource(cinema);
+        return cinemaMapper.mapCinemaToCinemaResponse(cinema);
     }
 
     @Override

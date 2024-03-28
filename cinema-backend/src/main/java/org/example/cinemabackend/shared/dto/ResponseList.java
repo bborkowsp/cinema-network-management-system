@@ -2,7 +2,7 @@ package org.example.cinemabackend.shared.dto;
 
 import java.util.List;
 
-public record ResourceList<T>(
+public record ResponseList<T>(
         List<T> content
 ) {
 }
