@@ -1,4 +1,28 @@
-/* You can add global styles to this file, and also import other style files */
+@use "@angular/material" as mat;
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+@include mat.core();
+
+$cinema-frontend-primary: mat.define-palette(mat.$orange-palette, 400, 300, 700);
+$cinema-frontend-accent: mat.define-palette(mat.$amber-palette, A200, A100, A400);
+$cinema-frontend-warn: mat.define-palette(mat.$red-palette);
+
+$cinema-frontend-theme: mat.define-light-theme(
+    (
+      color: (
+        primary: $cinema-frontend-primary,
+        accent: $cinema-frontend-accent,
+        warn: $cinema-frontend-warn,
+      ),
+    )
+);
+
+@include mat.all-component-themes($cinema-frontend-theme);
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

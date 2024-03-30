@@ -1,0 +1,14 @@
+<div class="page-content-container">
+  <h1 class="page-content-container__header">{{ pageTitle }}</h1>
+  <ng-container *ngIf="!isLoading; else spinner">
+    <div class="page-content-container__content-container">
+      <ng-content select="[content]"></ng-content>
+    </div>
+  </ng-container>
+</div>
+
+<ng-template #spinner>
+  <div class="page-content-container__spinner-container">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>

@@ -4,6 +4,8 @@ import {CinemaListComponent} from "./cinema/components/cinema-list/cinema-list.c
 
 const routes: Routes = [
   {path: 'cinemas', component: CinemaListComponent},
+  {path: '', redirectTo: '/cinemas', pathMatch: 'full'},
+  {path: '**', redirectTo: '/cinemas', pathMatch: 'full'},
 ];
 
 @NgModule({

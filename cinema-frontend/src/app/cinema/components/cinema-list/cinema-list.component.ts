@@ -14,9 +14,9 @@ import {Observable} from "rxjs";
 export class CinemaListComponent implements AfterViewInit, OnInit {
   displayedColumns: string[] = ['name', 'cinemaManager', 'numberOfScreeningRooms', 'numberOfAvailableSeats', 'numberOfUnavailableSeats'];
   dataSource: MatTableDataSource<CinemaTableResponse>;
-
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  protected isLoading = false;
 
   constructor(
     private cinemaService: CinemaService

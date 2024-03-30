@@ -1,0 +1,51 @@
+$vertical-padding: 2.5rem;
+$horizontal-padding: 4.375rem;
+$mat-fab-size: 56px;
+
+.page-content-container {
+  padding: $vertical-padding $horizontal-padding;
+  display: flex;
+  flex-direction: column;
+  align-content: flex-start;
+  gap: 2.5rem;
+
+  &__header {
+    margin: 0;
+    font-size: 3.5rem;
+    font-weight: normal;
+  }
+
+  &__content-container {
+    width: 100%;
+  }
+
+  &__action-buttons-container {
+    display: flex;
+    flex-direction: row;
+    gap: 1.125rem;
+
+    &__align-left {
+      justify-content: flex-start;
+    }
+
+    &__align-right {
+      justify-content: flex-end;
+    }
+  }
+
+  &__floating-button-spacer {
+    height: $mat-fab-size;
+  }
+
+  &__floating-button {
+    position: fixed;
+    bottom: $vertical-padding;
+    right: $horizontal-padding;
+    z-index: 1;
+  }
+
+  &__spinner-container {
+    display: flex;
+    justify-content: center;
+  }
+}

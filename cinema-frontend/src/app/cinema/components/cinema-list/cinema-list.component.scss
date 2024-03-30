@@ -1,12 +1,28 @@
-table {
-  width: 100%;
-}
 
 .mat-mdc-form-field {
   font-size: 14px;
-  width: 100%;
+  width: 50%;
 }
 
-td, th {
-  width: 25%;
+
+.column-header {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: gray;
+}
+
+.column-cell {
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+
+.mat-row,
+.mat-header-row {
+  display: flex;
+  width: 50%;
+}
+
+.table-container {
+  overflow-x: auto;
+  border-radius: 0.25rem;
 }

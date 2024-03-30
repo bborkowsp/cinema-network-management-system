@@ -17,10 +17,12 @@ import {MatInputModule} from "@angular/material/input";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatIconModule} from "@angular/material/icon";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {SharedModule} from "./shared/shared.module";
+import {ScaffoldModule} from "./scaffold/scaffold.module";
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
@@ -29,10 +31,8 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
-    CinemaModule,
     HttpClientModule,
     BrowserModule,
-    AppRoutingModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
     HttpClientModule,
@@ -44,6 +44,9 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
     MatToolbarModule,
     MatIconModule,
     MatProgressSpinnerModule,
+    SharedModule,
+    CinemaModule,
+    ScaffoldModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
