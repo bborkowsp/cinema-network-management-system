@@ -2,13 +2,14 @@ package org.example.cinemabackend.cinema.core.port.primary;
 
 import org.example.cinemabackend.cinema.application.dto.request.CreateCinemaRequest;
 import org.example.cinemabackend.cinema.application.dto.response.CinemaResponse;
-
-import java.util.List;
+import org.example.cinemabackend.cinema.application.dto.response.CinemaTableResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface CinemaUseCases {
     CinemaResponse getCinema(String name);
 
-    List<CinemaResponse> getCinemas();
+    Page<CinemaTableResponse> getCinemas(Pageable pageable);
 
     void createCinema(CreateCinemaRequest createCinemaRequest);
 }

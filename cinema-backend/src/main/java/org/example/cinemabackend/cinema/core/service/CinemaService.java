@@ -4,13 +4,14 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.application.dto.request.CreateCinemaRequest;
 import org.example.cinemabackend.cinema.application.dto.response.CinemaResponse;
+import org.example.cinemabackend.cinema.application.dto.response.CinemaTableResponse;
 import org.example.cinemabackend.cinema.core.port.primary.CinemaMapper;
 import org.example.cinemabackend.cinema.core.port.primary.CinemaUseCases;
 import org.example.cinemabackend.cinema.core.port.secondary.CinemaRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
@@ -21,9 +22,8 @@ class CinemaService implements CinemaUseCases {
 
     @Override
     @Transactional(readOnly = true)
-    public List<CinemaResponse> getCinemas() {
-        final var cinemas = cinemaRepository.findAll();
-        return cinemas.stream().map(cinemaMapper::mapCinemaToCinemaResponse).toList();
+    public Page<CinemaTableResponse> getCinemas(Pageable pageable) {
+        return cinemaRepository.findAll(pageable).map(cinemaMapper::mapCinemaToCinemaTableRow);
     }
 
     @Override

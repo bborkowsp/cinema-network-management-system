@@ -2,20 +2,25 @@ package org.example.cinemabackend.shared.seeder;
 
 import com.github.javafaker.Faker;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.example.cinemabackend.cinema.core.domain.*;
 import org.example.cinemabackend.cinema.core.port.secondary.CinemaRepository;
 import org.example.cinemabackend.movie.core.domain.*;
+import org.example.cinemabackend.user.core.domain.CinemaManager;
+import org.example.cinemabackend.user.core.domain.Gender;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
 class CinemaSeeder implements Seeder {
+    private static final int NUMBER_OF_SEATS = 255;
     private final CinemaRepository cinemaRepository;
     private final Faker faker;
 
@@ -35,7 +40,70 @@ class CinemaSeeder implements Seeder {
         final var image = createImage();
         final var screeningRooms = createScreeningRooms();
         final var contactDetails = createContactDetails();
-        return new Cinema(faker.company().name(), faker.lorem().fixedString(100), address, image, repertory, screeningRooms, contactDetails);
+        final var cinemaManager = createCinemaManager();
+        return new Cinema(faker.company().name(), faker.lorem().fixedString(100),
+                address, image, repertory, screeningRooms, contactDetails, cinemaManager);
+    }
+
+    private Address createAddress() {
+        return new Address(faker.address().streetAddress(), faker.address().buildingNumber(), faker.address().city(), faker.address().zipCode(), faker.address().country());
+    }
+
+    private Set<Screening> createRepertory() {
+        Set<Screening> repertory = new HashSet<>();
+        repertory.add(createScreening());
+        return repertory;
+    }
+
+    private Screening createScreening() {
+        final var movie = createNewMovie();
+        final var screeningTimes = createScreeningTimes();
+        return new Screening(movie, screeningTimes);
+    }
+
+    private Movie createNewMovie() {
+        final var productionDetails = createProductionDetails();
+        final var description = createDescription();
+        final var subtitleAndSoundOptions = createSubtitleAndSoundOptions();
+        final var ageRestriction = createAgeRestriction();
+        final var movieFile = createMovieFile();
+        return new Movie(faker.book().title() + uniqueString(),
+                faker.book().title(),
+                faker.number().randomDouble(2, 60, 180),
+                faker.date().birthday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), productionDetails, description, subtitleAndSoundOptions, ageRestriction,
+                movieFile, createImages(), createTrailers(), createGenres(), createProjectionTechnologies());
+    }
+
+    private ProductionDetails createProductionDetails() {
+        final var director = createFilmMember();
+        final var actors = createFilmMembers();
+        return new ProductionDetails(faker.date().birthday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), director, actors, createOriginalLanguages(), createProductionCountries());
+    }
+
+    private Description createDescription() {
+        return new Description(faker.lorem().fixedString(100), faker.lorem().fixedString(100));
+    }
+
+    private SubtitleAndSoundOptions createSubtitleAndSoundOptions() {
+        return new SubtitleAndSoundOptions(faker.bool().bool(), faker.bool().bool(), faker.bool().bool(), faker.bool().bool());
+    }
+
+    private AgeRestriction createAgeRestriction() {
+        return AgeRestriction.values()[faker.number().numberBetween(0, AgeRestriction.values().length)];
+    }
+
+    private VideoFile createMovieFile() {
+        return new VideoFile(faker.lorem().fixedString(10), faker.lorem().fixedString(10), new byte[100]);
+    }
+
+    private List<ScreeningTime> createScreeningTimes() {
+        final var ScreeningTime = createScreeningTime();
+        return List.of(ScreeningTime);
+    }
+
+    private CinemaManager createCinemaManager() {
+        return new CinemaManager(faker.name().firstName(), faker.name().lastName(), faker.internet().emailAddress(),
+                faker.lorem().fixedString(120), Gender.FEMALE);
     }
 
     private Set<ContactDetails> createContactDetails() {
@@ -61,63 +129,38 @@ class CinemaSeeder implements Seeder {
         return new ScreeningRoom(faker.lorem().fixedString(10), seats, projectionTechnologies);
     }
 
-    private Image createImage() {
-        return new Image(faker.lorem().fixedString(10), faker.lorem().fixedString(10), new byte[100]);
-    }
-
-    private Set<Screening> createRepertory() {
-        Set<Screening> repertory = new HashSet<>();
-        repertory.add(createScreening());
-        return repertory;
-    }
-
-    private Screening createScreening() {
-        final var movie = createNewMovie();
-        final var screeningTimes = createScreeningTimes();
-        return new Screening(movie, screeningTimes);
-    }
-
-    private List<ScreeningTime> createScreeningTimes() {
-        final var ScreeningTime = createScreeningTime();
-        return List.of(ScreeningTime);
-    }
-
-    private ScreeningTime createScreeningTime() {
-        return new ScreeningTime(createScreeningRoom(), LocalDateTime.now().plusHours(2));
-    }
-
     private Set<Seat> createSeats() {
         Set<Seat> seats = new HashSet<>();
-        seats.add(createSeat());
+        for (int i = 0; i < NUMBER_OF_SEATS; i++)
+            seats.add(createSeat(i));
         return seats;
     }
 
-    private Seat createSeat() {
-        return new Seat(String.valueOf(faker.number().numberBetween(1, 19)), faker.lorem().fixedString(1),
-                SeatZone.PROMO, SeatType.OCCUPIED);
-    }
-
-    private Movie createNewMovie() {
-        final var productionDetails = createProductionDetails();
-        final var description = createDescription();
-        final var subtitleAndSoundOptions = createSubtitleAndSoundOptions();
-        final var ageRestriction = createAgeRestriction();
-        final var movieFile = createMovieFile();
-        return new Movie(faker.book().title() + uniqueString(),
-                faker.book().title(),
-                faker.number().randomDouble(2, 60, 180),
-                faker.date().birthday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), productionDetails, description, subtitleAndSoundOptions, ageRestriction,
-                movieFile, createImages(), createTrailers(), createGenres(), createProjectionTechnologies());
-    }
-
-    private String uniqueString() {
-        return faker.lorem().fixedString(4);
+    private Seat createSeat(int seatNumber) {
+        return new Seat(String.valueOf(seatNumber), faker.lorem().fixedString(1),
+                getRandomSeatZone(), getRandomSeatType());
     }
 
     private Set<ProjectionTechnology> createProjectionTechnologies() {
         Set<ProjectionTechnology> projectionTechnologies = new HashSet<>();
         projectionTechnologies.add(createProjectionTechnology());
         return projectionTechnologies;
+    }
+
+    private Image createImage() {
+        return new Image(faker.lorem().fixedString(10), faker.lorem().fixedString(10), new byte[100]);
+    }
+
+    private ScreeningTime createScreeningTime() {
+        return new ScreeningTime(createScreeningRoom(), LocalDateTime.now().plusHours(2));
+    }
+
+    private SeatType getRandomSeatType() {
+        return SeatType.values()[new Random().nextInt(SeatType.values().length)];
+    }
+
+    private SeatZone getRandomSeatZone() {
+        return SeatZone.values()[new Random().nextInt(SeatZone.values().length)];
     }
 
     private ProjectionTechnology createProjectionTechnology() {
@@ -143,28 +186,6 @@ class CinemaSeeder implements Seeder {
         return images;
     }
 
-    private VideoFile createMovieFile() {
-        return new VideoFile(faker.lorem().fixedString(10), faker.lorem().fixedString(10), new byte[100]);
-    }
-
-    private AgeRestriction createAgeRestriction() {
-        return AgeRestriction.values()[faker.number().numberBetween(0, AgeRestriction.values().length)];
-    }
-
-    private SubtitleAndSoundOptions createSubtitleAndSoundOptions() {
-        return new SubtitleAndSoundOptions(faker.bool().bool(), faker.bool().bool(), faker.bool().bool(), faker.bool().bool());
-    }
-
-    private Description createDescription() {
-        return new Description(faker.lorem().fixedString(100), faker.lorem().fixedString(100));
-    }
-
-    private ProductionDetails createProductionDetails() {
-        final var director = createFilmMember();
-        final var actors = createFilmMembers();
-        return new ProductionDetails(faker.date().birthday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), director, actors, createOriginalLanguages(), createProductionCountries());
-    }
-
     private Set<FilmMember> createFilmMembers() {
         Set<FilmMember> actors = new HashSet<>();
         actors.add(createFilmMember());
@@ -187,8 +208,7 @@ class CinemaSeeder implements Seeder {
         return originalLanguages;
     }
 
-    private Address createAddress() {
-        return new Address(faker.address().streetAddress(), faker.address().buildingNumber(), faker.address().city(), faker.address().zipCode(), faker.address().country());
+    private String uniqueString() {
+        return RandomStringUtils.randomAlphanumeric(10);
     }
-
 }

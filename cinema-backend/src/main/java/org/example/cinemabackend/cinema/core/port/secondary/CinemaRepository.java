@@ -1,8 +1,9 @@
 package org.example.cinemabackend.cinema.core.port.secondary;
 
 import org.example.cinemabackend.cinema.core.domain.Cinema;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface CinemaRepository {
@@ -10,7 +11,7 @@ public interface CinemaRepository {
 
     Cinema save(Cinema cinema);
 
-    List<Cinema> findAll();
+    Page<Cinema> findAll(Pageable pageable);
 
     boolean existsByName(String name);
 }

@@ -1,0 +1,40 @@
+<div class="mat-elevation-z8">
+  <table [dataSource]="dataSource" mat-table matSort>
+
+    <!-- ID Column -->
+    <ng-container matColumnDef="name">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header> name</th>
+      <td *matCellDef="let row" mat-cell> {{ row.name }}</td>
+    </ng-container>
+
+    <!-- Cinema Manager Column -->
+    <ng-container matColumnDef="cinemaManager">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header> Cinema Manager</th>
+      <td *matCellDef="let row" mat-cell> {{ row.cinemaManager }}</td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="numberOfScreeningRooms">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header> numberOfScreeningRooms</th>
+      <td *matCellDef="let row" mat-cell> {{ row.numberOfScreeningRooms }}</td>
+    </ng-container>
+
+    <!-- Fruit Column -->
+    <ng-container matColumnDef="numberOfAvailableSeats">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header> numberOfAvailableSeats</th>
+      <td *matCellDef="let row" mat-cell> {{ row.numberOfAvailableSeats }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="numberOfUnavailableSeats">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header> numberOfUnavailableSeats</th>
+      <td *matCellDef="let row" mat-cell> {{ row.numberOfUnavailableSeats }}</td>
+    </ng-container>
+
+    <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+    <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+</div>
+

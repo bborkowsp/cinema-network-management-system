@@ -4,9 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.core.domain.Cinema;
 import org.example.cinemabackend.cinema.core.port.secondary.CinemaRepository;
 import org.example.cinemabackend.cinema.infrastructure.schema.CinemaSchema;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -26,8 +27,8 @@ class CinemaDatabaseGateway implements CinemaRepository {
     }
 
     @Override
-    public List<Cinema> findAll() {
-        return cinemaJpaRepository.findAll().stream().map(CinemaSchema::toCinema).toList();
+    public Page<Cinema> findAll(Pageable pageable) {
+        return cinemaJpaRepository.findAll(pageable).map(CinemaSchema::toCinema);
     }
 
     @Override

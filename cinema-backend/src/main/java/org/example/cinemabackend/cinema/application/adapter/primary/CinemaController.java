@@ -4,8 +4,10 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.application.dto.request.CreateCinemaRequest;
 import org.example.cinemabackend.cinema.application.dto.response.CinemaResponse;
+import org.example.cinemabackend.cinema.application.dto.response.CinemaTableResponse;
 import org.example.cinemabackend.cinema.core.port.primary.CinemaUseCases;
-import org.example.cinemabackend.shared.dto.ResponseList;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,9 +20,9 @@ class CinemaController {
     private final CinemaUseCases cinemaUseCases;
 
     @GetMapping
-    ResponseEntity<ResponseList<CinemaResponse>> getCinemas() {
-        final var cinemas = cinemaUseCases.getCinemas();
-        return ResponseEntity.ok(new ResponseList<>(cinemas));
+    ResponseEntity<Page<CinemaTableResponse>> getCinemas(Pageable pageable) {
+        final var cinemas = cinemaUseCases.getCinemas(pageable);
+        return ResponseEntity.ok((cinemas));
     }
 
     @GetMapping("/{name}")
