@@ -11,7 +11,7 @@ $mat-fab-size: 56px;
 
   &__header {
     margin: 0;
-    font-size: 3.5rem;
+    font-size: 2.5rem;
     font-weight: normal;
   }
 
@@ -31,17 +31,6 @@ $mat-fab-size: 56px;
     &__align-right {
       justify-content: flex-end;
     }
-  }
-
-  &__floating-button-spacer {
-    height: $mat-fab-size;
-  }
-
-  &__floating-button {
-    position: fixed;
-    bottom: $vertical-padding;
-    right: $horizontal-padding;
-    z-index: 1;
   }
 
   &__spinner-container {

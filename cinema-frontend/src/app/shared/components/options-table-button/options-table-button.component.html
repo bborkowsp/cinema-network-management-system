@@ -1,8 +1,17 @@
-<button [matMenuTriggerFor]="menu" aria-label="Options" mat-icon-button>
+<button [matMenuTriggerFor]="menu" aria-label="Options" class="custom-button" mat-icon-button>
   <mat-icon>more_vert</mat-icon>
 </button>
 <mat-menu #menu="matMenu">
-  <button (click)="handleEdit()" mat-menu-item>Edit</button>
-  <button (click)="handleDelete()" mat-menu-item>Delete</button>
-  <button (click)="handleShowDetails()" mat-menu-item>Show Details</button>
+  <button (click)="handleEdit()" class="mat-menu-item" mat-menu-item>
+    <mat-icon>edit</mat-icon>
+    <span>Edit</span>
+  </button>
+  <button (click)="handleDelete()" class="mat-menu-item" mat-menu-item>
+    <mat-icon>delete</mat-icon>
+    <span>Delete</span>
+  </button>
+  <button (click)="handleShowDetails()" class="mat-menu-item" mat-menu-item>
+    <mat-icon>info</mat-icon>
+    <span>Show details</span>
+  </button>
 </mat-menu>
