@@ -13,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 class CinemaService implements CinemaUseCases {
@@ -24,6 +26,12 @@ class CinemaService implements CinemaUseCases {
     @Transactional(readOnly = true)
     public Page<CinemaTableResponse> getCinemas(Pageable pageable) {
         return cinemaRepository.findAll(pageable).map(cinemaMapper::mapCinemaToCinemaTableRow);
+    }
+
+    @Override
+    public List<CinemaTableResponse> getCinemas() {
+        final var cinemas = cinemaRepository.findAll();
+        return cinemas.stream().map(cinemaMapper::mapCinemaToCinemaTableRow).toList();
     }
 
     @Override
@@ -39,6 +47,19 @@ class CinemaService implements CinemaUseCases {
         validateCinemaDoesntExist(createCinemaRequest.name());
         final var cinema = cinemaMapper.mapCreateCinemaRequestToCinema(createCinemaRequest);
         cinemaRepository.save(cinema);
+    }
+
+    @Override
+    @Transactional
+    public void deleteCinema(String name) {
+        validateCinemaExists(name);
+        cinemaRepository.deleteByName(name);
+    }
+
+    private void validateCinemaExists(String name) {
+        if (cinemaRepository.findByName(name).isEmpty()) {
+            throw new IllegalArgumentException("Cinema with name " + name + " doesn't exist.");
+        }
     }
 
     private void validateCinemaDoesntExist(String name) {

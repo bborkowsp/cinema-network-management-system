@@ -22,4 +22,8 @@ export class CinemaService {
       );
   }
 
+  deleteCinema(name: string) {
+    const url = `${CinemaService.cinemasUrl}/${name}`;
+    return this.httpClient.delete<void>(url);
+  }
 }

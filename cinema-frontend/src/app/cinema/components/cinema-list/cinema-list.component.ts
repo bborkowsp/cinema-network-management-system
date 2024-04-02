@@ -5,6 +5,7 @@ import {MatTableDataSource} from "@angular/material/table";
 import {CinemaService} from "../../services/cinema.service";
 import {CinemaTableResponse} from "../../dtos/response/cinema-table.response";
 import {Observable} from "rxjs";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-cinema-list',
@@ -12,33 +13,49 @@ import {Observable} from "rxjs";
   styleUrls: ['./cinema-list.component.scss']
 })
 export class CinemaListComponent implements AfterViewInit, OnInit {
-  displayedColumns: string[] = ['name', 'cinemaManager', 'numberOfScreeningRooms', 'numberOfAvailableSeats', 'numberOfUnavailableSeats'];
-  dataSource: MatTableDataSource<CinemaTableResponse>;
+  displayedColumns: string[] = ['options', 'name', 'cinemaManager', 'numberOfScreeningRooms', 'numberOfAvailableSeats', 'numberOfUnavailableSeats'];
+  cinemas$: MatTableDataSource<CinemaTableResponse>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  protected isLoading = false;
+  protected isLoading = true;
 
   constructor(
-    private cinemaService: CinemaService
+    private cinemaService: CinemaService,
+    private readonly router: Router
   ) {
-    this.dataSource = new MatTableDataSource<CinemaTableResponse>([]);
+    this.cinemas$ = new MatTableDataSource<CinemaTableResponse>([]);
   }
-
 
   ngOnInit() {
     this.getData().subscribe(cinemas => {
-      this.dataSource.data = cinemas;
+      this.cinemas$.data = cinemas;
     });
+    this.isLoading = false;
   }
 
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    this.cinemas$.paginator = this.paginator;
+    this.cinemas$.sort = this.sort;
+  }
+
+  handleDelete(cinema: CinemaTableResponse) {
+    this.cinemaService.deleteCinema(cinema.name).subscribe({
+      next: () => this.ngOnInit(),
+    });
+  }
+
+  handleEdit(cinema: CinemaTableResponse) {
+    const url = `cinemas/edit/${cinema.name}`;
+    this.router.navigateByUrl(url);
+  }
+
+  handleShowDetails(cinema: CinemaTableResponse) {
+    const url = `cinemas/details/${cinema.name}`;
+    this.router.navigateByUrl(url);
   }
 
   private getData(): Observable<CinemaTableResponse[]> {
     return this.cinemaService.getCinemas();
   }
-
 }
 

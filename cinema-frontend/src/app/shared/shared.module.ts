@@ -14,6 +14,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatToolbarModule} from "@angular/material/toolbar";
+import {OptionsTableButtonComponent} from './components/options-table-button/options-table-button.component';
 
 const sharedModules = [
   CommonModule,
@@ -33,7 +34,7 @@ const declarations = [
 ];
 
 @NgModule({
-  declarations: [declarations],
+  declarations: [declarations, OptionsTableButtonComponent],
   imports: [
     ...sharedModules,
     MatMenuModule,
@@ -42,7 +43,7 @@ const declarations = [
     MatCheckboxModule,
     MatToolbarModule,
   ],
-  exports: [declarations],
+  exports: [declarations, OptionsTableButtonComponent],
 })
 export class SharedModule {
 }

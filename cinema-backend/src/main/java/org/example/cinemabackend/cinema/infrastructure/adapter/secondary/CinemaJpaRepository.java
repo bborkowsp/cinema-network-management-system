@@ -11,4 +11,6 @@ public interface CinemaJpaRepository extends JpaRepository<CinemaSchema, Long> {
     Optional<CinemaSchema> findByName(String name);
 
     boolean existsByName(String name);
+
+    void deleteByName(String name);
 }

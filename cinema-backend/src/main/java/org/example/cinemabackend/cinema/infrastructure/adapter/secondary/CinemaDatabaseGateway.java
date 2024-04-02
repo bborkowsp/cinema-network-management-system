@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -32,7 +33,17 @@ class CinemaDatabaseGateway implements CinemaRepository {
     }
 
     @Override
+    public List<Cinema> findAll() {
+        return cinemaJpaRepository.findAll().stream().map(CinemaSchema::toCinema).toList();
+    }
+
+    @Override
     public boolean existsByName(String name) {
         return cinemaJpaRepository.existsByName(name);
+    }
+
+    @Override
+    public void deleteByName(String name) {
+        cinemaJpaRepository.deleteByName(name);
     }
 }

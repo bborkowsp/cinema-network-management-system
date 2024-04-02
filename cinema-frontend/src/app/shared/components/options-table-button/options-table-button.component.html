@@ -1,0 +1,8 @@
+<button [matMenuTriggerFor]="menu" aria-label="Options" mat-icon-button>
+  <mat-icon>more_vert</mat-icon>
+</button>
+<mat-menu #menu="matMenu">
+  <button (click)="handleEdit()" mat-menu-item>Edit</button>
+  <button (click)="handleDelete()" mat-menu-item>Delete</button>
+  <button (click)="handleShowDetails()" mat-menu-item>Show Details</button>
+</mat-menu>

@@ -19,6 +19,7 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatListModule} from "@angular/material/list";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {CinemaDetailsComponent} from "./components/cinema-details/cinema-details.component";
+import {MatSortModule} from "@angular/material/sort";
 
 @NgModule({
   imports: [
@@ -32,6 +33,7 @@ import {CinemaDetailsComponent} from "./components/cinema-details/cinema-details
     SharedModule,
     MatButtonModule,
     MatFormFieldModule,
+    MatSortModule,
     MatInputModule,
     MatSelectModule,
     MatToolbarModule,
