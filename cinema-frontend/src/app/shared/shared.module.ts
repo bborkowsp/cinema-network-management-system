@@ -15,6 +15,9 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {OptionsTableButtonComponent} from './components/options-table-button/options-table-button.component';
+import {RouterLink} from "@angular/router";
+import {MatTooltipModule} from "@angular/material/tooltip";
+import {GenericFormFrameComponent} from './components/generic-form-frame/generic-form-frame.component';
 
 const sharedModules = [
   CommonModule,
@@ -34,7 +37,7 @@ const declarations = [
 ];
 
 @NgModule({
-  declarations: [declarations, OptionsTableButtonComponent],
+  declarations: [declarations, OptionsTableButtonComponent, GenericFormFrameComponent],
   imports: [
     ...sharedModules,
     MatMenuModule,
@@ -42,8 +45,10 @@ const declarations = [
     MatProgressSpinnerModule,
     MatCheckboxModule,
     MatToolbarModule,
+    RouterLink,
+    MatTooltipModule,
   ],
-  exports: [declarations, OptionsTableButtonComponent],
+  exports: [declarations, OptionsTableButtonComponent, GenericFormFrameComponent],
 })
 export class SharedModule {
 }

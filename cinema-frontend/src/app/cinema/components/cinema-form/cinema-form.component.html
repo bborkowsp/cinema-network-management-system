@@ -1,0 +1,37 @@
+<app-page-content-container
+  pageTitle="Add cinema"
+>
+  <ng-container content>
+    <mat-stepper #stepper [linear]="true">
+      <mat-step [stepControl]="aboutCinemaFormGroup">
+        <form #aboutCinemaStepForm="ngForm" [formGroup]="aboutCinemaFormGroup">
+          <ng-template matStepLabel>About cinema</ng-template>
+          <app-generic-form-frame title="About">
+            <ng-container content>
+              <app-about-cinema
+                [buildingNumberControl]="aboutCinemaFormGroup.controls.buildingNumber"
+                [cityControl]="aboutCinemaFormGroup.controls.city"
+                [countryControl]="aboutCinemaFormGroup.controls.country"
+                [form]="aboutCinemaStepForm"
+                [postalCodeControl]="aboutCinemaFormGroup.controls.postalCode"
+                [streetControl]="aboutCinemaFormGroup.controls.street"
+              ></app-about-cinema>
+            </ng-container>
+          </app-generic-form-frame>
+          <div>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+
+      <mat-step>
+        <ng-template matStepLabel>Screening rooms</ng-template>
+      </mat-step>
+
+      <mat-step>
+        <ng-template matStepLabel>Contact details</ng-template>
+      </mat-step>
+    </mat-stepper>
+  </ng-container>
+
+</app-page-content-container>

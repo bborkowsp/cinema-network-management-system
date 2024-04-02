@@ -8,5 +8,7 @@ import {Component, Input} from '@angular/core';
 export class PageContentContainerComponent {
   @Input({required: true}) pageTitle!: string;
   @Input() isLoading = false;
-  @Input() hasOptionsButton = false;
+  @Input() hasCreateNewButton = false;
+  @Input() buttonMatToolTip = '';
+  @Input() routerLink = '';
 }

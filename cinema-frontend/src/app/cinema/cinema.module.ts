@@ -20,6 +20,9 @@ import {MatListModule} from "@angular/material/list";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {CinemaDetailsComponent} from "./components/cinema-details/cinema-details.component";
 import {MatSortModule} from "@angular/material/sort";
+import {CinemaFormComponent} from './components/cinema-form/cinema-form.component';
+import {MatStepperModule} from "@angular/material/stepper";
+import { AboutCinemaComponent } from './components/cinema-form/about-cinema/about-cinema.component';
 
 @NgModule({
   imports: [
@@ -43,10 +46,13 @@ import {MatSortModule} from "@angular/material/sort";
     MatCheckboxModule,
     MatListModule,
     MatExpansionModule,
+    MatStepperModule,
   ],
   declarations: [
     CinemaListComponent,
     CinemaDetailsComponent,
+    CinemaFormComponent,
+    AboutCinemaComponent,
   ],
 })
 
