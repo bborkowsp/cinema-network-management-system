@@ -1,11 +1,11 @@
 <mat-form-field class="example-full-width">
   <mat-label>Cinema name</mat-label>
-  <input formControlName="nameControl" matInput maxlength="100" required>
+  <input [formControl]="nameControl" matInput maxlength="100" required>
   <mat-hint align="end">{{ nameControl.value.length }} / 100</mat-hint>
 </mat-form-field>
 
 <mat-form-field class="example-full-width">
   <mat-label>Description</mat-label>
-  <textarea #descriptionControl formControlName="descriptionControl" matInput maxlength="2000" required></textarea>
+  <textarea [formControl]="descriptionControl" matInput maxlength="2000" required></textarea>
   <mat-hint align="end">{{ descriptionControl.value.length }} / 2000</mat-hint>
 </mat-form-field>

@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import FormValidatorLengths from "../../../shared/consts/form-validators-lengths";
-import FormValidatorPatterns from "../../../shared/consts/form-validators-patterns";
 
 @Component({
   selector: 'app-cinema-form',
@@ -19,24 +18,6 @@ export class CinemaFormComponent {
       Validators.required,
       Validators.maxLength(FormValidatorLengths.MAX_INPUT_LENGTH)
     ]),
-    streetAndBuildingNumber: new FormControl('', [
-      Validators.required,
-      Validators.maxLength(FormValidatorLengths.MAX_INPUT_LENGTH),
-      Validators.pattern(FormValidatorPatterns.STREET_AND_BUILDING_NUMBER)
-    ]),
-    city: new FormControl('', [
-      Validators.required,
-      Validators.maxLength(FormValidatorLengths.MAX_INPUT_LENGTH),
-    ]),
-    postalCode: new FormControl('', [
-      Validators.required,
-      Validators.maxLength(FormValidatorLengths.MAX_INPUT_LENGTH),
-      Validators.pattern(FormValidatorPatterns.POSTAL_CODE)
-    ]),
-    country: new FormControl('', [
-      Validators.required,
-      Validators.maxLength(FormValidatorLengths.MAX_INPUT_LENGTH),
-    ]),
   });
 
   screeningRoomsFormGroup = new FormGroup({
@@ -45,7 +26,6 @@ export class CinemaFormComponent {
       Validators.maxLength(FormValidatorLengths.MAX_INPUT_LENGTH)
     ]),
   });
-
 
   onSubmit() {
     console.log(this.aboutCinemaFormGroup.value);

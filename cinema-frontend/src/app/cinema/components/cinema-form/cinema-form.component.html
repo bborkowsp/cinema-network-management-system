@@ -2,10 +2,9 @@
   pageTitle="Add cinema"
 >
   <ng-container content>
-    <mat-stepper #stepper [linear]="true">
+    <mat-stepper #stepper linear>
       <mat-step [stepControl]="aboutCinemaFormGroup">
         <form #aboutCinemaStepForm="ngForm" [formGroup]="aboutCinemaFormGroup">
-          <ng-template matStepLabel>About cinema</ng-template>
 
           <div class="form-container">
             <app-generic-form-frame title="About">
@@ -17,44 +16,19 @@
                 ></app-about-cinema>
               </ng-container>
             </app-generic-form-frame>
-
-            <app-generic-form-frame title="Address">
-              <ng-container content>
-                <app-address
-                  [cityControl]="aboutCinemaFormGroup.controls.city"
-                  [countryControl]="aboutCinemaFormGroup.controls.country"
-                  [form]="aboutCinemaStepForm"
-                  [postalCodeControl]="aboutCinemaFormGroup.controls.postalCode"
-                  [streetAndBuildingNumberControl]="aboutCinemaFormGroup.controls.streetAndBuildingNumber"
-                ></app-address>
-              </ng-container>
-            </app-generic-form-frame>
           </div>
           <div>
             <button mat-button matStepperNext>Next</button>
           </div>
-          <div class="button-stepper">
-            <button
-              (click)="checkInvalid()"
-              [disabled]="aboutCinemaFormGroup.invalid"
-              color="primary"
-              mat-flat-button
-              matStepperNext
-            >
-              Next page
-            </button>
-          </div>
         </form>
       </mat-step>
-
-      <mat-step [stepControl]="screeningRoomsFormGroup">
-        <form #screeningRoomsStepForm="ngForm" [formGroup]="aboutCinemaFormGroup">
-          <ng-template matStepLabel>Screening rooms</ng-template>
-        </form>
-      </mat-step>
-
       <mat-step>
-        <ng-template matStepLabel>Contact details</ng-template>
+        <ng-template matStepLabel>Done</ng-template>
+        <p>You are now done.</p>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button (click)="stepper.reset()" mat-button>Reset</button>
+        </div>
       </mat-step>
     </mat-stepper>
   </ng-container>
