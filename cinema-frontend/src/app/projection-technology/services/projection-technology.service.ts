@@ -14,8 +14,9 @@ export class ProjectionTechnologyService {
   constructor(private readonly httpClient: HttpClient) {
   }
 
-  deleteProjectionTechnology(name: string): Observable<void> {
-    const url = `${ProjectionTechnologyService.projectionTechnologiesUrl}/${name}`;
+  deleteProjectionTechnology(technology: string): Observable<void> {
+    const url = `${ProjectionTechnologyService.projectionTechnologiesUrl}/${technology}`;
+    console.log(url);
     return this.httpClient.delete<void>(url);
   }
 

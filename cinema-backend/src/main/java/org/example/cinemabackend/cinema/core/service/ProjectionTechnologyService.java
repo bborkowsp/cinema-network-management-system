@@ -7,10 +7,13 @@ import org.example.cinemabackend.cinema.application.dto.response.ProjectionTechn
 import org.example.cinemabackend.cinema.core.port.primary.ProjectionTechnologyMapper;
 import org.example.cinemabackend.cinema.core.port.primary.ProjectionTechnologyUseCases;
 import org.example.cinemabackend.cinema.core.port.secondary.ProjectionTechnologyRepository;
+import org.example.cinemabackend.movie.core.port.secondary.MovieRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
@@ -18,6 +21,7 @@ class ProjectionTechnologyService implements ProjectionTechnologyUseCases {
 
     private final ProjectionTechnologyRepository projectionTechnologyRepository;
     private final ProjectionTechnologyMapper projectionTechnologyMapper;
+    private final MovieRepository movieRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -44,12 +48,19 @@ class ProjectionTechnologyService implements ProjectionTechnologyUseCases {
     @Transactional
     public void deleteProjectionTechnology(String technology) {
         validateProjectionTechnologyExists(technology);
+        validateProjectionTechnologyIsNotUsedInAnyMovie(technology);
         projectionTechnologyRepository.deleteByTechnology(technology);
+    }
+
+    private void validateProjectionTechnologyIsNotUsedInAnyMovie(String technology) {
+        if (movieRepository.findByProjectionTechnology(technology)) {
+            throw new IllegalArgumentException("Projection technology is used in a movie");
+        }
     }
 
     private void validateProjectionTechnologyExists(String technology) {
         if (projectionTechnologyRepository.findByTechnology(technology).isEmpty()) {
-            throw new IllegalArgumentException("Projection technology does not exist");
+            throw new NoSuchElementException("Projection technology '" + technology + "' does not exist");
         }
     }
 

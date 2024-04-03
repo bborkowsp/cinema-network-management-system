@@ -38,11 +38,6 @@ class ProjectionTechnologyDatabaseGateway implements ProjectionTechnologyReposit
     }
 
     @Override
-    public boolean existsByTechnology(String technology) {
-        return this.projectionTechnologyJpaRepository.existsByTechnology(technology);
-    }
-
-    @Override
     public void deleteByTechnology(String technology) {
         this.projectionTechnologyJpaRepository.deleteByTechnology(technology);
     }

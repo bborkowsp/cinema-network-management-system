@@ -9,4 +9,9 @@ import org.springframework.stereotype.Service;
 class MovieDatabaseGateway implements MovieRepository {
 
     private final MovieJpaRepository movieJpaRepository;
+
+    @Override
+    public boolean findByProjectionTechnology(String technology) {
+        return this.movieJpaRepository.existsByProjectionTechnologyTechnology(technology);
+    }
 }
