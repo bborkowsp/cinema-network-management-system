@@ -47,11 +47,12 @@ export class CinemaFormComponent {
   });
 
   onSubmit() {
-    console.log(this.aboutCinemaFormGroup.value);
+    if (this.aboutCinemaFormGroup.valid && this.screeningRoomsFormGroup.valid) {
+      this.createCinema()
+    }
   }
 
-  checkInvalid() {
-    console.log(this.aboutCinemaFormGroup.invalid, this.aboutCinemaFormGroup);
+  createCinema() {
   }
 
 }

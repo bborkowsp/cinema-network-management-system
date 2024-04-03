@@ -1,1 +1,67 @@
-<p>screening-room works!</p>
+<form #seatingPlanForm="ngForm" (ngSubmit)="createSeatingGrid()">
+  <table class="example-full-width">
+    <tr>
+      <td>
+        <mat-form-field class="example-full-width">
+          <mat-label>Number of rows</mat-label>
+          <input [(ngModel)]="rows" matInput name="rows" required type="number">
+        </mat-form-field>
+      </td>
+      <td>
+        <mat-form-field class="example-full-width">
+          <mat-label>Number of columns</mat-label>
+          <input [(ngModel)]="columns" matInput name="columns" required type="number">
+        </mat-form-field>
+      </td>
+    </tr>
+  </table>
+  <button [disabled]="seatingPlanForm.invalid" color="primary" mat-flat-button type="submit">
+    Create a grid of seats
+  </button>
+</form>
+
+<div class="grid-container">
+  <div *ngFor="let row of seatingPlan; let i = index" class="grid-button">
+    <div *ngFor="let cell of row; let j = index"
+         [ngClass]="{
+          'selected-standard': cell.selected === 'Standard',
+           'selected-vip': cell.selected === 'VIP',
+            'selected-promo': cell.selected === 'Promo',
+             'selected-wheelchair': cell.selected === 'Wheelchair'
+              }"
+         class="cell">
+      <button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu"
+              mat-icon-button>
+        <mat-icon>{{ cell.selected === 'Corridor' ? 'block' : 'event_seat' }}</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button (click)="handleStandardClicked(cell)" class="selected-standard" mat-menu-item>
+          <mat-icon>people</mat-icon>
+          <span>Standard</span>
+        </button>
+        <button (click)="handleVIPClicked(cell)" class="selected-vip" mat-menu-item>
+          <mat-icon>star</mat-icon>
+          <span>VIP</span>
+        </button>
+        <button (click)="handlePromoClicked(cell)" class="selected-promo" mat-menu-item>
+          <mat-icon>money_off</mat-icon>
+          <span>Promo</span>
+        </button>
+        <button (click)="handleWheelchairClicked(cell)" class="selected-wheelchair" mat-menu-item>
+          <mat-icon>wheelchair_pickup</mat-icon>
+          <span>Wheelchair</span>
+        </button>
+        <button (click)="handleCorridorClicked(cell)" class="selected-corridor" mat-menu-item>
+          <mat-icon>blocked</mat-icon>
+          <span>Corridor</span>
+        </button>
+      </mat-menu>
+    </div>
+  </div>
+</div>
+
+<!--<button (click)="saveScreeningRoom()" [disabled]="rows === 0 || columns === 0" color="primary" mat-flat-button>Save-->
+<!--  Current Screening Room-->
+<!--</button>-->
+
+

@@ -3,7 +3,16 @@
 >
   <ng-container content>
     <mat-stepper #stepper linear>
-      <mat-step [stepControl]="aboutCinemaFormGroup">
+      <mat-step [stepControl]="screeningRoomsFormGroup" label="Screening rooms">
+        <app-generic-form-frame title="Screening rooms">
+          <ng-container content>
+            <app-screening-room
+
+            ></app-screening-room>
+          </ng-container>
+        </app-generic-form-frame>
+      </mat-step>
+      <mat-step [stepControl]="aboutCinemaFormGroup" label="About">
         <form #aboutCinemaStepForm="ngForm" [formGroup]="aboutCinemaFormGroup">
           <div class="form-container">
             <app-generic-form-frame title="About">
