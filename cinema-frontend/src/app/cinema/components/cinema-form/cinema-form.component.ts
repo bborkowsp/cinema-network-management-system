@@ -13,36 +13,36 @@ export class CinemaFormComponent {
   aboutCinemaFormGroup = new FormGroup({
     name: new FormControl('', [
       Validators.required,
-      Validators.maxLength(FormValidatorLengths.MAX_INPUT_LENGTH
+      Validators.maxLength(FormValidatorLengths.DEFAULT_MAX_INPUT_LENGTH
       )]),
     description: new FormControl('', [
       Validators.required,
-      Validators.maxLength(FormValidatorLengths.MAX_INPUT_LENGTH)
+      Validators.maxLength(FormValidatorLengths.DEFAULT_MAX_INPUT_LENGTH)
     ]),
     streetAndBuildingNumber: new FormControl('', [
       Validators.required,
-      Validators.maxLength(FormValidatorLengths.MAX_INPUT_LENGTH),
+      Validators.maxLength(FormValidatorLengths.DEFAULT_MAX_INPUT_LENGTH),
       Validators.pattern(FormValidatorPatterns.STREET_AND_BUILDING_NUMBER)
     ]),
     city: new FormControl('', [
       Validators.required,
-      Validators.maxLength(FormValidatorLengths.MAX_INPUT_LENGTH),
+      Validators.maxLength(FormValidatorLengths.DEFAULT_MAX_INPUT_LENGTH),
     ]),
     postalCode: new FormControl('', [
       Validators.required,
-      Validators.maxLength(FormValidatorLengths.MAX_INPUT_LENGTH),
+      Validators.maxLength(FormValidatorLengths.DEFAULT_MAX_INPUT_LENGTH),
       Validators.pattern(FormValidatorPatterns.POSTAL_CODE)
     ]),
     country: new FormControl('', [
       Validators.required,
-      Validators.maxLength(FormValidatorLengths.MAX_INPUT_LENGTH),
+      Validators.maxLength(FormValidatorLengths.DEFAULT_MAX_INPUT_LENGTH),
     ]),
   });
 
   screeningRoomsFormGroup = new FormGroup({
     screeningRoomName: new FormControl('', [
       Validators.required,
-      Validators.maxLength(FormValidatorLengths.MAX_INPUT_LENGTH)
+      Validators.maxLength(FormValidatorLengths.DEFAULT_MAX_INPUT_LENGTH)
     ]),
   });
 

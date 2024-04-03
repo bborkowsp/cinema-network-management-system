@@ -6,19 +6,19 @@ import {Router} from "@angular/router";
 import {ProjectionTechnologyRequest} from "../../dtos/request/projection-technology.request";
 
 @Component({
-  selector: 'app-create-projection-technology',
-  templateUrl: './create-projection-technology.component.html',
-  styleUrls: ['./create-projection-technology.component.scss']
+  selector: 'app-create-projection-technology-form',
+  templateUrl: './create-projection-technology-form.component.html',
+  styleUrls: ['./create-projection-technology-form.component.scss']
 })
-export class CreateProjectionTechnologyComponent {
+export class CreateProjectionTechnologyFormComponent {
   projectionTechnologyFormGroup = new FormGroup({
     technology: new FormControl('', [
       Validators.required,
-      Validators.maxLength(FormValidatorLengths.MAX_INPUT_LENGTH
+      Validators.maxLength(FormValidatorLengths.PROJECTION_TECHNOLOGY_MAX_INPUT_LENGTH
       )]),
     description: new FormControl('', [
       Validators.required,
-      Validators.maxLength(FormValidatorLengths.MAX_INPUT_LENGTH)
+      Validators.maxLength(FormValidatorLengths.MAX_TEXTAREA_LENGTH)
     ]),
   });
   protected isLoading = false;
@@ -29,9 +29,17 @@ export class CreateProjectionTechnologyComponent {
   ) {
   }
 
+  handleCancelClicked() {
+    this.goBack()
+  }
+
   protected onSubmit(): void {
     const projectionTechnology = this.createProjectionTechnologyRequestFromForm();
-
+    const createProjectionTechnology$ = this.projectionTechnologyService.createProjectionTechnology(projectionTechnology);
+    this.isLoading = true;
+    createProjectionTechnology$.subscribe({
+      next: () => this.goBack(),
+    });
   }
 
   private createProjectionTechnologyRequestFromForm(): ProjectionTechnologyRequest {
@@ -43,5 +51,7 @@ export class CreateProjectionTechnologyComponent {
     return new ProjectionTechnologyRequest(technology, description);
   }
 
-
+  private goBack() {
+    this.router.navigate(['/projection-technologies']);
+  }
 }
