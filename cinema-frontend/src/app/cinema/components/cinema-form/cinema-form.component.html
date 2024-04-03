@@ -6,26 +6,51 @@
       <mat-step [stepControl]="aboutCinemaFormGroup">
         <form #aboutCinemaStepForm="ngForm" [formGroup]="aboutCinemaFormGroup">
           <ng-template matStepLabel>About cinema</ng-template>
-          <app-generic-form-frame title="About">
-            <ng-container content>
-              <app-about-cinema
-                [buildingNumberControl]="aboutCinemaFormGroup.controls.buildingNumber"
-                [cityControl]="aboutCinemaFormGroup.controls.city"
-                [countryControl]="aboutCinemaFormGroup.controls.country"
-                [form]="aboutCinemaStepForm"
-                [postalCodeControl]="aboutCinemaFormGroup.controls.postalCode"
-                [streetControl]="aboutCinemaFormGroup.controls.street"
-              ></app-about-cinema>
-            </ng-container>
-          </app-generic-form-frame>
+
+          <div class="form-container">
+            <app-generic-form-frame title="About">
+              <ng-container content>
+                <app-about-cinema
+                  [descriptionControl]="aboutCinemaFormGroup.controls.description"
+                  [form]="aboutCinemaStepForm"
+                  [nameControl]="aboutCinemaFormGroup.controls.name"
+                ></app-about-cinema>
+              </ng-container>
+            </app-generic-form-frame>
+
+            <app-generic-form-frame title="Address">
+              <ng-container content>
+                <app-address
+                  [cityControl]="aboutCinemaFormGroup.controls.city"
+                  [countryControl]="aboutCinemaFormGroup.controls.country"
+                  [form]="aboutCinemaStepForm"
+                  [postalCodeControl]="aboutCinemaFormGroup.controls.postalCode"
+                  [streetAndBuildingNumberControl]="aboutCinemaFormGroup.controls.streetAndBuildingNumber"
+                ></app-address>
+              </ng-container>
+            </app-generic-form-frame>
+          </div>
           <div>
             <button mat-button matStepperNext>Next</button>
+          </div>
+          <div class="button-stepper">
+            <button
+              (click)="checkInvalid()"
+              [disabled]="aboutCinemaFormGroup.invalid"
+              color="primary"
+              mat-flat-button
+              matStepperNext
+            >
+              Next page
+            </button>
           </div>
         </form>
       </mat-step>
 
-      <mat-step>
-        <ng-template matStepLabel>Screening rooms</ng-template>
+      <mat-step [stepControl]="screeningRoomsFormGroup">
+        <form #screeningRoomsStepForm="ngForm" [formGroup]="aboutCinemaFormGroup">
+          <ng-template matStepLabel>Screening rooms</ng-template>
+        </form>
       </mat-step>
 
       <mat-step>
@@ -33,5 +58,4 @@
       </mat-step>
     </mat-stepper>
   </ng-container>
-
 </app-page-content-container>

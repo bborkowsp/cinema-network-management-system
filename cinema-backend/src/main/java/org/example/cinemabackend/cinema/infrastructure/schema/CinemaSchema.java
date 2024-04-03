@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CinemaSchema extends AbstractEntitySchema<Long> {
 
-    @Column(nullable = false, unique = true, name = "cinema_name")
+    @Column(nullable = false, unique = true, name = "cinema_name", length = 100)
     private String name;
 
     @Column(nullable = false, length = 2000)

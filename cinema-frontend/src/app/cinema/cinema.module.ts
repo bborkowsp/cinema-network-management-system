@@ -23,6 +23,8 @@ import {MatSortModule} from "@angular/material/sort";
 import {CinemaFormComponent} from './components/cinema-form/cinema-form.component';
 import {MatStepperModule} from "@angular/material/stepper";
 import { AboutCinemaComponent } from './components/cinema-form/about-cinema/about-cinema.component';
+import { AddressComponent } from './components/cinema-form/address/address.component';
+import { ScreeningRoomComponent } from './components/cinema-form/screening-room/screening-room.component';
 
 @NgModule({
   imports: [
@@ -53,6 +55,8 @@ import { AboutCinemaComponent } from './components/cinema-form/about-cinema/abou
     CinemaDetailsComponent,
     CinemaFormComponent,
     AboutCinemaComponent,
+    AddressComponent,
+    ScreeningRoomComponent,
   ],
 })
 

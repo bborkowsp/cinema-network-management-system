@@ -8,9 +8,6 @@ import {FormControl, FormGroupDirective, NgForm} from "@angular/forms";
 })
 export class AboutCinemaComponent {
   @Input({required: true}) form!: FormGroupDirective | NgForm;
-  @Input() streetControl!: FormControl;
-  @Input() buildingNumberControl!: FormControl;
-  @Input() cityControl!: FormControl;
-  @Input() postalCodeControl!: FormControl;
-  @Input() countryControl!: FormControl;
+  @Input() nameControl!: FormControl;
+  @Input() descriptionControl!: FormControl;
 }
