@@ -15,24 +15,25 @@
       </td>
     </tr>
   </table>
-  <button [disabled]="seatingPlanForm.invalid" color="primary" mat-flat-button type="submit">
+  <button [disabled]="seatingPlanForm.invalid || rows === 0 || columns === 0" color="primary" mat-flat-button
+          type="submit">
     Create a grid of seats
   </button>
 </form>
 
-<div class="grid-container">
-  <div *ngFor="let row of seatingPlan; let i = index" class="grid-button">
+<div *ngIf="showCurrentScreeningRoom" class="grid-container">
+  <div *ngFor="let row of currentScreeningRoom; let i = index" class="grid-button">
     <div *ngFor="let cell of row; let j = index"
          [ngClass]="{
-          'selected-standard': cell.selected === 'Standard',
-           'selected-vip': cell.selected === 'VIP',
-            'selected-promo': cell.selected === 'Promo',
-             'selected-wheelchair': cell.selected === 'Wheelchair'
+          'selected-standard': cell.seatZone === 'STANDARD',
+           'selected-vip': cell.seatZone === 'VIP',
+            'selected-promo': cell.seatZone === 'PROMO',
+             'selected-wheelchair': cell.seatZone === 'WHEELCHAIR'
               }"
          class="cell">
       <button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu"
               mat-icon-button>
-        <mat-icon>{{ cell.selected === 'Corridor' ? 'block' : 'event_seat' }}</mat-icon>
+        <mat-icon>{{ cell.seatZone === 'Corridor' ? 'block' : 'event_seat' }}</mat-icon>
       </button>
       <mat-menu #menu="matMenu">
         <button (click)="handleStandardClicked(cell)" class="selected-standard" mat-menu-item>
@@ -60,8 +61,24 @@
   </div>
 </div>
 
-<!--<button (click)="saveScreeningRoom()" [disabled]="rows === 0 || columns === 0" color="primary" mat-flat-button>Save-->
-<!--  Current Screening Room-->
-<!--</button>-->
+<mat-form-field>
+  <mat-label>Projection Technologies</mat-label>
+  <mat-select [formControl]="projectionTechnologies" multiple>
+    <mat-option *ngFor="let projectionTechnology of projectionTechnologiesList"
+                [value]="projectionTechnology">{{ projectionTechnology }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<button (click)="saveScreeningRoom()" [disabled]="rows === 0 || columns === 0" color="primary" mat-flat-button>Save
+  current screening room
+</button>
+
+<div mat-subheader>Saved screening rooms:</div>
+<mat-list role="list">
+  <mat-list-item *ngFor="let room of screeningRooms" role="listitem">
+    <span>Screening Room {{ room.index }} - Rows: {{ room.rows }}, Columns: {{ room.columns }}</span>
+  </mat-list-item>
+</mat-list>
 
 

@@ -19,6 +19,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {SharedModule} from "./shared/shared.module";
 import {ScaffoldModule} from "./scaffold/scaffold.module";
+import {ProjectionTechnologyModule} from "./projection-technology/projection-technology.module";
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import {ScaffoldModule} from "./scaffold/scaffold.module";
     MatProgressSpinnerModule,
     SharedModule,
     CinemaModule,
+    ProjectionTechnologyModule,
     ScaffoldModule,
   ],
   providers: [],

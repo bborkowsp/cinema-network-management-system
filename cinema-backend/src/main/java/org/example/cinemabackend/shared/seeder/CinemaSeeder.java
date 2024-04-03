@@ -164,7 +164,7 @@ class CinemaSeeder implements Seeder {
     }
 
     private ProjectionTechnology createProjectionTechnology() {
-        return new ProjectionTechnology(faker.lorem().fixedString(10), faker.lorem().fixedString(100));
+        return new ProjectionTechnology(faker.lorem().fixedString(10) + uniqueString(), faker.lorem().fixedString(100));
     }
 
     private Set<Genre> createGenres() {

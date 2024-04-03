@@ -14,7 +14,7 @@ import org.example.cinemabackend.movie.core.domain.ProjectionTechnology;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ProjectionTechnologySchema extends AbstractEntitySchema<Long> {
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 50, unique = true)
     private String technology;
 
     @Column(nullable = false, length = 200)

@@ -4,7 +4,8 @@ public enum SeatZone {
     STANDARD(27.90),
     VIP(35.90),
     PROMO(19.90),
-    WHEELCHAIR(19.90);
+    WHEELCHAIR(19.90),
+    CORRIDOR(-1.0);
 
     private final Double price;
 
