@@ -7,18 +7,22 @@ import {
   ProjectionTechnologyListComponent
 } from "./projection-technology/components/projection-technology-list/projection-technology-list.component";
 import {
-  ProjectionTechnologyFormComponent
-} from "./projection-technology/components/projection-technology-form/projection-technology-form.component";
-import {
   ProjectionTechnologyDetailsComponent
 } from "./projection-technology/components/projection-technology-details/projection-technology-details.component";
+import {
+  CreateProjectionTechnologyComponent
+} from "./projection-technology/components/create-projection-technology/create-projection-technology.component";
+import {
+  EditProjectionTechnologyComponent
+} from "./projection-technology/components/edit-projection-technology/edit-projection-technology.component";
 
 const routes: Routes = [
   {path: 'cinemas', component: CinemaListComponent},
   {path: 'cinemas/create', component: CinemaFormComponent},
   {path: 'cinemas/details/:name', component: CinemaDetailsComponent},
   {path: 'projection-technologies', component: ProjectionTechnologyListComponent},
-  {path: 'projection-technologies/create', component: ProjectionTechnologyFormComponent},
+  {path: 'projection-technologies/create', component: CreateProjectionTechnologyComponent},
+  {path: 'projection-technologies/edit/:name', component: EditProjectionTechnologyComponent},
   {path: 'projection-technologies/details/:name', component: ProjectionTechnologyDetailsComponent},
   {path: '', redirectTo: '/cinemas', pathMatch: 'full'},
   {path: '**', redirectTo: '/cinemas', pathMatch: 'full'},
