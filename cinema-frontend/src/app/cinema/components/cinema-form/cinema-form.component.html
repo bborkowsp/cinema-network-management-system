@@ -5,7 +5,6 @@
     <mat-stepper #stepper linear>
       <mat-step [stepControl]="aboutCinemaFormGroup">
         <form #aboutCinemaStepForm="ngForm" [formGroup]="aboutCinemaFormGroup">
-
           <div class="form-container">
             <app-generic-form-frame title="About">
               <ng-container content>
@@ -29,8 +28,9 @@
               </ng-container>
             </app-generic-form-frame>
           </div>
-          <div>
-            <button mat-button matStepperNext>Next</button>
+          <div class="button-stepper">
+            <button [disabled]="aboutCinemaFormGroup.invalid" color="primary" mat-flat-button matStepperNext>Next
+            </button>
           </div>
         </form>
       </mat-step>
