@@ -22,8 +22,8 @@ const routes: Routes = [
   {path: 'cinemas/details/:name', component: CinemaDetailsComponent},
   {path: 'projection-technologies', component: ProjectionTechnologyListComponent},
   {path: 'projection-technologies/create', component: CreateProjectionTechnologyFormComponent},
-  {path: 'projection-technologies/edit/:name', component: EditProjectionTechnologyComponent},
-  {path: 'projection-technologies/details/:name', component: ProjectionTechnologyDetailsComponent},
+  {path: 'projection-technologies/edit/:technology', component: EditProjectionTechnologyComponent},
+  {path: 'projection-technologies/details/:technology', component: ProjectionTechnologyDetailsComponent},
   {path: '', redirectTo: '/cinemas', pathMatch: 'full'},
   {path: '**', redirectTo: '/cinemas', pathMatch: 'full'},
 ];

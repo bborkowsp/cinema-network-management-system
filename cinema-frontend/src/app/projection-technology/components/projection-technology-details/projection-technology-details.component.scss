@@ -1,0 +1,26 @@
+@import "../../../shared/styles/_colors.scss";
+
+@import "../../../shared/styles/_colors.scss";
+
+.technology-and-description {
+  display: block;
+
+  &__container {
+    margin-left: 2.688rem;
+    margin-right: 6rem;
+
+    &__header {
+      color: $app-details-header;
+      font-size: 1.125rem;
+      margin-bottom: 0.250rem;
+    }
+
+    &__content {
+      margin-top: 0.125rem;
+      margin-bottom: 2rem;
+      font-size: 1rem;
+      font-weight: normal;
+    }
+  }
+}
+

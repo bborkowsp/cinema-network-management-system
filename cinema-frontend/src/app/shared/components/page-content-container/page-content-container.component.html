@@ -6,6 +6,27 @@
         <mat-icon>add</mat-icon>
       </a>
     </ng-container>
+    <ng-container *ngIf="hasDetailsActionButtons">
+      <div class="page-content-container__floating-button-spacer"></div>
+      <button
+        (click)="floatingButtonDeleteAction.emit()"
+        [attr.aria-label]="floatingButtonDeleteAriaLabel"
+        class="page-content-container__floating-button"
+        color="accent"
+        mat-fab
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+      <button
+        (click)="floatingButtonEditAction.emit()"
+        [attr.aria-label]="floatingButtonEditAriaLabel"
+        class="page-content-container__floating-button"
+        color="accent"
+        mat-fab
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
+    </ng-container>
   </div>
   <ng-container *ngIf="!isLoading; else spinner">
     <div class="page-content-container__content-container">

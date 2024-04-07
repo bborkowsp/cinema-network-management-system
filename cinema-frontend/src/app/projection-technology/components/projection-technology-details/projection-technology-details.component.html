@@ -1,1 +1,28 @@
-<p>projection-technology-details works!</p>
+<app-page-content-container
+  (floatingButtonDeleteAction)="handleDeleteTechnology()"
+  (floatingButtonEditAction)="handleEditTechnology()"
+  [hasDetailsActionButtons]="true"
+  [isLoading]="isLoading"
+  floatingButtonDeleteAriaLabel="Delete projection technology"
+  floatingButtonEditAriaLabel="Edit projection technology"
+  pageTitle="Projection Technology details"
+>
+  <ng-container content>
+    <div *ngIf="projectionTechnology$ | async as projectionTechnology">
+      <div class="technology-and-description">
+        <div class="technology-and-description__container">
+          <div class="technology-and-description__container__header">Projection technology name</div>
+          <div class="technology-and-description__container__content">
+            {{ projectionTechnology.technology }}
+          </div>
+        </div>
+        <div class="technology-and-description__container">
+          <div class="technology-and-description__container__header">Description</div>
+          <div class="technology-and-description__container__content">
+            {{ projectionTechnology.description }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</app-page-content-container>

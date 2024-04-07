@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 @Component({
   selector: 'app-page-content-container',
@@ -11,4 +11,13 @@ export class PageContentContainerComponent {
   @Input() hasCreateNewButton = false;
   @Input() buttonMatToolTip = '';
   @Input() routerLink = '';
+  @Input() hasDetailsActionButtons = false;
+  @Input() buttonEditMatToolTip = '';
+  @Input() buttonDeleteMatToolTip = '';
+
+  @Input() floatingButtonDeleteAriaLabel = '';
+  @Output() floatingButtonDeleteAction: EventEmitter<void> = new EventEmitter();
+  @Output() floatingButtonEditAction: EventEmitter<void> = new EventEmitter();
+  @Input() floatingButtonEditAriaLabel = '';
+
 }
