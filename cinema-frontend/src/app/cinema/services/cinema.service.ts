@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {CinemaTableResponse} from "../dtos/response/cinema-table.response";
 import {map, Observable} from "rxjs";
 import {Injectable} from "@angular/core";
+import {CinemaDetailsComponent} from "../components/cinema-details/cinema-details.component";
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +21,11 @@ export class CinemaService {
       .pipe(
         map((response) => response.content),
       );
+  }
+
+  getCinema(name: string): Observable<CinemaDetailsComponent> {
+    const url = `${CinemaService.cinemasUrl}/${name}`;
+    return this.httpClient.get<CinemaDetailsComponent>(url);
   }
 
   deleteCinema(name: string) {

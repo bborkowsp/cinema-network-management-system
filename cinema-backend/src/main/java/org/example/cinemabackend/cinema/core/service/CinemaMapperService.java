@@ -17,11 +17,17 @@ class CinemaMapperService implements CinemaMapper {
     private final ImageMapper imageMapper;
     private final ScreeningRoomMapper screeningRoomMapper;
     private final ContactDetailsMapper contactDetailsMapper;
+    private final CinemaManagerMapper cinemaManagerMapper;
 
     @Override
     public CinemaResponse mapCinemaToCinemaResponse(Cinema cinema) {
         return CinemaResponse.builder()
                 .name(cinema.getName())
+                .description(cinema.getDescription())
+                .address(addressMapper.mapAddressToAddressResponse(cinema.getAddress()))
+                .image(imageMapper.mapImageToImageResponse(cinema.getImage()))
+                .contactDetails(contactDetailsMapper.mapContactDetailsToContactDetailsResponse(cinema.getContactDetails()))
+                .cinemaManager(cinemaManagerMapper.mapCinemaManagerToCinemaManagerResponse(cinema.getCinemaManager()))
                 .build();
     }
 

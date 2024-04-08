@@ -1,1 +1,14 @@
-<p>cinema-details works!</p>
+<app-page-content-container
+  (floatingButtonDeleteAction)="handleDeleteButtonCinema()"
+  (floatingButtonEditAction)="handleEditButtonCinema()"
+  (goBackButtonAction)="handleGoBackButton()"
+  [hasDetailsActionButtons]="true"
+  [hasGoBackActionButton]="true"
+  [isLoading]="isLoading"
+  floatingButtonDeleteAriaLabel="Delete projection technology"
+  floatingButtonEditAriaLabel="Edit projection technology"
+  pageTitle="Projection Technology details"
+>
+  <ng-container content>
+  </ng-container>
+</app-page-content-container>

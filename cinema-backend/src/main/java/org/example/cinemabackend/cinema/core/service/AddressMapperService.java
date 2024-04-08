@@ -1,6 +1,7 @@
 package org.example.cinemabackend.cinema.core.service;
 
 import org.example.cinemabackend.cinema.application.dto.request.CreateAddressRequest;
+import org.example.cinemabackend.cinema.application.dto.response.AddressResponse;
 import org.example.cinemabackend.cinema.core.domain.Address;
 import org.example.cinemabackend.cinema.core.port.primary.AddressMapper;
 import org.springframework.lang.NonNull;
@@ -13,5 +14,16 @@ class AddressMapperService implements AddressMapper {
     @Override
     public Address mapCreateAddressRequestToAddress(@NonNull CreateAddressRequest address) {
         return null;
+    }
+
+    @Override
+    public AddressResponse mapAddressToAddressResponse(Address address) {
+        return AddressResponse.builder()
+                .street(address.getStreet())
+                .buildingNumber(address.getBuildingNumber())
+                .city(address.getCity())
+                .postalCode(address.getPostalCode())
+                .country(address.getCountry())
+                .build();
     }
 }

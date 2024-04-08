@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import FormValidatorLengths from "../../../shared/consts/form-validators-lengths";
 import FormValidatorPatterns from "../../../shared/consts/form-validators-patterns";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-cinema-form',
@@ -38,13 +39,17 @@ export class CinemaFormComponent {
       Validators.maxLength(FormValidatorLengths.DEFAULT_MAX_INPUT_LENGTH),
     ]),
   });
-
   screeningRoomsFormGroup = new FormGroup({
     screeningRoomName: new FormControl('', [
       Validators.required,
       Validators.maxLength(FormValidatorLengths.DEFAULT_MAX_INPUT_LENGTH)
     ]),
   });
+
+  constructor(
+    private router: Router,
+  ) {
+  }
 
   onSubmit() {
     if (this.aboutCinemaFormGroup.valid && this.screeningRoomsFormGroup.valid) {
@@ -55,4 +60,7 @@ export class CinemaFormComponent {
   createCinema() {
   }
 
+  handleGoBackButtonAction() {
+    this.router.navigateByUrl('/cinemas');
+  }
 }
