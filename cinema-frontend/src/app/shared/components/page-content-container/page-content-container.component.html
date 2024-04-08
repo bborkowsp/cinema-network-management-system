@@ -1,31 +1,34 @@
 <div class="page-content-container">
   <div class="page-header">
     <h1 class="page-content-container__header">{{ pageTitle }}</h1>
+    <div
+      class="page-content-container__action-buttons-container page-content-container__action-buttons-container__align-right">
+      <ng-container *ngIf="hasDetailsActionButtons">
+        <div class="page-content-container__floating-button-spacer"></div>
+        <button
+          (click)="floatingButtonDeleteAction.emit()"
+          [attr.aria-label]="floatingButtonDeleteAriaLabel"
+          class="page-content-container__floating-button"
+          color="accent"
+          mat-fab
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+        <button
+          (click)="floatingButtonEditAction.emit()"
+          [attr.aria-label]="floatingButtonEditAriaLabel"
+          class="page-content-container__floating-button"
+          color="accent"
+          mat-fab
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+      </ng-container>
+    </div>
     <ng-container *ngIf="hasCreateNewButton">
       <a [matTooltip]="buttonMatToolTip" [routerLink]="routerLink" mat-fab>
         <mat-icon>add</mat-icon>
       </a>
-    </ng-container>
-    <ng-container *ngIf="hasDetailsActionButtons">
-      <div class="page-content-container__floating-button-spacer"></div>
-      <button
-        (click)="floatingButtonDeleteAction.emit()"
-        [attr.aria-label]="floatingButtonDeleteAriaLabel"
-        class="page-content-container__floating-button"
-        color="accent"
-        mat-fab
-      >
-        <mat-icon>delete</mat-icon>
-      </button>
-      <button
-        (click)="floatingButtonEditAction.emit()"
-        [attr.aria-label]="floatingButtonEditAriaLabel"
-        class="page-content-container__floating-button"
-        color="accent"
-        mat-fab
-      >
-        <mat-icon>edit</mat-icon>
-      </button>
     </ng-container>
   </div>
   <ng-container *ngIf="!isLoading; else spinner">
