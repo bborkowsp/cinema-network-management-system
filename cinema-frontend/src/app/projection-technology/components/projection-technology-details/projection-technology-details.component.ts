@@ -38,6 +38,10 @@ export class ProjectionTechnologyDetailsComponent implements OnInit {
     });
   }
 
+  handleGoBack() {
+    this.router.navigateByUrl('/projection-technologies');
+  }
+
   private getProjectTechnology() {
     this.projectionTechnology$ = this.activatedRoute.paramMap.pipe(
       map((paramMap) => paramMap.get('technology')!),

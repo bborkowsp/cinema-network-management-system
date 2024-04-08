@@ -1,7 +1,9 @@
 <app-page-content-container
   (floatingButtonDeleteAction)="handleDeleteTechnology()"
   (floatingButtonEditAction)="handleEditTechnology()"
+  (goBackButtonAction)="handleGoBack()"
   [hasDetailsActionButtons]="true"
+  [hasGoBackActionButton]="true"
   [isLoading]="isLoading"
   floatingButtonDeleteAriaLabel="Delete projection technology"
   floatingButtonEditAriaLabel="Edit projection technology"

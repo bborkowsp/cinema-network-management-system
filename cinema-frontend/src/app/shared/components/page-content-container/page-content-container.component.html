@@ -9,7 +9,7 @@
           (click)="floatingButtonDeleteAction.emit()"
           [attr.aria-label]="floatingButtonDeleteAriaLabel"
           class="page-content-container__floating-button"
-          color="accent"
+          color="warn"
           mat-fab
         >
           <mat-icon>delete</mat-icon>
@@ -34,6 +34,12 @@
   <ng-container *ngIf="!isLoading; else spinner">
     <div class="page-content-container__content-container">
       <ng-content select="[content]"></ng-content>
+      <div class="buttons">
+        <button (click)="goBackButtonAction.emit()" *ngIf="hasGoBackActionButton" color="primary"
+                mat-flat-button>Go
+          back
+        </button>
+      </div>
     </div>
   </ng-container>
 </div>
