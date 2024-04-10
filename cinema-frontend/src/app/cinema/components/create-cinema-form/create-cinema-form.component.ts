@@ -5,11 +5,11 @@ import FormValidatorPatterns from "../../../shared/consts/form-validators-patter
 import {Router} from "@angular/router";
 
 @Component({
-  selector: 'app-cinema-form',
-  templateUrl: './cinema-form.component.html',
-  styleUrls: ['./cinema-form.component.scss']
+  selector: 'app-create-cinema-form',
+  templateUrl: './create-cinema-form.component.html',
+  styleUrls: ['./create-cinema-form.component.scss']
 })
-export class CinemaFormComponent {
+export class CreateCinemaFormComponent {
 
   aboutCinemaFormGroup = new FormGroup({
     name: new FormControl('', [

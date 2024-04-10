@@ -1,7 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {CinemaListComponent} from "./cinema/components/cinema-list/cinema-list.component";
-import {CinemaFormComponent} from "./cinema/components/cinema-form/cinema-form.component";
 import {CinemaDetailsComponent} from "./cinema/components/cinema-details/cinema-details.component";
 import {
   ProjectionTechnologyListComponent
@@ -20,10 +19,11 @@ import {MovieListComponent} from "./movie/components/movie-list/movie-list.compo
 import {CreateMovieFormComponent} from "./movie/components/create-movie-form/create-movie-form.component";
 import {EditMovieFormComponent} from "./movie/components/edit-movie-form/edit-movie-form.component";
 import {MovieDetailsComponent} from "./movie/components/movie-details/movie-details.component";
+import {CreateCinemaFormComponent} from "./cinema/components/create-cinema-form/create-cinema-form.component";
 
 const routes: Routes = [
   {path: 'cinemas', component: CinemaListComponent},
-  {path: 'cinemas/create', component: CinemaFormComponent},
+  {path: 'cinemas/create', component: CreateCinemaFormComponent},
   {path: 'cinemas/details/:name', component: CinemaDetailsComponent},
   {path: 'projection-technologies', component: ProjectionTechnologyListComponent},
   {path: 'projection-technologies/create', component: CreateProjectionTechnologyFormComponent},

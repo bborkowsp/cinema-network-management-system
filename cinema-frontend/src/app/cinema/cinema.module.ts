@@ -20,11 +20,12 @@ import {MatListModule} from "@angular/material/list";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {CinemaDetailsComponent} from "./components/cinema-details/cinema-details.component";
 import {MatSortModule} from "@angular/material/sort";
-import {CinemaFormComponent} from './components/cinema-form/cinema-form.component';
 import {MatStepperModule} from "@angular/material/stepper";
-import { AboutCinemaComponent } from './components/cinema-form/about-cinema/about-cinema.component';
-import { AddressComponent } from './components/cinema-form/address/address.component';
-import { ScreeningRoomComponent } from './components/cinema-form/screening-room/screening-room.component';
+import {CreateCinemaFormComponent} from "./components/create-cinema-form/create-cinema-form.component";
+import {AboutCinemaComponent} from "./components/create-cinema-form/about-cinema/about-cinema.component";
+import {AddressComponent} from "./components/create-cinema-form/address/address.component";
+import {ScreeningRoomComponent} from "./components/create-cinema-form/screening-room/screening-room.component";
+import { EditCinemaFormComponent } from './components/edit-cinema-form/edit-cinema-form.component';
 
 @NgModule({
   imports: [
@@ -53,10 +54,11 @@ import { ScreeningRoomComponent } from './components/cinema-form/screening-room/
   declarations: [
     CinemaListComponent,
     CinemaDetailsComponent,
-    CinemaFormComponent,
+    CreateCinemaFormComponent,
     AboutCinemaComponent,
     AddressComponent,
     ScreeningRoomComponent,
+    EditCinemaFormComponent,
   ],
 })
 
