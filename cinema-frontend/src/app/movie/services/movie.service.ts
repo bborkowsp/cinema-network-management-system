@@ -2,9 +2,9 @@ import {environment} from "../../../assets/environment";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {map, Observable} from "rxjs";
 import {Injectable} from "@angular/core";
-import {MovieResponse} from "../dtos/response/movie.response";
 import {PaginatorRequestParams} from "../../shared/dtos/paginator-request-params";
 import {MoviePageResponse} from "../dtos/response/movie-page.response";
+import {MovieResponse} from "../dtos/response/movie.response";
 
 @Injectable({
   providedIn: 'root',
@@ -34,6 +34,7 @@ export class MovieService {
     const url = `${MovieService.moviesUrl}/${title}`;
     return this.httpClient.get<MovieResponse>(url);
   }
+
 
   deleteMovie(title: string) {
     const url = `${MovieService.moviesUrl}/${title}`;

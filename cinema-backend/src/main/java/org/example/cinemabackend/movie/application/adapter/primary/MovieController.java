@@ -10,8 +10,13 @@ import org.example.cinemabackend.movie.core.port.primary.MovieUseCases;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 
 @RestController
 @RequestMapping("/v1/movies")
@@ -42,4 +47,15 @@ class MovieController {
         movieUseCases.deleteMovie(title);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/test")
+    public ResponseEntity<?> getImage() throws IOException {
+        File image = new File("src/main/java/org/example/cinemabackend/shared/seeder/images/poster.jpg");
+        byte[] data = Files.readAllBytes(image.toPath());
+        return ResponseEntity.status(HttpStatus.OK)
+                .contentType(MediaType.valueOf("image/jpeg"))
+                .body(data);
+    }
+
+
 }

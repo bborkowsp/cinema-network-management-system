@@ -1,18 +1,1 @@
-<app-page-content-container
-  (floatingButtonDeleteAction)="handleDeleteMovie()"
-  (floatingButtonEditAction)="handleEditMovie()"
-  (goBackButtonAction)="handleGoBack()"
-  [hasDetailsActionButtons]="true"
-  [hasGoBackActionButton]="true"
-  [isLoading]="isLoading"
-  floatingButtonDeleteAriaLabel="Delete movie"
-  floatingButtonEditAriaLabel="Edit movie"
-  pageTitle="Movie details"
->
-  <ng-container content>
-    <div *ngIf="movie$ | async as movie">
-      {{ movie.title }}
-      <img [src]="movie.image.data" alt="image">
-    </div>
-  </ng-container>
-</app-page-content-container>
+<img [src]="imageUrl" alt="Image">

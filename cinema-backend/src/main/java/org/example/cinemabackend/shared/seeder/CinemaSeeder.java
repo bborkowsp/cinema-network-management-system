@@ -10,9 +10,6 @@ import org.example.cinemabackend.user.core.domain.CinemaManager;
 import org.example.cinemabackend.user.core.domain.Gender;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.HashSet;
@@ -25,6 +22,7 @@ import java.util.Set;
 class CinemaSeeder implements Seeder {
     private static final int NUMBER_OF_SEATS = 255;
     private final CinemaRepository cinemaRepository;
+    private final ImageSeeder imageSeeder;
     private final Faker faker;
 
     @Override
@@ -40,7 +38,7 @@ class CinemaSeeder implements Seeder {
     private Cinema createCinema() {
         final var address = createAddress();
         final var repertory = createRepertory();
-        final var image = createImage();
+        final var image = imageSeeder.createImage();
         final var screeningRooms = createScreeningRooms();
         final var contactDetails = createContactDetails();
         final var cinemaManager = createCinemaManager();
@@ -74,7 +72,7 @@ class CinemaSeeder implements Seeder {
                 faker.book().title(),
                 faker.number().randomDouble(2, 60, 180),
                 faker.date().birthday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), productionDetails, description, subtitleAndSoundOptions, ageRestriction,
-                movieFile, createImages(), createTrailers(), createGenres(), createProjectionTechnologies());
+                movieFile, imageSeeder.createImages(), createTrailers(), createGenres(), createProjectionTechnologies());
     }
 
     private ProductionDetails createProductionDetails() {
@@ -150,18 +148,6 @@ class CinemaSeeder implements Seeder {
         return projectionTechnologies;
     }
 
-    private Image createImage() {
-        try {
-            File image = new File("src/main/java/org/example/cinemabackend/shared/seeder/images/poster.jpg");
-            String name = image.getName();
-            String type = Files.probeContentType(image.toPath());
-            byte[] data = Files.readAllBytes(image.toPath());
-            return new Image(name, type, data);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
 
     private ScreeningTime createScreeningTime() {
         return new ScreeningTime(createScreeningRoom(), LocalDateTime.now().plusHours(2));
@@ -192,11 +178,6 @@ class CinemaSeeder implements Seeder {
         return trailers;
     }
 
-    private Set<Image> createImages() {
-        Set<Image> images = new HashSet<>();
-        images.add(createImage());
-        return images;
-    }
 
     private Set<FilmMember> createFilmMembers() {
         Set<FilmMember> actors = new HashSet<>();
