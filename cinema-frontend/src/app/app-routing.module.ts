@@ -15,6 +15,11 @@ import {
 import {
   CreateProjectionTechnologyFormComponent
 } from "./projection-technology/components/create-projection-technology-form/create-projection-technology-form.component";
+import {HomeComponent} from "./home/home.component";
+import {MovieListComponent} from "./movie/components/movie-list/movie-list.component";
+import {CreateMovieFormComponent} from "./movie/components/create-movie-form/create-movie-form.component";
+import {EditMovieFormComponent} from "./movie/components/edit-movie-form/edit-movie-form.component";
+import {MovieDetailsComponent} from "./movie/components/movie-details/movie-details.component";
 
 const routes: Routes = [
   {path: 'cinemas', component: CinemaListComponent},
@@ -24,8 +29,13 @@ const routes: Routes = [
   {path: 'projection-technologies/create', component: CreateProjectionTechnologyFormComponent},
   {path: 'projection-technologies/edit/:technology', component: EditProjectionTechnologyComponent},
   {path: 'projection-technologies/details/:technology', component: ProjectionTechnologyDetailsComponent},
-  {path: '', redirectTo: '/cinemas', pathMatch: 'full'},
-  {path: '**', redirectTo: '/cinemas', pathMatch: 'full'},
+  {path: 'movies', component: MovieListComponent},
+  {path: 'movies/create', component: CreateMovieFormComponent},
+  {path: 'movies/edit/:name', component: EditMovieFormComponent},
+  {path: 'movies/details/:name', component: MovieDetailsComponent},
+  {path: 'home', component: HomeComponent},
+  {path: '', redirectTo: '/home', pathMatch: 'full'},
+  {path: '**', redirectTo: '/home', pathMatch: 'full'},
 ];
 
 @NgModule({

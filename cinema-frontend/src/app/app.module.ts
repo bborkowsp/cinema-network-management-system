@@ -20,6 +20,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {SharedModule} from "./shared/shared.module";
 import {ScaffoldModule} from "./scaffold/scaffold.module";
 import {ProjectionTechnologyModule} from "./projection-technology/projection-technology.module";
+import {HomeModule} from "./home/home.module";
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import {ProjectionTechnologyModule} from "./projection-technology/projection-tec
     CinemaModule,
     ProjectionTechnologyModule,
     ScaffoldModule,
+    HomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]

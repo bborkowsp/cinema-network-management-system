@@ -12,6 +12,14 @@ export class ScaffoldComponent {
   protected isDrawerOpened = false;
   protected readonly navLinks: NavLink[] = [
     {
+      label: 'Home',
+      path: '/',
+    },
+    {
+      label: 'Movies',
+      path: '/movies',
+    },
+    {
       label: 'Cinemas',
       path: '/cinemas',
     },
