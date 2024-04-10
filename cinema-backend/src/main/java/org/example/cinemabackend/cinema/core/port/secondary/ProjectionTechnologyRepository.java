@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface ProjectionTechnologyRepository {
     Optional<ProjectionTechnology> findByTechnology(String technology);
 
-    ProjectionTechnology save(ProjectionTechnology projectionTechnology);
+    void save(ProjectionTechnology projectionTechnology);
 
     Page<ProjectionTechnology> findAll(Pageable pageable);
 

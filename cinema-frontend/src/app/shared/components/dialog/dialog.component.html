@@ -1,9 +1,9 @@
 <div class="dialog-header">
-  <mat-icon color="warn">error</mat-icon>
-  <h2 mat-dialog-title>Dialog with elements</h2>
+  <mat-icon class="mat-icon">error</mat-icon>
+  <h2 class="mat-dialog-title" mat-dialog-title>Error</h2>
 </div>
 <mat-dialog-content>{{ data.message }}</mat-dialog-content>
-<mat-dialog-actions>
-  <button class="button" mat-button mat-dialog-close>Close</button>
+<mat-dialog-actions align="end">
+  <button color="warn" mat-dialog-close mat-flat-button>Close</button>
 </mat-dialog-actions>
 

@@ -1,12 +1,22 @@
+@import "../../../shared/styles/_colors.scss";
+
 .dialog-header {
   display: flex;
   align-items: center;
+  background-color: $app-warn
+}
+
+.mat-dialog-title {
+  color: $app-white;
 }
 
 .mat-icon {
-  margin-bottom: 0.625rem;
+  color: $app-white;
+  transform: scale(1.5);
 }
 
-.button {
-  background-color: #FF7F7F;
+.mat-icon {
+  padding-left: 0.625rem;
+  margin-bottom: 0.5rem;
 }
+

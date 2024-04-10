@@ -1,1 +1,87 @@
-<p>movie-list works!</p>
+<app-page-content-container
+  [hasCreateNewButton]="true"
+  [isLoading]="isLoading"
+  buttonMatToolTip="Add new movie"
+  pageTitle="Movies"
+  routerLink="/movies/create"
+>
+  <ng-container content>
+    <div class="mat-elevation-z8 table-container">
+      <table [dataSource]="movies$" class="table" mat-table>
+        <ng-container matColumnDef="options">
+          <th *matHeaderCellDef class="column-header" mat-header-cell>
+            Options
+          </th>
+          <td *matCellDef="let row" class="options-cell" mat-cell>
+            <app-options-table-button
+              (delete)="handleDelete($event)"
+              (edit)="handleEdit($event)"
+              (showDetails)="handleShowDetails($event)"
+              [row]="row"
+            >
+            </app-options-table-button>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="title">
+          <th *matHeaderCellDef class="column-header" mat-header-cell>
+            Title
+          </th>
+          <td *matCellDef="let row" class="column-cell" mat-cell>
+            {{ row.title }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="originalTitle">
+          <th *matHeaderCellDef class="column-header" mat-header-cell>
+            Original Title
+          </th>
+          <td *matCellDef="let row" class="column-cell" mat-cell>
+            {{ row.originalTitle }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="releaseDate">
+          <th *matHeaderCellDef class="column-header" mat-header-cell>
+            Release Date
+          </th>
+          <td *matCellDef="let row" class="column-cell" mat-cell>
+            {{ row.releaseDate }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="poster">
+          <th *matHeaderCellDef class="column-header" mat-header-cell>
+            Poster
+          </th>
+          <td *matCellDef="let row" class="column-cell" mat-cell>
+            {{ row.poster }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="director">
+          <th *matHeaderCellDef class="column-header" mat-header-cell>
+            Director
+          </th>
+          <td *matCellDef="let row" class="column-cell" mat-cell>
+            {{ row.director?.firstName }} {{ row.director?.lastName }}
+          </td>
+        </ng-container>
+
+
+        <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
+      </table>
+      <mat-paginator
+        (page)="handlePageEvent($event)"
+        [length]="dataLength"
+        [pageIndex]="paginatorRequestParams.page"
+        [pageSizeOptions]="[5, 10, 25, 50]"
+        [pageSize]="paginatorRequestParams.size"
+        aria-label="Select page"
+        class="mat-paginator"
+      >
+      </mat-paginator>
+    </div>
+  </ng-container>
+</app-page-content-container>

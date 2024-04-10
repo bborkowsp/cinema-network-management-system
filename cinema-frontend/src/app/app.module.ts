@@ -22,6 +22,7 @@ import {ScaffoldModule} from "./scaffold/scaffold.module";
 import {ProjectionTechnologyModule} from "./projection-technology/projection-technology.module";
 import {HomeModule} from "./home/home.module";
 import {ErrorHandlerInterceptor} from "./shared/interceptors/error-handler.interceptor";
+import {MovieModule} from "./movie/movie.module";
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import {ErrorHandlerInterceptor} from "./shared/interceptors/error-handler.inter
     CinemaModule,
     ProjectionTechnologyModule,
     ScaffoldModule,
-    HomeModule
+    HomeModule,
+    MovieModule
   ],
   providers: [
     {

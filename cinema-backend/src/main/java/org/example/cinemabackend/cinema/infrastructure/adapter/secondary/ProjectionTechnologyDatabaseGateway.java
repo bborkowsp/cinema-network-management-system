@@ -23,8 +23,8 @@ class ProjectionTechnologyDatabaseGateway implements ProjectionTechnologyReposit
     }
 
     @Override
-    public ProjectionTechnology save(ProjectionTechnology projectionTechnology) {
-        return this.projectionTechnologyJpaRepository.save(ProjectionTechnologySchema.fromProjectionTechnology(projectionTechnology)).toProjectionTechnology();
+    public void save(ProjectionTechnology projectionTechnology) {
+        this.projectionTechnologyJpaRepository.save(ProjectionTechnologySchema.fromProjectionTechnology(projectionTechnology)).toProjectionTechnology();
     }
 
     @Override

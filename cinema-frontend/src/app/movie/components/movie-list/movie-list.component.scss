@@ -1,0 +1,26 @@
+.mat-mdc-form-field {
+  font-size: 14px;
+  width: 50%;
+}
+
+.column-header {
+  font-size: 1rem;
+  font-weight: 400;
+  color: black;
+}
+
+.column-cell {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.mat-row,
+.mat-header-row {
+  display: flex;
+  width: 50%;
+}
+
+.table-container {
+  overflow-x: auto;
+  border-radius: 0.25rem;
+}

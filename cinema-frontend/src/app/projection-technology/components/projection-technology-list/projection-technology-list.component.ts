@@ -4,8 +4,7 @@ import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {PaginatorRequestParams} from '../../../shared/dtos/paginator-request-params';
 import {ProjectionTechnologyService} from "../../services/projection-technology.service";
 import {Router} from "@angular/router";
-import {ProjectionTechnologyRequest} from "../../dtos/request/projection-technology.request";
-import {ProjectionTechnologyResponse} from "../../dtos/response/projection-technology.response";
+import {ProjectionTechnologyResponse} from "../../dtos/request/projection-technology.request";
 
 @Component({
   selector: 'app-projection-technology-list',
@@ -14,7 +13,7 @@ import {ProjectionTechnologyResponse} from "../../dtos/response/projection-techn
 })
 export class ProjectionTechnologyListComponent {
   displayedColumns = ['options', 'technology', 'description'];
-  projectionTechnologies$!: Observable<ProjectionTechnologyRequest[]>;
+  projectionTechnologies$!: Observable<ProjectionTechnologyResponse[]>;
   dataLength = 0;
   @ViewChild(MatPaginator) readonly paginator!: MatPaginator;
   paginatorRequestParams = new PaginatorRequestParams(0, 10);
@@ -40,12 +39,12 @@ export class ProjectionTechnologyListComponent {
     this.router.navigateByUrl(url);
   }
 
-  handleEdit(projectionTechnology: ProjectionTechnologyRequest): void {
+  handleEdit(projectionTechnology: ProjectionTechnologyResponse): void {
     const url = `projection-technologies/edit/${projectionTechnology.technology}`;
     this.router.navigateByUrl(url);
   }
 
-  handleDelete(projectionTechnology: ProjectionTechnologyRequest): void {
+  handleDelete(projectionTechnology: ProjectionTechnologyResponse): void {
     this.projectionTechnologyService.deleteProjectionTechnology(projectionTechnology.technology).subscribe({
       next: () => (this.projectionTechnologies$ = this.getData()),
     });
