@@ -13,7 +13,7 @@ export class ProjectionTechnologyDetailsComponent implements OnInit {
 
   projectionTechnology$!: Observable<ProjectionTechnologyResponse>;
   technology: string = '';
-  protected isLoading = false;
+  protected isLoading = true;
 
 
   constructor(

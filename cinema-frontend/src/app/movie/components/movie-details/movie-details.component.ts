@@ -23,6 +23,7 @@ export class MovieDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getMovie();
+    this.isLoading = false;
   }
 
   handleEditMovie() {
@@ -45,6 +46,5 @@ export class MovieDetailsComponent implements OnInit {
       tap((title) => (this.title = title)),
       switchMap((title) => this.movieService.getMovie(title)),
     );
-    this.isLoading = false;
   }
 }

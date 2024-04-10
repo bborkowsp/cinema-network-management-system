@@ -29,8 +29,8 @@ export class CinemaListComponent implements AfterViewInit, OnInit {
   ngOnInit() {
     this.getData().subscribe(cinemas => {
       this.cinemas$.data = cinemas;
+      this.isLoading = false;
     });
-    this.isLoading = false;
   }
 
   ngAfterViewInit() {

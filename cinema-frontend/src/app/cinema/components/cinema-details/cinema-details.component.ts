@@ -12,7 +12,7 @@ export class CinemaDetailsComponent implements OnInit {
 
   cinemaDetails$!: Observable<CinemaDetailsComponent>;
   name: string = '';
-  protected isLoading = false;
+  protected isLoading = true;
 
 
   constructor(

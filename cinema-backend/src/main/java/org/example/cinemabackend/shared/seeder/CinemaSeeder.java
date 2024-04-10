@@ -2,7 +2,6 @@ package org.example.cinemabackend.shared.seeder;
 
 import com.github.javafaker.Faker;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.example.cinemabackend.cinema.core.domain.*;
 import org.example.cinemabackend.cinema.core.port.secondary.CinemaRepository;
 import org.example.cinemabackend.movie.core.domain.*;
@@ -130,14 +129,9 @@ class CinemaSeeder implements Seeder {
     }
 
     private ProjectionTechnology createProjectionTechnology() {
-        return new ProjectionTechnology(faker.lorem().fixedString(10) + uniqueString(), faker.lorem().fixedString(100));
+        increment++;
+        return new ProjectionTechnology(faker.company().buzzword() + increment, faker.lorem().fixedString(100));
     }
-
-
-    private String uniqueString() {
-        return RandomStringUtils.randomAlphanumeric(10);
-    }
-
 
     Movie createNewMovie() {
         final var productionDetails = createProductionDetails();
