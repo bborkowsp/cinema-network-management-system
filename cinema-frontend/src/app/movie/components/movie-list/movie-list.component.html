@@ -24,10 +24,8 @@
         </ng-container>
 
         <ng-container matColumnDef="title">
-          <th *matHeaderCellDef class="column-header" mat-header-cell>
-            Title
-          </th>
-          <td *matCellDef="let row" class="column-cell" mat-cell>
+          <th *matHeaderCellDef class="column-header" mat-header-cell> Title</th>
+          <td *matCellDef="let row" class="options-cell" mat-cell>
             {{ row.title }}
           </td>
         </ng-container>
@@ -36,16 +34,14 @@
           <th *matHeaderCellDef class="column-header" mat-header-cell>
             Original Title
           </th>
-          <td *matCellDef="let row" class="column-cell" mat-cell>
-            {{ row.originalTitle }}
-          </td>
+          <td *matCellDef="let row" class="options-cell" mat-cell>{{ row.originalTitle }}</td>
         </ng-container>
 
         <ng-container matColumnDef="releaseDate">
           <th *matHeaderCellDef class="column-header" mat-header-cell>
             Release Date
           </th>
-          <td *matCellDef="let row" class="column-cell" mat-cell>
+          <td *matCellDef="let row" class="options-cell" mat-cell>
             {{ row.releaseDate }}
           </td>
         </ng-container>
@@ -63,7 +59,7 @@
           <th *matHeaderCellDef class="column-header" mat-header-cell>
             Director
           </th>
-          <td *matCellDef="let row" class="column-cell" mat-cell>
+          <td *matCellDef="let row" class="options-cell" mat-cell>
             {{ row.director.firstName }} {{ row.director.lastName }}
           </td>
         </ng-container>

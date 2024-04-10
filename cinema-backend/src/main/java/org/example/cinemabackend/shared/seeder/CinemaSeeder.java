@@ -24,6 +24,7 @@ class CinemaSeeder implements Seeder {
     private final CinemaRepository cinemaRepository;
     private final ImageSeeder imageSeeder;
     private final Faker faker;
+    private int increment = 0;
 
     @Override
     public void seedDatabase(int objectsToSeed) {
@@ -32,6 +33,7 @@ class CinemaSeeder implements Seeder {
             final var cinema = createCinema();
             cinemaRepository.save(cinema);
             cinemas.add(cinema);
+            increment++;
         }
     }
 
@@ -62,40 +64,6 @@ class CinemaSeeder implements Seeder {
         return new Screening(movie, screeningTimes);
     }
 
-    private Movie createNewMovie() {
-        final var productionDetails = createProductionDetails();
-        final var description = createDescription();
-        final var subtitleAndSoundOptions = createSubtitleAndSoundOptions();
-        final var ageRestriction = createAgeRestriction();
-        final var movieFile = createMovieFile();
-        return new Movie(faker.book().title() + uniqueString(),
-                faker.book().title(),
-                faker.number().randomDouble(2, 60, 180),
-                faker.date().birthday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), productionDetails, description, subtitleAndSoundOptions, ageRestriction,
-                movieFile, imageSeeder.createImages(), createTrailers(), createGenres(), createProjectionTechnologies());
-    }
-
-    private ProductionDetails createProductionDetails() {
-        final var director = createFilmMember();
-        final var actors = createFilmMembers();
-        return new ProductionDetails(faker.date().birthday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), director, actors, createOriginalLanguages(), createProductionCountries());
-    }
-
-    private Description createDescription() {
-        return new Description(faker.lorem().fixedString(100), faker.lorem().fixedString(100));
-    }
-
-    private SubtitleAndSoundOptions createSubtitleAndSoundOptions() {
-        return new SubtitleAndSoundOptions(faker.bool().bool(), faker.bool().bool(), faker.bool().bool(), faker.bool().bool());
-    }
-
-    private AgeRestriction createAgeRestriction() {
-        return AgeRestriction.values()[faker.number().numberBetween(0, AgeRestriction.values().length)];
-    }
-
-    private VideoFile createMovieFile() {
-        return new VideoFile(faker.lorem().fixedString(10), faker.lorem().fixedString(10), new byte[100]);
-    }
 
     private List<ScreeningTime> createScreeningTimes() {
         final var ScreeningTime = createScreeningTime();
@@ -142,7 +110,7 @@ class CinemaSeeder implements Seeder {
                 getRandomSeatZone(), getRandomSeatType());
     }
 
-    private Set<ProjectionTechnology> createProjectionTechnologies() {
+    Set<ProjectionTechnology> createProjectionTechnologies() {
         Set<ProjectionTechnology> projectionTechnologies = new HashSet<>();
         projectionTechnologies.add(createProjectionTechnology());
         return projectionTechnologies;
@@ -163,6 +131,43 @@ class CinemaSeeder implements Seeder {
 
     private ProjectionTechnology createProjectionTechnology() {
         return new ProjectionTechnology(faker.lorem().fixedString(10) + uniqueString(), faker.lorem().fixedString(100));
+    }
+
+
+    private String uniqueString() {
+        return RandomStringUtils.randomAlphanumeric(10);
+    }
+
+
+    Movie createNewMovie() {
+        final var productionDetails = createProductionDetails();
+        final var description = createDescription();
+        final var subtitleAndSoundOptions = createSubtitleAndSoundOptions();
+        final var ageRestriction = createAgeRestriction();
+        final var movieFile = createMovieFile();
+        return new Movie(faker.book().title() + increment,
+                faker.book().title(),
+                faker.number().randomDouble(2, 60, 180),
+                faker.date().birthday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), productionDetails, description, subtitleAndSoundOptions, ageRestriction,
+                movieFile, imageSeeder.createImages(), createTrailers(), createGenres(), createProjectionTechnologies());
+    }
+
+    private ProductionDetails createProductionDetails() {
+        final var director = createFilmMember();
+        final var actors = createFilmMembers();
+        return new ProductionDetails(faker.date().birthday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), director, actors, createOriginalLanguages(), createProductionCountries());
+    }
+
+    private Description createDescription() {
+        return new Description(faker.lorem().fixedString(100), faker.lorem().fixedString(100));
+    }
+
+    private SubtitleAndSoundOptions createSubtitleAndSoundOptions() {
+        return new SubtitleAndSoundOptions(faker.bool().bool(), faker.bool().bool(), faker.bool().bool(), faker.bool().bool());
+    }
+
+    private AgeRestriction createAgeRestriction() {
+        return AgeRestriction.values()[faker.number().numberBetween(0, AgeRestriction.values().length)];
     }
 
     private Set<Genre> createGenres() {
@@ -201,7 +206,7 @@ class CinemaSeeder implements Seeder {
         return originalLanguages;
     }
 
-    private String uniqueString() {
-        return RandomStringUtils.randomAlphanumeric(10);
+    private VideoFile createMovieFile() {
+        return new VideoFile(faker.lorem().fixedString(10), faker.lorem().fixedString(10), new byte[100]);
     }
 }

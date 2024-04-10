@@ -3,7 +3,6 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {MovieService} from "../../services/movie.service";
 import {map, Observable, switchMap, tap} from "rxjs";
 import {MovieResponse} from "../../dtos/response/movie.response";
-import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-movie-details',
@@ -13,20 +12,17 @@ import {HttpClient} from "@angular/common/http";
 export class MovieDetailsComponent implements OnInit {
   movie$!: Observable<MovieResponse>;
   title: string = '';
-  imageUrl: string = '';
   protected isLoading = true;
 
   constructor(
     private readonly movieService: MovieService,
     private readonly activatedRoute: ActivatedRoute,
     private readonly router: Router,
-    private httpClient: HttpClient
   ) {
   }
 
   ngOnInit(): void {
     this.getMovie();
-    // this.getImage();
   }
 
   handleEditMovie() {
@@ -41,17 +37,6 @@ export class MovieDetailsComponent implements OnInit {
 
   handleGoBack() {
     this.router.navigateByUrl('/movies');
-  }
-
-  getImage() {
-    this.httpClient.get('http://localhost:8080/api/v1/movies/test', {responseType: 'blob'})
-      .subscribe((data: Blob) => {
-        const reader = new FileReader();
-        reader.onload = () => {
-          this.imageUrl = reader.result as string;
-        };
-        reader.readAsDataURL(data);
-      });
   }
 
   private getMovie() {
