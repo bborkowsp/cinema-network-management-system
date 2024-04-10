@@ -14,18 +14,22 @@ export class ScaffoldComponent {
     {
       label: 'Home',
       path: '/',
+      icon: 'home'
     },
     {
       label: 'Movies',
       path: '/movies',
+      icon: 'movie'
     },
     {
       label: 'Cinemas',
       path: '/cinemas',
+      icon: 'business'
     },
     {
       label: 'Projection technologies',
       path: '/projection-technologies',
+      icon: 'settings'
     },
   ];
 
