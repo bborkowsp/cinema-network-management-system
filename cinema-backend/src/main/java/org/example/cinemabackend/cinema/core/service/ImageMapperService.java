@@ -17,6 +17,7 @@ class ImageMapperService implements ImageMapper {
     @Override
     public ImageResponse mapImageToImageResponse(Image image) {
         return ImageResponse.builder()
+                .type(image.getType())
                 .data(image.getData())
                 .build();
     }

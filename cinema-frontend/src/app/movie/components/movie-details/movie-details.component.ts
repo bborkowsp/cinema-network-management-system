@@ -13,9 +13,6 @@ import {HttpClient} from "@angular/common/http";
 export class MovieDetailsComponent implements OnInit {
   movie$!: Observable<MovieResponse>;
   title: string = '';
-  retrievedImage: any;
-  base64Data: any;
-  retrieveResonse: any;
   imageUrl: string = '';
   protected isLoading = true;
 
@@ -28,8 +25,8 @@ export class MovieDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.getMovie();
-    this.getImage();
+    this.getMovie();
+    // this.getImage();
   }
 
   handleEditMovie() {

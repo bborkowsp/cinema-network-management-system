@@ -1,6 +1,7 @@
 export class ImageResponse {
   constructor(
-    public data: any
+    public type: string,
+    public data: string
   ) {
   }
 }

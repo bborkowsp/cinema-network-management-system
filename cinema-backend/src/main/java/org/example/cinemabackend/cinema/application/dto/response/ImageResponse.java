@@ -4,6 +4,7 @@ import lombok.Builder;
 
 @Builder
 public record ImageResponse(
+        String type,
         byte[] data
 ) {
 }

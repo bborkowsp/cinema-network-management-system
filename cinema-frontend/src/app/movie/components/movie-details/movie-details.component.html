@@ -1,1 +1,19 @@
-<img [src]="imageUrl" alt="Image">
+<app-page-content-container
+  (floatingButtonDeleteAction)="handleDeleteMovie()"
+  (floatingButtonEditAction)="handleEditMovie()"
+  (goBackButtonAction)="handleGoBack()"
+  [hasDetailsActionButtons]="true"
+  [hasGoBackActionButton]="true"
+  [isLoading]="isLoading"
+  floatingButtonDeleteAriaLabel="Delete movie"
+  floatingButtonEditAriaLabel="Edit movie"
+  pageTitle="Movie details"
+>
+  <ng-container content>
+    <div *ngIf="movie$ | async as movie">
+      {{ movie.title }}
+
+      <img [src]="'data:' + movie.image.type + ';base64,' + movie.image.data" alt="movie image"/>
+    </div>
+  </ng-container>
+</app-page-content-container>
