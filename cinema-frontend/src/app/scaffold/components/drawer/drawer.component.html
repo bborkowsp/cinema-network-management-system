@@ -1,1 +1,10 @@
-<p>drawer works!</p>
+<mat-drawer-container class="container">
+  <mat-drawer [opened]="opened" class="drawer" mode="side">
+    <app-nav-list [navLinks]="navLinks"></app-nav-list>
+  </mat-drawer>
+  <mat-drawer-content class="content">
+    <main class="main">
+      <ng-content></ng-content>
+    </main>
+  </mat-drawer-content>
+</mat-drawer-container>

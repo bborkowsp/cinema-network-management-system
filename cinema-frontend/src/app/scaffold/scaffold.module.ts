@@ -11,12 +11,14 @@ import {RouterLink} from '@angular/router';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatMenuModule} from '@angular/material/menu';
 import {SharedModule} from "../shared/shared.module";
+import { NavListComponent } from './components/nav-list/nav-list.component';
 
 @NgModule({
   declarations: [
     ScaffoldComponent,
     ToolbarComponent,
     DrawerComponent,
+    NavListComponent,
   ],
   imports: [
     CommonModule,

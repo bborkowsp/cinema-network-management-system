@@ -1,0 +1,30 @@
+$toolbar-height: 64px;
+
+.container {
+  min-height: calc(100vh - $toolbar-height);
+}
+
+.drawer {
+  width: 15%;
+  max-height: calc(100vh - $toolbar-height);
+  position: fixed;
+  left: 0;
+  top: $toolbar-height;
+}
+
+.link {
+  width: 100%;
+  justify-content: flex-start;
+}
+
+.content {
+  min-height: calc(100vh - $toolbar-height);
+  margin-top: $toolbar-height;
+}
+
+.main {
+  width: 80%;
+  height: 100%;
+  margin: auto;
+  padding: 3rem 0;
+}
