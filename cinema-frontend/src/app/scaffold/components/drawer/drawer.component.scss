@@ -9,6 +9,7 @@ $toolbar-height: 64px;
   max-height: calc(100vh - $toolbar-height);
   position: fixed;
   left: 0;
+  background-color: whitesmoke;
   top: $toolbar-height;
 }
 
@@ -23,8 +24,8 @@ $toolbar-height: 64px;
 }
 
 .main {
-  width: 80%;
+  width: 90%;
   height: 100%;
   margin: auto;
-  padding: 3rem 0;
+  padding: 1rem 0;
 }

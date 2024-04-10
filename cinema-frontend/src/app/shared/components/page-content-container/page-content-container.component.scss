@@ -1,5 +1,5 @@
 $vertical-padding: 2.5rem;
-$horizontal-padding: 4.375rem;
+$horizontal-padding: 0.375rem;
 $mat-fab-size: 56px;
 
 .page-content-container {
@@ -7,7 +7,7 @@ $mat-fab-size: 56px;
   display: flex;
   flex-direction: column;
   align-content: flex-start;
-  gap: 2.5rem;
+  gap: 1.5rem;
 
   &__header {
     margin: 0;
