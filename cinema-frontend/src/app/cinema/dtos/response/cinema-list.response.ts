@@ -1,4 +1,4 @@
-export class CinemaTableResponse {
+export class CinemaListResponse {
   constructor(
     readonly name: string,
     readonly cinemaManager: string,

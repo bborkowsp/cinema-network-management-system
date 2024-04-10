@@ -3,7 +3,7 @@ import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {MatTableDataSource} from "@angular/material/table";
 import {CinemaService} from "../../services/cinema.service";
-import {CinemaTableResponse} from "../../dtos/response/cinema-table.response";
+import {CinemaListResponse} from "../../dtos/response/cinema-list.response";
 import {Observable} from "rxjs";
 import {Router} from "@angular/router";
 
@@ -14,7 +14,7 @@ import {Router} from "@angular/router";
 })
 export class CinemaListComponent implements AfterViewInit, OnInit {
   displayedColumns: string[] = ['options', 'name', 'cinemaManager', 'numberOfScreeningRooms', 'numberOfAvailableSeats', 'numberOfUnavailableSeats'];
-  cinemas$: MatTableDataSource<CinemaTableResponse>;
+  cinemas$: MatTableDataSource<CinemaListResponse>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   protected isLoading = true;
@@ -23,7 +23,7 @@ export class CinemaListComponent implements AfterViewInit, OnInit {
     private cinemaService: CinemaService,
     private readonly router: Router
   ) {
-    this.cinemas$ = new MatTableDataSource<CinemaTableResponse>([]);
+    this.cinemas$ = new MatTableDataSource<CinemaListResponse>([]);
   }
 
   ngOnInit() {
@@ -38,23 +38,23 @@ export class CinemaListComponent implements AfterViewInit, OnInit {
     this.cinemas$.sort = this.sort;
   }
 
-  handleDelete(cinema: CinemaTableResponse) {
+  handleDelete(cinema: CinemaListResponse) {
     this.cinemaService.deleteCinema(cinema.name).subscribe({
       next: () => this.ngOnInit(),
     });
   }
 
-  handleEdit(cinema: CinemaTableResponse) {
+  handleEdit(cinema: CinemaListResponse) {
     const url = `cinemas/edit/${cinema.name}`;
     this.router.navigateByUrl(url);
   }
 
-  handleShowDetails(cinema: CinemaTableResponse) {
+  handleShowDetails(cinema: CinemaListResponse) {
     const url = `cinemas/details/${cinema.name}`;
     this.router.navigateByUrl(url);
   }
 
-  private getData(): Observable<CinemaTableResponse[]> {
+  private getData(): Observable<CinemaListResponse[]> {
     return this.cinemaService.getCinemas();
   }
 }

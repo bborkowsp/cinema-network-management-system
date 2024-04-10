@@ -18,6 +18,7 @@ import {OptionsTableButtonComponent} from './components/options-table-button/opt
 import {RouterLink} from "@angular/router";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {GenericFormFrameComponent} from './components/generic-form-frame/generic-form-frame.component';
+import { DialogComponent } from './components/dialog/dialog.component';
 
 const sharedModules = [
   CommonModule,
@@ -37,7 +38,7 @@ const declarations = [
 ];
 
 @NgModule({
-  declarations: [declarations, OptionsTableButtonComponent, GenericFormFrameComponent],
+  declarations: [declarations, OptionsTableButtonComponent, GenericFormFrameComponent, DialogComponent],
   imports: [
     ...sharedModules,
     MatMenuModule,

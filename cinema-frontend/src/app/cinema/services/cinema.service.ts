@@ -1,6 +1,6 @@
 import {environment} from "../../../assets/environment";
 import {HttpClient} from "@angular/common/http";
-import {CinemaTableResponse} from "../dtos/response/cinema-table.response";
+import {CinemaListResponse} from "../dtos/response/cinema-list.response";
 import {map, Observable} from "rxjs";
 import {Injectable} from "@angular/core";
 import {CinemaDetailsComponent} from "../components/cinema-details/cinema-details.component";
@@ -15,9 +15,9 @@ export class CinemaService {
   constructor(private readonly httpClient: HttpClient) {
   }
 
-  getCinemas(): Observable<CinemaTableResponse[]> {
+  getCinemas(): Observable<CinemaListResponse[]> {
     return this.httpClient
-      .get<{ content: CinemaTableResponse[] }>(CinemaService.cinemasUrl)
+      .get<{ content: CinemaListResponse[] }>(CinemaService.cinemasUrl)
       .pipe(
         map((response) => response.content),
       );

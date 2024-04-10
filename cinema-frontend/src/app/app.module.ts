@@ -8,7 +8,7 @@ import {MatSortModule} from "@angular/material/sort";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatTableModule} from "@angular/material/table";
 import {CinemaModule} from "./cinema/cinema.module";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgIf} from "@angular/common";
 import {MatFormFieldModule} from "@angular/material/form-field";
@@ -21,6 +21,7 @@ import {SharedModule} from "./shared/shared.module";
 import {ScaffoldModule} from "./scaffold/scaffold.module";
 import {ProjectionTechnologyModule} from "./projection-technology/projection-technology.module";
 import {HomeModule} from "./home/home.module";
+import {ErrorHandlerInterceptor} from "./shared/interceptors/error-handler.interceptor";
 
 @NgModule({
   declarations: [
@@ -52,7 +53,13 @@ import {HomeModule} from "./home/home.module";
     ScaffoldModule,
     HomeModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorHandlerInterceptor,
+      multi: true,
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
