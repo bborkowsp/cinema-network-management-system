@@ -51,7 +51,7 @@ export class MovieListComponent {
   }
 
   handleShowDetails(movie: MovieListResponse): void {
-    const url = `projection-technologies/details/${movie.title}`;
+    const url = `movies/details/${movie.title}`;
     this.router.navigateByUrl(url);
   }
 
@@ -64,7 +64,8 @@ export class MovieListComponent {
         },
         error: (err) => console.log(err),
       }),
-      map((projectionTechnologyPage) => projectionTechnologyPage.content),
+      map((moviePage) => moviePage.content),
     );
   }
+
 }

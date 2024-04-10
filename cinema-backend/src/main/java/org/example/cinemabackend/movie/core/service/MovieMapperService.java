@@ -32,7 +32,10 @@ class MovieMapperService implements MovieMapper {
 
     @Override
     public MovieResponse mapMovieToMovieResponse(Movie movie) {
-        return null;
+        return MovieResponse.builder()
+                .title(movie.getTitle())
+                .image(imageMapper.mapImageToImageResponse(getMoviePoster(movie)))
+                .build();
     }
 
     @Override

@@ -30,13 +30,13 @@ export class MovieService {
       .pipe(map((response) => response));
   }
 
-  getMovie(name: string): Observable<MovieResponse> {
-    const url = `${MovieService.moviesUrl}/${name}`;
+  getMovie(title: string): Observable<MovieResponse> {
+    const url = `${MovieService.moviesUrl}/${title}`;
     return this.httpClient.get<MovieResponse>(url);
   }
 
-  deleteMovie(name: string) {
-    const url = `${MovieService.moviesUrl}/${name}`;
+  deleteMovie(title: string) {
+    const url = `${MovieService.moviesUrl}/${title}`;
     return this.httpClient.delete<void>(url);
   }
 }

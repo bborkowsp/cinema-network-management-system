@@ -55,7 +55,7 @@
             Poster
           </th>
           <td *matCellDef="let row" class="column-cell" mat-cell>
-            {{ row.poster }}
+            <img *ngIf="row.poster && row.poster.data" [src]="row.poster.data" alt="Poster">
           </td>
         </ng-container>
 
@@ -64,7 +64,7 @@
             Director
           </th>
           <td *matCellDef="let row" class="column-cell" mat-cell>
-            {{ row.director?.firstName }} {{ row.director?.lastName }}
+            {{ row.director.firstName }} {{ row.director.lastName }}
           </td>
         </ng-container>
 

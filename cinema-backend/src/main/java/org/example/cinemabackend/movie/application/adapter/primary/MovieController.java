@@ -20,25 +20,25 @@ class MovieController {
     private final MovieUseCases movieUseCases;
 
     @GetMapping
-    ResponseEntity<Page<MovieListResponse>> getCinemas(Pageable pageable) {
+    ResponseEntity<Page<MovieListResponse>> getMovies(Pageable pageable) {
         final var movies = movieUseCases.getMovies(pageable);
         return ResponseEntity.ok(movies);
     }
 
-    @GetMapping("/{name}")
-    ResponseEntity<MovieResponse> getCinema(@PathVariable String title) {
+    @GetMapping("/{title}")
+    ResponseEntity<MovieResponse> getMovie(@PathVariable String title) {
         final var cinema = movieUseCases.getMovie(title);
         return ResponseEntity.ok(cinema);
     }
 
     @PostMapping
-    ResponseEntity<Void> createCinema(@RequestBody @Valid CreateMovieRequest createMovieRequest) {
+    ResponseEntity<Void> createMovie(@RequestBody @Valid CreateMovieRequest createMovieRequest) {
         movieUseCases.createMovie(createMovieRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @DeleteMapping("/{name}")
-    ResponseEntity<Void> deleteCinema(@PathVariable String title) {
+    @DeleteMapping("/{title}")
+    ResponseEntity<Void> deleteMovie(@PathVariable String title) {
         movieUseCases.deleteMovie(title);
         return ResponseEntity.noContent().build();
     }

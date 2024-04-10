@@ -3,12 +3,12 @@ package org.example.cinemabackend.movie.core.domain;
 public class Image {
     private String name;
     private String type;
-    private byte[] image;
+    private byte[] data;
 
-    public Image(String name, String type, byte[] image) {
+    public Image(String name, String type, byte[] data) {
         this.name = name;
         this.type = type;
-        this.image = image;
+        this.data = data;
     }
 
     public String getName() {
@@ -19,7 +19,7 @@ public class Image {
         return this.type;
     }
 
-    public byte[] getImage() {
-        return this.image;
+    public byte[] getData() {
+        return this.data;
     }
 }

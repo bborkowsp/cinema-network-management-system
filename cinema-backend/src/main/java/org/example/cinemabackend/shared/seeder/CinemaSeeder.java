@@ -10,6 +10,9 @@ import org.example.cinemabackend.user.core.domain.CinemaManager;
 import org.example.cinemabackend.user.core.domain.Gender;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.HashSet;
@@ -148,7 +151,16 @@ class CinemaSeeder implements Seeder {
     }
 
     private Image createImage() {
-        return new Image(faker.lorem().fixedString(10), faker.lorem().fixedString(10), new byte[100]);
+        try {
+            File image = new File("src/main/java/org/example/cinemabackend/shared/seeder/images/poster.jpg");
+            String name = image.getName();
+            String type = Files.probeContentType(image.toPath());
+            byte[] data = Files.readAllBytes(image.toPath());
+            return new Image(name, type, data);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private ScreeningTime createScreeningTime() {

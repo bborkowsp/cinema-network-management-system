@@ -22,7 +22,7 @@ public class ImageSchema {
         return ImageSchema.builder()
                 .name(image.getName())
                 .type(image.getType())
-                .image(image.getImage())
+                .image(image.getData())
                 .build();
     }
 
