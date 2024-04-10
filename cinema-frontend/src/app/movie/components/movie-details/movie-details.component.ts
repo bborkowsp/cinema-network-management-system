@@ -23,7 +23,6 @@ export class MovieDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getMovie();
-    this.isLoading = false;
   }
 
   handleEditMovie() {

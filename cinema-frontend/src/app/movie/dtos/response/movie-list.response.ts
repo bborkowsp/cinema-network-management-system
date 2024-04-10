@@ -7,7 +7,7 @@ export class MovieListResponse {
     readonly originalTitle: string,
     readonly duration: string,
     readonly releaseDate: Date,
-    readonly poster: ImageResponse,
+    readonly image: ImageResponse,
     readonly director: FilmMemberResponse,
   ) {
   }

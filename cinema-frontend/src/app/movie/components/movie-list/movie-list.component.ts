@@ -12,7 +12,7 @@ import {MovieService} from "../../services/movie.service";
   styleUrls: ['./movie-list.component.scss']
 })
 export class MovieListComponent {
-  displayedColumns = ['options', 'title', 'originalTitle', 'releaseDate', 'poster', 'director'];
+  displayedColumns = ['options', 'poster', 'title', 'originalTitle', 'releaseDate', 'director'];
   movies$!: Observable<MovieListResponse[]>;
   dataLength = 0;
   @ViewChild(MatPaginator) readonly paginator!: MatPaginator;

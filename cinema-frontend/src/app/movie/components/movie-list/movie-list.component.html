@@ -23,6 +23,16 @@
           </td>
         </ng-container>
 
+        <ng-container matColumnDef="poster">
+          <th *matHeaderCellDef class="column-header" mat-header-cell>
+            Poster
+          </th>
+          <td *matCellDef="let row" class="column-cell" mat-cell>
+            <img [src]="'data:' + row.image.type + ';base64,' + row.image.data" alt="movie image"
+                 class="movie-image-list"/>
+          </td>
+        </ng-container>
+
         <ng-container matColumnDef="title">
           <th *matHeaderCellDef class="column-header" mat-header-cell> Title</th>
           <td *matCellDef="let row" class="options-cell" mat-cell>
@@ -46,14 +56,6 @@
           </td>
         </ng-container>
 
-        <ng-container matColumnDef="poster">
-          <th *matHeaderCellDef class="column-header" mat-header-cell>
-            Poster
-          </th>
-          <td *matCellDef="let row" class="column-cell" mat-cell>
-            <img *ngIf="row.poster && row.poster.data" [src]="row.poster.data" alt="Poster">
-          </td>
-        </ng-container>
 
         <ng-container matColumnDef="director">
           <th *matHeaderCellDef class="column-header" mat-header-cell>
