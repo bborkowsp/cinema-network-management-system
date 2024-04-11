@@ -11,20 +11,10 @@
 >
   <ng-container content>
     <div *ngIf="projectionTechnology$ | async as projectionTechnology">
-      <div class="technology-and-description">
-        <div class="technology-and-description__container">
-          <div class="technology-and-description__container__header">Projection technology name</div>
-          <div class="technology-and-description__container__content">
-            {{ projectionTechnology.technology }}
-          </div>
-        </div>
-        <div class="technology-and-description__container">
-          <div class="technology-and-description__container__header">Description</div>
-          <div class="technology-and-description__container__content">
-            {{ projectionTechnology.description }}
-          </div>
-        </div>
-      </div>
+      <app-generic-details-field [content]="projectionTechnology.technology" title='Projection technology name'>
+      </app-generic-details-field>
+      <app-generic-details-field [content]="projectionTechnology.description" title='Description'>
+      </app-generic-details-field>
     </div>
   </ng-container>
 </app-page-content-container>
