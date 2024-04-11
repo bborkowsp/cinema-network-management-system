@@ -1,4 +1,4 @@
-<mat-drawer-container class="container">
+<mat-drawer-container [hasBackdrop]="true" class="container">
   <mat-drawer [opened]="opened" class="drawer" mode="side">
     <app-nav-list [navLinks]="navLinks"></app-nav-list>
   </mat-drawer>
