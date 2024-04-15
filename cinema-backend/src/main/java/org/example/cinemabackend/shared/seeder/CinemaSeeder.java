@@ -138,12 +138,12 @@ class CinemaSeeder implements Seeder {
         final var description = createDescription();
         final var subtitleAndSoundOptions = createSubtitleAndSoundOptions();
         final var ageRestriction = createAgeRestriction();
-        final var movieFile = createMovieFile();
         return new Movie(faker.book().title() + increment,
                 faker.book().title(),
                 faker.number().randomDouble(2, 60, 180),
-                faker.date().birthday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), productionDetails, description, subtitleAndSoundOptions, ageRestriction,
-                movieFile, imageSeeder.createImages(), createTrailers(), createGenres(), createProjectionTechnologies());
+                faker.date().birthday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+                productionDetails, description, subtitleAndSoundOptions, ageRestriction,
+                imageSeeder.createImage(), createMovieFile(), createGenres(), createProjectionTechnologies());
     }
 
     private ProductionDetails createProductionDetails() {

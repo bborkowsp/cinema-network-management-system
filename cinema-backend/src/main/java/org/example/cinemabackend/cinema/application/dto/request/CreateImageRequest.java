@@ -9,6 +9,6 @@ import lombok.Builder;
 public record CreateImageRequest(
         @NotBlank String name,
         @NotBlank String type,
-        @NotNull @NotEmpty byte[] image
+        @NotNull @NotEmpty byte[] data
 ) {
 }

@@ -7,6 +7,7 @@ import org.example.cinemabackend.movie.application.dto.response.MovieListRespons
 import org.example.cinemabackend.movie.application.dto.response.MovieResponse;
 import org.example.cinemabackend.movie.core.domain.Image;
 import org.example.cinemabackend.movie.core.domain.Movie;
+import org.example.cinemabackend.movie.core.port.primary.DescriptionMapper;
 import org.example.cinemabackend.movie.core.port.primary.FilmMemberMapper;
 import org.example.cinemabackend.movie.core.port.primary.MovieMapper;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ class MovieMapperService implements MovieMapper {
 
     private final ImageMapper imageMapper;
     private final FilmMemberMapper filmMemberMapper;
+    private final DescriptionMapper descriptionMapper;
 
     @Override
     public MovieListResponse mapMovieToMovieListResponse(Movie movie) {
@@ -34,7 +36,11 @@ class MovieMapperService implements MovieMapper {
     public MovieResponse mapMovieToMovieResponse(Movie movie) {
         return MovieResponse.builder()
                 .title(movie.getTitle())
-                .image(imageMapper.mapImageToImageResponse(getMoviePoster(movie)))
+                .originalTitle(movie.getOriginalTitle())
+                .duration(movie.getDuration())
+                .releaseDate(movie.getReleaseDate())
+                .description(descriptionMapper.mapDescriptionToDescriptionResponse(movie.getDescription()))
+                .poster(imageMapper.mapImageToImageResponse(getMoviePoster(movie)))
                 .build();
     }
 
@@ -44,8 +50,6 @@ class MovieMapperService implements MovieMapper {
     }
 
     private Image getMoviePoster(Movie movie) {
-        return movie.getImages().stream()
-                .findFirst()
-                .orElse(null);
+        return movie.getPoster();
     }
 }

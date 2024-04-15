@@ -25,7 +25,7 @@ public class MovieSchema extends AbstractEntitySchema<Long> {
     @Column(nullable = false, unique = true)
     private String title;
 
-    @Column(nullable = false)
+    @Column(name = "original_title", nullable = false)
     private String originalTitle;
 
     @Column(nullable = false)
@@ -48,15 +48,19 @@ public class MovieSchema extends AbstractEntitySchema<Long> {
     @Column(nullable = false)
     private AgeRestriction ageRestriction;
 
+//    @ElementCollection(fetch = FetchType.EAGER)
+//    private Set<ImageSchema> images;
+
     @Embedded
     @NotNull
-    private VideoFileSchema movieFile;
+    private ImageSchema poster;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    private Set<ImageSchema> images;
+//    @ElementCollection(fetch = FetchType.EAGER)
+//    private Set<VideoFileSchema> trailers;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    private Set<VideoFileSchema> trailers;
+    @Embedded
+    @NotNull
+    private VideoFileSchema trailer;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
@@ -77,9 +81,10 @@ public class MovieSchema extends AbstractEntitySchema<Long> {
                 .description(DescriptionSchema.fromDescription(movie.getDescription()))
                 .subtitleAndSoundOptions(SubtitleAndSoundOptionsSchema.fromSubtitleAndSoundOptions(movie.getSubtitleAndSoundOptions()))
                 .ageRestriction(movie.getAgeRestriction())
-                .movieFile(VideoFileSchema.fromVideoFile(movie.getMovieFile()))
-                .images(movie.getImages().stream().map(ImageSchema::fromImage).collect(Collectors.toSet()))
-                .trailers(movie.getTrailers().stream().map(VideoFileSchema::fromVideoFile).collect(Collectors.toSet()))
+//                .images(movie.getImages().stream().map(ImageSchema::fromImage).collect(Collectors.toSet()))
+//                .trailers(movie.getTrailers().stream().map(VideoFileSchema::fromVideoFile).collect(Collectors.toSet()))
+                .poster(ImageSchema.fromImage(movie.getPoster()))
+                .trailer(VideoFileSchema.fromVideoFile(movie.getTrailer()))
                 .genres(movie.getGenres())
                 .projectionTechnologies(movie.getProjectionTechnologies().stream().map(ProjectionTechnologySchema::fromProjectionTechnology).collect(Collectors.toSet()))
                 .build();
@@ -95,9 +100,10 @@ public class MovieSchema extends AbstractEntitySchema<Long> {
                 this.description.toDescription(),
                 this.subtitleAndSoundOptions.toSubtitleAndSoundOptions(),
                 this.ageRestriction,
-                this.movieFile.toVideoFile(),
-                this.images.stream().map(ImageSchema::toImage).collect(Collectors.toSet()),
-                this.trailers.stream().map(VideoFileSchema::toVideoFile).collect(Collectors.toSet()),
+//                this.images.stream().map(ImageSchema::toImage).collect(Collectors.toSet()),
+//                this.trailers.stream().map(VideoFileSchema::toVideoFile).collect(Collectors.toSet()),
+                this.poster.toImage(),
+                this.trailer.toVideoFile(),
                 this.genres,
                 this.projectionTechnologies.stream().map(ProjectionTechnologySchema::toProjectionTechnology).collect(Collectors.toSet())
         );

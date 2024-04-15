@@ -1,5 +1,6 @@
 package org.example.cinemabackend.movie.infrastructure.schema;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.*;
 import org.example.cinemabackend.movie.core.domain.VideoFile;
@@ -11,8 +12,13 @@ import org.example.cinemabackend.movie.core.domain.VideoFile;
 @AllArgsConstructor
 @NoArgsConstructor(force = true)
 public class VideoFileSchema {
+
+    @Column(name = "video_file_name")
     String name;
+
+    @Column(name = "video_file_type")
     String type;
+
     byte[] video;
 
     public static VideoFileSchema fromVideoFile(VideoFile movieFile) {

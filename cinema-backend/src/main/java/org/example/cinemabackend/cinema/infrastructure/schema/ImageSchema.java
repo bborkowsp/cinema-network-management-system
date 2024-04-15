@@ -1,5 +1,6 @@
 package org.example.cinemabackend.cinema.infrastructure.schema;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.*;
 import org.example.cinemabackend.movie.core.domain.Image;
@@ -12,8 +13,10 @@ import org.example.cinemabackend.movie.core.domain.Image;
 @NoArgsConstructor(force = true)
 public class ImageSchema {
 
+    @Column(name = "image_file_name")
     String name;
 
+    @Column(name = "image_file_type")
     String type;
 
     byte[] image;

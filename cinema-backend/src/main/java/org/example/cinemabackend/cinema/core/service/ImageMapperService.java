@@ -11,12 +11,16 @@ class ImageMapperService implements ImageMapper {
 
     @Override
     public Image mapCreateImageRequestToImage(CreateImageRequest image) {
-        return null;
+        return new Image(
+                image.name(),
+                image.type(),
+                image.data());
     }
 
     @Override
     public ImageResponse mapImageToImageResponse(Image image) {
         return ImageResponse.builder()
+                .name(image.getName())
                 .type(image.getType())
                 .data(image.getData())
                 .build();
