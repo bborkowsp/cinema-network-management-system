@@ -24,19 +24,19 @@ class ProjectionTechnologyController {
     }
 
     @GetMapping("/{technology}")
-    ResponseEntity<ProjectionTechnologyResponse> getCinema(@PathVariable String technology) {
+    ResponseEntity<ProjectionTechnologyResponse> getProjectionTechnology(@PathVariable String technology) {
         final var cinema = projectionTechnologyUseCases.getProjectionTechnology(technology);
         return ResponseEntity.ok(cinema);
     }
 
     @PostMapping
-    ResponseEntity<Void> createCinema(@RequestBody @Valid CreateProjectionTechnologyRequest createCinemaRequest) {
+    ResponseEntity<Void> createProjectionTechnology(@RequestBody @Valid CreateProjectionTechnologyRequest createCinemaRequest) {
         projectionTechnologyUseCases.createProjectionTechnology(createCinemaRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @DeleteMapping("/{technology}")
-    ResponseEntity<Void> deleteCinema(@PathVariable String technology) {
+    ResponseEntity<Void> deleteProjectionTechnology(@PathVariable String technology) {
         projectionTechnologyUseCases.deleteProjectionTechnology(technology);
         return ResponseEntity.noContent().build();
     }
