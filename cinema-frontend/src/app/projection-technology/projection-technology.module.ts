@@ -24,6 +24,10 @@ import {
   CreateProjectionTechnologyMainFormFrameComponent
 } from "./components/create-projection-technology-form/create-projection-technology-main-form-frame/create-projection-technology-main-form-frame.component";
 import {MatButtonModule} from "@angular/material/button";
+import {
+  ConfirmDeletionProjectionTechnologyDialogComponent
+} from './components/confirm-deletion-projection-technology-dialog/confirm-deletion-projection-technology-dialog.component';
+import {MatDialogModule} from "@angular/material/dialog";
 
 
 @NgModule({
@@ -33,6 +37,7 @@ import {MatButtonModule} from "@angular/material/button";
     EditProjectionTechnologyComponent,
     CreateProjectionTechnologyFormComponent,
     CreateProjectionTechnologyMainFormFrameComponent,
+    ConfirmDeletionProjectionTechnologyDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -42,7 +47,8 @@ import {MatButtonModule} from "@angular/material/button";
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    MatDialogModule
   ]
 })
 export class ProjectionTechnologyModule {

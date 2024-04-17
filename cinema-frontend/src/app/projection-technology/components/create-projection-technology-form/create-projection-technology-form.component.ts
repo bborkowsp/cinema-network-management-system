@@ -3,7 +3,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import FormValidatorLengths from "../../../shared/consts/form-validators-lengths";
 import {ProjectionTechnologyService} from "../../services/projection-technology.service";
 import {Router} from "@angular/router";
-import {ProjectionTechnologyResponse} from "../../dtos/request/projection-technology.request";
+import {ProjectionTechnologyRequest} from "../../dtos/request/projection-technology.request";
 
 @Component({
   selector: 'app-create-projection-technology-form',
@@ -42,13 +42,13 @@ export class CreateProjectionTechnologyFormComponent {
     });
   }
 
-  private createProjectionTechnologyRequestFromForm(): ProjectionTechnologyResponse {
+  private createProjectionTechnologyRequestFromForm(): ProjectionTechnologyRequest {
     const technology = this.projectionTechnologyFormGroup.get('technology')!.value;
     const description = this.projectionTechnologyFormGroup.get('description')!.value;
     if (technology === null || description === null) {
       throw new Error('Technology or description is null.');
     }
-    return new ProjectionTechnologyResponse(technology, description);
+    return new ProjectionTechnologyRequest(technology, description);
   }
 
   private goBack() {

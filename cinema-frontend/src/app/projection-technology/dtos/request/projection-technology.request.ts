@@ -1,4 +1,4 @@
-export class ProjectionTechnologyResponse {
+export class ProjectionTechnologyRequest {
   constructor(
     readonly technology: string,
     readonly description: string

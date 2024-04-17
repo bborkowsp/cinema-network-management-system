@@ -20,6 +20,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import {GenericFormFrameComponent} from './components/generic-form-frame/generic-form-frame.component';
 import {DialogComponent} from './components/dialog/dialog.component';
 import {GenericDetailsFieldComponent} from './components/generic-details-field/generic-details-field.component';
+import {ConfirmDeletionDialogComponent} from './components/confirm-deletion-dialog/confirm-deletion-dialog.component';
 
 const sharedModules = [
   CommonModule,
@@ -39,7 +40,7 @@ const declarations = [
 ];
 
 @NgModule({
-  declarations: [declarations, OptionsTableButtonComponent, GenericFormFrameComponent, DialogComponent, GenericDetailsFieldComponent],
+  declarations: [declarations, OptionsTableButtonComponent, GenericFormFrameComponent, DialogComponent, GenericDetailsFieldComponent, ConfirmDeletionDialogComponent],
   imports: [
     ...sharedModules,
     MatMenuModule,
@@ -49,8 +50,9 @@ const declarations = [
     MatToolbarModule,
     RouterLink,
     MatTooltipModule,
+    MatDialogModule,
   ],
-  exports: [declarations, OptionsTableButtonComponent, GenericFormFrameComponent, GenericDetailsFieldComponent],
+  exports: [declarations, OptionsTableButtonComponent, GenericFormFrameComponent, GenericDetailsFieldComponent, ConfirmDeletionDialogComponent],
 })
 export class SharedModule {
 }

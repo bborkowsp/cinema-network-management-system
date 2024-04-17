@@ -3,6 +3,10 @@ import {ProjectionTechnologyService} from "../../services/projection-technology.
 import {ActivatedRoute, Router} from "@angular/router";
 import {map, Observable, switchMap, tap} from "rxjs";
 import {ProjectionTechnologyResponse} from "../../dtos/response/projection-technology.response";
+import {MatDialog} from "@angular/material/dialog";
+import {
+  ConfirmDeletionProjectionTechnologyDialogComponent
+} from "../confirm-deletion-projection-technology-dialog/confirm-deletion-projection-technology-dialog.component";
 
 @Component({
   selector: 'app-projection-technology-details',
@@ -20,6 +24,7 @@ export class ProjectionTechnologyDetailsComponent implements OnInit {
     private readonly projectionTechnologyService: ProjectionTechnologyService,
     private readonly activatedRoute: ActivatedRoute,
     private router: Router,
+    private readonly dialog: MatDialog,
   ) {
   }
 
@@ -33,8 +38,16 @@ export class ProjectionTechnologyDetailsComponent implements OnInit {
   }
 
   handleDeleteTechnology() {
-    this.projectionTechnologyService.deleteProjectionTechnology(this.technology).subscribe(() => {
-      this.router.navigateByUrl('/projection-technologies');
+    const dialogRef = this.dialog.open(ConfirmDeletionProjectionTechnologyDialogComponent, {
+      data: this.technology,
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.projectionTechnologyService.deleteProjectionTechnology(this.technology).subscribe({
+          next: () => this.handleGoBack(),
+        });
+      }
     });
   }
 

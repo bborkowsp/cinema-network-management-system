@@ -4,7 +4,7 @@ import {PaginatorRequestParams} from "../../shared/dtos/paginator-request-params
 import {map, Observable} from "rxjs";
 import {ProjectionTechnologyPageResponse} from "../dtos/response/projection-technology-page.response";
 import {Injectable} from "@angular/core";
-import {ProjectionTechnologyResponse} from "../dtos/request/projection-technology.request";
+import {ProjectionTechnologyRequest} from "../dtos/request/projection-technology.request";
 
 @Injectable({
   providedIn: 'root',
@@ -35,14 +35,14 @@ export class ProjectionTechnologyService {
       .pipe(map((response) => response));
   }
 
-  createProjectionTechnology(projectTechnology: ProjectionTechnologyResponse): Observable<void> {
+  createProjectionTechnology(projectTechnology: ProjectionTechnologyRequest): Observable<void> {
     const url = ProjectionTechnologyService.projectionTechnologiesUrl;
     return this.httpClient.post<void>(url, projectTechnology);
   }
 
-  getProjectionTechnology(technology: string): Observable<ProjectionTechnologyResponse> {
+  getProjectionTechnology(technology: string): Observable<ProjectionTechnologyRequest> {
     const url = `${ProjectionTechnologyService.projectionTechnologiesUrl}/${technology}`;
     console.log(url);
-    return this.httpClient.get<ProjectionTechnologyResponse>(url);
+    return this.httpClient.get<ProjectionTechnologyRequest>(url);
   }
 }

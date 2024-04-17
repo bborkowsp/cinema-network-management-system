@@ -13,7 +13,8 @@
     <div *ngIf="movie$ | async as movie">
       {{ movie.title }}
       <div class="movie-image-container">
-        <img [src]="'data:' + movie.image.type + ';base64,' + movie.image.data" alt="movie image" class="movie-image"/>
+        <img [src]="'data:' + movie.poster.type + ';base64,' + movie.poster.data" alt="movie image"
+             class="movie-image"/>
       </div>
     </div>
   </ng-container>

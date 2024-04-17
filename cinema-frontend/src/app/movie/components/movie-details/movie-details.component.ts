@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {MovieService} from "../../services/movie.service";
 import {map, Observable, switchMap, tap} from "rxjs";
@@ -18,6 +18,7 @@ export class MovieDetailsComponent implements OnInit {
     private readonly movieService: MovieService,
     private readonly activatedRoute: ActivatedRoute,
     private readonly router: Router,
+    private readonly changeDetectorRef: ChangeDetectorRef
   ) {
   }
 
@@ -42,7 +43,11 @@ export class MovieDetailsComponent implements OnInit {
   private getMovie() {
     this.movie$ = this.activatedRoute.paramMap.pipe(
       map((paramMap) => paramMap.get('title')!),
-      tap((title) => (this.title = title)),
+      tap((title) => {
+        this.title = title;
+        this.isLoading = false;
+        this.changeDetectorRef.detectChanges();
+      }),
       switchMap((title) => this.movieService.getMovie(title)),
     );
   }

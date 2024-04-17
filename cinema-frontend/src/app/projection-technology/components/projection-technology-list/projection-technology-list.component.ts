@@ -4,7 +4,7 @@ import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {PaginatorRequestParams} from '../../../shared/dtos/paginator-request-params';
 import {ProjectionTechnologyService} from "../../services/projection-technology.service";
 import {Router} from "@angular/router";
-import {ProjectionTechnologyResponse} from "../../dtos/request/projection-technology.request";
+import {ProjectionTechnologyRequest} from "../../dtos/request/projection-technology.request";
 
 @Component({
   selector: 'app-projection-technology-list',
@@ -13,7 +13,7 @@ import {ProjectionTechnologyResponse} from "../../dtos/request/projection-techno
 })
 export class ProjectionTechnologyListComponent {
   displayedColumns = ['options', 'technology', 'description'];
-  projectionTechnologies$!: Observable<ProjectionTechnologyResponse[]>;
+  projectionTechnologies$!: Observable<ProjectionTechnologyRequest[]>;
   dataLength = 0;
   @ViewChild(MatPaginator) readonly paginator!: MatPaginator;
   paginatorRequestParams = new PaginatorRequestParams(0, 10);
@@ -39,23 +39,23 @@ export class ProjectionTechnologyListComponent {
     this.router.navigateByUrl(url);
   }
 
-  handleEdit(projectionTechnology: ProjectionTechnologyResponse): void {
+  handleEdit(projectionTechnology: ProjectionTechnologyRequest): void {
     const url = `projection-technologies/edit/${projectionTechnology.technology}`;
     this.router.navigateByUrl(url);
   }
 
-  handleDelete(projectionTechnology: ProjectionTechnologyResponse): void {
+  handleDelete(projectionTechnology: ProjectionTechnologyRequest): void {
     this.projectionTechnologyService.deleteProjectionTechnology(projectionTechnology.technology).subscribe({
       next: () => (this.projectionTechnologies$ = this.getData()),
     });
   }
 
-  handleShowDetails(projectionTechnology: ProjectionTechnologyResponse): void {
+  handleShowDetails(projectionTechnology: ProjectionTechnologyRequest): void {
     const url = `projection-technologies/details/${projectionTechnology.technology}`;
     this.router.navigateByUrl(url);
   }
 
-  private getData(): Observable<ProjectionTechnologyResponse[]> {
+  private getData(): Observable<ProjectionTechnologyRequest[]> {
     return this.projectionTechnologyService.getProjectionTechnologies(this.paginatorRequestParams).pipe(
       tap({
         next: (projectionTechnologyPage) => {
