@@ -7,6 +7,8 @@ import org.example.cinemabackend.cinema.core.port.primary.ProjectionTechnologyMa
 import org.example.cinemabackend.movie.core.domain.ProjectionTechnology;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
+
 @Service
 @RequiredArgsConstructor(access = lombok.AccessLevel.PACKAGE)
 class ProjectionTechnologyMapperService implements ProjectionTechnologyMapper {
@@ -22,5 +24,10 @@ class ProjectionTechnologyMapperService implements ProjectionTechnologyMapper {
     @Override
     public ProjectionTechnology mapCreateProjectionTechnologyRequestToProjectionTechnology(CreateProjectionTechnologyRequest createProjectionTechnologyRequest) {
         return new ProjectionTechnology(createProjectionTechnologyRequest.technology(), createProjectionTechnologyRequest.description());
+    }
+
+    @Override
+    public Set<ProjectionTechnologyResponse> mapProjectionTechnologiesToProjectionTechnologyResponses(Set<ProjectionTechnology> projectionTechnologies) {
+        return projectionTechnologies.stream().map(this::mapProjectionTechnologyToProjectionTechnologyResponse).collect(java.util.stream.Collectors.toSet());
     }
 }

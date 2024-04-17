@@ -2,14 +2,13 @@ package org.example.cinemabackend.movie.core.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.core.port.primary.ImageMapper;
+import org.example.cinemabackend.cinema.core.port.primary.ProjectionTechnologyMapper;
 import org.example.cinemabackend.movie.application.dto.request.CreateMovieRequest;
 import org.example.cinemabackend.movie.application.dto.response.MovieListResponse;
 import org.example.cinemabackend.movie.application.dto.response.MovieResponse;
 import org.example.cinemabackend.movie.core.domain.Image;
 import org.example.cinemabackend.movie.core.domain.Movie;
-import org.example.cinemabackend.movie.core.port.primary.DescriptionMapper;
-import org.example.cinemabackend.movie.core.port.primary.FilmMemberMapper;
-import org.example.cinemabackend.movie.core.port.primary.MovieMapper;
+import org.example.cinemabackend.movie.core.port.primary.*;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,6 +18,10 @@ class MovieMapperService implements MovieMapper {
     private final ImageMapper imageMapper;
     private final FilmMemberMapper filmMemberMapper;
     private final DescriptionMapper descriptionMapper;
+    private final ProductionDetailsMapper productionDetailsMapper;
+    private final SubtitleAndSoundOptionsMapper subtitleAndSoundOptionsMapper;
+    private final VideoFileMapper videoFileMapper;
+    private final ProjectionTechnologyMapper projectionTechnologyMapper;
 
     @Override
     public MovieListResponse mapMovieToMovieListResponse(Movie movie) {
@@ -39,8 +42,14 @@ class MovieMapperService implements MovieMapper {
                 .originalTitle(movie.getOriginalTitle())
                 .duration(movie.getDuration())
                 .releaseDate(movie.getReleaseDate())
+                .productionDetails(productionDetailsMapper.mapProductionDetailsToProductionDetailsResponse(movie.getProductionDetails()))
                 .description(descriptionMapper.mapDescriptionToDescriptionResponse(movie.getDescription()))
+                .subtitleAndSoundOptions(subtitleAndSoundOptionsMapper.mapSubtitleAndSoundOptionsToSubtitleAndSoundOptionsResponse(movie.getSubtitleAndSoundOptions()))
+                .ageRestriction(movie.getAgeRestriction())
                 .poster(imageMapper.mapImageToImageResponse(getMoviePoster(movie)))
+                .trailer(videoFileMapper.mapVideoFileToVideoFileResponse(movie.getTrailer()))
+                .genres(movie.getGenres())
+                .projectionTechnologies(projectionTechnologyMapper.mapProjectionTechnologiesToProjectionTechnologyResponses(movie.getProjectionTechnologies()))
                 .build();
     }
 

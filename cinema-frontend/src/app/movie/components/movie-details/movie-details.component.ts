@@ -40,6 +40,18 @@ export class MovieDetailsComponent implements OnInit {
     this.router.navigateByUrl('/movies');
   }
 
+  getActorNames(movie: MovieResponse): string {
+    return movie.productionDetails.actors
+      .map(actor => actor.firstName + ' ' + actor.lastName)
+      .join(', ');
+  }
+
+  getProjectionTechnologies(movie: MovieResponse) {
+    return movie.projectionTechnologies
+      .map(projectionTechnology => projectionTechnology.technology)
+      .join(', ');
+  }
+
   private getMovie() {
     this.movie$ = this.activatedRoute.paramMap.pipe(
       map((paramMap) => paramMap.get('title')!),

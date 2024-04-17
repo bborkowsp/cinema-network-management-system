@@ -1,11 +1,33 @@
-.movie-image-container {
-  max-width: 18.75rem;
-  border: 2px solid black;
-  overflow: hidden;
+.movie-main-details-container {
+  display: flex;
+  align-items: flex-start;
+
+  &__details {
+    margin-left: 2.688rem;
+  }
+
+  &__image-container {
+    max-width: 18.75rem;
+    border: 2px solid black;
+    overflow: hidden;
+
+    &__image {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+  }
 }
 
-.movie-image {
-  max-width: 100%;
-  height: auto;
-  display: block;
+.projection-technology-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+
+  .app-generic-details-field {
+    flex: 1;
+    margin-right: 10px;
+  }
 }
+
+

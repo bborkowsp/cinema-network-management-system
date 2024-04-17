@@ -10,7 +10,7 @@
   }
 
   &__divider {
-    background-color: $app-semi-transparent-black;
+    background-color: $app-details-header;
     border-width: 2px;
     flex: 1;
     margin-bottom: 1rem;
@@ -18,7 +18,8 @@
 
   &__title {
     font-size: 1.5rem;
-    font-weight: bold;
+    color: $app-details-header;
+    font-weight: 450;
     margin-bottom: 1rem;
     padding-right: 2rem;
   }

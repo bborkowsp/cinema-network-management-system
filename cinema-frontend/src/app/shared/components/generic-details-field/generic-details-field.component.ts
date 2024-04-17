@@ -7,5 +7,5 @@ import {Component, Input} from '@angular/core';
 })
 export class GenericDetailsFieldComponent {
   @Input({required: true}) title!: string;
-  @Input({required: true}) content!: string | number | Date;
+  @Input({required: true}) content!: string | number | Date | string[];
 }

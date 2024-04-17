@@ -7,7 +7,6 @@ import {VideoFileResponse} from "./video-file.response";
 import {SubtitleAndSoundOptionsResponse} from "./subtitle-and-sound-options.response";
 import {ProductionDetailsResponse} from "./production-details.response";
 import {DescriptionResponse} from "./description.response";
-import {GenreResponse} from "./genre.response";
 
 export class MovieResponse {
   constructor(
@@ -21,7 +20,7 @@ export class MovieResponse {
     readonly ageRestriction: AgeRestrictionResponse,
     readonly poster: ImageResponse,
     readonly trailer: VideoFileResponse,
-    readonly genres: GenreResponse[],
+    readonly genres: string[],
     readonly projectionTechnologies: ProjectionTechnologyResponse[],
   ) {
   }

@@ -11,19 +11,120 @@
 >
   <ng-container content>
     <div *ngIf="movie$ | async as movie">
-      <app-generic-details-field [content]="movie.title" title='Movie title'></app-generic-details-field>
-      <app-generic-details-field [content]="movie.originalTitle" title='Original title'></app-generic-details-field>
-      <app-generic-details-field [content]="movie.duration + ' min'" title="Duration"></app-generic-details-field>
-      <app-generic-details-field [content]="movie.releaseDate" title="Release date"></app-generic-details-field>
-      <div class="movie-image-container">
-        <img [src]="'data:' + movie.poster.type + ';base64,' + movie.poster.data" alt="movie image"
-             class="movie-image"/>
+
+      <div class="movie-main-details-container">
+        <div class="movie-main-details-container__image-container">
+          <img [src]="'data:' + movie.poster.type + ';base64,' + movie.poster.data" alt="movie image"
+               class="movie-main-details-container__image-container__image"/>
+        </div>
+        <div class="movie-main-details-container__details">
+          <app-generic-details-field [content]="movie.title" title='Movie title'></app-generic-details-field>
+          <app-generic-details-field [content]="movie.originalTitle" title='Original title'></app-generic-details-field>
+          <app-generic-details-field [content]="movie.duration + ' min'" title="Duration"></app-generic-details-field>
+          <app-generic-details-field [content]="movie.releaseDate" title="Release date"></app-generic-details-field>
+        </div>
       </div>
+
       <app-details-section-container sectionTitle="Production details">
         <ng-container content>
-          <app-generic-details-field [content]="movie.title" title='Movie title'></app-generic-details-field>
+          <app-generic-details-field
+            [content]="movie.productionDetails.worldPremiereDate"
+            title='World premiere date'>
+          </app-generic-details-field>
+          <app-generic-details-field
+            [content]="movie.productionDetails.director.firstName + ' ' + movie.productionDetails.director.lastName"
+            title='Director'>
+          </app-generic-details-field>
+          <app-generic-details-field
+            [content]="getActorNames(movie)"
+            title="Actors">
+          </app-generic-details-field>
+          <app-generic-details-field
+            [content]="movie.productionDetails.originalLanguages"
+            title='Original languages'>
+          </app-generic-details-field>
         </ng-container>
       </app-details-section-container>
+
+      <app-details-section-container sectionTitle="Movie description">
+        <ng-container content>
+          <app-generic-details-field
+            [content]="movie.description.shortDescription"
+            title='Short description'>
+          </app-generic-details-field>
+          <app-generic-details-field
+            [content]="movie.description.longDescription"
+            title='Long description'>
+          </app-generic-details-field>
+        </ng-container>
+      </app-details-section-container>
+
+      <app-details-section-container sectionTitle="Subtitle and sound options">
+        <ng-container content>
+          <!-- Subtitles -->
+          <ng-container *ngIf="movie.subtitleAndSoundOptions?.subtitles; else noSubtitles">
+            <app-generic-details-field [content]="'Yes'" title="Subtitles"></app-generic-details-field>
+          </ng-container>
+          <ng-template #noSubtitles>
+            <app-generic-details-field [content]="'No'" title="Subtitles"></app-generic-details-field>
+          </ng-template>
+
+          <!-- Dubbing -->
+          <ng-container *ngIf="movie.subtitleAndSoundOptions?.dubbing; else noDubbing">
+            <app-generic-details-field [content]="'Yes'" title="Dubbing"></app-generic-details-field>
+          </ng-container>
+          <ng-template #noDubbing>
+            <app-generic-details-field [content]="'No'" title="Dubbing"></app-generic-details-field>
+          </ng-template>
+
+          <!-- Voice Over -->
+          <ng-container *ngIf="movie.subtitleAndSoundOptions?.voiceOver; else noVoiceOver">
+            <app-generic-details-field [content]="'Yes'" title="Voice Over"></app-generic-details-field>
+          </ng-container>
+          <ng-template #noVoiceOver>
+            <app-generic-details-field [content]="'No'" title="Voice Over"></app-generic-details-field>
+          </ng-template>
+
+          <!-- Original Language -->
+          <ng-container *ngIf="movie.subtitleAndSoundOptions?.originalLanguage; else notOriginalLanguage">
+            <app-generic-details-field [content]="'Yes'" title="Original Language"></app-generic-details-field>
+          </ng-container>
+          <ng-template #notOriginalLanguage>
+            <app-generic-details-field [content]="'No'" title="Original Language"></app-generic-details-field>
+          </ng-template>
+        </ng-container>
+      </app-details-section-container>
+
+      <app-details-section-container sectionTitle="Age restriction">
+        <ng-container content>
+          <app-generic-details-field
+            [content]="movie.ageRestriction"
+            title='Age restriction'>
+          </app-generic-details-field>
+        </ng-container>
+      </app-details-section-container>
+
+      <app-details-section-container sectionTitle="Genres">
+        <ng-container content>
+          <app-generic-details-field
+            [content]="movie.genres"
+            title='Genres'>
+          </app-generic-details-field>
+        </ng-container>
+      </app-details-section-container>
+
+      <app-details-section-container sectionTitle="Projection technologies">
+        <ng-container content>
+          <div *ngFor="let projectionTechnology of movie.projectionTechnologies"
+               class="projection-technology-container">
+            <app-generic-details-field [content]="projectionTechnology.technology"
+                                       title='Technology'></app-generic-details-field>
+            <app-generic-details-field [content]="projectionTechnology.description"
+                                       title='Technology description'></app-generic-details-field>
+          </div>
+        </ng-container>
+      </app-details-section-container>
+
     </div>
   </ng-container>
 </app-page-content-container>
