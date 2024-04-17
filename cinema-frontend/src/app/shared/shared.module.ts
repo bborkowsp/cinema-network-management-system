@@ -21,6 +21,10 @@ import {GenericFormFrameComponent} from './components/generic-form-frame/generic
 import {GenericDetailsFieldComponent} from './components/generic-details-field/generic-details-field.component';
 import {ConfirmDeletionDialogComponent} from './components/confirm-deletion-dialog/confirm-deletion-dialog.component';
 import {ErrorDialogComponent} from "./components/error-dialog/error-dialog.component";
+import {
+  DetailsSectionContainerComponent
+} from './components/details-section-container/details-section-container.component';
+import {MatListModule} from "@angular/material/list";
 
 const sharedModules = [
   CommonModule,
@@ -40,7 +44,7 @@ const declarations = [
 ];
 
 @NgModule({
-  declarations: [declarations, OptionsTableButtonComponent, GenericFormFrameComponent, ErrorDialogComponent, GenericDetailsFieldComponent, ConfirmDeletionDialogComponent],
+  declarations: [declarations, OptionsTableButtonComponent, GenericFormFrameComponent, ErrorDialogComponent, GenericDetailsFieldComponent, ConfirmDeletionDialogComponent, DetailsSectionContainerComponent],
   imports: [
     ...sharedModules,
     MatMenuModule,
@@ -51,8 +55,9 @@ const declarations = [
     RouterLink,
     MatTooltipModule,
     MatDialogModule,
+    MatListModule,
   ],
-  exports: [declarations, OptionsTableButtonComponent, GenericFormFrameComponent, GenericDetailsFieldComponent, ConfirmDeletionDialogComponent],
+  exports: [declarations, OptionsTableButtonComponent, GenericFormFrameComponent, GenericDetailsFieldComponent, ConfirmDeletionDialogComponent, DetailsSectionContainerComponent],
 })
 export class SharedModule {
 }

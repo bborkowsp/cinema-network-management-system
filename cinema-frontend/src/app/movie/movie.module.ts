@@ -7,6 +7,7 @@ import {EditMovieFormComponent} from "./components/edit-movie-form/edit-movie-fo
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatTableModule} from "@angular/material/table";
 import {SharedModule} from "../shared/shared.module";
+import {MatDividerModule} from "@angular/material/divider";
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import {SharedModule} from "../shared/shared.module";
     CommonModule,
     MatPaginatorModule,
     MatTableModule,
-    SharedModule
+    SharedModule,
+    MatDividerModule
   ]
 })
 export class MovieModule {

@@ -11,11 +11,19 @@
 >
   <ng-container content>
     <div *ngIf="movie$ | async as movie">
-      {{ movie.title }}
+      <app-generic-details-field [content]="movie.title" title='Movie title'></app-generic-details-field>
+      <app-generic-details-field [content]="movie.originalTitle" title='Original title'></app-generic-details-field>
+      <app-generic-details-field [content]="movie.duration + ' min'" title="Duration"></app-generic-details-field>
+      <app-generic-details-field [content]="movie.releaseDate" title="Release date"></app-generic-details-field>
       <div class="movie-image-container">
         <img [src]="'data:' + movie.poster.type + ';base64,' + movie.poster.data" alt="movie image"
              class="movie-image"/>
       </div>
+      <app-details-section-container sectionTitle="Production details">
+        <ng-container content>
+          <app-generic-details-field [content]="movie.title" title='Movie title'></app-generic-details-field>
+        </ng-container>
+      </app-details-section-container>
     </div>
   </ng-container>
 </app-page-content-container>
