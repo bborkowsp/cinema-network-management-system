@@ -18,9 +18,9 @@ import {OptionsTableButtonComponent} from './components/options-table-button/opt
 import {RouterLink} from "@angular/router";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {GenericFormFrameComponent} from './components/generic-form-frame/generic-form-frame.component';
-import {DialogComponent} from './components/dialog/dialog.component';
 import {GenericDetailsFieldComponent} from './components/generic-details-field/generic-details-field.component';
 import {ConfirmDeletionDialogComponent} from './components/confirm-deletion-dialog/confirm-deletion-dialog.component';
+import {ErrorDialogComponent} from "./components/error-dialog/error-dialog.component";
 
 const sharedModules = [
   CommonModule,
@@ -40,7 +40,7 @@ const declarations = [
 ];
 
 @NgModule({
-  declarations: [declarations, OptionsTableButtonComponent, GenericFormFrameComponent, DialogComponent, GenericDetailsFieldComponent, ConfirmDeletionDialogComponent],
+  declarations: [declarations, OptionsTableButtonComponent, GenericFormFrameComponent, ErrorDialogComponent, GenericDetailsFieldComponent, ConfirmDeletionDialogComponent],
   imports: [
     ...sharedModules,
     MatMenuModule,

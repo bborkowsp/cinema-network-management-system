@@ -6,12 +6,12 @@ export interface DialogData {
 }
 
 @Component({
-  selector: 'app-dialog',
-  templateUrl: './dialog.component.html',
-  styleUrls: ['./dialog.component.scss'],
+  selector: 'app-error-dialog',
+  templateUrl: './error-dialog.component.html',
+  styleUrls: ['./error-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DialogComponent {
+export class ErrorDialogComponent {
   data = inject<DialogData>(MAT_DIALOG_DATA);
 
 }
