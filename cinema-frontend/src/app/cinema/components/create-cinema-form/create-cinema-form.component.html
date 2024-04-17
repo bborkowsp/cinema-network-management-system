@@ -1,16 +1,11 @@
-<app-page-content-container
-  (goBackButtonAction)="handleGoBackButtonAction()"
-  [hasGoBackActionButton]="true"
-  pageTitle="Add cinema"
->
+<app-page-content-container (goBackButtonAction)="handleGoBackButtonAction()" [hasGoBackActionButton]="true"
+                            pageTitle="Add cinema">
   <ng-container content>
     <mat-stepper #stepper linear>
       <mat-step [stepControl]="screeningRoomsFormGroup" label="Screening rooms">
         <app-generic-form-frame title="Add screening rooms">
           <ng-container content>
-            <app-screening-room
-
-            ></app-screening-room>
+            <app-screening-room></app-screening-room>
           </ng-container>
         </app-generic-form-frame>
       </mat-step>
@@ -19,11 +14,9 @@
           <div class="form-container">
             <app-generic-form-frame title="About">
               <ng-container content>
-                <app-about-cinema
-                  [descriptionControl]="aboutCinemaFormGroup.controls.description"
-                  [form]="aboutCinemaStepForm"
-                  [nameControl]="aboutCinemaFormGroup.controls.name"
-                ></app-about-cinema>
+                <app-about-cinema [descriptionControl]="aboutCinemaFormGroup.controls.description"
+                                  [form]="aboutCinemaStepForm"
+                                  [nameControl]="aboutCinemaFormGroup.controls.name"></app-about-cinema>
               </ng-container>
             </app-generic-form-frame>
 
