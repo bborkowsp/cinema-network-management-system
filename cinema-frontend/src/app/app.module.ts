@@ -23,6 +23,8 @@ import {ProjectionTechnologyModule} from "./projection-technology/projection-tec
 import {HomeModule} from "./home/home.module";
 import {ErrorHandlerInterceptor} from "./shared/interceptors/error-handler.interceptor";
 import {MovieModule} from "./movie/movie.module";
+import {JwtInterceptor} from "./shared/interceptors/jwt.interceptor";
+import {UserModule} from "./user/user.module";
 
 @NgModule({
   declarations: [
@@ -53,12 +55,18 @@ import {MovieModule} from "./movie/movie.module";
     ProjectionTechnologyModule,
     ScaffoldModule,
     HomeModule,
-    MovieModule
+    MovieModule,
+    UserModule,
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorHandlerInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
       multi: true,
     }
   ],

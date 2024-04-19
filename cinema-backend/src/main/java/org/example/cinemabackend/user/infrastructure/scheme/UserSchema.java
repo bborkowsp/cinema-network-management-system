@@ -2,20 +2,32 @@ package org.example.cinemabackend.user.infrastructure.scheme;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import org.example.cinemabackend.user.core.domain.Gender;
+import lombok.*;
+import org.example.cinemabackend.user.core.domain.Role;
+import org.example.cinemabackend.user.core.domain.User;
 import org.example.cinemabackend.user.infrastructure.config.AbstractEntitySchema;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
+import java.util.Set;
+
+@Data
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
 @AllArgsConstructor
-public abstract class UserSchema extends AbstractEntitySchema<Long> {
+@Builder
+@EqualsAndHashCode(callSuper = false)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class UserSchema extends AbstractEntitySchema<Long> implements UserDetails {
 
-    @Column(nullable = false, length = 20)
-    protected String role;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    protected Role role;
+
 
     @Column(nullable = false, length = 60)
     private String firstName;
@@ -30,42 +42,65 @@ public abstract class UserSchema extends AbstractEntitySchema<Long> {
     @Column(nullable = false)
     private String passwordHash;
 
-    @Column(nullable = false)
-    private Gender gender;
 
-    public UserSchema() {
+    public static UserSchema fromUser(User user) {
+        return UserSchema.builder()
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .email(user.getEmail())
+                .passwordHash(user.getPasswordHash())
+                .role(user.getRole())
+                .build();
     }
 
-    public UserSchema(String firstName, String lastName, String email, String passwordHash, Gender gender) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.passwordHash = passwordHash;
-        this.gender = gender;
+    public User toUser() {
+        User user = new User(
+                this.firstName,
+                this.lastName,
+                this.email,
+                this.passwordHash,
+                this.role
+        );
+        user.setId(this.getId());
+        return user;
     }
 
-    public String getRole() {
-        return role;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        final var roleAuthorityName = role.name();
+        final var roleAuthority = new SimpleGrantedAuthority(roleAuthorityName);
+        return Set.of(roleAuthority);
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPasswordHash() {
+    @Override
+    public String getPassword() {
         return passwordHash;
     }
 
-    public Gender getGender() {
-        return gender;
+    @Override
+    public String getUsername() {
+        return email;
     }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
 }
 

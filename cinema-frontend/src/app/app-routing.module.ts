@@ -20,23 +20,40 @@ import {CreateMovieFormComponent} from "./movie/components/create-movie-form/cre
 import {EditMovieFormComponent} from "./movie/components/edit-movie-form/edit-movie-form.component";
 import {MovieDetailsComponent} from "./movie/components/movie-details/movie-details.component";
 import {CreateCinemaFormComponent} from "./cinema/components/create-cinema-form/create-cinema-form.component";
+import {LoginFormComponent} from "./user/components/login-form/login-form.component";
+import {AuthGuard} from "./user/services/auth-guard";
+
 
 const routes: Routes = [
-  {path: 'cinemas', component: CinemaListComponent},
-  {path: 'cinemas/create', component: CreateCinemaFormComponent},
-  {path: 'cinemas/details/:name', component: CinemaDetailsComponent},
-  {path: 'projection-technologies', component: ProjectionTechnologyListComponent},
-  {path: 'projection-technologies/create', component: CreateProjectionTechnologyFormComponent},
-  {path: 'projection-technologies/edit/:technology', component: EditProjectionTechnologyComponent},
-  {path: 'projection-technologies/details/:technology', component: ProjectionTechnologyDetailsComponent},
-  {path: 'movies', component: MovieListComponent},
-  {path: 'movies/create', component: CreateMovieFormComponent},
-  {path: 'movies/edit/:title', component: EditMovieFormComponent},
-  {path: 'movies/details/:title', component: MovieDetailsComponent},
-  {path: 'home', component: HomeComponent},
-  {path: '', redirectTo: '/home', pathMatch: 'full'},
-  {path: '**', redirectTo: '/home', pathMatch: 'full'},
+  {path: 'cinemas', component: CinemaListComponent, canActivate: [AuthGuard]},
+  {path: 'cinemas/create', component: CreateCinemaFormComponent, canActivate: [AuthGuard]},
+  {path: 'cinemas/details/:name', component: CinemaDetailsComponent, canActivate: [AuthGuard]},
+  {path: 'projection-technologies', component: ProjectionTechnologyListComponent, canActivate: [AuthGuard]},
+  {
+    path: 'projection-technologies/create',
+    component: CreateProjectionTechnologyFormComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'projection-technologies/edit/:technology',
+    component: EditProjectionTechnologyComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'projection-technologies/details/:technology',
+    component: ProjectionTechnologyDetailsComponent,
+    canActivate: [AuthGuard]
+  },
+  {path: 'movies', component: MovieListComponent, canActivate: [AuthGuard]},
+  {path: 'movies/create', component: CreateMovieFormComponent, canActivate: [AuthGuard]},
+  {path: 'movies/edit/:title', component: EditMovieFormComponent, canActivate: [AuthGuard]},
+  {path: 'movies/details/:title', component: MovieDetailsComponent, canActivate: [AuthGuard]},
+  {path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
+  {path: 'login', component: LoginFormComponent},
+  {path: '', redirectTo: '/login', pathMatch: 'full'},
+  {path: '**', redirectTo: '/login', pathMatch: 'full'},
 ];
+
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

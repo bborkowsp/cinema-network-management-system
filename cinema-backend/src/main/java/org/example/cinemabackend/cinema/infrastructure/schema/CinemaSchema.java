@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.example.cinemabackend.cinema.core.domain.Cinema;
 import org.example.cinemabackend.cinema.infrastructure.config.AbstractEntitySchema;
-import org.example.cinemabackend.user.infrastructure.scheme.CinemaManagerSchema;
+import org.example.cinemabackend.user.infrastructure.scheme.UserSchema;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -42,7 +42,7 @@ public class CinemaSchema extends AbstractEntitySchema<Long> {
     private Set<ContactDetailsSchema> contactDetails = new HashSet<>();
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private CinemaManagerSchema cinemaManager;
+    private UserSchema cinemaManager;
 
     public static CinemaSchema fromCinema(Cinema cinema) {
         return CinemaSchema.builder()
@@ -53,7 +53,7 @@ public class CinemaSchema extends AbstractEntitySchema<Long> {
                 .repertory(cinema.getRepertory().stream().map(ScreeningSchema::fromScreening).collect(Collectors.toSet()))
                 .screeningRooms(cinema.getScreeningRooms().stream().map(ScreeningRoomSchema::fromScreeningRoom).collect(Collectors.toSet()))
                 .contactDetails(cinema.getContactDetails().stream().map(ContactDetailsSchema::fromContactDetails).collect(Collectors.toSet()))
-                .cinemaManager(CinemaManagerSchema.fromCinemaManager(cinema.getCinemaManager()))
+                .cinemaManager(UserSchema.fromUser(cinema.getCinemaManager()))
                 .build();
     }
 
@@ -66,7 +66,7 @@ public class CinemaSchema extends AbstractEntitySchema<Long> {
                 this.repertory.stream().map(ScreeningSchema::toScreening).collect(Collectors.toSet()),
                 this.screeningRooms.stream().map(ScreeningRoomSchema::toScreeningRoom).collect(Collectors.toSet()),
                 this.contactDetails.stream().map(ContactDetailsSchema::toContactDetails).collect(Collectors.toSet()),
-                this.cinemaManager.toCinemaManager()
+                this.cinemaManager.toUser()
         );
         cinema.setId(this.getId());
         return cinema;

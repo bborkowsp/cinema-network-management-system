@@ -1,7 +1,7 @@
 package org.example.cinemabackend.cinema.core.domain;
 
 import org.example.cinemabackend.movie.core.domain.Image;
-import org.example.cinemabackend.user.core.domain.CinemaManager;
+import org.example.cinemabackend.user.core.domain.User;
 
 import java.util.Set;
 
@@ -13,9 +13,9 @@ public class Cinema extends AbstractEntity<Long> {
     private Set<Screening> repertory;
     private Set<ScreeningRoom> screeningRooms;
     private Set<ContactDetails> contactDetails;
-    private CinemaManager cinemaManager;
+    private User cinemaManager;
 
-    public Cinema(String name, String description, Address address, Image image, Set<Screening> repertory, Set<ScreeningRoom> screeningRooms, Set<ContactDetails> contactDetails, CinemaManager cinemaManager) {
+    public Cinema(String name, String description, Address address, Image image, Set<Screening> repertory, Set<ScreeningRoom> screeningRooms, Set<ContactDetails> contactDetails, User cinemaManager) {
         this.name = name;
         this.description = description;
         this.address = address;
@@ -67,7 +67,7 @@ public class Cinema extends AbstractEntity<Long> {
         return contactDetails;
     }
 
-    public CinemaManager getCinemaManager() {
+    public User getCinemaManager() {
         return cinemaManager;
     }
 }

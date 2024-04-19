@@ -1,0 +1,31 @@
+<form
+  #loginForm="ngForm"
+  (ngSubmit)="onSubmit()"
+  [formGroup]="loginFormGroup"
+>
+  <ng-container content>
+    <img alt="My image name" class="image" height="45" ngSrc="./assets/img/CineMagic.png" width="524">
+    <div class="content-container">
+      <div class="background-container">
+        <div class="title-container">
+          <h1 class="title">Sign in</h1>
+        </div>
+        <app-login-main-form-frame
+          [emailControl]="loginFormGroup.controls.email"
+          [form]="loginForm"
+          [passwordControl]="loginFormGroup.controls.password"
+        ></app-login-main-form-frame>
+        <div class="button-container">
+          <button [disabled]="loginFormGroup.invalid" color="primary" mat-flat-button type="submit">Sign in
+          </button>
+        </div>
+        <div class="text-container">
+          <p>No account? <a class="create-account-link" href="/register">Create one here</a></p>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</form>
+
+
+

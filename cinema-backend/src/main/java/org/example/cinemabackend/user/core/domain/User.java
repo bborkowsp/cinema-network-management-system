@@ -1,19 +1,24 @@
 package org.example.cinemabackend.user.core.domain;
 
-public abstract class User extends AbstractEntity<Long> {
-    protected String role;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.Set;
+
+public class User extends AbstractEntity<Long> implements UserDetails {
+    private Role role;
     private String firstName;
     private String lastName;
     private String email;
     private String passwordHash;
-    private Gender gender;
 
-    public User(String firstName, String lastName, String email, String passwordHash, Gender gender) {
+    public User(String firstName, String lastName, String email, String passwordHash, Role role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.passwordHash = passwordHash;
-        this.gender = gender;
+        this.role = role;
     }
 
     public User() {
@@ -35,7 +40,43 @@ public abstract class User extends AbstractEntity<Long> {
         return passwordHash;
     }
 
-    public Gender getGender() {
-        return gender;
+
+    public Role getRole() {
+        return role;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Set.of();
+    }
+
+    @Override
+    public String getPassword() {
+        return passwordHash;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

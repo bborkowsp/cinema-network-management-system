@@ -1,6 +1,7 @@
 package org.example.cinemabackend.cinema.application.dto.response;
 
 import lombok.Builder;
+import org.example.cinemabackend.user.application.dto.UserResponse;
 
 import java.util.Set;
 
@@ -11,6 +12,6 @@ public record CinemaResponse(
         AddressResponse address,
         ImageResponse image,
         Set<ContactDetailsResponse> contactDetails,
-        CinemaManagerResponse cinemaManager
+        UserResponse cinemaManager
 ) {
 }

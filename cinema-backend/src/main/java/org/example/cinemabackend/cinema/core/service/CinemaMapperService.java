@@ -7,6 +7,7 @@ import org.example.cinemabackend.cinema.application.dto.response.CinemaTableResp
 import org.example.cinemabackend.cinema.core.domain.Cinema;
 import org.example.cinemabackend.cinema.core.domain.SeatType;
 import org.example.cinemabackend.cinema.core.port.primary.*;
+import org.example.cinemabackend.user.core.port.primary.UserMapper;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,7 +18,7 @@ class CinemaMapperService implements CinemaMapper {
     private final ImageMapper imageMapper;
     private final ScreeningRoomMapper screeningRoomMapper;
     private final ContactDetailsMapper contactDetailsMapper;
-    private final CinemaManagerMapper cinemaManagerMapper;
+    private final UserMapper userMapper;
 
     @Override
     public CinemaResponse mapCinemaToCinemaResponse(Cinema cinema) {
@@ -27,7 +28,7 @@ class CinemaMapperService implements CinemaMapper {
                 .address(addressMapper.mapAddressToAddressResponse(cinema.getAddress()))
                 .image(imageMapper.mapImageToImageResponse(cinema.getImage()))
                 .contactDetails(contactDetailsMapper.mapContactDetailsToContactDetailsResponse(cinema.getContactDetails()))
-                .cinemaManager(cinemaManagerMapper.mapCinemaManagerToCinemaManagerResponse(cinema.getCinemaManager()))
+                .cinemaManager(userMapper.mapUserToUserResponse(cinema.getCinemaManager()))
                 .build();
     }
 

@@ -5,8 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.core.domain.*;
 import org.example.cinemabackend.cinema.core.port.secondary.CinemaRepository;
 import org.example.cinemabackend.movie.core.domain.*;
-import org.example.cinemabackend.user.core.domain.CinemaManager;
-import org.example.cinemabackend.user.core.domain.Gender;
+import org.example.cinemabackend.user.core.domain.Role;
+import org.example.cinemabackend.user.core.domain.User;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -69,9 +69,9 @@ class CinemaSeeder implements Seeder {
         return List.of(ScreeningTime);
     }
 
-    private CinemaManager createCinemaManager() {
-        return new CinemaManager(faker.name().firstName(), faker.name().lastName(), faker.internet().emailAddress(),
-                faker.lorem().fixedString(120), Gender.FEMALE);
+    private User createCinemaManager() {
+        return new User(faker.name().firstName(), faker.name().lastName(), faker.internet().emailAddress(),
+                faker.lorem().fixedString(120), Role.CINEMA_MANAGER);
     }
 
     private Set<ContactDetails> createContactDetails() {
