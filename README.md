@@ -8,6 +8,7 @@ This project serves as my diploma thesis for obtaining the title of Engineer at 
 ### General
 - GitHub
 - Docker
+- JWT Authentication
 - Figma
 - Enterprise Architect
 ### Backend
