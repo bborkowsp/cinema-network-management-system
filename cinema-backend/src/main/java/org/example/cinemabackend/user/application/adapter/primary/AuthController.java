@@ -23,11 +23,13 @@ class AuthController {
     @PostMapping("/login")
     public ResponseEntity<JwtDto> login(@RequestBody @Valid LoginUserRequest loginUserRequest) {
         final var jwt = authUseCases.login(loginUserRequest);
+        System.out.println("jwt: " + jwt);
         return ResponseEntity.ok(jwt);
     }
 
     @PostMapping("/register")
     public ResponseEntity<Void> register(@RequestBody @Valid RegisterUserRequest registerUserRequest) {
+        System.out.println("registerUserRequest: " + registerUserRequest);
         authUseCases.register(registerUserRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

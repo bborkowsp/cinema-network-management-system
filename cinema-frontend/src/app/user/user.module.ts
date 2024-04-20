@@ -11,13 +11,15 @@ import {
   LoginMainFormFrameComponent
 } from './components/login-form/login-main-form-frame/login-main-form-frame.component';
 import {MatButtonModule} from "@angular/material/button";
+import { RegisterMainFormFrameComponent } from './components/register-form/register-main-form-frame/register-main-form-frame.component';
 
 
 @NgModule({
   declarations: [
     LoginFormComponent,
     RegisterFormComponent,
-    LoginMainFormFrameComponent
+    LoginMainFormFrameComponent,
+    RegisterMainFormFrameComponent
   ],
   imports: [
     CommonModule,

@@ -43,6 +43,10 @@ export class ScaffoldComponent {
     return this.router.url === '/login';
   }
 
+  protected get isUserOnRegisterPage() {
+    return this.router.url === '/register';
+  }
+
   protected handleToggleDrawerButtonClick() {
     this.isDrawerOpened = !this.isDrawerOpened;
   }

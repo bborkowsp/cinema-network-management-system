@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
-import {LoginUserRequest} from "../../dtos/request/LoginUserRequest";
 import {AuthService} from "../../services/auth.service";
+import {LoginUserRequest} from "../../dtos/request/login-user.request";
 
 @Component({
   selector: 'app-login-form',
@@ -10,7 +10,6 @@ import {AuthService} from "../../services/auth.service";
   styleUrls: ['./login-form.component.scss']
 })
 export class LoginFormComponent {
-  protected isLoading = false;
   protected readonly loginFormGroup = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
@@ -26,14 +25,12 @@ export class LoginFormComponent {
   protected onSubmit(): void {
     const {email, password, role} = this.loginFormGroup.value;
     const loginUserRequest = new LoginUserRequest(email ?? '', password ?? '', role ?? '');
-    const login$ = this.authService.login(loginUserRequest);
-    this.isLoading = true;
-    login$.subscribe({
-      next: () => this.goToHome(),
-    });
+    this.authService.login(loginUserRequest);
+    console.log(loginUserRequest);
   }
 
   private goToHome(): void {
-    this.router.navigate(['/']);
+    console.log("Login successful")
+    this.router.navigate(['/home']);
   }
 }

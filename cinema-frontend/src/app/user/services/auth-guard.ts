@@ -1,7 +1,17 @@
-import {ActivatedRouteSnapshot, CanActivateFn, RouterStateSnapshot} from "@angular/router";
-import {inject} from "@angular/core";
-import {PermissionsService} from "./permission.service";
+import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from "@angular/router";
+import {Injectable} from "@angular/core";
+import {AuthService} from "./auth.service";
 
-export const AuthGuard: CanActivateFn = (next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean => {
-  return inject(PermissionsService).canActivate(next, state);
+@Injectable()
+export class AuthGuard implements CanActivate {
+  constructor(private authService: AuthService, private router: Router) {
+  }
+
+  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+    if (!this.authService.isLoggedIn) {
+      this.router.navigate(['/login']);
+      return false;
+    }
+    return true;
+  }
 }

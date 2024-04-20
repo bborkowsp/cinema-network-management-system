@@ -10,4 +10,5 @@ export class LoginMainFormFrameComponent {
   @Input({required: true}) form!: FormGroupDirective | NgForm;
   @Input() emailControl!: FormControl;
   @Input() passwordControl!: FormControl;
+  @Input() roleControl!: FormControl;
 }

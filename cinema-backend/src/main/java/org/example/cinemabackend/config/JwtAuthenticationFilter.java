@@ -8,6 +8,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,8 +20,8 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Date;
 
-@RequiredArgsConstructor
-public class JwtAuthenticationFilter extends OncePerRequestFilter {
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
+class JwtAuthenticationFilter extends OncePerRequestFilter {
     private static final String EMPTY_STRING = "";
     private static final String TOKEN_EXPIRED_ERROR_MESSAGE = "Token expired";
     private final JwtConfig jwtConfig;

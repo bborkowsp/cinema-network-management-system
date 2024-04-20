@@ -22,11 +22,9 @@ class CorsConfig {
 
     private CorsConfiguration createCorsConfiguration() {
         final var corsConfiguration = new CorsConfiguration();
-        corsConfiguration.setAllowedOriginPatterns(ALLOW_ALL_WILDCARD);
+        corsConfiguration.setAllowedOrigins(ALLOW_ALL_WILDCARD);
         corsConfiguration.setAllowedMethods(ALLOW_ALL_WILDCARD);
         corsConfiguration.setAllowedHeaders(ALLOW_ALL_WILDCARD);
-        corsConfiguration.setAllowCredentials(true);
-        corsConfiguration.setExposedHeaders(List.of("Set-Cookie"));
         return corsConfiguration;
     }
 
@@ -35,4 +33,5 @@ class CorsConfig {
         corsConfigurationSource.registerCorsConfiguration(MATCH_ALL_PATTERN, corsConfiguration);
         return corsConfigurationSource;
     }
+
 }

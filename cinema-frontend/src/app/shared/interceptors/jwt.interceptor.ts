@@ -4,20 +4,20 @@ import {Injectable} from "@angular/core";
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
-  intercept(req: HttpRequest<any>,
-            next: HttpHandler): Observable<HttpEvent<any>> {
-
-    const idToken = localStorage.getItem("id_token");
-
-    if (idToken) {
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    const token = localStorage.getItem("token");
+    if (token) {
       const cloned = req.clone({
-        headers: req.headers.set("Authorization",
-          "Bearer " + idToken)
+        setHeaders: {
+          Authorization: `Bearer ${token}`
+        }
       });
-
       return next.handle(cloned);
     } else {
       return next.handle(req);
     }
   }
 }
+
+
+

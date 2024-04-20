@@ -13,6 +13,7 @@ export class PermissionsService {
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     if (this.authService.isLoggedIn()) {
+      console.log('User is logged in');
       return true;
     } else {
       this.router.navigate(['/login']);

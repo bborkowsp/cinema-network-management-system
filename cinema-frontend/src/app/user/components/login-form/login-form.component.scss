@@ -1,14 +1,23 @@
 @import "../../../shared/styles/_colors.scss";
 
-.background-container {
-  background-color: $app-warn;
+.content-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 70vh;
 }
 
-.button-container {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: fit-content;
+.title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.background-container {
+  background-color: $app-login;
+  padding: 20px;
+  border-radius: 10px;
 }
 
 .image {
@@ -31,4 +40,11 @@
 .create-account-link:hover {
   text-decoration: underline;
 }
+
+.button-container {
+  display: flex;
+  justify-content: center;
+}
+
+
 
