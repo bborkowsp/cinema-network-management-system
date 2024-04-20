@@ -19,7 +19,7 @@ public class JwtConfig {
     @Value("${security.jwt.prefix:Bearer }")
     private String prefix;
 
-    @Value("${security.jwt.expiration:#{24*60*60*1000}}")
+    @Value("${security.jwt.expiration:1800}")
     private int expiration;
 
 }

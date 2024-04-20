@@ -44,6 +44,7 @@ export class AuthService {
   }
 
   register(registerUserRequest: RegisterUserRequest): Observable<void> {
+    this.logout();
     const url = `${AuthService.usersUrl}/register`;
     console.log(url);
     return this.httpClient.post<void>(url, registerUserRequest);

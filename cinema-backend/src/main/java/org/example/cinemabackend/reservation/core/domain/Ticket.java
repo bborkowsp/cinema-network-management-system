@@ -3,21 +3,22 @@ package org.example.cinemabackend.reservation.core.domain;
 import org.example.cinemabackend.cinema.core.domain.Cinema;
 import org.example.cinemabackend.cinema.core.domain.Screening;
 import org.example.cinemabackend.cinema.core.domain.Seat;
+import org.example.cinemabackend.user.core.domain.User;
 
 import java.util.Set;
 
 public class Ticket extends AbstractEntity<Long> {
     private String ticketNumber;
     private QrCode qrCode;
-    //    private Client client;
+    private User client;
     private Set<Seat> bookedSeats;
     private Screening screening;
     private Cinema cinema;
 
-    public Ticket(String ticketNumber, QrCode qrCode, Set<Seat> bookedSeats, Screening screening, Cinema cinema) {
+    public Ticket(String ticketNumber, QrCode qrCode, User client, Set<Seat> bookedSeats, Screening screening, Cinema cinema) {
         this.ticketNumber = ticketNumber;
         this.qrCode = qrCode;
-//        this.client = client;
+        this.client = client;
         this.bookedSeats = bookedSeats;
         this.screening = screening;
         this.cinema = cinema;
@@ -31,9 +32,9 @@ public class Ticket extends AbstractEntity<Long> {
         return qrCode;
     }
 
-//    public Client getClient() {
-//        return client;
-//    }
+    public User getClient() {
+        return client;
+    }
 
     public Set<Seat> getBookedSeats() {
         return bookedSeats;
