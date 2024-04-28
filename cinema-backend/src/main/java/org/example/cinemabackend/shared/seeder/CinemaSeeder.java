@@ -201,6 +201,6 @@ class CinemaSeeder implements Seeder {
     }
 
     private VideoFile createMovieFile() {
-        return new VideoFile(faker.lorem().fixedString(10), faker.lorem().fixedString(10), new byte[100]);
+        return new VideoFile("https://www.youtube.com/embed/ZiGdHLQD300");
     }
 }

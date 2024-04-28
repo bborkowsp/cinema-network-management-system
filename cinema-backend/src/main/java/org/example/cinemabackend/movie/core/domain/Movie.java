@@ -66,14 +66,6 @@ public class Movie extends AbstractEntity<Long> {
         return ageRestriction;
     }
 
-//    public Set<Image> getImages() {
-//        return images;
-//    }
-//
-//    public Set<VideoFile> getTrailers() {
-//        return trailers;
-//    }
-
     public Image getPoster() {
         return poster;
     }

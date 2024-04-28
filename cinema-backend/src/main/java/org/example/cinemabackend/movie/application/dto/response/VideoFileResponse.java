@@ -4,7 +4,6 @@ import lombok.Builder;
 
 @Builder
 public record VideoFileResponse(
-        String type,
-        byte[] data
+        String url
 ) {
 }

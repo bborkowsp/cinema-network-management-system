@@ -3,6 +3,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {MovieService} from "../../services/movie.service";
 import {map, Observable, switchMap, tap} from "rxjs";
 import {MovieResponse} from "../../dtos/response/movie.response";
+import {DomSanitizer} from '@angular/platform-browser';
+
 
 @Component({
   selector: 'app-movie-details',
@@ -18,7 +20,8 @@ export class MovieDetailsComponent implements OnInit {
     private readonly movieService: MovieService,
     private readonly activatedRoute: ActivatedRoute,
     private readonly router: Router,
-    private readonly changeDetectorRef: ChangeDetectorRef
+    private readonly changeDetectorRef: ChangeDetectorRef,
+    private readonly sanitizer: DomSanitizer
   ) {
   }
 
@@ -50,6 +53,10 @@ export class MovieDetailsComponent implements OnInit {
     return movie.projectionTechnologies
       .map(projectionTechnology => projectionTechnology.technology)
       .join(', ');
+  }
+
+  getTrailerUrl(movie: MovieResponse) {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(movie.trailer.url);
   }
 
   private getMovie() {

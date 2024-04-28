@@ -13,27 +13,20 @@ import org.example.cinemabackend.movie.core.domain.VideoFile;
 @NoArgsConstructor(force = true)
 public class VideoFileSchema {
 
-    @Column(name = "video_file_name")
-    String name;
-
-    @Column(name = "video_file_type")
-    String type;
-
-    byte[] video;
+    @Column(name = "video_file_url")
+    String url;
 
     public static VideoFileSchema fromVideoFile(VideoFile movieFile) {
         return VideoFileSchema.builder()
-                .name(movieFile.getName())
-                .type(movieFile.getType())
-                .video(movieFile.getVideo())
+                .url(movieFile.getUrl())
+
                 .build();
     }
 
     public VideoFile toVideoFile() {
         return new VideoFile(
-                this.name,
-                this.type,
-                this.video
+                this.url
+
         );
     }
 }

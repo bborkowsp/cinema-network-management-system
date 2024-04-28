@@ -106,6 +106,14 @@
           </div>
         </ng-container>
       </app-details-section-container>
+
+      <app-details-section-container sectionTitle="Trailer">
+        <ng-container content>
+          <iframe [src]=getTrailerUrl(movie) allowfullscreen frameborder="0"
+                  height="315"
+                  width="420"></iframe>
+        </ng-container>
+      </app-details-section-container>
     </div>
   </ng-container>
 </app-page-content-container>

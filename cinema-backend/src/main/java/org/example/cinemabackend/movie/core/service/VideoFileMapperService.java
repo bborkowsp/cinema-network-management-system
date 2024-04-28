@@ -10,8 +10,7 @@ class VideoFileMapperService implements VideoFileMapper {
     @Override
     public VideoFileResponse mapVideoFileToVideoFileResponse(VideoFile trailer) {
         return VideoFileResponse.builder()
-                .data(trailer.getVideo())
-                .type(trailer.getType())
+                .url(trailer.getUrl())
                 .build();
     }
 }
