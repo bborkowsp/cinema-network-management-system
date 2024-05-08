@@ -2,7 +2,6 @@ package org.example.cinemabackend.movie.infrastructure.schema;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.example.cinemabackend.cinema.infrastructure.config.AbstractEntitySchema;
 import org.example.cinemabackend.movie.core.domain.ProductionDetails;
 
 import java.time.LocalDate;
@@ -13,9 +12,12 @@ import java.util.stream.Collectors;
 @Entity
 @AllArgsConstructor
 @Builder
-@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ProductionDetailsSchema extends AbstractEntitySchema<Long> {
+public class ProductionDetailsSchema {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
 
     @Column(nullable = false)
     LocalDate worldPremiereDate;
@@ -35,6 +37,7 @@ public class ProductionDetailsSchema extends AbstractEntitySchema<Long> {
 
     public static ProductionDetailsSchema fromProductionDetails(ProductionDetails productionDetails) {
         return ProductionDetailsSchema.builder()
+                .id(productionDetails.getId())
                 .worldPremiereDate(productionDetails.getWorldPremiereDate())
                 .director(FilmMemberSchema.fromFilmMember(productionDetails.getDirector()))
                 .actors(productionDetails.getActors().stream().map(FilmMemberSchema::fromFilmMember)
@@ -46,6 +49,7 @@ public class ProductionDetailsSchema extends AbstractEntitySchema<Long> {
 
     public ProductionDetails toProductionDetails() {
         return new ProductionDetails(
+                this.id,
                 this.worldPremiereDate,
                 this.director.toFilmMember(),
                 this.actors.stream().map(FilmMemberSchema::toFilmMember).collect(Collectors.toSet()),

@@ -1,12 +1,8 @@
 package org.example.cinemabackend.cinema.infrastructure.schema;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.*;
 import org.example.cinemabackend.cinema.core.domain.ScreeningTime;
-import org.example.cinemabackend.cinema.infrastructure.config.AbstractEntitySchema;
 
 import java.time.LocalDateTime;
 
@@ -14,9 +10,12 @@ import java.time.LocalDateTime;
 @Entity
 @AllArgsConstructor
 @Builder
-@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ScreeningTimeScheme extends AbstractEntitySchema<Long> {
+public class ScreeningTimeScheme {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @OneToOne(cascade = CascadeType.ALL, optional = false, orphanRemoval = true)
     private ScreeningRoomSchema screeningRoom;
@@ -26,6 +25,7 @@ public class ScreeningTimeScheme extends AbstractEntitySchema<Long> {
 
     public static ScreeningTimeScheme fromScreeningTime(ScreeningTime screeningTime) {
         return ScreeningTimeScheme.builder()
+                .id(screeningTime.getId())
                 .screeningRoom(ScreeningRoomSchema.fromScreeningRoom(screeningTime.getScreeningRoom()))
                 .time(screeningTime.getTime())
                 .build();
@@ -33,6 +33,7 @@ public class ScreeningTimeScheme extends AbstractEntitySchema<Long> {
 
     public ScreeningTime toScreeningTime() {
         return new ScreeningTime(
+                this.id,
                 screeningRoom.toScreeningRoom(),
                 this.time
         );

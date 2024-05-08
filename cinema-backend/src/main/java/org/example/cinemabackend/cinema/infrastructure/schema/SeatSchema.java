@@ -1,20 +1,21 @@
 package org.example.cinemabackend.cinema.infrastructure.schema;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.*;
 import org.example.cinemabackend.cinema.core.domain.Seat;
 import org.example.cinemabackend.cinema.core.domain.SeatType;
 import org.example.cinemabackend.cinema.core.domain.SeatZone;
-import org.example.cinemabackend.cinema.infrastructure.config.AbstractEntitySchema;
 
 @Data
 @Entity
 @Builder
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class SeatSchema extends AbstractEntitySchema<Long> {
+public class SeatSchema {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false, length = 50)
     private String seatNumber;
@@ -30,6 +31,7 @@ public class SeatSchema extends AbstractEntitySchema<Long> {
 
     public static SeatSchema fromSeat(Seat seat) {
         return SeatSchema.builder()
+                .id(seat.getId())
                 .seatNumber(seat.getSeatNumber())
                 .seatLetter(seat.getSeatLetter())
                 .seatZone(seat.getSeatZone())
@@ -39,6 +41,7 @@ public class SeatSchema extends AbstractEntitySchema<Long> {
 
     public Seat toSeat() {
         return new Seat(
+                this.id,
                 this.seatNumber,
                 this.seatLetter,
                 this.seatZone,

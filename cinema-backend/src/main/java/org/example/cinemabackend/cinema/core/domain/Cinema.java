@@ -6,6 +6,7 @@ import org.example.cinemabackend.user.core.domain.User;
 import java.util.Set;
 
 public class Cinema extends AbstractEntity<Long> {
+    private Long id;
     private String name;
     private String description;
     private Address address;
@@ -33,6 +34,18 @@ public class Cinema extends AbstractEntity<Long> {
         this.image = image;
         this.screeningRooms = screeningRooms;
         this.contactDetails = contactDetails;
+    }
+
+    public Cinema(Long id, String name, String description, Address address, Image image, Set<Screening> repertory, Set<ScreeningRoom> screeningRooms, Set<ContactDetails> contactDetails, User cinemaManager) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.address = address;
+        this.repertory = repertory;
+        this.image = image;
+        this.screeningRooms = screeningRooms;
+        this.contactDetails = contactDetails;
+        this.cinemaManager = cinemaManager;
     }
 
     public String getName() {

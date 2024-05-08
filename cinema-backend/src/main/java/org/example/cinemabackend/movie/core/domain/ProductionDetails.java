@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.Set;
 
 public class ProductionDetails {
+    private Long id;
     private LocalDate worldPremiereDate;
     private FilmMember director;
     private Set<FilmMember> actors;
@@ -11,6 +12,15 @@ public class ProductionDetails {
     private Set<String> productionCountries;
 
     public ProductionDetails(LocalDate worldPremiereDate, FilmMember director, Set<FilmMember> actors, Set<String> originalLanguages, Set<String> productionCountries) {
+        this.worldPremiereDate = worldPremiereDate;
+        this.director = director;
+        this.actors = actors;
+        this.originalLanguages = originalLanguages;
+        this.productionCountries = productionCountries;
+    }
+
+    public ProductionDetails(Long id, LocalDate worldPremiereDate, FilmMember director, Set<FilmMember> actors, Set<String> originalLanguages, Set<String> productionCountries) {
+        this.id = id;
         this.worldPremiereDate = worldPremiereDate;
         this.director = director;
         this.actors = actors;
@@ -36,5 +46,9 @@ public class ProductionDetails {
 
     public Set<String> getProductionCountries() {
         return productionCountries;
+    }
+
+    public Long getId() {
+        return id;
     }
 }

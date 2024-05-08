@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.example.cinemabackend.cinema.core.domain.Cinema;
-import org.example.cinemabackend.cinema.infrastructure.config.AbstractEntitySchema;
 import org.example.cinemabackend.user.infrastructure.scheme.UserSchema;
 
 import java.util.HashSet;
@@ -15,9 +14,12 @@ import java.util.stream.Collectors;
 @Entity
 @Builder
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CinemaSchema extends AbstractEntitySchema<Long> {
+public class CinemaSchema {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false, unique = true, name = "cinema_name", length = 100)
     private String name;
@@ -46,6 +48,7 @@ public class CinemaSchema extends AbstractEntitySchema<Long> {
 
     public static CinemaSchema fromCinema(Cinema cinema) {
         return CinemaSchema.builder()
+                .id(cinema.getId())
                 .name(cinema.getName())
                 .description(cinema.getDescription())
                 .address(AddressSchema.fromAddress(cinema.getAddress()))
@@ -59,6 +62,7 @@ public class CinemaSchema extends AbstractEntitySchema<Long> {
 
     public Cinema toCinema() {
         Cinema cinema = new Cinema(
+                this.id,
                 this.name,
                 this.description,
                 this.address.toAddress(),
@@ -68,7 +72,6 @@ public class CinemaSchema extends AbstractEntitySchema<Long> {
                 this.contactDetails.stream().map(ContactDetailsSchema::toContactDetails).collect(Collectors.toSet()),
                 this.cinemaManager.toUser()
         );
-        cinema.setId(this.getId());
         return cinema;
     }
 

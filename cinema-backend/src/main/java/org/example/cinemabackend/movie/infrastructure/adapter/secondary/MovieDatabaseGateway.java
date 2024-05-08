@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -42,5 +43,10 @@ class MovieDatabaseGateway implements MovieRepository {
     @Override
     public boolean findByProjectionTechnology(String technology) {
         return this.movieJpaRepository.existsByProjectionTechnologyTechnology(technology);
+    }
+
+    @Override
+    public List<Movie> findAll() {
+        return this.movieJpaRepository.findAll().stream().map(MovieSchema::toMovie).toList();
     }
 }

@@ -62,7 +62,6 @@ public class MovieSchema {
     @CollectionTable(name = "movie_genres")
     private Set<Genre> genres;
 
-
     @ManyToMany(cascade = CascadeType.MERGE)
     private Set<ProjectionTechnologySchema> projectionTechnologies;
 

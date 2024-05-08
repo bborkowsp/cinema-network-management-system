@@ -6,17 +6,9 @@ import org.springframework.stereotype.Component;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.HashSet;
-import java.util.Set;
 
 @Component
-class ImageSeeder {
-
-    Set<Image> createImages() {
-        Set<Image> images = new HashSet<>();
-        images.add(createImage());
-        return images;
-    }
+class ImageUtil {
 
     Image createImage() {
         try {
