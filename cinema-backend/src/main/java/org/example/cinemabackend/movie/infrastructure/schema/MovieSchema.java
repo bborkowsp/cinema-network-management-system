@@ -3,7 +3,6 @@ package org.example.cinemabackend.movie.infrastructure.schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import org.example.cinemabackend.cinema.infrastructure.config.AbstractEntitySchema;
 import org.example.cinemabackend.cinema.infrastructure.schema.ImageSchema;
 import org.example.cinemabackend.cinema.infrastructure.schema.ProjectionTechnologySchema;
 import org.example.cinemabackend.movie.core.domain.AgeRestriction;
@@ -18,9 +17,12 @@ import java.util.stream.Collectors;
 @Entity
 @AllArgsConstructor
 @Builder
-@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class MovieSchema extends AbstractEntitySchema<Long> {
+public class MovieSchema {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false, unique = true)
     private String title;
@@ -61,7 +63,7 @@ public class MovieSchema extends AbstractEntitySchema<Long> {
     private Set<Genre> genres;
 
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToMany(cascade = CascadeType.MERGE)
     private Set<ProjectionTechnologySchema> projectionTechnologies;
 
     public static MovieSchema fromMovie(Movie movie) {
@@ -70,6 +72,7 @@ public class MovieSchema extends AbstractEntitySchema<Long> {
                 .collect(Collectors.toSet());
 
         return MovieSchema.builder()
+                .id(movie.getId())
                 .title(movie.getTitle())
                 .originalTitle(movie.getOriginalTitle())
                 .duration(movie.getDuration())
@@ -87,6 +90,7 @@ public class MovieSchema extends AbstractEntitySchema<Long> {
 
     public Movie toMovie() {
         Movie movie = new Movie(
+                this.id,
                 this.title,
                 this.originalTitle,
                 this.duration,
@@ -100,7 +104,6 @@ public class MovieSchema extends AbstractEntitySchema<Long> {
                 this.genres,
                 this.projectionTechnologies.stream().map(ProjectionTechnologySchema::toProjectionTechnology).collect(Collectors.toSet())
         );
-        movie.setId(this.getId());
         return movie;
     }
 }

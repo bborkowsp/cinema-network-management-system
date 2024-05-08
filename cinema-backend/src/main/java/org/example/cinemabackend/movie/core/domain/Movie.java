@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.Set;
 
 public class Movie extends AbstractEntity<Long> {
+    private Long id;
     private String title;
     private String originalTitle;
     private Double duration;
@@ -12,14 +13,28 @@ public class Movie extends AbstractEntity<Long> {
     private String description;
     private SubtitleAndSoundOptions subtitleAndSoundOptions;
     private AgeRestriction ageRestriction;
-    //    private Set<Image> images;
-//    private Set<VideoFile> trailers;
     private Image poster;
     private VideoFile trailer;
     private Set<Genre> genres;
     private Set<ProjectionTechnology> projectionTechnologies;
 
     public Movie(String title, String originalTitle, Double duration, LocalDate releaseDate, ProductionDetails productionDetails, String description, SubtitleAndSoundOptions subtitleAndSoundOptions, AgeRestriction ageRestriction, Image poster, VideoFile trailer, Set<Genre> genres, Set<ProjectionTechnology> projectionTechnologies) {
+        this.title = title;
+        this.originalTitle = originalTitle;
+        this.duration = duration;
+        this.releaseDate = releaseDate;
+        this.productionDetails = productionDetails;
+        this.description = description;
+        this.subtitleAndSoundOptions = subtitleAndSoundOptions;
+        this.ageRestriction = ageRestriction;
+        this.poster = poster;
+        this.trailer = trailer;
+        this.genres = genres;
+        this.projectionTechnologies = projectionTechnologies;
+    }
+
+    public Movie(Long id, String title, String originalTitle, Double duration, LocalDate releaseDate, ProductionDetails productionDetails, String description, SubtitleAndSoundOptions subtitleAndSoundOptions, AgeRestriction ageRestriction, Image poster, VideoFile trailer, Set<Genre> genres, Set<ProjectionTechnology> projectionTechnologies) {
+        this.id = id;
         this.title = title;
         this.originalTitle = originalTitle;
         this.duration = duration;
@@ -80,5 +95,9 @@ public class Movie extends AbstractEntity<Long> {
 
     public Set<ProjectionTechnology> getProjectionTechnologies() {
         return projectionTechnologies;
+    }
+
+    public Long getId() {
+        return id;
     }
 }

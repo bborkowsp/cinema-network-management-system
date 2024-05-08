@@ -1,9 +1,7 @@
 package org.example.cinemabackend.cinema.infrastructure.schema;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.*;
-import org.example.cinemabackend.cinema.infrastructure.config.AbstractEntitySchema;
 import org.example.cinemabackend.movie.core.domain.ProjectionTechnology;
 
 import java.util.Objects;
@@ -12,9 +10,12 @@ import java.util.Objects;
 @Entity
 @AllArgsConstructor
 @Builder
-@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ProjectionTechnologySchema extends AbstractEntitySchema<Long> {
+public class ProjectionTechnologySchema {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false, length = 50, unique = true)
     private String technology;
@@ -24,6 +25,7 @@ public class ProjectionTechnologySchema extends AbstractEntitySchema<Long> {
 
     public static ProjectionTechnologySchema fromProjectionTechnology(ProjectionTechnology projectionTechnology) {
         return ProjectionTechnologySchema.builder()
+                .id(projectionTechnology.getId())
                 .technology(projectionTechnology.getTechnology())
                 .description(projectionTechnology.getDescription())
                 .build();
@@ -31,6 +33,7 @@ public class ProjectionTechnologySchema extends AbstractEntitySchema<Long> {
 
     public ProjectionTechnology toProjectionTechnology() {
         return new ProjectionTechnology(
+                this.id,
                 this.technology,
                 this.description
         );
