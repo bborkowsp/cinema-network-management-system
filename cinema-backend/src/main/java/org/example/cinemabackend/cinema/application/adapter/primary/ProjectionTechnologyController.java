@@ -3,6 +3,7 @@ package org.example.cinemabackend.cinema.application.adapter.primary;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.application.dto.request.CreateProjectionTechnologyRequest;
+import org.example.cinemabackend.cinema.application.dto.request.UpdateProjectionTechnologyRequest;
 import org.example.cinemabackend.cinema.application.dto.response.ProjectionTechnologyResponse;
 import org.example.cinemabackend.cinema.core.port.primary.ProjectionTechnologyUseCases;
 import org.springframework.data.domain.Page;
@@ -41,6 +42,12 @@ class ProjectionTechnologyController {
     ResponseEntity<Void> createProjectionTechnology(@RequestBody @Valid CreateProjectionTechnologyRequest createCinemaRequest) {
         projectionTechnologyUseCases.createProjectionTechnology(createCinemaRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @PatchMapping("/{technology}")
+    ResponseEntity<Void> updateProjectionTechnology(@PathVariable String technology, @RequestBody @Valid UpdateProjectionTechnologyRequest updateProjectionTechnology) {
+        projectionTechnologyUseCases.updateProjectionTechnology(technology, updateProjectionTechnology);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{technology}")

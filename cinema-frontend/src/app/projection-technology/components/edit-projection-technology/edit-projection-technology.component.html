@@ -1,1 +1,28 @@
-<p>edit-projection-technology works!</p>
+<form
+  #updateProjectionTechnologyForm="ngForm"
+  (ngSubmit)="onSubmit()"
+  [formGroup]="projectionTechnologyForm.form"
+>
+  <app-page-content-container
+    [isLoading]="isLoading"
+    pageTitle="Edit projection technology"
+  >
+    <ng-container content>
+      <div class="form-container">
+        <app-edit-projection-technology-main-form-frame
+          [formGroup]="projectionTechnologyForm.form"
+          [form]="updateProjectionTechnologyForm"
+        ></app-edit-projection-technology-main-form-frame>
+      </div>
+      <div class="button-container">
+        <button (click)=handleCancelClicked() color="warn" mat-flat-button>Cancel</button>
+        <button [disabled]="projectionTechnologyForm.form.invalid" color="primary" mat-flat-button type="submit">Save
+        </button>
+      </div>
+    </ng-container>
+  </app-page-content-container>
+
+</form>
+
+
+

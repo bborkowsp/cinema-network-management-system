@@ -1,6 +1,7 @@
 package org.example.cinemabackend.cinema.core.port.primary;
 
 import org.example.cinemabackend.cinema.application.dto.request.CreateProjectionTechnologyRequest;
+import org.example.cinemabackend.cinema.application.dto.request.UpdateProjectionTechnologyRequest;
 import org.example.cinemabackend.cinema.application.dto.response.ProjectionTechnologyResponse;
 import org.example.cinemabackend.movie.core.domain.ProjectionTechnology;
 
@@ -16,4 +17,6 @@ public interface ProjectionTechnologyMapper {
     Set<ProjectionTechnology> mapCreateProjectionTechnologyRequestsToProjectionTechnologies(Set<ProjectionTechnologyResponse> createProjectionTechnologyRequests);
 
     ProjectionTechnology mapProjectionTechnologyResponseToProjectionTechnology(ProjectionTechnologyResponse projectionTechnologyResponse);
+
+    void updateProjectionTechnologyFromUpdateProjectionTechnologyRequest(UpdateProjectionTechnologyRequest updateProjectionTechnologyRequest, ProjectionTechnology projectionTechnology);
 }

@@ -18,7 +18,7 @@ export class CreateProjectionTechnologyFormComponent {
       )]),
     description: new FormControl('', [
       Validators.required,
-      Validators.maxLength(FormValidatorLengths.MAX_TEXTAREA_LENGTH)
+      Validators.maxLength(FormValidatorLengths.PROJECTION_TECHNOLOGY_MAX_DESCRIPTION_LENGTH)
     ]),
   });
   protected isLoading = false;

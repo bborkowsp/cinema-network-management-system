@@ -43,7 +43,6 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
   }
 
   private showBadRequestNotification(errorResponse: HttpErrorResponse) {
-    console.log("Show bad request notification");
     console.log(errorResponse);
     const errorMessage = errorResponse.error.errors[0];
     this.showErrorDialog(errorMessage);

@@ -20,8 +20,16 @@ public class ProjectionTechnology {
         return technology;
     }
 
+    public void setTechnology(String technology) {
+        this.technology = technology;
+    }
+
     public String getDescription() {
         return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Long getId() {

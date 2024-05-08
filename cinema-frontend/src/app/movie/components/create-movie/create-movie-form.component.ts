@@ -63,7 +63,6 @@ export class CreateMovieFormComponent {
     try {
       await imageDataPromise;
     } catch (error) {
-      console.error('Błąd podczas odczytu danych obrazu:', error);
       return null;
     }
 

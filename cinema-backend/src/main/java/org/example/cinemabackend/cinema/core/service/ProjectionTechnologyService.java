@@ -3,6 +3,7 @@ package org.example.cinemabackend.cinema.core.service;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.application.dto.request.CreateProjectionTechnologyRequest;
+import org.example.cinemabackend.cinema.application.dto.request.UpdateProjectionTechnologyRequest;
 import org.example.cinemabackend.cinema.application.dto.response.ProjectionTechnologyResponse;
 import org.example.cinemabackend.cinema.core.port.primary.ProjectionTechnologyMapper;
 import org.example.cinemabackend.cinema.core.port.primary.ProjectionTechnologyUseCases;
@@ -59,6 +60,15 @@ class ProjectionTechnologyService implements ProjectionTechnologyUseCases {
         validateProjectionTechnologyExists(technology);
         validateProjectionTechnologyIsNotUsedInAnyMovie(technology);
         projectionTechnologyRepository.deleteByTechnology(technology);
+    }
+
+    @Override
+    @Transactional
+    public void updateProjectionTechnology(String technology, UpdateProjectionTechnologyRequest createCinemaRequest) {
+        final var projectionTechnology = projectionTechnologyRepository.findByTechnology(technology).orElseThrow();
+        validateProjectionTechnologyDoesntExist(createCinemaRequest.technology());
+        projectionTechnologyMapper.updateProjectionTechnologyFromUpdateProjectionTechnologyRequest(createCinemaRequest, projectionTechnology);
+        projectionTechnologyRepository.save(projectionTechnology);
     }
 
     private void validateProjectionTechnologyIsNotUsedInAnyMovie(String technology) {

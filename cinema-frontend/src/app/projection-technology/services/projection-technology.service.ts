@@ -6,6 +6,7 @@ import {ProjectionTechnologyPageResponse} from "../dtos/response/projection-tech
 import {Injectable} from "@angular/core";
 import {ProjectionTechnologyRequest} from "../dtos/request/projection-technology.request";
 import {ProjectionTechnologyResponse} from "../dtos/response/projection-technology.response";
+import {UpdateProjectionTechnologyRequest} from "../dtos/request/update-projection-technology.request";
 
 @Injectable({
   providedIn: 'root',
@@ -51,4 +52,8 @@ export class ProjectionTechnologyService {
     return this.httpClient.get<ProjectionTechnologyResponse[]>(url);
   }
 
+  updateProjectionTechnology(technology: string, projectionTechnology: UpdateProjectionTechnologyRequest) {
+    const url = `${ProjectionTechnologyService.projectionTechnologiesUrl}/${technology}`;
+    return this.httpClient.patch<void>(url, projectionTechnology);
+  }
 }

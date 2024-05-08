@@ -2,6 +2,7 @@ package org.example.cinemabackend.cinema.core.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.application.dto.request.CreateProjectionTechnologyRequest;
+import org.example.cinemabackend.cinema.application.dto.request.UpdateProjectionTechnologyRequest;
 import org.example.cinemabackend.cinema.application.dto.response.ProjectionTechnologyResponse;
 import org.example.cinemabackend.cinema.core.port.primary.ProjectionTechnologyMapper;
 import org.example.cinemabackend.movie.core.domain.ProjectionTechnology;
@@ -41,5 +42,11 @@ class ProjectionTechnologyMapperService implements ProjectionTechnologyMapper {
     @Override
     public ProjectionTechnology mapProjectionTechnologyResponseToProjectionTechnology(ProjectionTechnologyResponse projectionTechnologyResponse) {
         return new ProjectionTechnology(projectionTechnologyResponse.technology(), projectionTechnologyResponse.description());
+    }
+
+    @Override
+    public void updateProjectionTechnologyFromUpdateProjectionTechnologyRequest(UpdateProjectionTechnologyRequest updateProjectionTechnologyRequest, ProjectionTechnology projectionTechnology) {
+        projectionTechnology.setDescription(updateProjectionTechnologyRequest.description());
+        projectionTechnology.setTechnology(updateProjectionTechnologyRequest.technology());
     }
 }
