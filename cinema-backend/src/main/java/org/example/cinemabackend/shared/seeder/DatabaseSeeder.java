@@ -12,7 +12,7 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 class DatabaseSeeder implements CommandLineRunner {
     private static final String SEED_FLAG = "--seed";
-    private static final int OBJECTS_TO_SEED = 25;
+    private static final int OBJECTS_TO_SEED = 12;
     private final CinemaSeeder cinemaSeeder;
 
     @Override

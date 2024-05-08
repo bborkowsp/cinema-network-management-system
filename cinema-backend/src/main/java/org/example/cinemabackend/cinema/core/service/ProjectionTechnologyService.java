@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -34,6 +35,14 @@ class ProjectionTechnologyService implements ProjectionTechnologyUseCases {
     @Transactional(readOnly = true)
     public Page<ProjectionTechnologyResponse> getProjectionTechnologies(Pageable pageable) {
         return projectionTechnologyRepository.findAll(pageable).map(projectionTechnologyMapper::mapProjectionTechnologyToProjectionTechnologyResponse);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ProjectionTechnologyResponse> getProjectionTechnologies() {
+        return projectionTechnologyRepository.findAll().stream()
+                .map(projectionTechnologyMapper::mapProjectionTechnologyToProjectionTechnologyResponse)
+                .toList();
     }
 
     @Override

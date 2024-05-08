@@ -6,12 +6,16 @@ import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.movie.application.dto.request.CreateMovieRequest;
 import org.example.cinemabackend.movie.application.dto.response.MovieListResponse;
 import org.example.cinemabackend.movie.application.dto.response.MovieResponse;
+import org.example.cinemabackend.movie.core.domain.AgeRestriction;
+import org.example.cinemabackend.movie.core.domain.Genre;
 import org.example.cinemabackend.movie.core.port.primary.MovieUseCases;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/v1/movies")
@@ -41,5 +45,17 @@ class MovieController {
     ResponseEntity<Void> deleteMovie(@PathVariable String title) {
         movieUseCases.deleteMovie(title);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/genres")
+    ResponseEntity<List<Genre>> getGenres() {
+        final var genres = movieUseCases.getGenres();
+        return ResponseEntity.ok(genres);
+    }
+
+    @GetMapping("/age-restrictions")
+    ResponseEntity<List<AgeRestriction>> getAgeRestrictions() {
+        final var ageRestrictions = movieUseCases.getAgeRestrictions();
+        return ResponseEntity.ok(ageRestrictions);
     }
 }

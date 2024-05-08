@@ -1,0 +1,25 @@
+<app-generic-form-frame title="Projection details">
+  <ng-container content>
+    <div class="form-container">
+      <mat-form-field class="example-full-width">
+        <mat-label>Subtitles and sound</mat-label>
+        <mat-select [formControl]="subtitlesAndSoundOptionsControl">
+          <mat-option *ngFor="let subtitlesAndSoundOption of subtitlesAndSoundOptions"
+                      [value]="subtitlesAndSoundOption">
+            {{ subtitlesAndSoundOption }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Projection technologies</mat-label>
+        <mat-select [formControl]="projectionTechnologiesControl" multiple>
+          <mat-option *ngFor="let projectionTechnology of projectionTechnologies | async"
+                      [value]="projectionTechnology">{{ projectionTechnology }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </ng-container>
+</app-generic-form-frame>

@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/v1/projection-technologies")
 @RequiredArgsConstructor(access = lombok.AccessLevel.PACKAGE)
@@ -20,6 +22,12 @@ class ProjectionTechnologyController {
     @GetMapping
     ResponseEntity<Page<ProjectionTechnologyResponse>> getProjectionTechnologies(Pageable pageable) {
         final var projectionTechnologies = projectionTechnologyUseCases.getProjectionTechnologies(pageable);
+        return ResponseEntity.ok(projectionTechnologies);
+    }
+
+    @GetMapping("/all")
+    ResponseEntity<List<ProjectionTechnologyResponse>> getProjectionTechnologies() {
+        final var projectionTechnologies = projectionTechnologyUseCases.getProjectionTechnologies();
         return ResponseEntity.ok(projectionTechnologies);
     }
 

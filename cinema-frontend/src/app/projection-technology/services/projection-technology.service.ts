@@ -5,6 +5,7 @@ import {map, Observable} from "rxjs";
 import {ProjectionTechnologyPageResponse} from "../dtos/response/projection-technology-page.response";
 import {Injectable} from "@angular/core";
 import {ProjectionTechnologyRequest} from "../dtos/request/projection-technology.request";
+import {ProjectionTechnologyResponse} from "../dtos/response/projection-technology.response";
 
 @Injectable({
   providedIn: 'root',
@@ -42,7 +43,12 @@ export class ProjectionTechnologyService {
 
   getProjectionTechnology(technology: string): Observable<ProjectionTechnologyRequest> {
     const url = `${ProjectionTechnologyService.projectionTechnologiesUrl}/${technology}`;
-    console.log(url);
     return this.httpClient.get<ProjectionTechnologyRequest>(url);
   }
+
+  getAllProjectionTechnologies(): Observable<ProjectionTechnologyResponse[]> {
+    const url = `${ProjectionTechnologyService.projectionTechnologiesUrl}/all`;
+    return this.httpClient.get<ProjectionTechnologyResponse[]>(url);
+  }
+
 }

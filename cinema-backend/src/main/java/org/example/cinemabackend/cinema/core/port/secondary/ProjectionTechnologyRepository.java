@@ -17,4 +17,6 @@ public interface ProjectionTechnologyRepository {
     List<ProjectionTechnology> findAll();
 
     void deleteByTechnology(String technology);
+
+
 }

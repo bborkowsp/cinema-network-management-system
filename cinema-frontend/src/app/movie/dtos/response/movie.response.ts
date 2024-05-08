@@ -6,7 +6,6 @@ import {AgeRestrictionResponse} from "./age-restriction.response";
 import {VideoFileResponse} from "./video-file.response";
 import {SubtitleAndSoundOptionsResponse} from "./subtitle-and-sound-options.response";
 import {ProductionDetailsResponse} from "./production-details.response";
-import {DescriptionResponse} from "./description.response";
 
 export class MovieResponse {
   constructor(
@@ -15,7 +14,7 @@ export class MovieResponse {
     readonly duration: number,
     readonly releaseDate: Date,
     readonly productionDetails: ProductionDetailsResponse,
-    readonly description: DescriptionResponse,
+    readonly description: string,
     readonly subtitleAndSoundOptions: SubtitleAndSoundOptionsResponse,
     readonly ageRestriction: AgeRestrictionResponse,
     readonly poster: ImageResponse,

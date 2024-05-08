@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.movie.application.dto.request.CreateMovieRequest;
 import org.example.cinemabackend.movie.application.dto.response.MovieListResponse;
 import org.example.cinemabackend.movie.application.dto.response.MovieResponse;
+import org.example.cinemabackend.movie.core.domain.AgeRestriction;
+import org.example.cinemabackend.movie.core.domain.Genre;
 import org.example.cinemabackend.movie.core.port.primary.MovieMapper;
 import org.example.cinemabackend.movie.core.port.primary.MovieUseCases;
 import org.example.cinemabackend.movie.core.port.secondary.MovieRepository;
@@ -12,6 +14,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
@@ -46,6 +50,16 @@ class MovieService implements MovieUseCases {
     public void deleteMovie(String title) {
         validateMovieExists(title);
         movieRepository.deleteByTitle(title);
+    }
+
+    @Override
+    public List<Genre> getGenres() {
+        return List.of(Genre.values());
+    }
+
+    @Override
+    public List<AgeRestriction> getAgeRestrictions() {
+        return List.of(AgeRestriction.values());
     }
 
     private void validateMovieExists(String title) {

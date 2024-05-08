@@ -13,4 +13,5 @@ public interface ProjectionTechnologyJpaRepository extends JpaRepository<Project
     boolean existsByTechnology(String technology);
 
     void deleteByTechnology(String technology);
+
 }

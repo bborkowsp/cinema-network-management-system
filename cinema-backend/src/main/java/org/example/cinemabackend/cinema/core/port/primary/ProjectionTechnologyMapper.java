@@ -12,4 +12,8 @@ public interface ProjectionTechnologyMapper {
     ProjectionTechnology mapCreateProjectionTechnologyRequestToProjectionTechnology(CreateProjectionTechnologyRequest createProjectionTechnologyRequest);
 
     Set<ProjectionTechnologyResponse> mapProjectionTechnologiesToProjectionTechnologyResponses(Set<ProjectionTechnology> projectionTechnologies);
+
+    Set<ProjectionTechnology> mapCreateProjectionTechnologyRequestsToProjectionTechnologies(Set<ProjectionTechnologyResponse> createProjectionTechnologyRequests);
+
+    ProjectionTechnology mapProjectionTechnologyResponseToProjectionTechnology(ProjectionTechnologyResponse projectionTechnologyResponse);
 }

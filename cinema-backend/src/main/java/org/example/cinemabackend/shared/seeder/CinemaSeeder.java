@@ -152,8 +152,8 @@ class CinemaSeeder implements Seeder {
         return new ProductionDetails(faker.date().birthday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), director, actors, createOriginalLanguages(), createProductionCountries());
     }
 
-    private Description createDescription() {
-        return new Description(faker.lorem().fixedString(100), faker.lorem().fixedString(100));
+    private String createDescription() {
+        return faker.lorem().fixedString(100);
     }
 
     private SubtitleAndSoundOptions createSubtitleAndSoundOptions() {

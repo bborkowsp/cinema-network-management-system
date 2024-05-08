@@ -6,7 +6,6 @@ public class VideoFile {
 
     public VideoFile(String url) {
         this.url = url;
-
     }
 
     public String getUrl() {

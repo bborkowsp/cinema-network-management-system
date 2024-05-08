@@ -5,10 +5,14 @@ import org.example.cinemabackend.cinema.application.dto.response.ProjectionTechn
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public interface ProjectionTechnologyUseCases {
     ProjectionTechnologyResponse getProjectionTechnology(String name);
 
     Page<ProjectionTechnologyResponse> getProjectionTechnologies(Pageable pageable);
+
+    List<ProjectionTechnologyResponse> getProjectionTechnologies();
 
     void createProjectionTechnology(CreateProjectionTechnologyRequest createProjectionTechnologyRequest);
 

@@ -16,13 +16,13 @@ import {
 } from "./projection-technology/components/create-projection-technology-form/create-projection-technology-form.component";
 import {HomeComponent} from "./home/home.component";
 import {MovieListComponent} from "./movie/components/movie-list/movie-list.component";
-import {CreateMovieFormComponent} from "./movie/components/create-movie-form/create-movie-form.component";
 import {EditMovieFormComponent} from "./movie/components/edit-movie-form/edit-movie-form.component";
 import {MovieDetailsComponent} from "./movie/components/movie-details/movie-details.component";
 import {CreateCinemaFormComponent} from "./cinema/components/create-cinema-form/create-cinema-form.component";
 import {LoginFormComponent} from "./user/components/login-form/login-form.component";
 import {AuthGuard} from "./user/services/auth-guard";
 import {RegisterFormComponent} from "./user/components/register-form/register-form.component";
+import {CreateMovieComponent} from "./movie/components/create-movie/create-movie.component";
 
 
 const routes: Routes = [
@@ -46,7 +46,7 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {path: 'movies', component: MovieListComponent, canActivate: [AuthGuard]},
-  {path: 'movies/create', component: CreateMovieFormComponent, canActivate: [AuthGuard]},
+  {path: 'movies/create', component: CreateMovieComponent, canActivate: [AuthGuard]},
   {path: 'movies/edit/:title', component: EditMovieFormComponent, canActivate: [AuthGuard]},
   {path: 'movies/details/:title', component: MovieDetailsComponent, canActivate: [AuthGuard]},
   {path: 'home', component: HomeComponent, canActivate: [AuthGuard]},

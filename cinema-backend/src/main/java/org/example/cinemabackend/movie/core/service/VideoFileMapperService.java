@@ -1,5 +1,6 @@
 package org.example.cinemabackend.movie.core.service;
 
+import org.example.cinemabackend.movie.application.dto.request.VideoFileRequest;
 import org.example.cinemabackend.movie.application.dto.response.VideoFileResponse;
 import org.example.cinemabackend.movie.core.domain.VideoFile;
 import org.example.cinemabackend.movie.core.port.primary.VideoFileMapper;
@@ -12,5 +13,10 @@ class VideoFileMapperService implements VideoFileMapper {
         return VideoFileResponse.builder()
                 .url(trailer.getUrl())
                 .build();
+    }
+
+    @Override
+    public VideoFile mapVideoFileRequestToVideoFile(VideoFileRequest trailer) {
+        return new VideoFile(trailer.url());
     }
 }

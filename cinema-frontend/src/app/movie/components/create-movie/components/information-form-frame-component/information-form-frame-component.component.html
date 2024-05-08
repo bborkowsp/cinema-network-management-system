@@ -1,0 +1,24 @@
+<app-generic-form-frame title="Information">
+  <ng-container content>
+    <div class="form-container">
+      <mat-form-field class="example-full-width">
+        <mat-label>Duration (min)</mat-label>
+        <input [formControl]="durationControl" matInput maxlength="3" required>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Description</mat-label>
+        <input [formControl]="descriptionControl" matInput maxlength="2000" required>
+        <mat-hint align="end">{{ descriptionControl.value.length }} / 2000</mat-hint>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Choose a date</mat-label>
+        <input [formControl]="releaseDateControl" [matDatepicker]="picker" matInput>
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+  </ng-container>
+</app-generic-form-frame>

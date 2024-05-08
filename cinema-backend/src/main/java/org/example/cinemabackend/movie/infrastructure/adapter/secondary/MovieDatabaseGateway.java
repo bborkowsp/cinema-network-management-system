@@ -7,6 +7,7 @@ import org.example.cinemabackend.movie.infrastructure.schema.MovieSchema;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -27,8 +28,10 @@ class MovieDatabaseGateway implements MovieRepository {
     }
 
     @Override
+    @Transactional
     public void save(Movie movie) {
-        this.movieJpaRepository.save(MovieSchema.fromMovie(movie)).toMovie();
+        final var movieSchema = MovieSchema.fromMovie(movie);
+        this.movieJpaRepository.save(movieSchema);
     }
 
     @Override

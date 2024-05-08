@@ -9,7 +9,7 @@ public class Movie extends AbstractEntity<Long> {
     private Double duration;
     private LocalDate releaseDate;
     private ProductionDetails productionDetails;
-    private Description description;
+    private String description;
     private SubtitleAndSoundOptions subtitleAndSoundOptions;
     private AgeRestriction ageRestriction;
     //    private Set<Image> images;
@@ -19,7 +19,7 @@ public class Movie extends AbstractEntity<Long> {
     private Set<Genre> genres;
     private Set<ProjectionTechnology> projectionTechnologies;
 
-    public Movie(String title, String originalTitle, Double duration, LocalDate releaseDate, ProductionDetails productionDetails, Description description, SubtitleAndSoundOptions subtitleAndSoundOptions, AgeRestriction ageRestriction, Image poster, VideoFile trailer, Set<Genre> genres, Set<ProjectionTechnology> projectionTechnologies) {
+    public Movie(String title, String originalTitle, Double duration, LocalDate releaseDate, ProductionDetails productionDetails, String description, SubtitleAndSoundOptions subtitleAndSoundOptions, AgeRestriction ageRestriction, Image poster, VideoFile trailer, Set<Genre> genres, Set<ProjectionTechnology> projectionTechnologies) {
         this.title = title;
         this.originalTitle = originalTitle;
         this.duration = duration;
@@ -54,7 +54,7 @@ public class Movie extends AbstractEntity<Long> {
         return productionDetails;
     }
 
-    public Description getDescription() {
+    public String getDescription() {
         return description;
     }
 

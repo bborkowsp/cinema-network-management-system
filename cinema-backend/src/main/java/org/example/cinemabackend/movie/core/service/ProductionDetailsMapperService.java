@@ -1,6 +1,7 @@
 package org.example.cinemabackend.movie.core.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.cinemabackend.movie.application.dto.request.ProductionDetailsRequest;
 import org.example.cinemabackend.movie.application.dto.response.ProductionDetailsResponse;
 import org.example.cinemabackend.movie.core.domain.ProductionDetails;
 import org.example.cinemabackend.movie.core.port.primary.FilmMemberMapper;
@@ -22,5 +23,16 @@ class ProductionDetailsMapperService implements ProductionDetailsMapper {
                 .originalLanguages(productionDetails.getOriginalLanguages())
                 .productionCountries(productionDetails.getProductionCountries())
                 .build();
+    }
+
+    @Override
+    public ProductionDetails mapCreateProductionDetailsRequestToProductionDetails(ProductionDetailsRequest productionDetailsRequest) {
+        return new ProductionDetails(
+                productionDetailsRequest.worldPremiereDate(),
+                filmMemberMapper.mapCreateFilmMemberRequestToFilmMember(productionDetailsRequest.director()),
+                filmMemberMapper.mapCreateFilmMemberRequestsToFilmMember(productionDetailsRequest.actors()),
+                productionDetailsRequest.originalLanguages(),
+                productionDetailsRequest.productionCountries()
+        );
     }
 }

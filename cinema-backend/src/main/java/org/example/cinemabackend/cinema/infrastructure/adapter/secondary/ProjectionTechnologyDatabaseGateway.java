@@ -41,4 +41,5 @@ class ProjectionTechnologyDatabaseGateway implements ProjectionTechnologyReposit
     public void deleteByTechnology(String technology) {
         this.projectionTechnologyJpaRepository.deleteByTechnology(technology);
     }
+
 }

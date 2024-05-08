@@ -1,5 +1,6 @@
 package org.example.cinemabackend.movie.core.service;
 
+import org.example.cinemabackend.movie.application.dto.request.SubtitleAndSoundOptionsRequest;
 import org.example.cinemabackend.movie.application.dto.response.SubtitleAndSoundOptionsResponse;
 import org.example.cinemabackend.movie.core.domain.SubtitleAndSoundOptions;
 import org.example.cinemabackend.movie.core.port.primary.SubtitleAndSoundOptionsMapper;
@@ -15,5 +16,10 @@ class SubtitleAndSoundOptionsMapperService implements SubtitleAndSoundOptionsMap
                 .voiceOver(subtitleAndSoundOptions.isVoiceOver())
                 .originalLanguage(subtitleAndSoundOptions.isOriginalLanguage())
                 .build();
+    }
+
+    @Override
+    public SubtitleAndSoundOptions mapCreateSubtitleAndSoundOptionsRequestToSubtitleAndSoundOptions(SubtitleAndSoundOptionsRequest subtitleAndSoundOptionsRequest) {
+        return new SubtitleAndSoundOptions(subtitleAndSoundOptionsRequest.subtitles(), subtitleAndSoundOptionsRequest.dubbing(), subtitleAndSoundOptionsRequest.voiceOver(), subtitleAndSoundOptionsRequest.originalLanguage());
     }
 }

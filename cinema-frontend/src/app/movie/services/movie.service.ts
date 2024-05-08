@@ -5,6 +5,7 @@ import {Injectable} from "@angular/core";
 import {PaginatorRequestParams} from "../../shared/dtos/paginator-request-params";
 import {MoviePageResponse} from "../dtos/response/movie-page.response";
 import {MovieResponse} from "../dtos/response/movie.response";
+import {CreateMovieRequest} from "../dtos/request/create-movie.request";
 
 @Injectable({
   providedIn: 'root',
@@ -39,5 +40,18 @@ export class MovieService {
   deleteMovie(title: string) {
     const url = `${MovieService.moviesUrl}/${title}`;
     return this.httpClient.delete<void>(url);
+  }
+
+  createMovie(createMovieRequest: CreateMovieRequest) {
+    console.log(createMovieRequest)
+    return this.httpClient.post<void>(MovieService.moviesUrl, createMovieRequest);
+  }
+
+  getGenres(): Observable<string[]> {
+    return this.httpClient.get<string[]>(`${MovieService.moviesUrl}/genres`);
+  }
+
+  getAgeRestrictions() {
+    return this.httpClient.get<string[]>(`${MovieService.moviesUrl}/age-restrictions`);
   }
 }

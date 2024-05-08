@@ -8,10 +8,12 @@ import org.example.cinemabackend.movie.core.domain.ProjectionTechnology;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor(access = lombok.AccessLevel.PACKAGE)
 class ProjectionTechnologyMapperService implements ProjectionTechnologyMapper {
+
 
     @Override
     public ProjectionTechnologyResponse mapProjectionTechnologyToProjectionTechnologyResponse(ProjectionTechnology projectionTechnology) {
@@ -28,6 +30,16 @@ class ProjectionTechnologyMapperService implements ProjectionTechnologyMapper {
 
     @Override
     public Set<ProjectionTechnologyResponse> mapProjectionTechnologiesToProjectionTechnologyResponses(Set<ProjectionTechnology> projectionTechnologies) {
-        return projectionTechnologies.stream().map(this::mapProjectionTechnologyToProjectionTechnologyResponse).collect(java.util.stream.Collectors.toSet());
+        return projectionTechnologies.stream().map(this::mapProjectionTechnologyToProjectionTechnologyResponse).collect(Collectors.toSet());
+    }
+
+    @Override
+    public Set<ProjectionTechnology> mapCreateProjectionTechnologyRequestsToProjectionTechnologies(Set<ProjectionTechnologyResponse> createProjectionTechnologyRequests) {
+        return createProjectionTechnologyRequests.stream().map(this::mapProjectionTechnologyResponseToProjectionTechnology).collect(Collectors.toSet());
+    }
+
+    @Override
+    public ProjectionTechnology mapProjectionTechnologyResponseToProjectionTechnology(ProjectionTechnologyResponse projectionTechnologyResponse) {
+        return new ProjectionTechnology(projectionTechnologyResponse.technology(), projectionTechnologyResponse.description());
     }
 }

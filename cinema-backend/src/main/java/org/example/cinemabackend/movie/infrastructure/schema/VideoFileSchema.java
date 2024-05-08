@@ -19,14 +19,12 @@ public class VideoFileSchema {
     public static VideoFileSchema fromVideoFile(VideoFile movieFile) {
         return VideoFileSchema.builder()
                 .url(movieFile.getUrl())
-
                 .build();
     }
 
     public VideoFile toVideoFile() {
         return new VideoFile(
                 this.url
-
         );
     }
 }
