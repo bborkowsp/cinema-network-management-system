@@ -5,27 +5,19 @@ import {CreateCinemaRequest} from "../../dtos/request/create-cinema.request";
 import {AddressRequest} from "../../dtos/request/address.request";
 
 export class CreateCinemaFormHelper {
-  public readonly form: FormGroup;
 
+  public readonly form: FormGroup;
 
   constructor(private readonly formBuilder: FormBuilder) {
     this.form = this.createForm();
   }
 
-  public get addressFormGroup() {
-    return this.form.get('address') as FormGroup;
-  }
-
-  public get screeningRoomsFormGroup() {
-    return this.form.get('screeningRooms') as FormGroup;
-  }
-
-  public get aboutCinemaFormGroup() {
-    return this.form.get('aboutCinema') as FormGroup;
-  }
-
   public get stepOneFormGroup() {
     return this.form.get('stepOne') as FormGroup;
+  }
+
+  public get stepTwoFormGroup() {
+    return this.form.get('stepTwo') as FormGroup;
   }
 
   public get createCinemaRequestFromForm(): CreateCinemaRequest {
@@ -93,6 +85,9 @@ export class CreateCinemaFormHelper {
           ]
         })
       }),
+      stepTwo: this.formBuilder.group({
+        screeningRooms: this.formBuilder.array([]),
+      })
     });
   }
 }

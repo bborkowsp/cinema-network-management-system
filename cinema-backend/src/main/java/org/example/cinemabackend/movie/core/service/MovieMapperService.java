@@ -15,7 +15,6 @@ import org.example.cinemabackend.movie.core.domain.ProjectionTechnology;
 import org.example.cinemabackend.movie.core.port.primary.*;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -81,9 +80,6 @@ class MovieMapperService implements MovieMapper {
 
     @Override
     public void updateMovieFromUpdateMovieRequest(UpdateMovieRequest updateMovieRequest, Movie movie) {
-        System.out.println(Arrays.toString(updateMovieRequest.image().data()));
-        System.out.println(Arrays.toString(updateMovieRequest.image().name().toCharArray()));
-        
         movie.setTitle(updateMovieRequest.title());
         movie.setOriginalTitle(updateMovieRequest.originalTitle());
         movie.setDuration(updateMovieRequest.duration());

@@ -44,7 +44,6 @@ class MovieController {
 
     @PatchMapping("/{title}")
     ResponseEntity<Void> updateMovie(@PathVariable String title, @RequestBody @Valid UpdateMovieRequest updateMovieRequest) {
-        System.out.println("title = " + title);
         movieUseCases.updateMovie(title, updateMovieRequest);
         return ResponseEntity.noContent().build();
     }
