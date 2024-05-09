@@ -9,35 +9,35 @@
   >
     <ng-container content>
 
-    <app-create-title-form-frame-component
-      [form]="createMovieForm"
-      [formGroup]="createMovieFormComponent.titleFormGroup"
+      <app-create-title-form-frame-component
+        [formGroup]="createMovieFormComponent.titleFormGroup"
+        [form]="createMovieForm"
       >
       </app-create-title-form-frame-component>
 
       <app-information-form-frame-component
-        [form]="createMovieForm"
         [formGroup]="createMovieFormComponent.informationFormGroup"
-        ></app-information-form-frame-component>
+        [form]="createMovieForm"
+      ></app-information-form-frame-component>
 
       <app-production-details-form-frame-component
-       [form]="createMovieForm"
         [formGroup]="createMovieFormComponent.productionDetailsFormGroup"
+        [form]="createMovieForm"
       ></app-production-details-form-frame-component>
 
       <app-age-restriction-and-genres-form-frame-component
-        [form]="createMovieForm"
         [formGroup]="createMovieFormComponent.ageRestrictionAndGenresFormGroup"
+        [form]="createMovieForm"
       ></app-age-restriction-and-genres-form-frame-component>
 
       <app-projection-details-form-frame-component
-        [form]="createMovieForm"
         [formGroup]="createMovieFormComponent.projectionDetailsFormGroup"
+        [form]="createMovieForm"
       ></app-projection-details-form-frame-component>
 
       <app-image-and-trailer-form-frame-component
-      [form]="createMovieForm"
-      [formGroup]="createMovieFormComponent.imageAndTrailerFormGroup"
+        [formGroup]="createMovieFormComponent.imageAndTrailerFormGroup"
+        [form]="createMovieForm"
       >
       </app-image-and-trailer-form-frame-component>
 
@@ -49,6 +49,4 @@
       </div>
     </ng-container>
   </app-page-content-container>
-
-
-
+</form>

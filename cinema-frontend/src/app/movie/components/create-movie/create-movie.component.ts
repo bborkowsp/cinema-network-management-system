@@ -32,16 +32,13 @@ export class CreateMovieComponent implements OnInit {
   protected onSubmit(): void {
     this.isLoading = true;
 
-    // Wywołanie createMovieRequestFromForm() i przekazanie wyniku do createMovie(), sprawdzając, czy movie nie jest null
     this.createMovieFormComponent.createMovieRequestFromForm().then(movie => {
       if (movie !== null) {
         this.movieService.createMovie(movie).subscribe({
           next: () => this.goBack(),
         });
       } else {
-        console.error('Błąd tworzenia obiektu CreateMovieRequest');
-        // Tutaj możesz obsłużyć przypadek, gdy createMovieRequestFromForm() zwraca null
-        this.isLoading = false; // Ustawienie isLoading na false, ponieważ wystąpił błąd
+        this.isLoading = false;
       }
     });
   }

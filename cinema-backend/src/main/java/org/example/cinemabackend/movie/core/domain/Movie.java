@@ -53,51 +53,105 @@ public class Movie extends AbstractEntity<Long> {
         return title;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public String getOriginalTitle() {
         return originalTitle;
+    }
+
+    public void setOriginalTitle(String originalTitle) {
+        this.originalTitle = originalTitle;
     }
 
     public Double getDuration() {
         return duration;
     }
 
+    public void setDuration(Double duration) {
+        this.duration = duration;
+    }
+
     public LocalDate getReleaseDate() {
         return releaseDate;
+    }
+
+    public void setReleaseDate(LocalDate releaseDate) {
+        this.releaseDate = releaseDate;
     }
 
     public ProductionDetails getProductionDetails() {
         return productionDetails;
     }
 
+    public void setProductionDetails(ProductionDetails productionDetails) {
+        this.productionDetails = productionDetails;
+    }
+
     public String getDescription() {
         return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public SubtitleAndSoundOptions getSubtitleAndSoundOptions() {
         return subtitleAndSoundOptions;
     }
 
+    public void setSubtitleAndSoundOptions(SubtitleAndSoundOptions subtitleAndSoundOptions) {
+        this.subtitleAndSoundOptions = subtitleAndSoundOptions;
+    }
+
     public AgeRestriction getAgeRestriction() {
         return ageRestriction;
+    }
+
+    public void setAgeRestriction(AgeRestriction ageRestriction) {
+        this.ageRestriction = ageRestriction;
     }
 
     public Image getPoster() {
         return poster;
     }
 
+    public void setPoster(Image poster) {
+        this.poster = poster;
+    }
+
     public VideoFile getTrailer() {
         return trailer;
+    }
+
+    public void setTrailer(VideoFile trailer) {
+        this.trailer = trailer;
     }
 
     public Set<Genre> getGenres() {
         return genres;
     }
 
+    public void setGenres(Set<Genre> genres) {
+        this.genres = genres;
+    }
+
     public Set<ProjectionTechnology> getProjectionTechnologies() {
         return projectionTechnologies;
+    }
+
+    public void setProjectionTechnologies(Set<ProjectionTechnology> projectionTechnologies) {
+        this.projectionTechnologies = projectionTechnologies;
     }
 
     public Long getId() {
         return id;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+
 }

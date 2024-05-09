@@ -9,7 +9,7 @@
 
       <mat-form-field class="example-full-width">
         <mat-label>Description</mat-label>
-        <textarea [formControl]="descriptionControl" matInput maxlength="200" required></textarea>
+        <input [formControl]="descriptionControl" matInput maxlength="200" required>
         <mat-hint align="end">{{ descriptionControl.value.length }} / 200</mat-hint>
       </mat-form-field>
     </div>

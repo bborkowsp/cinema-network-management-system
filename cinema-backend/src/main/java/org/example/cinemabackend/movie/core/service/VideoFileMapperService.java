@@ -19,4 +19,10 @@ class VideoFileMapperService implements VideoFileMapper {
     public VideoFile mapVideoFileRequestToVideoFile(VideoFileRequest trailer) {
         return new VideoFile(trailer.url());
     }
+
+    @Override
+    public VideoFile mapUpdateVideoFileRequestToVideoFile(VideoFileRequest trailer, VideoFile trailer1) {
+        trailer1.setUrl(trailer.url());
+        return trailer1;
+    }
 }

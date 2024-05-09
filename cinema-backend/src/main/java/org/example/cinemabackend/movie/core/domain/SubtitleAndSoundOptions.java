@@ -17,15 +17,31 @@ public class SubtitleAndSoundOptions {
         return subtitles;
     }
 
+    public void setSubtitles(boolean subtitles) {
+        this.subtitles = subtitles;
+    }
+
     public boolean isDubbing() {
         return dubbing;
+    }
+
+    public void setDubbing(boolean dubbing) {
+        this.dubbing = dubbing;
     }
 
     public boolean isVoiceOver() {
         return voiceOver;
     }
 
+    public void setVoiceOver(boolean voiceOver) {
+        this.voiceOver = voiceOver;
+    }
+
     public boolean isOriginalLanguage() {
         return originalLanguage;
+    }
+
+    public void setOriginalLanguage(boolean originalLanguage) {
+        this.originalLanguage = originalLanguage;
     }
 }

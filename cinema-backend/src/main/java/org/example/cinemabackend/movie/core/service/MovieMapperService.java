@@ -6,6 +6,7 @@ import org.example.cinemabackend.cinema.core.port.primary.ImageMapper;
 import org.example.cinemabackend.cinema.core.port.primary.ProjectionTechnologyMapper;
 import org.example.cinemabackend.cinema.core.port.secondary.ProjectionTechnologyRepository;
 import org.example.cinemabackend.movie.application.dto.request.CreateMovieRequest;
+import org.example.cinemabackend.movie.application.dto.request.UpdateMovieRequest;
 import org.example.cinemabackend.movie.application.dto.response.MovieListResponse;
 import org.example.cinemabackend.movie.application.dto.response.MovieResponse;
 import org.example.cinemabackend.movie.core.domain.Image;
@@ -14,6 +15,7 @@ import org.example.cinemabackend.movie.core.domain.ProjectionTechnology;
 import org.example.cinemabackend.movie.core.port.primary.*;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -22,13 +24,11 @@ import java.util.stream.Collectors;
 class MovieMapperService implements MovieMapper {
 
     private final ImageMapper imageMapper;
-    private final FilmMemberMapper filmMemberMapper;
-    private final DescriptionMapper descriptionMapper;
-    private final ProductionDetailsMapper productionDetailsMapper;
-    private final SubtitleAndSoundOptionsMapper subtitleAndSoundOptionsMapper;
     private final VideoFileMapper videoFileMapper;
+    private final FilmMemberMapper filmMemberMapper;
+    private final ProductionDetailsMapper productionDetailsMapper;
     private final ProjectionTechnologyMapper projectionTechnologyMapper;
-
+    private final SubtitleAndSoundOptionsMapper subtitleAndSoundOptionsMapper;
     private final ProjectionTechnologyRepository projectionTechnologyRepository;
 
     @Override
@@ -77,6 +77,25 @@ class MovieMapperService implements MovieMapper {
                 createMovieRequest.genres(),
                 getProjectionTechnologies(createMovieRequest.projectionTechnologies())
         );
+    }
+
+    @Override
+    public void updateMovieFromUpdateMovieRequest(UpdateMovieRequest updateMovieRequest, Movie movie) {
+        System.out.println(Arrays.toString(updateMovieRequest.image().data()));
+        System.out.println(Arrays.toString(updateMovieRequest.image().name().toCharArray()));
+        
+        movie.setTitle(updateMovieRequest.title());
+        movie.setOriginalTitle(updateMovieRequest.originalTitle());
+        movie.setDuration(updateMovieRequest.duration());
+        movie.setReleaseDate(updateMovieRequest.releaseDate());
+        movie.setProductionDetails(productionDetailsMapper.mapUpdateProductionDetailsRequestToProductionDetails(updateMovieRequest.productionDetails(), movie.getProductionDetails()));
+        movie.setDescription(updateMovieRequest.description());
+        movie.setSubtitleAndSoundOptions(subtitleAndSoundOptionsMapper.mapUpdateSubtitleAndSoundOptionsRequestToSubtitleAndSoundOptions(updateMovieRequest.subtitleAndSoundOptions(), movie.getSubtitleAndSoundOptions()));
+        movie.setAgeRestriction(updateMovieRequest.ageRestriction());
+        movie.setPoster(imageMapper.mapUpdateImageRequestToImage(updateMovieRequest.image(), getMoviePoster(movie)));
+        movie.setTrailer(videoFileMapper.mapUpdateVideoFileRequestToVideoFile(updateMovieRequest.trailer(), movie.getTrailer()));
+        movie.setGenres(updateMovieRequest.genres());
+        movie.setProjectionTechnologies(getProjectionTechnologies(updateMovieRequest.projectionTechnologies()));
     }
 
     private Set<ProjectionTechnology> getProjectionTechnologies(Set<ProjectionTechnologyResponse> projectionTechnologyResponses) {

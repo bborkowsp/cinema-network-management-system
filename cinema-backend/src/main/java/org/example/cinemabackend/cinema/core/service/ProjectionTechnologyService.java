@@ -64,11 +64,17 @@ class ProjectionTechnologyService implements ProjectionTechnologyUseCases {
 
     @Override
     @Transactional
-    public void updateProjectionTechnology(String technology, UpdateProjectionTechnologyRequest createCinemaRequest) {
+    public void updateProjectionTechnology(String technology, UpdateProjectionTechnologyRequest updateProjectionTechnologyRequest) {
+        validateProjectionTechnologyIsNotTaken(technology, updateProjectionTechnologyRequest.technology());
         final var projectionTechnology = projectionTechnologyRepository.findByTechnology(technology).orElseThrow();
-        validateProjectionTechnologyDoesntExist(createCinemaRequest.technology());
-        projectionTechnologyMapper.updateProjectionTechnologyFromUpdateProjectionTechnologyRequest(createCinemaRequest, projectionTechnology);
+        projectionTechnologyMapper.updateProjectionTechnologyFromUpdateProjectionTechnologyRequest(updateProjectionTechnologyRequest, projectionTechnology);
         projectionTechnologyRepository.save(projectionTechnology);
+    }
+
+    private void validateProjectionTechnologyIsNotTaken(String oldTechnology, String newTechnology) {
+        if (!oldTechnology.equals(newTechnology) && projectionTechnologyRepository.findByTechnology(newTechnology).isPresent()) {
+            throw new IllegalArgumentException("Projection technology already exists");
+        }
     }
 
     private void validateProjectionTechnologyIsNotUsedInAnyMovie(String technology) {

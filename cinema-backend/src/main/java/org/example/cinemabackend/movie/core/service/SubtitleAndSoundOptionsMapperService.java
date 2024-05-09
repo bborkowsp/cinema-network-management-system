@@ -22,4 +22,13 @@ class SubtitleAndSoundOptionsMapperService implements SubtitleAndSoundOptionsMap
     public SubtitleAndSoundOptions mapCreateSubtitleAndSoundOptionsRequestToSubtitleAndSoundOptions(SubtitleAndSoundOptionsRequest subtitleAndSoundOptionsRequest) {
         return new SubtitleAndSoundOptions(subtitleAndSoundOptionsRequest.subtitles(), subtitleAndSoundOptionsRequest.dubbing(), subtitleAndSoundOptionsRequest.voiceOver(), subtitleAndSoundOptionsRequest.originalLanguage());
     }
+
+    @Override
+    public SubtitleAndSoundOptions mapUpdateSubtitleAndSoundOptionsRequestToSubtitleAndSoundOptions(SubtitleAndSoundOptionsRequest subtitleAndSoundOptionsRequest, SubtitleAndSoundOptions subtitleAndSoundOptions) {
+        subtitleAndSoundOptions.setSubtitles(subtitleAndSoundOptionsRequest.subtitles());
+        subtitleAndSoundOptions.setDubbing(subtitleAndSoundOptionsRequest.dubbing());
+        subtitleAndSoundOptions.setVoiceOver(subtitleAndSoundOptionsRequest.voiceOver());
+        subtitleAndSoundOptions.setOriginalLanguage(subtitleAndSoundOptionsRequest.originalLanguage());
+        return subtitleAndSoundOptions;
+    }
 }

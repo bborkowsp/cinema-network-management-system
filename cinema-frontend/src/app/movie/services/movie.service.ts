@@ -6,6 +6,7 @@ import {PaginatorRequestParams} from "../../shared/dtos/paginator-request-params
 import {MoviePageResponse} from "../dtos/response/movie-page.response";
 import {MovieResponse} from "../dtos/response/movie.response";
 import {CreateMovieRequest} from "../dtos/request/create-movie.request";
+import {UpdateMovieRequest} from "../dtos/request/update-movie.request";
 
 @Injectable({
   providedIn: 'root',
@@ -43,7 +44,6 @@ export class MovieService {
   }
 
   createMovie(createMovieRequest: CreateMovieRequest) {
-    console.log(createMovieRequest)
     return this.httpClient.post<void>(MovieService.moviesUrl, createMovieRequest);
   }
 
@@ -53,5 +53,11 @@ export class MovieService {
 
   getAgeRestrictions() {
     return this.httpClient.get<string[]>(`${MovieService.moviesUrl}/age-restrictions`);
+  }
+
+  updateMovie(title: string, movie: null | UpdateMovieRequest) {
+    const url = `${MovieService.moviesUrl}/${title}`;
+    console.log(movie)
+    return this.httpClient.patch<void>(url, movie);
   }
 }

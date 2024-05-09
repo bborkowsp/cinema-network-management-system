@@ -1,1 +1,52 @@
-<p>edit-movie-form works!</p>
+<form
+  #updateMovieForm="ngForm"
+  (ngSubmit)="onSubmit()"
+  [formGroup]="editMovieForm.form"
+>
+  <app-page-content-container
+    [isLoading]="isLoading"
+    pageTitle="Add movie"
+  >
+    <ng-container content>
+
+      <app-create-title-form-frame-component
+        [formGroup]="editMovieForm.titleFormGroup"
+        [form]="updateMovieForm"
+      >
+      </app-create-title-form-frame-component>
+
+      <app-information-form-frame-component
+        [formGroup]="editMovieForm.informationFormGroup"
+        [form]="updateMovieForm"
+      ></app-information-form-frame-component>
+
+      <app-production-details-form-frame-component
+        [formGroup]="editMovieForm.productionDetailsFormGroup"
+        [form]="updateMovieForm"
+      ></app-production-details-form-frame-component>
+
+      <app-age-restriction-and-genres-form-frame-component
+        [formGroup]="editMovieForm.ageRestrictionAndGenresFormGroup"
+        [form]="updateMovieForm"
+      ></app-age-restriction-and-genres-form-frame-component>
+
+      <app-projection-details-form-frame-component
+        [formGroup]="editMovieForm.projectionDetailsFormGroup"
+        [form]="updateMovieForm"
+      ></app-projection-details-form-frame-component>
+
+      <app-image-and-trailer-form-frame-component
+        [formGroup]="editMovieForm.imageAndTrailerFormGroup"
+        [form]="updateMovieForm"
+      >
+      </app-image-and-trailer-form-frame-component>
+
+
+      <div class="button-container">
+        <button (click)=handleCancelClicked() color="warn" mat-flat-button>Cancel</button>
+        <button [disabled]="updateMovieForm.form.invalid" color="primary" mat-flat-button type="submit">Save
+        </button>
+      </div>
+    </ng-container>
+  </app-page-content-container>
+</form>

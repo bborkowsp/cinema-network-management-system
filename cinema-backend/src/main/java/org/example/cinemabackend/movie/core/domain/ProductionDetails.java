@@ -32,23 +32,48 @@ public class ProductionDetails {
         return worldPremiereDate;
     }
 
+    public void setWorldPremiereDate(LocalDate worldPremiereDate) {
+        this.worldPremiereDate = worldPremiereDate;
+    }
+
     public FilmMember getDirector() {
         return director;
+    }
+
+    public void setDirector(FilmMember director) {
+        this.director = director;
     }
 
     public Set<FilmMember> getActors() {
         return actors;
     }
 
+    public void setActors(Set<FilmMember> actors) {
+        this.actors = actors;
+    }
+
     public Set<String> getOriginalLanguages() {
         return originalLanguages;
+    }
+
+    public void setOriginalLanguages(Set<String> originalLanguages) {
+        this.originalLanguages = originalLanguages;
     }
 
     public Set<String> getProductionCountries() {
         return productionCountries;
     }
 
+    public void setProductionCountries(Set<String> productionCountries) {
+        this.productionCountries = productionCountries;
+    }
+
     public Long getId() {
         return id;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
 }

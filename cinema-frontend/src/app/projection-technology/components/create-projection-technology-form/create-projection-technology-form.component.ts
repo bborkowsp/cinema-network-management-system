@@ -38,7 +38,13 @@ export class CreateProjectionTechnologyFormComponent {
     const createProjectionTechnology$ = this.projectionTechnologyService.createProjectionTechnology(projectionTechnology);
     this.isLoading = true;
     createProjectionTechnology$.subscribe({
-      next: () => this.goBack(),
+      next: () => {
+        this.isLoading = false;
+        this.goBack()
+      },
+      error: () => {
+        this.isLoading = false;
+      }
     });
   }
 

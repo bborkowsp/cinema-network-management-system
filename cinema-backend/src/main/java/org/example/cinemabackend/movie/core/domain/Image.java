@@ -15,11 +15,23 @@ public class Image {
         return this.name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getType() {
         return this.type;
     }
 
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public byte[] getData() {
         return this.data;
+    }
+
+    public void setData(byte[] data) {
+        this.data = data;
     }
 }

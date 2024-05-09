@@ -35,4 +35,14 @@ class ProductionDetailsMapperService implements ProductionDetailsMapper {
                 productionDetailsRequest.productionCountries()
         );
     }
+
+    @Override
+    public ProductionDetails mapUpdateProductionDetailsRequestToProductionDetails(ProductionDetailsRequest productionDetailsRequest, ProductionDetails productionDetails) {
+        productionDetails.setWorldPremiereDate(productionDetailsRequest.worldPremiereDate());
+        productionDetails.setDirector(filmMemberMapper.mapCreateFilmMemberRequestToFilmMember(productionDetailsRequest.director()));
+        productionDetails.setActors(filmMemberMapper.mapCreateFilmMemberRequestsToFilmMember(productionDetailsRequest.actors()));
+        productionDetails.setOriginalLanguages(productionDetailsRequest.originalLanguages());
+        productionDetails.setProductionCountries(productionDetailsRequest.productionCountries());
+        return productionDetails;
+    }
 }

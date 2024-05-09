@@ -8,4 +8,6 @@ public interface VideoFileMapper {
     VideoFileResponse mapVideoFileToVideoFileResponse(VideoFile trailer);
 
     VideoFile mapVideoFileRequestToVideoFile(VideoFileRequest trailer);
+
+    VideoFile mapUpdateVideoFileRequestToVideoFile(VideoFileRequest trailer, VideoFile trailer1);
 }

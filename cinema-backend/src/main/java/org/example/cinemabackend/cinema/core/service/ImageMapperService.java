@@ -25,4 +25,12 @@ class ImageMapperService implements ImageMapper {
                 .data(image.getData())
                 .build();
     }
+
+    @Override
+    public Image mapUpdateImageRequestToImage(CreateImageRequest image, Image moviePoster) {
+        moviePoster.setName(image.name());
+        moviePoster.setType(image.type());
+        moviePoster.setData(image.data());
+        return moviePoster;
+    }
 }

@@ -8,4 +8,6 @@ public interface ImageMapper {
     Image mapCreateImageRequestToImage(CreateImageRequest image);
 
     ImageResponse mapImageToImageResponse(Image image);
+
+    Image mapUpdateImageRequestToImage(CreateImageRequest image, Image moviePoster);
 }

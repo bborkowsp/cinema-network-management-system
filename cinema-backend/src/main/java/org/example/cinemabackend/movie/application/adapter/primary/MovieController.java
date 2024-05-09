@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.movie.application.dto.request.CreateMovieRequest;
+import org.example.cinemabackend.movie.application.dto.request.UpdateMovieRequest;
 import org.example.cinemabackend.movie.application.dto.response.MovieListResponse;
 import org.example.cinemabackend.movie.application.dto.response.MovieResponse;
 import org.example.cinemabackend.movie.core.domain.AgeRestriction;
@@ -39,6 +40,13 @@ class MovieController {
     ResponseEntity<Void> createMovie(@RequestBody @Valid CreateMovieRequest createMovieRequest) {
         movieUseCases.createMovie(createMovieRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @PatchMapping("/{title}")
+    ResponseEntity<Void> updateMovie(@PathVariable String title, @RequestBody @Valid UpdateMovieRequest updateMovieRequest) {
+        System.out.println("title = " + title);
+        movieUseCases.updateMovie(title, updateMovieRequest);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{title}")

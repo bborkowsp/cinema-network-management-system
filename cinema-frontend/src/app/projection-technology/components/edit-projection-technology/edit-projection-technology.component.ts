@@ -55,7 +55,7 @@ export class EditProjectionTechnologyComponent implements OnInit {
   }
 
   protected goBack(): void {
-    this.router.navigate(['/projecion-technologies']);
+    this.router.navigate(['/projection-technologies']);
   }
 
   private setUpEditProjectionTechnologyForm() {

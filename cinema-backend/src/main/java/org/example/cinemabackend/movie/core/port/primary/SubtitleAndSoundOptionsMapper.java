@@ -8,4 +8,6 @@ public interface SubtitleAndSoundOptionsMapper {
     SubtitleAndSoundOptionsResponse mapSubtitleAndSoundOptionsToSubtitleAndSoundOptionsResponse(SubtitleAndSoundOptions subtitleAndSoundOptions);
 
     SubtitleAndSoundOptions mapCreateSubtitleAndSoundOptionsRequestToSubtitleAndSoundOptions(SubtitleAndSoundOptionsRequest subtitleAndSoundOptionsRequest);
+
+    SubtitleAndSoundOptions mapUpdateSubtitleAndSoundOptionsRequestToSubtitleAndSoundOptions(SubtitleAndSoundOptionsRequest subtitleAndSoundOptionsRequest, SubtitleAndSoundOptions subtitleAndSoundOptions);
 }

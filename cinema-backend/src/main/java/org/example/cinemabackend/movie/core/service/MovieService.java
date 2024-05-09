@@ -3,6 +3,7 @@ package org.example.cinemabackend.movie.core.service;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.movie.application.dto.request.CreateMovieRequest;
+import org.example.cinemabackend.movie.application.dto.request.UpdateMovieRequest;
 import org.example.cinemabackend.movie.application.dto.response.MovieListResponse;
 import org.example.cinemabackend.movie.application.dto.response.MovieResponse;
 import org.example.cinemabackend.movie.core.domain.AgeRestriction;
@@ -43,6 +44,21 @@ class MovieService implements MovieUseCases {
         validateMovieNotExists(createMovieRequest.title());
         final var movie = movieMapper.mapCreateMovieRequestToMovie(createMovieRequest);
         movieRepository.save(movie);
+    }
+
+    @Override
+    @Transactional
+    public void updateMovie(String title, UpdateMovieRequest updateMovieRequest) {
+        validateMovieTitleIsNotTaken(title, updateMovieRequest.title());
+        final var movie = movieRepository.findByTitle(title).orElseThrow();
+        movieMapper.updateMovieFromUpdateMovieRequest(updateMovieRequest, movie);
+        movieRepository.save(movie);
+    }
+
+    private void validateMovieTitleIsNotTaken(String oldTitle, String newTitle) {
+        if (!oldTitle.equals(newTitle) && movieRepository.findByTitle(newTitle).isPresent()) {
+            throw new IllegalArgumentException("Movie with title " + newTitle + " already exists");
+        }
     }
 
     @Override

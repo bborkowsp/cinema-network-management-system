@@ -8,4 +8,6 @@ public interface ProductionDetailsMapper {
     ProductionDetailsResponse mapProductionDetailsToProductionDetailsResponse(ProductionDetails productionDetails);
 
     ProductionDetails mapCreateProductionDetailsRequestToProductionDetails(ProductionDetailsRequest productionDetailsRequest);
+
+    ProductionDetails mapUpdateProductionDetailsRequestToProductionDetails(ProductionDetailsRequest productionDetailsRequest, ProductionDetails productionDetails);
 }
