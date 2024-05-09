@@ -1,54 +1,37 @@
-<app-page-content-container (goBackButtonAction)="handleGoBackButtonAction()" [hasGoBackActionButton]="true"
-                            pageTitle="Add cinema">
-  <ng-container content>
-    <mat-stepper #stepper linear>
-
-      <mat-step [stepControl]="screeningRoomsFormGroup" label="Screening rooms">
-        <app-generic-form-frame title="Add screening rooms">
-          <ng-container content>
-            <app-screening-room></app-screening-room>
-          </ng-container>
-        </app-generic-form-frame>
-      </mat-step>
-
-      <mat-step [stepControl]="aboutCinemaFormGroup" label="About">
-        <form #aboutCinemaStepForm="ngForm" [formGroup]="aboutCinemaFormGroup">
-          <div class="form-container">
-            <app-generic-form-frame title="About">
-              <ng-container content>
-                <app-about-cinema [descriptionControl]="aboutCinemaFormGroup.controls.description"
-                                  [form]="aboutCinemaStepForm"
-                                  [nameControl]="aboutCinemaFormGroup.controls.name"></app-about-cinema>
-              </ng-container>
-            </app-generic-form-frame>
-
-            <app-generic-form-frame title="Address">
-              <ng-container content>
-                <app-address
-                  [cityControl]="aboutCinemaFormGroup.controls.city"
-                  [countryControl]="aboutCinemaFormGroup.controls.country"
-                  [form]="aboutCinemaStepForm"
-                  [postalCodeControl]="aboutCinemaFormGroup.controls.postalCode"
-                  [streetAndBuildingNumberControl]="aboutCinemaFormGroup.controls.streetAndBuildingNumber"
-                ></app-address>
-              </ng-container>
-            </app-generic-form-frame>
+<form
+  #createCinemaForm="ngForm"
+  (ngSubmit)="onSubmit()"
+  [formGroup]="cinemaForm.form"
+>
+  <app-page-content-container
+    (goBackButtonAction)="handleGoBackButtonAction()"
+    [hasGoBackActionButton]="true"
+    pageTitle="Add cinema"
+  >
+    <ng-container content>
+      <mat-stepper #stepper linear>
+        <mat-step>
+          <app-step-one
+            [createCinemaForm]="cinemaForm.stepOneFormGroup"
+            [stepOneFormGroup]="createCinemaForm"
+          ></app-step-one>
+          <div>
+            <button color="primary" mat-flat-button matStepperNext type="button">Next</button>
           </div>
-          <div class="button-stepper">
-            <button [disabled]="aboutCinemaFormGroup.invalid" color="primary" mat-flat-button matStepperNext>Next
+        </mat-step>
+
+        <mat-step>
+          <ng-template matStepLabel>Done</ng-template>
+          <p>You are now done.</p>
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button (click)="stepper.reset()" mat-button>Reset</button>
+            <button color="primary" mat-raised-button type="submit">
+              Submit
             </button>
           </div>
-        </form>
-      </mat-step>
-
-      <mat-step>
-        <ng-template matStepLabel>Done</ng-template>
-        <p>You are now done.</p>
-        <div>
-          <button mat-button matStepperPrevious>Back</button>
-          <button (click)="stepper.reset()" mat-button>Reset</button>
-        </div>
-      </mat-step>
-    </mat-stepper>
-  </ng-container>
-</app-page-content-container>
+        </mat-step>
+      </mat-stepper>
+    </ng-container>
+  </app-page-content-container>
+</form>

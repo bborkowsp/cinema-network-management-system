@@ -4,6 +4,7 @@ import {CinemaListResponse} from "../dtos/response/cinema-list.response";
 import {map, Observable} from "rxjs";
 import {Injectable} from "@angular/core";
 import {CinemaDetailsComponent} from "../components/cinema-details/cinema-details.component";
+import {CreateCinemaRequest} from "../dtos/request/create-cinema.request";
 
 @Injectable({
   providedIn: 'root',
@@ -31,5 +32,9 @@ export class CinemaService {
   deleteCinema(name: string) {
     const url = `${CinemaService.cinemasUrl}/${name}`;
     return this.httpClient.delete<void>(url);
+  }
+
+  createCinema(cinema: CreateCinemaRequest) {
+    return this.httpClient.post<void>(CinemaService.cinemasUrl, cinema);
   }
 }

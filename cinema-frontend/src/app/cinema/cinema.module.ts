@@ -22,10 +22,11 @@ import {CinemaDetailsComponent} from "./components/cinema-details/cinema-details
 import {MatSortModule} from "@angular/material/sort";
 import {MatStepperModule} from "@angular/material/stepper";
 import {CreateCinemaFormComponent} from "./components/create-cinema-form/create-cinema-form.component";
-import {AboutCinemaComponent} from "./components/create-cinema-form/about-cinema/about-cinema.component";
-import {AddressComponent} from "./components/create-cinema-form/address/address.component";
 import {ScreeningRoomComponent} from "./components/create-cinema-form/screening-room/screening-room.component";
-import { EditCinemaFormComponent } from './components/edit-cinema-form/edit-cinema-form.component';
+import {EditCinemaFormComponent} from './components/edit-cinema-form/edit-cinema-form.component';
+import {AboutCinemaComponent} from "./components/create-cinema-form/components/about-cinema/about-cinema.component";
+import {AddressComponent} from "./components/create-cinema-form/components/address/address.component";
+import {StepOneComponent} from "./components/create-cinema-form/steps/step-one/step-one.component";
 
 @NgModule({
   imports: [
@@ -59,6 +60,7 @@ import { EditCinemaFormComponent } from './components/edit-cinema-form/edit-cine
     AddressComponent,
     ScreeningRoomComponent,
     EditCinemaFormComponent,
+    StepOneComponent,
   ],
 })
 
