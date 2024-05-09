@@ -1,1 +1,9 @@
-<p>step-three works!</p>
+<app-generic-form-frame title="Contact details">
+  <ng-container content>
+    <app-contact-details
+      [formGroup]="createCinemaForm"
+      [form]="stepThreeFormGroup"
+    >
+    </app-contact-details>
+  </ng-container>
+</app-generic-form-frame>

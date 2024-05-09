@@ -11,18 +11,16 @@
     <ng-container content>
       <mat-stepper #stepper linear>
 
-
         <mat-step>
-          <ng-template matStepLabel>Screening rooms</ng-template>
-          <app-step-two
-            [createCinemaForm]="cinemaForm.stepTwoFormGroup"
-            [stepOneFormGroup]="createCinemaForm"
-          ></app-step-two>
+          <ng-template matStepLabel>Contact details</ng-template>
+          <app-step-three
+            [createCinemaForm]="cinemaForm.stepThreeFormGroup"
+            [stepThreeFormGroup]="createCinemaForm"
+          ></app-step-three>
           <div>
             <button color="primary" mat-flat-button matStepperNext type="button">Next</button>
           </div>
         </mat-step>
-
 
         <mat-step>
           <ng-template matStepLabel>About cinema</ng-template>
@@ -30,6 +28,17 @@
             [createCinemaForm]="cinemaForm.stepOneFormGroup"
             [stepOneFormGroup]="createCinemaForm"
           ></app-step-one>
+          <div>
+            <button color="primary" mat-flat-button matStepperNext type="button">Next</button>
+          </div>
+        </mat-step>
+
+        <mat-step>
+          <ng-template matStepLabel>Screening rooms</ng-template>
+          <app-step-two
+            [createCinemaForm]="cinemaForm.stepTwoFormGroup"
+            [stepTwoFormGroup]="createCinemaForm"
+          ></app-step-two>
           <div>
             <button color="primary" mat-flat-button matStepperNext type="button">Next</button>
           </div>

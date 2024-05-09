@@ -31,6 +31,7 @@ import {StepThreeComponent} from './components/create-cinema-form/steps/step-thr
 import {
   ScreeningRoomComponent
 } from "./components/create-cinema-form/components/screening-room/screening-room.component";
+import { ContactDetailsComponent } from './components/create-cinema-form/components/contact-details/contact-details.component';
 
 @NgModule({
   imports: [
@@ -67,6 +68,7 @@ import {
     StepOneComponent,
     StepTwoComponent,
     StepThreeComponent,
+    ContactDetailsComponent,
   ],
 })
 

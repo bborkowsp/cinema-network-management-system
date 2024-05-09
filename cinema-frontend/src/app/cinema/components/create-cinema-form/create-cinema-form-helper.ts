@@ -20,6 +20,10 @@ export class CreateCinemaFormHelper {
     return this.form.get('stepTwo') as FormGroup;
   }
 
+  public get stepThreeFormGroup() {
+    return this.form.get('stepThree') as FormGroup;
+  }
+
   public get createCinemaRequestFromForm(): CreateCinemaRequest {
     return new CreateCinemaRequest(
       this.stepOneFormGroup.get('aboutCinema')?.get('name')?.value,
@@ -29,7 +33,9 @@ export class CreateCinemaFormHelper {
         this.stepOneFormGroup.get('address')?.get('country')?.value,
         this.stepOneFormGroup.get('address')?.get('postalCode')?.value,
         this.stepOneFormGroup.get('address')?.get('streetAndBuildingNumber')?.value,
-      )
+      ),
+      this.stepTwoFormGroup.get('screeningRooms')?.value,
+      this.stepThreeFormGroup.get('contactDetails')?.value,
     );
   }
 
@@ -37,13 +43,7 @@ export class CreateCinemaFormHelper {
     return this.formBuilder.group({
       stepOne: this.formBuilder.group({
         address: this.formBuilder.group({
-          city: [
-            '',
-            [
-              Validators.required,
-              Validators.maxLength(FormValidatorLengths.DEFAULT_MAX_INPUT_LENGTH),
-            ],
-          ],
+          city: ['', [Validators.required, Validators.maxLength(FormValidatorLengths.DEFAULT_MAX_INPUT_LENGTH),],],
           country: [
             '',
             [
@@ -87,7 +87,10 @@ export class CreateCinemaFormHelper {
       }),
       stepTwo: this.formBuilder.group({
         screeningRooms: this.formBuilder.array([]),
-      })
+      }),
+      stepThree: this.formBuilder.group({
+        contactDetails: this.formBuilder.array([]),
+      }),
     });
   }
 }

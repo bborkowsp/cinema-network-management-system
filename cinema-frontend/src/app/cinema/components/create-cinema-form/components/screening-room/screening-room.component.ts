@@ -16,6 +16,7 @@ import {
 export class ScreeningRoomComponent implements OnInit {
   @Input({required: true}) form!: FormGroupDirective | NgForm;
   @Input({required: true}) formGroup!: FormGroup;
+
   projectionTechnologies!: Observable<string[]>;
   rows: number = 0;
   columns: number = 0;
@@ -29,7 +30,6 @@ export class ScreeningRoomComponent implements OnInit {
     private readonly projectionTechnologyService: ProjectionTechnologyService,
   ) {
   }
-
 
   get screeningRoomsControl(): FormControl {
     return this.formGroup.get('screeningRooms') as FormControl;
@@ -67,6 +67,7 @@ export class ScreeningRoomComponent implements OnInit {
     this.columns = 0;
     this.currentScreeningRoom = [];
     this.selectedProjectionTechnologies = [];
+    this.screeningRoomsControl.setValue(this.seatingPlan);
   }
 
   handleStandardClicked(cell: any) {

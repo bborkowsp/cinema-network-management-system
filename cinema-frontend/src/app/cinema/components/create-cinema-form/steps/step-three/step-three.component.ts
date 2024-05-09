@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {FormGroup, FormGroupDirective, NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-step-three',
@@ -6,5 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./step-three.component.scss']
 })
 export class StepThreeComponent {
+  @Input({required: true}) stepThreeFormGroup!: FormGroupDirective | NgForm;
+  @Input({required: true}) createCinemaForm!: FormGroup;
 
 }

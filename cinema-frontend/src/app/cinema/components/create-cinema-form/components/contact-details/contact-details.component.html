@@ -1,0 +1,39 @@
+<form #seatingPlanForm="ngForm" (ngSubmit)="saveContactRequest()">
+  <mat-form-field class="example-full-width">
+    <mat-label>Department</mat-label>
+    <input [(ngModel)]="currentDepartment" matInput name="currentDepartment" required type="string">
+  </mat-form-field>
+  <table class="example-full-width">
+    <tr>
+      <td>
+        <mat-form-field class="example-full-width">
+          <mat-label>Email</mat-label>
+          <input [(ngModel)]="currentEmail" matInput name="currentEmail" required type="string">
+        </mat-form-field>
+      </td>
+      <td>
+        <mat-form-field class="example-full-width">
+          <mat-label>Phone number</mat-label>
+          <input [(ngModel)]="currentPhoneNumber" matInput name="currentPhoneNumber" required type="string">
+        </mat-form-field>
+      </td>
+    </tr>
+  </table>
+  <button [disabled]="seatingPlanForm.invalid" color="primary" mat-flat-button
+          type="submit">
+    Save contact
+  </button>
+</form>
+
+<div mat-subheader>Saved contacts list:</div>
+<mat-list role="list">
+  <mat-list-item *ngFor="let contact of allContactDetails; let i = index" role="listitem">
+    <button (click)="editContact(i)" color="primary" mat-icon-button type="button">
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button (click)="deleteContact(i)" color="warn" mat-icon-button type="button">
+      <mat-icon>delete</mat-icon>
+    </button>
+    <span>Contact no. {{ i + 1 }} - Department: {{ contact.department }}</span>
+  </mat-list-item>
+</mat-list>

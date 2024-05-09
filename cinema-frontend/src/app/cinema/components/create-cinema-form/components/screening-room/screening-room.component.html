@@ -21,42 +21,44 @@
   </button>
 </form>
 
-<div *ngIf="showCurrentScreeningRoom" class="grid-container">
-  <div *ngFor="let row of currentScreeningRoom; let i = index" class="grid-button">
-    <div *ngFor="let cell of row; let j = index"
-         [ngClass]="{
+<div class="grid-container-overall">
+  <div *ngIf="showCurrentScreeningRoom" class="grid-container">
+    <div *ngFor="let row of currentScreeningRoom; let i = index" class="grid-button">
+      <div *ngFor="let cell of row; let j = index"
+           [ngClass]="{
           'selected-standard': cell.seatZone === 'STANDARD',
            'selected-vip': cell.seatZone === 'VIP',
             'selected-promo': cell.seatZone === 'PROMO',
              'selected-wheelchair': cell.seatZone === 'WHEELCHAIR'
               }"
-         class="cell">
-      <button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" mat-icon-button
-              type="button">
-        <mat-icon>{{ cell.seatZone === 'Corridor' ? 'block' : 'event_seat' }}</mat-icon>
-      </button>
-      <mat-menu #menu="matMenu">
-        <button (click)="handleStandardClicked(cell)" class="selected-standard" mat-menu-item type="button">
-          <mat-icon>people</mat-icon>
-          <span>Standard</span>
+           class="cell">
+        <button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" mat-icon-button
+                type="button">
+          <mat-icon>{{ cell.seatZone === 'Corridor' ? 'block' : 'event_seat' }}</mat-icon>
         </button>
-        <button (click)="handleVIPClicked(cell)" class="selected-vip" mat-menu-item type="button">
-          <mat-icon>star</mat-icon>
-          <span>VIP</span>
-        </button>
-        <button (click)="handlePromoClicked(cell)" class="selected-promo" mat-menu-item type="button">
-          <mat-icon>money_off</mat-icon>
-          <span>Promo</span>
-        </button>
-        <button (click)="handleWheelchairClicked(cell)" class="selected-wheelchair" mat-menu-item type="button">
-          <mat-icon>wheelchair_pickup</mat-icon>
-          <span>Wheelchair</span>
-        </button>
-        <button (click)="handleCorridorClicked(cell)" class="selected-corridor" mat-menu-item type="button">
-          <mat-icon>blocked</mat-icon>
-          <span>Corridor</span>
-        </button>
-      </mat-menu>
+        <mat-menu #menu="matMenu">
+          <button (click)="handleStandardClicked(cell)" class="selected-standard" mat-menu-item type="button">
+            <mat-icon>people</mat-icon>
+            <span>Standard</span>
+          </button>
+          <button (click)="handleVIPClicked(cell)" class="selected-vip" mat-menu-item type="button">
+            <mat-icon>star</mat-icon>
+            <span>VIP</span>
+          </button>
+          <button (click)="handlePromoClicked(cell)" class="selected-promo" mat-menu-item type="button">
+            <mat-icon>money_off</mat-icon>
+            <span>Promo</span>
+          </button>
+          <button (click)="handleWheelchairClicked(cell)" class="selected-wheelchair" mat-menu-item type="button">
+            <mat-icon>wheelchair_pickup</mat-icon>
+            <span>Wheelchair</span>
+          </button>
+          <button (click)="handleCorridorClicked(cell)" class="selected-corridor" mat-menu-item type="button">
+            <mat-icon>blocked</mat-icon>
+            <span>Corridor</span>
+          </button>
+        </mat-menu>
+      </div>
     </div>
   </div>
 </div>

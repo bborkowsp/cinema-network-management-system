@@ -7,7 +7,7 @@ import {FormGroup, FormGroupDirective, NgForm} from "@angular/forms";
   styleUrls: ['./step-two.component.scss']
 })
 export class StepTwoComponent {
-  @Input({required: true}) stepOneFormGroup!: FormGroupDirective | NgForm;
+  @Input({required: true}) stepTwoFormGroup!: FormGroupDirective | NgForm;
   @Input({required: true}) createCinemaForm!: FormGroup;
 
 }
