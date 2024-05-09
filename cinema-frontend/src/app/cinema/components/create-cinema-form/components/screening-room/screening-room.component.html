@@ -31,8 +31,8 @@
              'selected-wheelchair': cell.seatZone === 'WHEELCHAIR'
               }"
          class="cell">
-      <button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu"
-              mat-icon-button>
+      <button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" mat-icon-button
+              type="button">
         <mat-icon>{{ cell.seatZone === 'Corridor' ? 'block' : 'event_seat' }}</mat-icon>
       </button>
       <mat-menu #menu="matMenu">
@@ -77,14 +77,14 @@
 
 <div mat-subheader>Saved screening rooms:</div>
 <mat-list role="list">
-  <mat-list-item *ngFor="let room of screeningRooms; let i = index" role="listitem">
+  <mat-list-item *ngFor="let room of seatingPlan; let i = index" role="listitem">
     <button (click)="editScreeningRoom(i)" color="primary" mat-icon-button type="button">
       <mat-icon>edit</mat-icon>
     </button>
     <button (click)="deleteScreeningRoom(i)" color="warn" mat-icon-button type="button">
       <mat-icon>delete</mat-icon>
     </button>
-    <span>Screening Room {{ room.index }} - Rows: {{ room.rows }}, Columns: {{ room.columns }}</span>
+    <span>Screening Room {{ i + 1 }} - Rows: {{ room.rows }}, Columns: {{ room.columns }}</span>
   </mat-list-item>
 </mat-list>
 

@@ -100,7 +100,7 @@ export class ScreeningRoomComponent implements OnInit {
     this.currentScreeningRoom = [];
     this.selectedProjectionTechnologies = [];
 
-    const screeningRoomToEdit = this.seatingPlan[room - 1];
+    const screeningRoomToEdit = this.seatingPlan[room];
     this.rows = screeningRoomToEdit.rows;
     this.columns = screeningRoomToEdit.columns;
     this.currentScreeningRoom = screeningRoomToEdit.seatingPlan;
@@ -110,7 +110,6 @@ export class ScreeningRoomComponent implements OnInit {
 
   private emptyGrid() {
     this.currentScreeningRoom = [];
-    this.seatingPlan = [];
   }
 
   private getOnlyTechnologyNames(allProjectionTechnologies: Observable<ProjectionTechnologyResponse[]>) {
