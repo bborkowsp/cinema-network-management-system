@@ -49,8 +49,6 @@ export class EditMovieForm {
     let imageData = '';
     if (this.form.get('imageAndTrailer')?.value.image instanceof File) {
       const selectedImage: File = this.form.get('imageAndTrailer')?.value.image;
-
-
       name = selectedImage.name;
       type = selectedImage.type;
       imageData = '';
@@ -221,4 +219,5 @@ export class EditMovieForm {
       }),
     });
   }
+
 }

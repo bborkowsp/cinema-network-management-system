@@ -13,7 +13,7 @@ export class ScaffoldComponent {
   protected readonly navLinks: NavLink[] = [
     {
       label: 'Home',
-      path: '/',
+      path: '/home',
       icon: 'home'
     },
     {

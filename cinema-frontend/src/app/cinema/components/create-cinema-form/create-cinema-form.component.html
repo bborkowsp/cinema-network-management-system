@@ -2,6 +2,7 @@
                             pageTitle="Add cinema">
   <ng-container content>
     <mat-stepper #stepper linear>
+
       <mat-step [stepControl]="screeningRoomsFormGroup" label="Screening rooms">
         <app-generic-form-frame title="Add screening rooms">
           <ng-container content>
@@ -9,6 +10,7 @@
           </ng-container>
         </app-generic-form-frame>
       </mat-step>
+
       <mat-step [stepControl]="aboutCinemaFormGroup" label="About">
         <form #aboutCinemaStepForm="ngForm" [formGroup]="aboutCinemaFormGroup">
           <div class="form-container">
@@ -38,6 +40,7 @@
           </div>
         </form>
       </mat-step>
+
       <mat-step>
         <ng-template matStepLabel>Done</ng-template>
         <p>You are now done.</p>

@@ -53,7 +53,6 @@ export class ScreeningRoomComponent {
     cell.selected = 'Wheelchair';
   }
 
-
   handleCorridorClicked(cell: any) {
     cell.selected = 'Corridor';
   }
