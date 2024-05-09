@@ -78,7 +78,10 @@
 <div mat-subheader>Saved screening rooms:</div>
 <mat-list role="list">
   <mat-list-item *ngFor="let room of screeningRooms; let i = index" role="listitem">
-    <button (click)="deleteScreeningRoom(i)" color="warn" mat-icon-button>
+    <button (click)="editScreeningRoom(i)" color="primary" mat-icon-button type="button">
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button (click)="deleteScreeningRoom(i)" color="warn" mat-icon-button type="button">
       <mat-icon>delete</mat-icon>
     </button>
     <span>Screening Room {{ room.index }} - Rows: {{ room.rows }}, Columns: {{ room.columns }}</span>

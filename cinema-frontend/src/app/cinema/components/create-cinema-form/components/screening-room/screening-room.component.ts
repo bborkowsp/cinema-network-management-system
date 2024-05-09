@@ -40,7 +40,8 @@ export class ScreeningRoomComponent implements OnInit {
   }
 
   createSeatingGrid() {
-    console.log(this.rows, this.columns);
+    this.emptyGrid()
+
     this.showCurrentScreeningRoom = true;
     for (let rowNumber = 0; rowNumber < this.rows; rowNumber++) {
       const row: SeatRequest[] = [];
@@ -91,6 +92,25 @@ export class ScreeningRoomComponent implements OnInit {
   deleteScreeningRoom(i: number) {
     this.seatingPlan.splice(i, 1);
     this.screeningRooms.splice(i, 1);
+  }
+
+  editScreeningRoom(room: number) {
+    this.rows = 0;
+    this.columns = 0;
+    this.currentScreeningRoom = [];
+    this.selectedProjectionTechnologies = [];
+
+    const screeningRoomToEdit = this.seatingPlan[room - 1];
+    this.rows = screeningRoomToEdit.rows;
+    this.columns = screeningRoomToEdit.columns;
+    this.currentScreeningRoom = screeningRoomToEdit.seatingPlan;
+    this.selectedProjectionTechnologies = screeningRoomToEdit.projectionTechnologies;
+    this.showCurrentScreeningRoom = true;
+  }
+
+  private emptyGrid() {
+    this.currentScreeningRoom = [];
+    this.seatingPlan = [];
   }
 
   private getOnlyTechnologyNames(allProjectionTechnologies: Observable<ProjectionTechnologyResponse[]>) {
