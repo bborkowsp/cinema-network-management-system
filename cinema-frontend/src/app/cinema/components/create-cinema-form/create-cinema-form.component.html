@@ -12,17 +12,6 @@
       <mat-stepper #stepper linear>
 
         <mat-step>
-          <ng-template matStepLabel>Contact details</ng-template>
-          <app-step-three
-            [createCinemaForm]="cinemaForm.stepThreeFormGroup"
-            [stepThreeFormGroup]="createCinemaForm"
-          ></app-step-three>
-          <div>
-            <button color="primary" mat-flat-button matStepperNext type="button">Next</button>
-          </div>
-        </mat-step>
-
-        <mat-step>
           <ng-template matStepLabel>About cinema</ng-template>
           <app-step-one
             [createCinemaForm]="cinemaForm.stepOneFormGroup"
@@ -44,10 +33,17 @@
           </div>
         </mat-step>
 
+        <mat-step>
+          <ng-template matStepLabel>Contact details</ng-template>
+          <app-step-three
+            [createCinemaForm]="cinemaForm.stepThreeFormGroup"
+            [stepThreeFormGroup]="createCinemaForm"
+          ></app-step-three>
+        </mat-step>
 
         <mat-step>
           <ng-template matStepLabel>Done</ng-template>
-          <p>You are now done.</p>
+          <p>Click submit to finish creating new cinema!</p>
           <div>
             <button mat-button matStepperPrevious>Back</button>
             <button (click)="stepper.reset()" mat-button>Reset</button>

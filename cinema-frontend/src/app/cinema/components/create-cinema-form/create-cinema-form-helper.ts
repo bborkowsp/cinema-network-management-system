@@ -86,10 +86,10 @@ export class CreateCinemaFormHelper {
         })
       }),
       stepTwo: this.formBuilder.group({
-        screeningRooms: this.formBuilder.array([]),
+        screeningRooms: ['', [Validators.required]],
       }),
       stepThree: this.formBuilder.group({
-        contactDetails: this.formBuilder.array([]),
+        contactDetails: ['', [Validators.required]],
       }),
     });
   }

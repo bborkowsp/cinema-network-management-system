@@ -31,6 +31,8 @@ export class CreateCinemaFormComponent implements OnInit {
 
   protected onSubmit(): void {
     const cinema = this.cinemaForm.createCinemaRequestFromForm;
+    console.log(cinema);
+    console.log("--------------------");
     const createCinema$ = this.cinemaService.createCinema(cinema);
     this.isLoading = true;
     createCinema$.subscribe({

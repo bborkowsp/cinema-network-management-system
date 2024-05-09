@@ -1,20 +1,20 @@
 <form #seatingPlanForm="ngForm" (ngSubmit)="saveContactRequest()">
   <mat-form-field class="example-full-width">
     <mat-label>Department</mat-label>
-    <input [(ngModel)]="currentDepartment" matInput name="currentDepartment" required type="string">
+    <input [formControl]="currentDepartment" matInput name="currentDepartment" required type="string">
   </mat-form-field>
   <table class="example-full-width">
     <tr>
       <td>
         <mat-form-field class="example-full-width">
           <mat-label>Email</mat-label>
-          <input [(ngModel)]="currentEmail" matInput name="currentEmail" required type="string">
+          <input [formControl]="currentEmail" matInput name="currentEmail" required type="string">
         </mat-form-field>
       </td>
       <td>
         <mat-form-field class="example-full-width">
           <mat-label>Phone number</mat-label>
-          <input [(ngModel)]="currentPhoneNumber" matInput name="currentPhoneNumber" required type="string">
+          <input [formControl]="currentPhoneNumber" matInput name="currentPhoneNumber" required type="string">
         </mat-form-field>
       </td>
     </tr>

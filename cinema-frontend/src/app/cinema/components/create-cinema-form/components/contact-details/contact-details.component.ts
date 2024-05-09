@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, Input} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {FormControl, FormGroup, FormGroupDirective, NgForm} from "@angular/forms";
 import {ContactDetailsRequest} from "../../../../dtos/request/contact-details.request";
 import {CreateContactTypeRequest} from "../../../../dtos/request/create-contact-type.request";
@@ -11,28 +11,28 @@ import {CreateContactTypeRequest} from "../../../../dtos/request/create-contact-
 export class ContactDetailsComponent {
   @Input({required: true}) form!: FormGroupDirective | NgForm;
   @Input({required: true}) formGroup!: FormGroup;
-  currentDepartment: string = '';
-  currentEmail: string = '';
-  currentPhoneNumber: string = '';
+  currentDepartment = new FormControl('');
+  currentEmail = new FormControl('');
+  currentPhoneNumber = new FormControl('');
   allContactDetails: ContactDetailsRequest[] = [];
-
-  constructor(private changeDetectorRef: ChangeDetectorRef) {
-  }
 
   get contactDetailsControl(): FormControl {
     return this.formGroup.get('contactDetails') as FormControl;
   }
 
   saveContactRequest() {
-    const contactType = new CreateContactTypeRequest(this.currentEmail, this.currentPhoneNumber);
-    this.allContactDetails.push(new ContactDetailsRequest(this.currentDepartment, contactType));
+    const email = this.currentEmail.value ?? '';
+    const phoneNumber = this.currentPhoneNumber.value ?? '';
+    const contactType = new CreateContactTypeRequest(email, phoneNumber);
+    const departmentValue = this.currentDepartment.value ?? '';
+    this.allContactDetails.push(new ContactDetailsRequest(departmentValue, contactType));
     this.contactDetailsControl.setValue(this.allContactDetails);
   }
 
   editContact(i: number) {
-    this.currentDepartment = this.allContactDetails[i].department;
-    this.currentEmail = this.allContactDetails[i].contactType.email;
-    this.currentPhoneNumber = this.allContactDetails[i].contactType.phoneNumber;
+    this.currentDepartment.setValue(this.allContactDetails[i].department);
+    this.currentEmail.setValue(this.allContactDetails[i].contactType.email);
+    this.currentPhoneNumber.setValue(this.allContactDetails[i].contactType.phoneNumber);
   }
 
   deleteContact(i: number) {
