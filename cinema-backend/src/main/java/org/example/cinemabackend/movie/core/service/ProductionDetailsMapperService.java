@@ -9,7 +9,7 @@ import org.example.cinemabackend.movie.core.port.primary.ProductionDetailsMapper
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor(access = lombok.AccessLevel.PACKAGE)
+@RequiredArgsConstructor
 class ProductionDetailsMapperService implements ProductionDetailsMapper {
 
     private final FilmMemberMapper filmMemberMapper;

@@ -9,6 +9,7 @@ import {FormControl, FormGroup, FormGroupDirective, NgForm} from "@angular/forms
 export class AboutCinemaComponent {
   @Input({required: true}) form!: FormGroupDirective | NgForm;
   @Input({required: true}) formGroup!: FormGroup;
+  selectedFileName: string | null = null;
 
 
   get nameControl(): FormControl {
@@ -17,5 +18,17 @@ export class AboutCinemaComponent {
 
   get descriptionControl(): FormControl {
     return this.formGroup.get('aboutCinema')?.get('description') as FormControl;
+  }
+
+  get imageControl(): FormControl {
+    return this.formGroup.get('aboutCinema')?.get('image') as FormControl;
+  }
+
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    if (file) {
+      this.selectedFileName = file.name;
+      this.imageControl.setValue(file);
+    }
   }
 }

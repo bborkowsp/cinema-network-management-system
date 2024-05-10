@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface CinemaRepository {
     Optional<Cinema> findByName(String name);
 
-    Cinema save(Cinema cinema);
+    void save(Cinema cinema);
 
     Page<Cinema> findAll(Pageable pageable);
 

@@ -1,9 +1,9 @@
-package org.example.cinemabackend.user.application.dto;
+package org.example.cinemabackend.user.application.dto.response;
 
 import lombok.Builder;
 
 @Builder
-public record UserResponse(
+public record UserTableResponse(
         String firstName,
         String lastName,
         String email

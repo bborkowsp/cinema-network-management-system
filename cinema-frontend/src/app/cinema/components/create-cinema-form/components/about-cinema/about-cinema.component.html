@@ -9,3 +9,9 @@
   <textarea [formControl]="descriptionControl" matInput maxlength="2000" required></textarea>
   <mat-hint align="end">{{ descriptionControl.value.length }} / 2000</mat-hint>
 </mat-form-field>
+
+<div class="custom-file-input">
+  <input #fileInput (change)="onFileSelected($event)" accept="image/*" type="file">
+  <button (click)="fileInput.click()" mat-raised-button type="button">Choose Image</button>
+  <span *ngIf="selectedFileName" class="selected-file-name">{{ selectedFileName }}</span>
+</div>

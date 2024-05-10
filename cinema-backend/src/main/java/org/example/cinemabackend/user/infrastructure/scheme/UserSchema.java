@@ -1,14 +1,10 @@
 package org.example.cinemabackend.user.infrastructure.scheme;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import org.example.cinemabackend.user.core.domain.Role;
 import org.example.cinemabackend.user.core.domain.User;
-import org.example.cinemabackend.user.infrastructure.config.AbstractEntitySchema;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,29 +18,28 @@ import java.util.Set;
 @Builder
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class UserSchema extends AbstractEntitySchema<Long> implements UserDetails {
+public class UserSchema implements UserDetails {
+
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     protected Role role;
-
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Column(nullable = false, length = 60)
     private String firstName;
-
     @NotBlank
     @Column(nullable = false, length = 60)
     private String lastName;
-
     @Column(nullable = false, unique = true)
     private String email;
-
     @Column(nullable = false)
     private String passwordHash;
 
-
     public static UserSchema fromUser(User user) {
         return UserSchema.builder()
+                .id(user.getId())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .email(user.getEmail())
@@ -53,15 +48,16 @@ public class UserSchema extends AbstractEntitySchema<Long> implements UserDetail
                 .build();
     }
 
+
     public User toUser() {
         User user = new User(
+                this.id,
                 this.firstName,
                 this.lastName,
                 this.email,
                 this.passwordHash,
                 this.role
         );
-        user.setId(this.getId());
         return user;
     }
 

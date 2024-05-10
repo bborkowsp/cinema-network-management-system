@@ -11,7 +11,7 @@ import org.example.cinemabackend.user.core.port.primary.UserMapper;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor(access = lombok.AccessLevel.PACKAGE)
+@RequiredArgsConstructor
 class CinemaMapperService implements CinemaMapper {
 
     private final AddressMapper addressMapper;

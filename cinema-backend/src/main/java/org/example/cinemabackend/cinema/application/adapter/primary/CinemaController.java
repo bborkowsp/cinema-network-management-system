@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/v1/cinemas")
-@RequiredArgsConstructor(access = lombok.AccessLevel.PACKAGE)
+@RequiredArgsConstructor
 class CinemaController {
 
     private final CinemaUseCases cinemaUseCases;

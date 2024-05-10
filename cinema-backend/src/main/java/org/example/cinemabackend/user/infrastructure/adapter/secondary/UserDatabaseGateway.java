@@ -5,7 +5,9 @@ import org.example.cinemabackend.user.core.domain.User;
 import org.example.cinemabackend.user.core.port.secondary.UserRepository;
 import org.example.cinemabackend.user.infrastructure.scheme.UserSchema;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -26,7 +28,15 @@ class UserDatabaseGateway implements UserRepository {
     }
 
     @Override
+    @Transactional
     public void save(User user) {
-        this.userJpaRepository.save(UserSchema.fromUser(user)).toUser();
+        final var userSchema = UserSchema.fromUser(user);
+        this.userJpaRepository.save(userSchema);
+    }
+
+
+    @Override
+    public List<User> findAllCinemaManagers() {
+        return this.userJpaRepository.findAllByRoleCinemaManager().stream().map(UserSchema::toUser).toList();
     }
 }

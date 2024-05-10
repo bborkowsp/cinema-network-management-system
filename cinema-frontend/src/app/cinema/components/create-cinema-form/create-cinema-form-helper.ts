@@ -3,6 +3,7 @@ import FormValidatorPatterns from "../../../shared/consts/form-validators-patter
 import FormValidatorLengths from "../../../shared/consts/form-validators-lengths";
 import {CreateCinemaRequest} from "../../dtos/request/create-cinema.request";
 import {AddressRequest} from "../../dtos/request/address.request";
+import {CreateImageRequest} from "../../../movie/dtos/request/create-image.request";
 
 export class CreateCinemaFormHelper {
 
@@ -16,6 +17,14 @@ export class CreateCinemaFormHelper {
     return this.form.get('stepOne') as FormGroup;
   }
 
+  public get aboutCinemaFormGroup() {
+    return this.form.get('stepOne')?.get('aboutCinema') as FormGroup;
+  }
+
+  public get imageFormGroup() {
+    return this.form.get('stepOne')?.get('aboutCinema')?.get('image') as FormGroup;
+  }
+
   public get stepTwoFormGroup() {
     return this.form.get('stepTwo') as FormGroup;
   }
@@ -24,7 +33,29 @@ export class CreateCinemaFormHelper {
     return this.form.get('stepThree') as FormGroup;
   }
 
-  public get createCinemaRequestFromForm(): CreateCinemaRequest {
+  async createCinemaRequestFromForm(): Promise<CreateCinemaRequest> {
+    const selectedImage: File = this.imageFormGroup?.value;
+
+    const name = selectedImage.name;
+    const type = selectedImage.type;
+    let imageData = '';
+
+    const imageDataPromise = new Promise<string>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(selectedImage);
+      reader.onload = () => {
+        const dataUrl = reader.result as string;
+        imageData = dataUrl.split(',')[1];
+        resolve(imageData);
+      };
+      reader.onerror = error => reject(error);
+    });
+
+    try {
+      await imageDataPromise;
+    } catch (error) {
+    }
+
     return new CreateCinemaRequest(
       this.stepOneFormGroup.get('aboutCinema')?.get('name')?.value,
       this.stepOneFormGroup.get('aboutCinema')?.get('description')?.value,
@@ -34,6 +65,7 @@ export class CreateCinemaFormHelper {
         this.stepOneFormGroup.get('address')?.get('postalCode')?.value,
         this.stepOneFormGroup.get('address')?.get('streetAndBuildingNumber')?.value,
       ),
+      new CreateImageRequest(name, type, imageData),
       this.stepTwoFormGroup.get('screeningRooms')?.value,
       this.stepThreeFormGroup.get('contactDetails')?.value,
     );
@@ -82,8 +114,9 @@ export class CreateCinemaFormHelper {
               Validators.required,
               Validators.maxLength(FormValidatorLengths.DEFAULT_MAX_INPUT_LENGTH),
             ]
-          ]
-        })
+          ],
+          image: ['', [Validators.required]],
+        }),
       }),
       stepTwo: this.formBuilder.group({
         screeningRooms: ['', [Validators.required]],

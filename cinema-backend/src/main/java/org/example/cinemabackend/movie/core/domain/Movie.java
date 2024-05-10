@@ -3,7 +3,7 @@ package org.example.cinemabackend.movie.core.domain;
 import java.time.LocalDate;
 import java.util.Set;
 
-public class Movie extends AbstractEntity<Long> {
+public class Movie {
     private Long id;
     private String title;
     private String originalTitle;

@@ -12,7 +12,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor(access = lombok.AccessLevel.PACKAGE)
+@RequiredArgsConstructor
 class ContactDetailsMapperService implements ContactDetailsMapper {
 
     private final ContactTypeMapper contactTypeMapper;

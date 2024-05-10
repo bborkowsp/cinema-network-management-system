@@ -8,8 +8,8 @@ import org.example.cinemabackend.cinema.core.port.secondary.ProjectionTechnology
 import org.example.cinemabackend.movie.core.domain.Movie;
 import org.example.cinemabackend.movie.core.domain.ProjectionTechnology;
 import org.example.cinemabackend.movie.core.port.secondary.MovieRepository;
-import org.example.cinemabackend.user.core.domain.Role;
 import org.example.cinemabackend.user.core.domain.User;
+import org.example.cinemabackend.user.core.port.secondary.UserRepository;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -21,12 +21,13 @@ import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
-@Order(2)
+@Order(3)
 class CinemaSeeder implements Seeder {
     private static final int NUMBER_OF_SEATS = 255;
     private final CinemaRepository cinemaRepository;
     private final MovieRepository movieRepository;
     private final ProjectionTechnologyRepository projectionTechnologyRepository;
+    private final UserRepository userRepository;
     private final ImageUtil imageUtil;
     private final Faker faker;
     private int increment = 0;
@@ -34,7 +35,10 @@ class CinemaSeeder implements Seeder {
     @Override
     public void seedDatabase(int objectsToSeed) {
         Set<Cinema> cinemas = new HashSet<>();
+
         while (cinemas.size() < objectsToSeed) {
+            System.out.println("CinemaSeeder: " + increment);
+            System.out.println("--------");
             final var cinema = createCinema();
             cinemaRepository.save(cinema);
             cinemas.add(cinema);
@@ -48,9 +52,12 @@ class CinemaSeeder implements Seeder {
         final var image = imageUtil.createImage();
         final var screeningRooms = createScreeningRooms();
         final var contactDetails = createContactDetails();
-        final var cinemaManager = createCinemaManager();
-        return new Cinema(faker.company().name(), faker.lorem().fixedString(100),
-                address, image, repertory, screeningRooms, contactDetails, cinemaManager);
+        final var cinemaManager = getCinemaManager();
+        return new Cinema(
+                faker.company().name(),
+                faker.lorem().fixedString(100),
+                address, image, repertory, screeningRooms, contactDetails, cinemaManager
+        );
     }
 
     private Address createAddress() {
@@ -84,20 +91,25 @@ class CinemaSeeder implements Seeder {
         return List.of(ScreeningTime);
     }
 
-    private User createCinemaManager() {
-        return new User(faker.name().firstName(), faker.name().lastName(), faker.internet().emailAddress(),
-                faker.lorem().fixedString(120), Role.CINEMA_MANAGER);
+    private User getCinemaManager() {
+        return this.userRepository.findAllCinemaManagers().get(increment);
     }
 
     private Set<ContactDetails> createContactDetails() {
         Set<ContactDetails> contactDetails = new HashSet<>();
         final var contactType = createContactType();
-        contactDetails.add(new ContactDetails(faker.lorem().fixedString(10), contactType));
+        contactDetails.add(new ContactDetails(
+                faker.lorem().fixedString(10),
+                contactType
+        ));
         return contactDetails;
     }
 
     private ContactType createContactType() {
-        return new ContactType("+48 123 123 123", faker.internet().emailAddress());
+        return new ContactType(
+                "+48 123 123 123",
+                faker.internet().emailAddress()
+        );
     }
 
     private Set<ScreeningRoom> createScreeningRooms() {
@@ -109,7 +121,10 @@ class CinemaSeeder implements Seeder {
     private ScreeningRoom createScreeningRoom() {
         final var seats = createSeats();
         final var projectionTechnologies = getProjectionTechnologies();
-        return new ScreeningRoom(faker.lorem().fixedString(10), seats, projectionTechnologies);
+        return new ScreeningRoom(
+                faker.lorem().fixedString(10),
+                seats, projectionTechnologies
+        );
     }
 
     private Set<Seat> createSeats() {
@@ -120,12 +135,19 @@ class CinemaSeeder implements Seeder {
     }
 
     private Seat createSeat(int seatNumber) {
-        return new Seat(String.valueOf(seatNumber), faker.lorem().fixedString(1),
-                getRandomSeatZone(), getRandomSeatType());
+        return new Seat(
+                String.valueOf(seatNumber),
+                faker.lorem().fixedString(1),
+                getRandomSeatZone(),
+                getRandomSeatType()
+        );
     }
 
     Set<ProjectionTechnology> getProjectionTechnologies() {
-        return Set.of(projectionTechnologyRepository.findAll().getFirst(), projectionTechnologyRepository.findAll().getLast());
+        return Set.of(
+                projectionTechnologyRepository.findAll().getFirst(),
+                projectionTechnologyRepository.findAll().getLast()
+        );
     }
 
 

@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/v1/projection-technologies")
-@RequiredArgsConstructor(access = lombok.AccessLevel.PACKAGE)
+@RequiredArgsConstructor
 class ProjectionTechnologyController {
     private final ProjectionTechnologyUseCases projectionTechnologyUseCases;
 

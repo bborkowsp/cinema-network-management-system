@@ -2,6 +2,7 @@ package org.example.cinemabackend.user.core.port.secondary;
 
 import org.example.cinemabackend.user.core.domain.User;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository {
@@ -12,4 +13,5 @@ public interface UserRepository {
 
     void save(User user);
 
+    List<User> findAllCinemaManagers();
 }

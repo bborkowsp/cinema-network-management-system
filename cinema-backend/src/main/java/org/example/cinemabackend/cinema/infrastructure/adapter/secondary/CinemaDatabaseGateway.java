@@ -7,6 +7,7 @@ import org.example.cinemabackend.cinema.infrastructure.schema.CinemaSchema;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,8 +19,10 @@ class CinemaDatabaseGateway implements CinemaRepository {
     private final CinemaJpaRepository cinemaJpaRepository;
 
     @Override
-    public Cinema save(Cinema cinema) {
-        return this.cinemaJpaRepository.save(CinemaSchema.fromCinema(cinema)).toCinema();
+    @Transactional
+    public void save(Cinema cinema) {
+        final var cinemaSchema = CinemaSchema.fromCinema(cinema);
+        this.cinemaJpaRepository.save(cinemaSchema);
     }
 
     @Override

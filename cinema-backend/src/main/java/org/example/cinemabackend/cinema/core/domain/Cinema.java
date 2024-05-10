@@ -5,7 +5,7 @@ import org.example.cinemabackend.user.core.domain.User;
 
 import java.util.Set;
 
-public class Cinema extends AbstractEntity<Long> {
+public class Cinema {
     private Long id;
     private String name;
     private String description;
@@ -82,5 +82,13 @@ public class Cinema extends AbstractEntity<Long> {
 
     public User getCinemaManager() {
         return cinemaManager;
+    }
+
+    public void setCinemaManager(User cinemaManager) {
+        this.cinemaManager = cinemaManager;
+    }
+
+    public Long getId() {
+        return this.id;
     }
 }
