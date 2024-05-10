@@ -3,6 +3,7 @@ package org.example.cinemabackend.user.infrastructure.scheme;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+import org.example.cinemabackend.cinema.infrastructure.schema.CinemaSchema;
 import org.example.cinemabackend.user.core.domain.Role;
 import org.example.cinemabackend.user.core.domain.User;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,7 +21,6 @@ import java.util.Set;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserSchema implements UserDetails {
 
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     protected Role role;
@@ -37,6 +37,9 @@ public class UserSchema implements UserDetails {
     @Column(nullable = false)
     private String passwordHash;
 
+    @OneToOne(mappedBy = "cinemaManager")
+    private CinemaSchema cinema;
+
     public static UserSchema fromUser(User user) {
         return UserSchema.builder()
                 .id(user.getId())
@@ -45,6 +48,7 @@ public class UserSchema implements UserDetails {
                 .email(user.getEmail())
                 .passwordHash(user.getPasswordHash())
                 .role(user.getRole())
+                .cinema(user.getCinema() != null ? CinemaSchema.fromCinema(user.getCinema()) : null)
                 .build();
     }
 

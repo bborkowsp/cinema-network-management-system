@@ -44,6 +44,7 @@ public class CinemaSchema {
     private Set<ContactDetailsSchema> contactDetails = new HashSet<>();
 
     @OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @JoinColumn(name = "cinema_manager_id", referencedColumnName = "id")
     private UserSchema cinemaManager;
 
     public static CinemaSchema fromCinema(Cinema cinema) {
