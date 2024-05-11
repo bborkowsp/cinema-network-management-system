@@ -19,6 +19,7 @@ import java.util.List;
 @RequestMapping("/v1/projection-technologies")
 @RequiredArgsConstructor
 class ProjectionTechnologyController {
+    
     private final ProjectionTechnologyUseCases projectionTechnologyUseCases;
 
     @GetMapping

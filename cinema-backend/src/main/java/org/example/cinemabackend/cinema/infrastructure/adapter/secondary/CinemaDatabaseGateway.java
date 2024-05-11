@@ -28,31 +28,37 @@ class CinemaDatabaseGateway implements CinemaRepository {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Cinema> findByName(String name) {
         return cinemaJpaRepository.findByName(name).map(CinemaSchema::toCinema);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<Cinema> findAll(Pageable pageable) {
         return cinemaJpaRepository.findAll(pageable).map(CinemaSchema::toCinema);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Cinema> findAll() {
         return cinemaJpaRepository.findAll().stream().map(CinemaSchema::toCinema).toList();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Cinema findByCinemaManager(User user) {
         return cinemaJpaRepository.findByCinemaManager(UserSchema.fromUser(user)).map(CinemaSchema::toCinema).orElse(null);
     }
 
     @Override
+    @Transactional
     public boolean existsByName(String name) {
         return cinemaJpaRepository.existsByName(name);
     }
 
     @Override
+    @Transactional
     public void deleteByName(String name) {
         cinemaJpaRepository.deleteByName(name);
     }

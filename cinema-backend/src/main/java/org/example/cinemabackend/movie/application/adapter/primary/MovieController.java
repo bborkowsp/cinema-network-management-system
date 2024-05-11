@@ -22,6 +22,7 @@ import java.util.List;
 @RequestMapping("/v1/movies")
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 class MovieController {
+    
     private final MovieUseCases movieUseCases;
 
     @GetMapping

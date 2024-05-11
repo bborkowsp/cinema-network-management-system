@@ -7,6 +7,7 @@ import org.example.cinemabackend.movie.core.domain.ProjectionTechnology;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,30 +15,39 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 class ProjectionTechnologyDatabaseGateway implements ProjectionTechnologyRepository {
+
     private final ProjectionTechnologyJpaRepository projectionTechnologyJpaRepository;
 
-
     @Override
-    public Optional<ProjectionTechnology> findByTechnology(String technology) {
-        return this.projectionTechnologyJpaRepository.findByTechnology(technology).map(ProjectionTechnologySchema::toProjectionTechnology);
-    }
-
-    @Override
-    public void save(ProjectionTechnology projectionTechnology) {
-        this.projectionTechnologyJpaRepository.save(ProjectionTechnologySchema.fromProjectionTechnology(projectionTechnology)).toProjectionTechnology();
-    }
-
-    @Override
+    @Transactional(readOnly = true)
     public Page<ProjectionTechnology> findAll(Pageable pageable) {
-        return this.projectionTechnologyJpaRepository.findAll(pageable).map(ProjectionTechnologySchema::toProjectionTechnology);
+        final var projectionTechnologies = this.projectionTechnologyJpaRepository.findAll(pageable);
+        return projectionTechnologies.map(ProjectionTechnologySchema::toProjectionTechnology);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ProjectionTechnology> findAll() {
-        return this.projectionTechnologyJpaRepository.findAll().stream().map(ProjectionTechnologySchema::toProjectionTechnology).toList();
+        final var projectionTechnologies = this.projectionTechnologyJpaRepository.findAll();
+        return projectionTechnologies.stream().map(ProjectionTechnologySchema::toProjectionTechnology).toList();
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public Optional<ProjectionTechnology> findByTechnology(String technology) {
+        final var projectionTechnology = this.projectionTechnologyJpaRepository.findByTechnology(technology);
+        return projectionTechnology.map(ProjectionTechnologySchema::toProjectionTechnology);
+    }
+
+    @Override
+    @Transactional
+    public void save(ProjectionTechnology projectionTechnology) {
+        final var projectionTechnologySchema = ProjectionTechnologySchema.fromProjectionTechnology(projectionTechnology);
+        this.projectionTechnologyJpaRepository.save(projectionTechnologySchema);
+    }
+
+    @Override
+    @Transactional
     public void deleteByTechnology(String technology) {
         this.projectionTechnologyJpaRepository.deleteByTechnology(technology);
     }

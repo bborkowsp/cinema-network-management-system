@@ -26,20 +26,17 @@ class MovieService implements MovieUseCases {
     private final MovieMapper movieMapper;
 
     @Override
-    @Transactional(readOnly = true)
     public Page<MovieListResponse> getMovies(Pageable pageable) {
         return movieRepository.findAll(pageable).map(movieMapper::mapMovieToMovieListResponse);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public MovieResponse getMovie(String title) {
         final var movie = movieRepository.findByTitle(title).orElseThrow();
         return movieMapper.mapMovieToMovieResponse(movie);
     }
 
     @Override
-    @Transactional
     public void createMovie(CreateMovieRequest createMovieRequest) {
         validateMovieNotExists(createMovieRequest.title());
         final var movie = movieMapper.mapCreateMovieRequestToMovie(createMovieRequest);
@@ -47,7 +44,6 @@ class MovieService implements MovieUseCases {
     }
 
     @Override
-    @Transactional
     public void updateMovie(String title, UpdateMovieRequest updateMovieRequest) {
         validateMovieTitleIsNotTaken(title, updateMovieRequest.title());
         final var movie = movieRepository.findByTitle(title).orElseThrow();

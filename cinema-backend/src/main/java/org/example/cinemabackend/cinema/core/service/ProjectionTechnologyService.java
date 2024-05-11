@@ -13,7 +13,6 @@ import org.example.cinemabackend.movie.core.port.secondary.MovieRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -27,14 +26,12 @@ class ProjectionTechnologyService implements ProjectionTechnologyUseCases {
     private final MovieRepository movieRepository;
 
     @Override
-    @Transactional(readOnly = true)
     public ProjectionTechnologyResponse getProjectionTechnology(String technology) {
         final var projectionTechnology = projectionTechnologyRepository.findByTechnology(technology).orElseThrow();
         return projectionTechnologyMapper.mapProjectionTechnologyToProjectionTechnologyResponse(projectionTechnology);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<ProjectionTechnologyNameResponse> getProjectionTechnologiesNames() {
         return projectionTechnologyRepository.findAll().stream()
                 .map(projectionTechnologyMapper::mapProjectionTechnologyToProjectionTechnologyNameResponse)
@@ -42,13 +39,11 @@ class ProjectionTechnologyService implements ProjectionTechnologyUseCases {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Page<ProjectionTechnologyResponse> getProjectionTechnologies(Pageable pageable) {
         return projectionTechnologyRepository.findAll(pageable).map(projectionTechnologyMapper::mapProjectionTechnologyToProjectionTechnologyResponse);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<ProjectionTechnologyResponse> getProjectionTechnologies() {
         return projectionTechnologyRepository.findAll().stream()
                 .map(projectionTechnologyMapper::mapProjectionTechnologyToProjectionTechnologyResponse)
@@ -56,7 +51,6 @@ class ProjectionTechnologyService implements ProjectionTechnologyUseCases {
     }
 
     @Override
-    @Transactional
     public void createProjectionTechnology(CreateProjectionTechnologyRequest createProjectionTechnologyRequest) {
         validateProjectionTechnologyDoesntExist(createProjectionTechnologyRequest.technology());
         final var projectionTechnology = projectionTechnologyMapper.mapCreateProjectionTechnologyRequestToProjectionTechnology(createProjectionTechnologyRequest);
@@ -64,7 +58,6 @@ class ProjectionTechnologyService implements ProjectionTechnologyUseCases {
     }
 
     @Override
-    @Transactional
     public void deleteProjectionTechnology(String technology) {
         validateProjectionTechnologyExists(technology);
         validateProjectionTechnologyIsNotUsedInAnyMovie(technology);
@@ -72,7 +65,6 @@ class ProjectionTechnologyService implements ProjectionTechnologyUseCases {
     }
 
     @Override
-    @Transactional
     public void updateProjectionTechnology(String technology, UpdateProjectionTechnologyRequest updateProjectionTechnologyRequest) {
         validateProjectionTechnologyIsNotTaken(technology, updateProjectionTechnologyRequest.technology());
         final var projectionTechnology = projectionTechnologyRepository.findByTechnology(technology).orElseThrow();

@@ -23,26 +23,22 @@ class CinemaService implements CinemaUseCases {
     private final CinemaMapper cinemaMapper;
 
     @Override
-    @Transactional(readOnly = true)
     public Page<CinemaTableResponse> getCinemas(Pageable pageable) {
         return cinemaRepository.findAll(pageable).map(cinemaMapper::mapCinemaToCinemaTableRow);
     }
 
     @Override
     public List<CinemaTableResponse> getCinemas() {
-        final var cinemas = cinemaRepository.findAll();
-        return cinemas.stream().map(cinemaMapper::mapCinemaToCinemaTableRow).toList();
+        return cinemaRepository.findAll().stream().map(cinemaMapper::mapCinemaToCinemaTableRow).toList();
     }
 
     @Override
-    @Transactional(readOnly = true)
     public CinemaResponse getCinema(String name) {
         final var cinema = cinemaRepository.findByName(name).orElseThrow();
         return cinemaMapper.mapCinemaToCinemaResponse(cinema);
     }
 
     @Override
-    @Transactional
     public void createCinema(CreateCinemaRequest createCinemaRequest) {
         validateCinemaDoesntExist(createCinemaRequest.name());
         final var cinema = cinemaMapper.mapCreateCinemaRequestToCinema(createCinemaRequest);
