@@ -53,7 +53,7 @@ public class CinemaSchema {
                 .description(cinema.getDescription())
                 .address(AddressSchema.fromAddress(cinema.getAddress()))
                 .image(ImageSchema.fromImage(cinema.getImage()))
-                .repertory(cinema.getRepertory().stream().map(ScreeningSchema::fromScreening).collect(Collectors.toSet()))
+                .repertory(cinema.getRepertory() == null ? new HashSet<>() : cinema.getRepertory().stream().map(ScreeningSchema::fromScreening).collect(Collectors.toSet()))
                 .screeningRooms(cinema.getScreeningRooms().stream().map(ScreeningRoomSchema::fromScreeningRoom).collect(Collectors.toSet()))
                 .contactDetails(cinema.getContactDetails().stream().map(ContactDetailsSchema::fromContactDetails).collect(Collectors.toSet()))
                 .cinemaManager(UserSchema.fromUser(cinema.getCinemaManager()))

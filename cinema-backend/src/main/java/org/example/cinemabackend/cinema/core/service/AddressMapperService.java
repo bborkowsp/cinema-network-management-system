@@ -13,7 +13,12 @@ class AddressMapperService implements AddressMapper {
 
     @Override
     public Address mapCreateAddressRequestToAddress(@NonNull CreateAddressRequest address) {
-        return null;
+        return new Address(
+                address.streetAndBuildingNumber(),
+                address.city(),
+                address.postalCode(),
+                address.country()
+        );
     }
 
     @Override

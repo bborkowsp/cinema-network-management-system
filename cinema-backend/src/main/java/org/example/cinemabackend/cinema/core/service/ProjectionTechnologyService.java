@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.application.dto.request.CreateProjectionTechnologyRequest;
 import org.example.cinemabackend.cinema.application.dto.request.UpdateProjectionTechnologyRequest;
+import org.example.cinemabackend.cinema.application.dto.response.ProjectionTechnologyNameResponse;
 import org.example.cinemabackend.cinema.application.dto.response.ProjectionTechnologyResponse;
 import org.example.cinemabackend.cinema.core.port.primary.ProjectionTechnologyMapper;
 import org.example.cinemabackend.cinema.core.port.primary.ProjectionTechnologyUseCases;
@@ -30,6 +31,14 @@ class ProjectionTechnologyService implements ProjectionTechnologyUseCases {
     public ProjectionTechnologyResponse getProjectionTechnology(String technology) {
         final var projectionTechnology = projectionTechnologyRepository.findByTechnology(technology).orElseThrow();
         return projectionTechnologyMapper.mapProjectionTechnologyToProjectionTechnologyResponse(projectionTechnology);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ProjectionTechnologyNameResponse> getProjectionTechnologiesNames() {
+        return projectionTechnologyRepository.findAll().stream()
+                .map(projectionTechnologyMapper::mapProjectionTechnologyToProjectionTechnologyNameResponse)
+                .toList();
     }
 
     @Override

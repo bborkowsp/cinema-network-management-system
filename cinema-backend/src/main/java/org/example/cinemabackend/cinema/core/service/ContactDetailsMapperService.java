@@ -19,12 +19,15 @@ class ContactDetailsMapperService implements ContactDetailsMapper {
 
     @Override
     public Set<ContactDetails> mapCreateContactDetailsToContactDetails(Set<CreateContactDetailsRequest> createContactDetailsRequests) {
-        return null;
+        return createContactDetailsRequests.stream().map(this::mapCreateContactDetailsToContactDetails).collect(Collectors.toSet());
     }
 
     @Override
     public ContactDetails mapCreateContactDetailsToContactDetails(CreateContactDetailsRequest createContactDetailsRequest) {
-        return null;
+        return new ContactDetails(
+                createContactDetailsRequest.department(),
+                contactTypeMapper.mapCreateContactTypeRequestToContactType(createContactDetailsRequest.contactType())
+        );
     }
 
     @Override

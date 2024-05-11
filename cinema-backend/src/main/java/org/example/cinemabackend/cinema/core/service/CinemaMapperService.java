@@ -75,16 +75,26 @@ class CinemaMapperService implements CinemaMapper {
     }
 
     private String getNumberOfUnavailableSeats(Cinema cinema) {
-        return String.valueOf(cinema.getScreeningRooms().stream()
-                .flatMap(room -> room.getSeats().stream())
-                .filter(seat -> seat.getSeatType() == SeatType.UNAVAILABLE)
-                .count());
+        return String.valueOf(
+                cinema.getScreeningRooms().stream()
+                        .flatMap(screeningRoom -> screeningRoom.getSeatRows().stream())
+                        .flatMap(seatRow -> seatRow.getColumnSeats().stream())
+                        .filter(seat -> seat.getSeatType() == SeatType.UNAVAILABLE)
+                        .count()
+        );
     }
 
+
     private String getNumberOfAvailableSeats(Cinema cinema) {
-        return String.valueOf(cinema.getScreeningRooms().stream()
-                .flatMap(room -> room.getSeats().stream())
-                .filter(seat -> seat.getSeatType() == SeatType.AVAILABLE || seat.getSeatType() == SeatType.RESERVED || seat.getSeatType() == SeatType.OCCUPIED)
-                .count());
+        return String.valueOf(
+                cinema.getScreeningRooms().stream()
+                        .flatMap(screeningRoom -> screeningRoom.getSeatRows().stream())
+                        .flatMap(seatRow -> seatRow.getColumnSeats().stream())
+                        .filter(seat -> seat.getSeatType() == SeatType.AVAILABLE ||
+                                seat.getSeatType() == SeatType.RESERVED ||
+                                seat.getSeatType() == SeatType.OCCUPIED
+                        )
+                        .count()
+        );
     }
 }

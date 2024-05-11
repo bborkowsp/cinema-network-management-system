@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.application.dto.request.CreateProjectionTechnologyRequest;
 import org.example.cinemabackend.cinema.application.dto.request.UpdateProjectionTechnologyRequest;
+import org.example.cinemabackend.cinema.application.dto.response.ProjectionTechnologyNameResponse;
 import org.example.cinemabackend.cinema.application.dto.response.ProjectionTechnologyResponse;
 import org.example.cinemabackend.cinema.core.port.primary.ProjectionTechnologyUseCases;
 import org.springframework.data.domain.Page;
@@ -29,6 +30,12 @@ class ProjectionTechnologyController {
     @GetMapping("/all")
     ResponseEntity<List<ProjectionTechnologyResponse>> getProjectionTechnologies() {
         final var projectionTechnologies = projectionTechnologyUseCases.getProjectionTechnologies();
+        return ResponseEntity.ok(projectionTechnologies);
+    }
+
+    @GetMapping("/names")
+    ResponseEntity<List<ProjectionTechnologyNameResponse>> getProjectionTechnologiesNames() {
+        final var projectionTechnologies = projectionTechnologyUseCases.getProjectionTechnologiesNames();
         return ResponseEntity.ok(projectionTechnologies);
     }
 

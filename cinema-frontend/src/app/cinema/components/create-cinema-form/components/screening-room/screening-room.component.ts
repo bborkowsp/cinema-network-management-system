@@ -3,10 +3,10 @@ import {FormControl, FormGroup, FormGroupDirective, NgForm} from "@angular/forms
 import {CreateScreeningRoomRequest} from "../../../../dtos/request/create-screening-room.request";
 import {ProjectionTechnologyService} from "../../../../../projection-technology/services/projection-technology.service";
 import {map, Observable} from "rxjs";
-import {
-  ProjectionTechnologyResponse
-} from "../../../../../projection-technology/dtos/response/projection-technology.response";
 import {CreateSeatRequest} from "../../../../dtos/request/create-seat.request";
+import {
+  ProjectionTechnologyNameResponse
+} from "../../../../../projection-technology/dtos/response/projection-technology-name.response";
 
 @Component({
   selector: 'app-screening-room',
@@ -25,7 +25,7 @@ export class ScreeningRoomComponent implements OnInit {
   seatingPlan: CreateScreeningRoomRequest[] = [];
   screeningRooms: { index: number, rows: number, columns: number }[] = [];
   showCurrentScreeningRoom: boolean = true;
-  selectedProjectionTechnologies: ProjectionTechnologyResponse[] = [];
+  selectedProjectionTechnologies: any[] = [];
 
   constructor(
     private readonly projectionTechnologyService: ProjectionTechnologyService,
@@ -37,7 +37,7 @@ export class ScreeningRoomComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.projectionTechnologies = this.getOnlyTechnologyNames(this.projectionTechnologyService.getAllProjectionTechnologies());
+    this.projectionTechnologies = this.getOnlyTechnologyNames(this.projectionTechnologyService.getAllProjectionTechnologiesNames());
   }
 
   createSeatingGrid() {
@@ -55,11 +55,12 @@ export class ScreeningRoomComponent implements OnInit {
 
   saveScreeningRoom() {
     this.showCurrentScreeningRoom = false;
-    console.log(this.selectedProjectionTechnologies)
     this.seatingPlan.push(new CreateScreeningRoomRequest(
       this.name,
       this.currentScreeningRoom,
-      this.selectedProjectionTechnologies
+      this.selectedProjectionTechnologies.map((technology: string) => {
+        return new ProjectionTechnologyNameResponse(technology);
+      })
     ));
     this.screeningRooms.push({index: this.screeningRooms.length + 1, rows: this.rows, columns: this.columns});
 
@@ -113,10 +114,10 @@ export class ScreeningRoomComponent implements OnInit {
     this.currentScreeningRoom = [];
   }
 
-  private getOnlyTechnologyNames(allProjectionTechnologies: Observable<ProjectionTechnologyResponse[]>) {
+  private getOnlyTechnologyNames(allProjectionTechnologies: Observable<ProjectionTechnologyNameResponse[]>) {
     return allProjectionTechnologies.pipe(
-      map((projectionTechnologies: ProjectionTechnologyResponse[]) => {
-        return projectionTechnologies.map((projectionTechnology: ProjectionTechnologyResponse) => {
+      map((projectionTechnologies: ProjectionTechnologyNameResponse[]) => {
+        return projectionTechnologies.map((projectionTechnology: ProjectionTechnologyNameResponse) => {
           return projectionTechnology.technology;
         });
       })

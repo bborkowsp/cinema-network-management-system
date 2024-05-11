@@ -2,6 +2,7 @@ package org.example.cinemabackend.cinema.core.port.primary;
 
 import org.example.cinemabackend.cinema.application.dto.request.CreateProjectionTechnologyRequest;
 import org.example.cinemabackend.cinema.application.dto.request.UpdateProjectionTechnologyRequest;
+import org.example.cinemabackend.cinema.application.dto.response.ProjectionTechnologyNameResponse;
 import org.example.cinemabackend.cinema.application.dto.response.ProjectionTechnologyResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,4 +21,6 @@ public interface ProjectionTechnologyUseCases {
     void deleteProjectionTechnology(String technology);
 
     void updateProjectionTechnology(String technology, UpdateProjectionTechnologyRequest createCinemaRequest);
+
+    List<ProjectionTechnologyNameResponse> getProjectionTechnologiesNames();
 }

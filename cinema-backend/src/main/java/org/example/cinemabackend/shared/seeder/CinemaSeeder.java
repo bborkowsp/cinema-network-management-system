@@ -14,10 +14,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 @Component
 @RequiredArgsConstructor
@@ -117,18 +114,27 @@ class CinemaSeeder implements Seeder {
     }
 
     private ScreeningRoom createScreeningRoom() {
-        final var seats = createSeats();
+        final var seatRows = createSeats();
         final var projectionTechnologies = getProjectionTechnologies();
         return new ScreeningRoom(
                 faker.lorem().fixedString(10),
-                seats, projectionTechnologies
+                seatRows, projectionTechnologies
         );
     }
 
-    private Set<Seat> createSeats() {
-        Set<Seat> seats = new HashSet<>();
-        for (int i = 0; i < NUMBER_OF_SEATS; i++)
+    private List<SeatRow> createSeats() {
+        List<SeatRow> seatRows = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            seatRows.add(new SeatRow(createSeatRow()));
+        }
+        return seatRows;
+    }
+
+    private List<Seat> createSeatRow() {
+        List<Seat> seats = new ArrayList<>();
+        for (int i = 0; i < NUMBER_OF_SEATS; i++) {
             seats.add(createSeat(i));
+        }
         return seats;
     }
 

@@ -3,6 +3,7 @@ package org.example.cinemabackend.cinema.core.service;
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.application.dto.request.CreateProjectionTechnologyRequest;
 import org.example.cinemabackend.cinema.application.dto.request.UpdateProjectionTechnologyRequest;
+import org.example.cinemabackend.cinema.application.dto.response.ProjectionTechnologyNameResponse;
 import org.example.cinemabackend.cinema.application.dto.response.ProjectionTechnologyResponse;
 import org.example.cinemabackend.cinema.core.port.primary.ProjectionTechnologyMapper;
 import org.example.cinemabackend.movie.core.domain.ProjectionTechnology;
@@ -53,5 +54,12 @@ class ProjectionTechnologyMapperService implements ProjectionTechnologyMapper {
     @Override
     public Set<ProjectionTechnology> mapProjectionTechnologyResponsesToProjectionTechnologies(Set<ProjectionTechnologyResponse> projectionTechnologyResponses) {
         return projectionTechnologyResponses.stream().map(this::mapProjectionTechnologyResponseToProjectionTechnology).collect(Collectors.toSet());
+    }
+
+    @Override
+    public ProjectionTechnologyNameResponse mapProjectionTechnologyToProjectionTechnologyNameResponse(ProjectionTechnology projectionTechnology) {
+        return ProjectionTechnologyNameResponse.builder()
+                .technology(projectionTechnology.getTechnology())
+                .build();
     }
 }
