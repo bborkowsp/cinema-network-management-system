@@ -1,4 +1,4 @@
-export class AddressRequest {
+export class CreateAddressRequest {
   constructor(
     readonly streetAndBuildingNumber: string,
     readonly city: string,

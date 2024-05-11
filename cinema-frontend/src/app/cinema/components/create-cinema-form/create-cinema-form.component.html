@@ -39,10 +39,17 @@
             [createCinemaForm]="cinemaForm.stepThreeFormGroup"
             [stepThreeFormGroup]="createCinemaForm"
           ></app-step-three>
+          <div>
+            <button color="primary" mat-flat-button matStepperNext type="button">Next</button>
+          </div>
         </mat-step>
 
         <mat-step>
-          <ng-template matStepLabel>Done</ng-template>
+          <ng-template matStepLabel>Manager</ng-template>
+          <app-step-four
+            [createCinemaForm]="cinemaForm.stepFourFormGroup"
+            [stepFourFormGroup]="createCinemaForm"
+          ></app-step-four>
           <p>Click submit to finish creating new cinema!</p>
           <div>
             <button mat-button matStepperPrevious>Back</button>

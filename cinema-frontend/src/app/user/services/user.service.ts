@@ -2,9 +2,10 @@ import {map, Observable} from "rxjs";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {environment} from "../../../assets/environment";
 import {PaginatorRequestParams} from "../../shared/dtos/paginator-request-params";
-import {CinemaManagerResponse} from "../dtos/response/cinema-manager.response";
 import {CinemaManagerPageResponse} from "../dtos/response/cinema-manager-page.response";
 import {Injectable} from "@angular/core";
+import {CinemaManagerResponse} from "../dtos/response/cinema-manager.response";
+import {CinemaManagerTableResponse} from "../dtos/response/cinema-manager-table.response";
 
 @Injectable({
   providedIn: 'root',
@@ -29,15 +30,20 @@ export class UserService {
       .pipe(map((response) => response));
   }
 
-  getCinemaManager(email: string): Observable<CinemaManagerResponse> {
+  getCinemaManager(email: string): Observable<CinemaManagerTableResponse> {
     const url = `${UserService.usersUrl}/${email}`;
-    return this.httpClient.get<CinemaManagerResponse>(url);
+    return this.httpClient.get<CinemaManagerTableResponse>(url);
   }
 
 
   deleteCinemaManager(email: string) {
     const url = `${UserService.usersUrl}/${email}`;
     return this.httpClient.delete<void>(url);
+  }
+
+  getCinemaManagersList() {
+    return this.httpClient.get<{ content: CinemaManagerResponse[] }>(`${UserService.usersUrl}/cinema-managers`)
+      .pipe(map((response) => response.content));
   }
 
 

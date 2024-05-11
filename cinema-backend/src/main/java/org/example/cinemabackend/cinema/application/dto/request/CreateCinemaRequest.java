@@ -1,8 +1,10 @@
 package org.example.cinemabackend.cinema.application.dto.request;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
+import org.example.cinemabackend.user.application.dto.response.CinemaManagerResponse;
 
 import java.util.Set;
 
@@ -13,6 +15,7 @@ public record CreateCinemaRequest(
         @NotNull CreateAddressRequest address,
         @NotNull CreateImageRequest image,
         @NotNull Set<@NotNull CreateScreeningRoomRequest> screeningRooms,
-        @NotNull Set<@NotNull CreateContactDetailsRequest> contactDetails
+        @NotNull Set<@NotNull CreateContactDetailsRequest> contactDetails,
+        @NotNull @Valid CinemaManagerResponse cinemaManager
 ) {
 }

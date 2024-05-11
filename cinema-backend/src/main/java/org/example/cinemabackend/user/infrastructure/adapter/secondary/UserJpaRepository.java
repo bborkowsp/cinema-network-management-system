@@ -25,4 +25,5 @@ public interface UserJpaRepository extends JpaRepository<UserSchema, Long> {
     @Query("SELECT u FROM UserSchema u WHERE u.role = 'CINEMA_MANAGER'")
     Page<UserSchema> findAllByRoleCinemaManager(Pageable pageable);
 
+    Optional<UserSchema> findByFirstNameAndLastNameAndEmail(String firstName, String lastName, String email);
 }

@@ -17,11 +17,11 @@ public class SeatSchema {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 50)
-    private String seatNumber;
+    @Column(nullable = false)
+    private Integer seatRow;
 
-    @Column(nullable = false, length = 2)
-    private String seatLetter;
+    @Column(nullable = false)
+    private Integer seatColumn;
 
     @Column(nullable = false)
     private SeatZone seatZone;
@@ -32,8 +32,8 @@ public class SeatSchema {
     public static SeatSchema fromSeat(Seat seat) {
         return SeatSchema.builder()
                 .id(seat.getId())
-                .seatNumber(seat.getSeatNumber())
-                .seatLetter(seat.getSeatLetter())
+                .seatRow(seat.getSeatRow())
+                .seatColumn(seat.getSeatColumn())
                 .seatZone(seat.getSeatZone())
                 .seatType(seat.getSeatType())
                 .build();
@@ -42,8 +42,8 @@ public class SeatSchema {
     public Seat toSeat() {
         return new Seat(
                 this.id,
-                this.seatNumber,
-                this.seatLetter,
+                this.seatRow,
+                this.seatColumn,
                 this.seatZone,
                 this.seatType
         );

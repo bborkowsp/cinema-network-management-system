@@ -60,8 +60,8 @@ class CinemaSeeder implements Seeder {
 
     private Address createAddress() {
         return new Address(
-                faker.address().streetAddress(),
-                faker.address().buildingNumber(),
+                faker.address().streetAddress() + " " +
+                        faker.address().buildingNumber(),
                 faker.address().city(),
                 faker.address().zipCode(),
                 faker.address().country()
@@ -134,8 +134,8 @@ class CinemaSeeder implements Seeder {
 
     private Seat createSeat(int seatNumber) {
         return new Seat(
-                String.valueOf(seatNumber),
-                faker.lorem().fixedString(1),
+                seatNumber,
+                seatNumber % 10,
                 getRandomSeatZone(),
                 getRandomSeatType()
         );

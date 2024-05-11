@@ -4,8 +4,7 @@ import lombok.Builder;
 
 @Builder
 public record AddressResponse(
-        String street,
-        String buildingNumber,
+        String streetAndBuildingNumber,
         String city,
         String postalCode,
         String country

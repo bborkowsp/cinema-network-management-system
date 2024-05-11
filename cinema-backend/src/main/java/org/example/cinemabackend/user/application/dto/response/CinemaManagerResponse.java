@@ -1,4 +1,4 @@
-package org.example.cinemabackend.cinema.application.dto.response;
+package org.example.cinemabackend.user.application.dto.response;
 
 import lombok.Builder;
 

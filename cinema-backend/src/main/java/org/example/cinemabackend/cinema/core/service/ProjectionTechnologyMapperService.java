@@ -49,4 +49,9 @@ class ProjectionTechnologyMapperService implements ProjectionTechnologyMapper {
         projectionTechnology.setDescription(updateProjectionTechnologyRequest.description());
         projectionTechnology.setTechnology(updateProjectionTechnologyRequest.technology());
     }
+
+    @Override
+    public Set<ProjectionTechnology> mapProjectionTechnologyResponsesToProjectionTechnologies(Set<ProjectionTechnologyResponse> projectionTechnologyResponses) {
+        return projectionTechnologyResponses.stream().map(this::mapProjectionTechnologyResponseToProjectionTechnology).collect(Collectors.toSet());
+    }
 }

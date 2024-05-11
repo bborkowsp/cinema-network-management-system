@@ -1,7 +1,7 @@
 import {AddressResponse} from "./address.response";
 import {ImageResponse} from "../../../movie/dtos/response/image.response";
-import {CinemaManagerResponse} from "../../../user/dtos/response/cinema-manager.response";
 import {ContactDetailsResponse} from "./contact-details.response";
+import {CinemaManagerTableResponse} from "../../../user/dtos/response/cinema-manager-table.response";
 
 export class CinemaResponse {
   constructor(
@@ -10,7 +10,7 @@ export class CinemaResponse {
     readonly address: AddressResponse,
     readonly image: ImageResponse,
     readonly contactDetails: ContactDetailsResponse[],
-    readonly cinemaManager: CinemaManagerResponse,
+    readonly cinemaManager: CinemaManagerTableResponse,
   ) {
   }
 }

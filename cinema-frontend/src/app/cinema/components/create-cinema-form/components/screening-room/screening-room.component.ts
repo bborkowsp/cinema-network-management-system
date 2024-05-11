@@ -1,12 +1,12 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormControl, FormGroup, FormGroupDirective, NgForm} from "@angular/forms";
-import {SeatRequest} from "../../../../dtos/request/seat.request";
-import {ScreeningRoomRequest} from "../../../../dtos/request/screening-room.request";
+import {CreateScreeningRoomRequest} from "../../../../dtos/request/create-screening-room.request";
 import {ProjectionTechnologyService} from "../../../../../projection-technology/services/projection-technology.service";
 import {map, Observable} from "rxjs";
 import {
   ProjectionTechnologyResponse
 } from "../../../../../projection-technology/dtos/response/projection-technology.response";
+import {CreateSeatRequest} from "../../../../dtos/request/create-seat.request";
 
 @Component({
   selector: 'app-screening-room',
@@ -20,8 +20,9 @@ export class ScreeningRoomComponent implements OnInit {
   projectionTechnologies!: Observable<string[]>;
   rows: number = 0;
   columns: number = 0;
-  currentScreeningRoom: SeatRequest[][] = [];
-  seatingPlan: ScreeningRoomRequest[] = [];
+  name: string = '';
+  currentScreeningRoom: CreateSeatRequest[][] = [];
+  seatingPlan: CreateScreeningRoomRequest[] = [];
   screeningRooms: { index: number, rows: number, columns: number }[] = [];
   showCurrentScreeningRoom: boolean = true;
   selectedProjectionTechnologies: ProjectionTechnologyResponse[] = [];
@@ -44,9 +45,9 @@ export class ScreeningRoomComponent implements OnInit {
 
     this.showCurrentScreeningRoom = true;
     for (let rowNumber = 0; rowNumber < this.rows; rowNumber++) {
-      const row: SeatRequest[] = [];
+      const row: CreateSeatRequest[] = [];
       for (let columnNumber = 0; columnNumber < this.columns; columnNumber++) {
-        row.push(new SeatRequest(rowNumber, columnNumber, 'STANDARD'));
+        row.push(new CreateSeatRequest(rowNumber, columnNumber, 'STANDARD'));
       }
       this.currentScreeningRoom.push(row);
     }
@@ -55,9 +56,8 @@ export class ScreeningRoomComponent implements OnInit {
   saveScreeningRoom() {
     this.showCurrentScreeningRoom = false;
     console.log(this.selectedProjectionTechnologies)
-    this.seatingPlan.push(new ScreeningRoomRequest(
-      this.rows,
-      this.columns,
+    this.seatingPlan.push(new CreateScreeningRoomRequest(
+      this.name,
       this.currentScreeningRoom,
       this.selectedProjectionTechnologies
     ));
@@ -102,10 +102,10 @@ export class ScreeningRoomComponent implements OnInit {
     this.selectedProjectionTechnologies = [];
 
     const screeningRoomToEdit = this.seatingPlan[room];
-    this.rows = screeningRoomToEdit.rows;
-    this.columns = screeningRoomToEdit.columns;
-    this.currentScreeningRoom = screeningRoomToEdit.seatingPlan;
-    this.selectedProjectionTechnologies = screeningRoomToEdit.projectionTechnologies;
+    this.rows = screeningRoomToEdit.seats.length;
+    this.columns = screeningRoomToEdit.seats[0].length;
+    this.currentScreeningRoom = screeningRoomToEdit.seats;
+    this.selectedProjectionTechnologies = screeningRoomToEdit.supportedTechnologies;
     this.showCurrentScreeningRoom = true;
   }
 

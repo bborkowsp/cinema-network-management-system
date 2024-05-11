@@ -2,8 +2,8 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import FormValidatorPatterns from "../../../shared/consts/form-validators-patterns";
 import FormValidatorLengths from "../../../shared/consts/form-validators-lengths";
 import {CreateCinemaRequest} from "../../dtos/request/create-cinema.request";
-import {AddressRequest} from "../../dtos/request/address.request";
 import {CreateImageRequest} from "../../../movie/dtos/request/create-image.request";
+import {CreateAddressRequest} from "../../dtos/request/create-address.request";
 
 export class CreateCinemaFormHelper {
 
@@ -33,6 +33,10 @@ export class CreateCinemaFormHelper {
     return this.form.get('stepThree') as FormGroup;
   }
 
+  public get stepFourFormGroup() {
+    return this.form.get('stepFour') as FormGroup;
+  }
+
   async createCinemaRequestFromForm(): Promise<CreateCinemaRequest> {
     const selectedImage: File = this.imageFormGroup?.value;
 
@@ -59,7 +63,7 @@ export class CreateCinemaFormHelper {
     return new CreateCinemaRequest(
       this.stepOneFormGroup.get('aboutCinema')?.get('name')?.value,
       this.stepOneFormGroup.get('aboutCinema')?.get('description')?.value,
-      new AddressRequest(
+      new CreateAddressRequest(
         this.stepOneFormGroup.get('address')?.get('city')?.value,
         this.stepOneFormGroup.get('address')?.get('country')?.value,
         this.stepOneFormGroup.get('address')?.get('postalCode')?.value,
@@ -68,6 +72,7 @@ export class CreateCinemaFormHelper {
       new CreateImageRequest(name, type, imageData),
       this.stepTwoFormGroup.get('screeningRooms')?.value,
       this.stepThreeFormGroup.get('contactDetails')?.value,
+      this.stepFourFormGroup.get('cinemaManager')?.value,
     );
   }
 
@@ -123,6 +128,9 @@ export class CreateCinemaFormHelper {
       }),
       stepThree: this.formBuilder.group({
         contactDetails: ['', [Validators.required]],
+      }),
+      stepFour: this.formBuilder.group({
+        cinemaManager: ['', [Validators.required]],
       }),
     });
   }

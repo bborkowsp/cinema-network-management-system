@@ -46,4 +46,9 @@ class UserDatabaseGateway implements UserRepository {
     public List<User> findAllCinemaManagers() {
         return this.userJpaRepository.findAllByRoleCinemaManager().stream().map(UserSchema::toUser).toList();
     }
+
+    @Override
+    public Optional<User> findByFirstNameAndLastNameAndEmail(String firstName, String lastName, String email) {
+        return this.userJpaRepository.findByFirstNameAndLastNameAndEmail(firstName, lastName, email).map(UserSchema::toUser);
+    }
 }

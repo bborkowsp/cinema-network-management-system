@@ -18,4 +18,6 @@ public interface UserRepository {
     Page<User> findAllCinemaManagers(Pageable pageable);
 
     List<User> findAllCinemaManagers();
+
+    Optional<User> findByFirstNameAndLastNameAndEmail(String firstName, String lastName, String email);
 }

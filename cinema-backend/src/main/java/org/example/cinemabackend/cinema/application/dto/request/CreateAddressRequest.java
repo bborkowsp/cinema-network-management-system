@@ -5,8 +5,7 @@ import lombok.Builder;
 
 @Builder
 public record CreateAddressRequest(
-        @NotBlank String street,
-        @NotBlank String buildingNumber,
+        @NotBlank String streetAndBuildingNumber,
         @NotBlank String city,
         @NotBlank String postalCode,
         @NotBlank String country

@@ -1,3 +1,8 @@
+<mat-form-field class="example-full-width">
+  <mat-label>Screening room name</mat-label>
+  <input [(ngModel)]="name" matInput name="name" required type="string">
+</mat-form-field>
+
 <form #seatingPlanForm="ngForm" (ngSubmit)="createSeatingGrid()">
   <table class="example-full-width">
     <tr>
@@ -86,7 +91,7 @@
     <button (click)="deleteScreeningRoom(i)" color="warn" mat-icon-button type="button">
       <mat-icon>delete</mat-icon>
     </button>
-    <span>Screening Room {{ i + 1 }} - Rows: {{ room.rows }}, Columns: {{ room.columns }}</span>
+    <span>Screening Room {{ i + 1 }} - Rows: {{ room.seats.length }}, Columns: {{ room.seats[0].length }}</span>
   </mat-list-item>
 </mat-list>
 

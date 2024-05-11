@@ -3,6 +3,7 @@ package org.example.cinemabackend.user.core.service;
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.core.port.primary.CinemaMapper;
 import org.example.cinemabackend.cinema.core.port.secondary.CinemaRepository;
+import org.example.cinemabackend.user.application.dto.response.CinemaManagerResponse;
 import org.example.cinemabackend.user.application.dto.response.CinemaManagerTableResponse;
 import org.example.cinemabackend.user.application.dto.response.UserResponse;
 import org.example.cinemabackend.user.core.domain.User;
@@ -35,6 +36,15 @@ class UserMapperService implements UserMapper {
                 .lastName(user.getLastName())
                 .email(user.getEmail())
                 .managedCinema(cinemaMapper.mapCinemaToCinemaResponse(cinemaRepository.findByCinemaManager(user)))
+                .build();
+    }
+
+    @Override
+    public CinemaManagerResponse mapUserToCinemaManagerResponse(User user) {
+        return CinemaManagerResponse.builder()
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .email(user.getEmail())
                 .build();
     }
 }

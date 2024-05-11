@@ -19,8 +19,7 @@ class AddressMapperService implements AddressMapper {
     @Override
     public AddressResponse mapAddressToAddressResponse(Address address) {
         return AddressResponse.builder()
-                .street(address.getStreet())
-                .buildingNumber(address.getBuildingNumber())
+                .streetAndBuildingNumber(address.getStreetAndBuildingNumber())
                 .city(address.getCity())
                 .postalCode(address.getPostalCode())
                 .country(address.getCountry())

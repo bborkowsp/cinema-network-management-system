@@ -32,6 +32,8 @@ import {
   ScreeningRoomComponent
 } from "./components/create-cinema-form/components/screening-room/screening-room.component";
 import { ContactDetailsComponent } from './components/create-cinema-form/components/contact-details/contact-details.component';
+import { StepFourComponent } from './components/create-cinema-form/steps/step-four/step-four.component';
+import { CinemaManagerComponent } from './components/create-cinema-form/components/cinema-manager/cinema-manager.component';
 
 @NgModule({
   imports: [
@@ -69,6 +71,8 @@ import { ContactDetailsComponent } from './components/create-cinema-form/compone
     StepTwoComponent,
     StepThreeComponent,
     ContactDetailsComponent,
+    StepFourComponent,
+    CinemaManagerComponent,
   ],
 })
 

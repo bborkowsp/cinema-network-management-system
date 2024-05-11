@@ -9,6 +9,7 @@ import org.example.cinemabackend.cinema.core.domain.Cinema;
 import org.example.cinemabackend.cinema.core.domain.SeatType;
 import org.example.cinemabackend.cinema.core.port.primary.*;
 import org.example.cinemabackend.user.core.port.primary.UserMapper;
+import org.example.cinemabackend.user.core.port.secondary.UserRepository;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,6 +21,7 @@ class CinemaMapperService implements CinemaMapper {
     private final ScreeningRoomMapper screeningRoomMapper;
     private final ContactDetailsMapper contactDetailsMapper;
     private final UserMapper userMapper;
+    private final UserRepository userRepository;
 
     @Override
     public CinemaResponse mapCinemaToCinemaResponse(Cinema cinema) {
@@ -35,13 +37,19 @@ class CinemaMapperService implements CinemaMapper {
 
     @Override
     public Cinema mapCreateCinemaRequestToCinema(CreateCinemaRequest createCinemaRequest) {
+        final var cinemaManager = userRepository.findByFirstNameAndLastNameAndEmail(
+                createCinemaRequest.cinemaManager().firstName(),
+                createCinemaRequest.cinemaManager().lastName(),
+                createCinemaRequest.cinemaManager().email()
+        ).orElseThrow();
         return new Cinema(
                 createCinemaRequest.name(),
                 createCinemaRequest.description(),
                 addressMapper.mapCreateAddressRequestToAddress(createCinemaRequest.address()),
                 imageMapper.mapCreateImageRequestToImage(createCinemaRequest.image()),
                 screeningRoomMapper.mapCreateScreeningRoomToScreeningRoom(createCinemaRequest.screeningRooms()),
-                contactDetailsMapper.mapCreateContactDetailsToContactDetails(createCinemaRequest.contactDetails())
+                contactDetailsMapper.mapCreateContactDetailsToContactDetails(createCinemaRequest.contactDetails()),
+                cinemaManager
         );
     }
 

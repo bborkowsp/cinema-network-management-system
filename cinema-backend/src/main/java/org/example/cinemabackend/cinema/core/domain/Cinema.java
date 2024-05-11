@@ -27,13 +27,14 @@ public class Cinema {
         this.cinemaManager = cinemaManager;
     }
 
-    public Cinema(String name, String description, Address address, Image image, Set<ScreeningRoom> screeningRooms, Set<ContactDetails> contactDetails) {
+    public Cinema(String name, String description, Address address, Image image, Set<ScreeningRoom> screeningRooms, Set<ContactDetails> contactDetails, User cinemaManager) {
         this.name = name;
         this.description = description;
         this.address = address;
         this.image = image;
         this.screeningRooms = screeningRooms;
         this.contactDetails = contactDetails;
+        this.cinemaManager = cinemaManager;
     }
 
     public Cinema(Long id, String name, String description, Address address, Image image, Set<Screening> repertory, Set<ScreeningRoom> screeningRooms, Set<ContactDetails> contactDetails, User cinemaManager) {
