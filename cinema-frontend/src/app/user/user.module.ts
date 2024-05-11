@@ -11,7 +11,12 @@ import {
   LoginMainFormFrameComponent
 } from './components/login-form/login-main-form-frame/login-main-form-frame.component';
 import {MatButtonModule} from "@angular/material/button";
-import { RegisterMainFormFrameComponent } from './components/register-form/register-main-form-frame/register-main-form-frame.component';
+import {
+  RegisterMainFormFrameComponent
+} from './components/register-form/register-main-form-frame/register-main-form-frame.component';
+import {CinemaManagerListComponent} from './components/cinema-manager-list/cinema-manager-list.component';
+import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatTableModule} from "@angular/material/table";
 
 
 @NgModule({
@@ -19,7 +24,8 @@ import { RegisterMainFormFrameComponent } from './components/register-form/regis
     LoginFormComponent,
     RegisterFormComponent,
     LoginMainFormFrameComponent,
-    RegisterMainFormFrameComponent
+    RegisterMainFormFrameComponent,
+    CinemaManagerListComponent
   ],
   imports: [
     CommonModule,
@@ -30,7 +36,9 @@ import { RegisterMainFormFrameComponent } from './components/register-form/regis
     MatSelectModule,
     ReactiveFormsModule,
     MatButtonModule,
-    NgOptimizedImage
+    NgOptimizedImage,
+    MatPaginatorModule,
+    MatTableModule
   ]
 })
 export class UserModule {

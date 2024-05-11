@@ -1,0 +1,61 @@
+<app-page-content-container [hasCreateNewButton]="true" [isLoading]="isLoading"
+                            buttonMatToolTip="Add new cinema manager"
+                            pageTitle="Cinema managers" routerLink="/cinema-managers/create">
+  <ng-container content>
+    <div class="mat-elevation-z8 table-container">
+      <table [dataSource]="cinemaManagers$" class="table" mat-table>
+        <ng-container matColumnDef="options">
+          <th *matHeaderCellDef class="column-header" mat-header-cell>
+            Options
+          </th>
+          <td *matCellDef="let row" class="options-cell" mat-cell>
+            <app-options-table-button (delete)="handleDelete($event)" (edit)="handleEdit($event)"
+                                      (showDetails)="handleShowDetails($event)" [row]="row"></app-options-table-button>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="firstName">
+          <th *matHeaderCellDef class="column-header" mat-header-cell>First name</th>
+          <td *matCellDef="let row" class="options-cell" mat-cell>
+            {{ row.firstName }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="lastName">
+          <th *matHeaderCellDef class="column-header" mat-header-cell>Last name</th>
+          <td *matCellDef="let row" class="options-cell" mat-cell>
+            {{ row.lastName }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="email">
+          <th *matHeaderCellDef class="column-header" mat-header-cell>Email address</th>
+          <td *matCellDef="let row" class="options-cell" mat-cell>
+            {{ row.email }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="managedCinema">
+          <th *matHeaderCellDef class="column-header" mat-header-cell>Managed cinema name</th>
+          <td *matCellDef="let row" class="options-cell" mat-cell>
+            {{ row.managedCinema.name }}
+          </td>
+        </ng-container>
+
+
+        <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
+      </table>
+      <mat-paginator
+        (page)="handlePageEvent($event)"
+        [length]="dataLength"
+        [pageIndex]="paginatorRequestParams.page"
+        [pageSizeOptions]="[5, 10, 25, 50]"
+        [pageSize]="paginatorRequestParams.size"
+        aria-label="Select page"
+        class="mat-paginator"
+      >
+      </mat-paginator>
+    </div>
+  </ng-container>
+</app-page-content-container>

@@ -2,6 +2,7 @@ package org.example.cinemabackend.cinema.core.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.application.dto.request.CreateCinemaRequest;
+import org.example.cinemabackend.cinema.application.dto.response.CinemaInCinemaManagerTable;
 import org.example.cinemabackend.cinema.application.dto.response.CinemaResponse;
 import org.example.cinemabackend.cinema.application.dto.response.CinemaTableResponse;
 import org.example.cinemabackend.cinema.core.domain.Cinema;
@@ -50,10 +51,18 @@ class CinemaMapperService implements CinemaMapper {
         final var numberOfUnavailableSeats = getNumberOfUnavailableSeats(cinema);
         return CinemaTableResponse.builder()
                 .name(cinema.getName())
-                .cinemaManager(cinema.getCinemaManager().getFirstName() + " " + cinema.getCinemaManager().getLastName())
+                .cinemaManager(cinema.getCinemaManager() != null ? cinema.getCinemaManager().getFirstName() + " " + cinema.getCinemaManager().getLastName() : "N/A")
                 .numberOfScreeningRooms(String.valueOf(cinema.getScreeningRooms().size()))
                 .numberOfAvailableSeats(numberOfAvailableSeats)
                 .numberOfUnavailableSeats(numberOfUnavailableSeats)
+                .build();
+    }
+
+    @Override
+    public CinemaInCinemaManagerTable mapCinemaToCinemaInCinemaManagerTable(Cinema cinema) {
+        return CinemaInCinemaManagerTable.builder()
+                .name(cinema.getName())
+                .address(addressMapper.mapAddressToAddressResponse(cinema.getAddress()))
                 .build();
     }
 

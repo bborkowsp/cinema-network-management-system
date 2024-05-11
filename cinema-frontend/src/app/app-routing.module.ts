@@ -23,6 +23,7 @@ import {LoginFormComponent} from "./user/components/login-form/login-form.compon
 import {AuthGuard} from "./user/services/auth-guard";
 import {RegisterFormComponent} from "./user/components/register-form/register-form.component";
 import {CreateMovieComponent} from "./movie/components/create-movie/create-movie.component";
+import {CinemaManagerListComponent} from "./user/components/cinema-manager-list/cinema-manager-list.component";
 
 
 const routes: Routes = [
@@ -50,6 +51,7 @@ const routes: Routes = [
   {path: 'movies/edit/:title', component: EditMovieFormComponent, canActivate: [AuthGuard]},
   {path: 'movies/details/:title', component: MovieDetailsComponent, canActivate: [AuthGuard]},
   {path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
+  {path: 'cinema-managers', component: CinemaManagerListComponent, canActivate: [AuthGuard]},
   {path: 'register', component: RegisterFormComponent},
   {path: 'login', component: LoginFormComponent},
   {path: '', redirectTo: '/login', pathMatch: 'full'},

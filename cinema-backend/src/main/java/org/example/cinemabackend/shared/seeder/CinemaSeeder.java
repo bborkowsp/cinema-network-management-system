@@ -37,8 +37,6 @@ class CinemaSeeder implements Seeder {
         Set<Cinema> cinemas = new HashSet<>();
 
         while (cinemas.size() < objectsToSeed) {
-            System.out.println("CinemaSeeder: " + increment);
-            System.out.println("--------");
             final var cinema = createCinema();
             cinemaRepository.save(cinema);
             cinemas.add(cinema);

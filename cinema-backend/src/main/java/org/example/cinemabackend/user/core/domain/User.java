@@ -1,6 +1,5 @@
 package org.example.cinemabackend.user.core.domain;
 
-import org.example.cinemabackend.cinema.core.domain.Cinema;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -14,7 +13,6 @@ public class User implements UserDetails {
     private String lastName;
     private String email;
     private String passwordHash;
-    private Cinema cinema;
 
     public User(String firstName, String lastName, String email, String passwordHash, Role role) {
         this.firstName = firstName;
@@ -31,28 +29,6 @@ public class User implements UserDetails {
         this.email = email;
         this.passwordHash = passwordHash;
         this.role = role;
-    }
-
-    public User(Long id, String firstName, String lastName, String email, String passwordHash, Role role, Cinema cinema) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.passwordHash = passwordHash;
-        this.role = role;
-        this.cinema = cinema;
-    }
-
-    public User(String firstName, String lastName, String email, String passwordHash, Role role, Cinema cinema) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.passwordHash = passwordHash;
-        this.role = role;
-        this.cinema = cinema;
-    }
-
-    public User() {
     }
 
     public String getFirstName() {
@@ -80,9 +56,6 @@ public class User implements UserDetails {
         return id;
     }
 
-    public Cinema getCinema() {
-        return cinema;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

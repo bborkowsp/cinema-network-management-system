@@ -1,6 +1,7 @@
 package org.example.cinemabackend.cinema.infrastructure.adapter.secondary;
 
 import org.example.cinemabackend.cinema.infrastructure.schema.CinemaSchema;
+import org.example.cinemabackend.user.infrastructure.scheme.UserSchema;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,4 +14,6 @@ public interface CinemaJpaRepository extends JpaRepository<CinemaSchema, Long> {
     boolean existsByName(String name);
 
     void deleteByName(String name);
+
+    Optional<CinemaSchema> findByCinemaManager(UserSchema user);
 }

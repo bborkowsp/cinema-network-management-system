@@ -31,6 +31,11 @@ export class ScaffoldComponent {
       path: '/projection-technologies',
       icon: 'settings'
     },
+    {
+      label: 'Cinema managers',
+      path: '/cinema-managers',
+      icon: 'people'
+    },
   ];
 
 

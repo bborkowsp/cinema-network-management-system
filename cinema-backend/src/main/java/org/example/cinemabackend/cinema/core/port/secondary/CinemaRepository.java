@@ -1,6 +1,7 @@
 package org.example.cinemabackend.cinema.core.port.secondary;
 
 import org.example.cinemabackend.cinema.core.domain.Cinema;
+import org.example.cinemabackend.user.core.domain.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -20,4 +21,5 @@ public interface CinemaRepository {
 
     void deleteByName(String name);
 
+    Cinema findByCinemaManager(User user);
 }

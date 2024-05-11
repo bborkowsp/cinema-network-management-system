@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.user.core.domain.User;
 import org.example.cinemabackend.user.core.port.secondary.UserRepository;
 import org.example.cinemabackend.user.infrastructure.scheme.UserSchema;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,6 +36,11 @@ class UserDatabaseGateway implements UserRepository {
         this.userJpaRepository.save(userSchema);
     }
 
+
+    @Override
+    public Page<User> findAllCinemaManagers(Pageable pageable) {
+        return this.userJpaRepository.findAllByRoleCinemaManager(pageable).map(UserSchema::toUser);
+    }
 
     @Override
     public List<User> findAllCinemaManagers() {
