@@ -8,8 +8,15 @@ import {ChangeDetectionStrategy, Component, EventEmitter, Output} from '@angular
 })
 export class ToolbarComponent {
   @Output() toggleDrawerButtonClick = new EventEmitter<void>();
+  @Output() logoutButtonClick = new EventEmitter<void>();
 
-  handleToggleDrawerButtonClick() {
+  protected handleToggleDrawerButtonClick() {
     this.toggleDrawerButtonClick.emit();
+  }
+
+  protected handleLogoutButtonClick() {
+    console.log("handleLogoutButtonClick ToolbarComponent");
+
+    this.logoutButtonClick.emit();
   }
 }

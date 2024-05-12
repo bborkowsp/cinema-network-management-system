@@ -25,8 +25,6 @@ export class AuthService {
 
   login(loginUserRequest: LoginUserRequest) {
     const url = `${AuthService.usersUrl}/login`;
-    console.log(url);
-    console.log("--------------------");
     return this.httpClient.post<any>(url, loginUserRequest).subscribe(
       (response) => {
         const token = response.token;
@@ -36,7 +34,6 @@ export class AuthService {
         this.router.navigate(['/home']);
       },
       (error) => {
-        console.log(error);
         this.loggedIn.next(false);
         this.router.navigate(['/login']);
       }
@@ -46,15 +43,16 @@ export class AuthService {
   register(registerUserRequest: RegisterUserRequest): Observable<void> {
     this.logout();
     const url = `${AuthService.usersUrl}/register`;
-    console.log(url);
     return this.httpClient.post<void>(url, registerUserRequest);
   }
 
 
   logout() {
+    console.log("logout AuthService");
     this.loggedIn.next(false);
     localStorage.removeItem("token");
     localStorage.removeItem("expires_at");
+    this.router.navigate(['/login']);
   }
 
   public isLoggedIn() {

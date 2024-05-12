@@ -38,7 +38,12 @@
         <ng-container matColumnDef="managedCinema">
           <th *matHeaderCellDef class="column-header" mat-header-cell>Managed cinema name</th>
           <td *matCellDef="let row" class="options-cell" mat-cell>
-            {{ row.managedCinema.name }}
+            <ng-container *ngIf="row.managedCinema">
+              {{ row.managedCinema.name }}
+            </ng-container>
+            <ng-container *ngIf="!row.managedCinema">
+              None
+            </ng-container>
           </td>
         </ng-container>
 

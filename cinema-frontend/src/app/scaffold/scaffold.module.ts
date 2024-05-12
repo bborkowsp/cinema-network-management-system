@@ -12,6 +12,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatMenuModule} from '@angular/material/menu';
 import {SharedModule} from "../shared/shared.module";
 import { NavListComponent } from './components/nav-list/nav-list.component';
+import { AccountComponent } from './components/account/account.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { NavListComponent } from './components/nav-list/nav-list.component';
     ToolbarComponent,
     DrawerComponent,
     NavListComponent,
+    AccountComponent,
   ],
   imports: [
     CommonModule,

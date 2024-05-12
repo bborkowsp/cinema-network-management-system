@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {Router} from "@angular/router";
 import {NavLink} from "./components/drawer/drawer.component";
+import {AuthService} from "../user/services/auth.service";
 
 @Component({
   selector: 'app-scaffold',
@@ -41,6 +42,7 @@ export class ScaffoldComponent {
 
   constructor(
     private readonly router: Router,
+    private readonly authService: AuthService
   ) {
   }
 
@@ -54,5 +56,10 @@ export class ScaffoldComponent {
 
   protected handleToggleDrawerButtonClick() {
     this.isDrawerOpened = !this.isDrawerOpened;
+  }
+
+  protected handleLogoutButtonClick() {
+    console.log("handleLogoutButtonClick scaffold component");
+    this.authService.logout();
   }
 }

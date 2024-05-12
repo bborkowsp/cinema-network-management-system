@@ -1,4 +1,5 @@
 <app-toolbar
+  (logoutButtonClick)="handleLogoutButtonClick()"
   (toggleDrawerButtonClick)="handleToggleDrawerButtonClick()"
   *ngIf="!isUserOnLoginPage && !isUserOnRegisterPage"
 ></app-toolbar>

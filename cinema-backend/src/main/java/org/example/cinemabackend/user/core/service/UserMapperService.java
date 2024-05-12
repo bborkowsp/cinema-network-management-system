@@ -31,11 +31,13 @@ class UserMapperService implements UserMapper {
 
     @Override
     public CinemaManagerTableResponse mapUserToCinemaManagerTableResponse(User user) {
+        final var managedCinema = cinemaRepository.findByCinemaManager(user);
+
         return CinemaManagerTableResponse.builder()
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .email(user.getEmail())
-                .managedCinema(cinemaMapper.mapCinemaToCinemaResponse(cinemaRepository.findByCinemaManager(user)))
+                .managedCinema(managedCinema == null ? null : cinemaMapper.mapCinemaToCinemaResponse(managedCinema))
                 .build();
     }
 
