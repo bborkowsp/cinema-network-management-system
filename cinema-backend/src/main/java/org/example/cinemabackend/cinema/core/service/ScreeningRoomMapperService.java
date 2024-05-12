@@ -2,6 +2,7 @@ package org.example.cinemabackend.cinema.core.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.application.dto.request.CreateScreeningRoomRequest;
+import org.example.cinemabackend.cinema.application.dto.response.ScreeningRoomResponse;
 import org.example.cinemabackend.cinema.core.domain.ScreeningRoom;
 import org.example.cinemabackend.cinema.core.port.primary.ProjectionTechnologyMapper;
 import org.example.cinemabackend.cinema.core.port.primary.ScreeningRoomMapper;
@@ -37,5 +38,12 @@ class ScreeningRoomMapperService implements ScreeningRoomMapper {
                 seatMapper.mapCreateSeatToSeatGrid(createScreeningRoomRequest.seats()),
                 supportedTechnologies
         );
+    }
+
+    @Override
+    public ScreeningRoomResponse mapScreeningRoomToScreeningRoomResponse(ScreeningRoom screeningRoom) {
+        return ScreeningRoomResponse.builder()
+                .name(screeningRoom.getScreeningRoomName())
+                .build();
     }
 }

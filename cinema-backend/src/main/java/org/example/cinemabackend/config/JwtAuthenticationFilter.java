@@ -35,7 +35,11 @@ class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(
+            HttpServletRequest request,
+            @NonNull HttpServletResponse response,
+            @NonNull FilterChain filterChain
+    ) throws ServletException, IOException {
         final var authenticationHeader = request.getHeader(jwtConfig.getHeader());
 
         if (authenticationHeader == null || !authenticationHeader.startsWith(jwtConfig.getPrefix())) {

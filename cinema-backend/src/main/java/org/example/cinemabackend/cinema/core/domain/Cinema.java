@@ -85,9 +85,6 @@ public class Cinema {
         return cinemaManager;
     }
 
-    public void setCinemaManager(User cinemaManager) {
-        this.cinemaManager = cinemaManager;
-    }
 
     public Long getId() {
         return this.id;
