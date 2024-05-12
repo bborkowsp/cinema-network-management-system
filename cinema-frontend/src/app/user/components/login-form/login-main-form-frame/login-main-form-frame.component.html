@@ -6,7 +6,13 @@
 
   <mat-form-field class="example-full-width">
     <mat-label>Password</mat-label>
-    <input [formControl]="passwordControl" matInput maxlength="255" required type="password">
+    <div class="password-input-container">
+      <input [formControl]="passwordControl" [type]="hidePassword ? 'password' : 'text'" matInput maxlength="255"
+             required>
+      <button (click)="togglePasswordVisibility()" mat-icon-button matSuffix type="button">
+        <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+    </div>
   </mat-form-field>
 
   <mat-form-field class="example-full-width">

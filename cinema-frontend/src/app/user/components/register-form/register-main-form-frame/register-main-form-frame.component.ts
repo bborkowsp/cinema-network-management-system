@@ -15,4 +15,10 @@ export class RegisterMainFormFrameComponent {
   @Input() firstNameControl!: FormControl;
   @Input() lastNameControl!: FormControl;
 
+  hidePassword: boolean = true;
+
+  togglePasswordVisibility() {
+    this.hidePassword = !this.hidePassword;
+  }
+
 }

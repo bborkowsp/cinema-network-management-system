@@ -11,4 +11,10 @@ export class LoginMainFormFrameComponent {
   @Input() emailControl!: FormControl;
   @Input() passwordControl!: FormControl;
   @Input() roleControl!: FormControl;
+
+  hidePassword: boolean = true;
+
+  togglePasswordVisibility() {
+    this.hidePassword = !this.hidePassword;
+  }
 }
