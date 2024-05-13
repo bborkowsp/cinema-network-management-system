@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.crypto.SecretKey;
 
-@Configuration
 @Getter
+@Configuration
 public class JwtConfig {
 
     private final SecretKey secretKey = Jwts.SIG.HS256.key().build();

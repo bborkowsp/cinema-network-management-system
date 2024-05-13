@@ -63,9 +63,7 @@ public class UserSchema implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        final var roleAuthorityName = role.name();
-        final var roleAuthority = new SimpleGrantedAuthority(roleAuthorityName);
-        return Set.of(roleAuthority);
+        return Set.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override

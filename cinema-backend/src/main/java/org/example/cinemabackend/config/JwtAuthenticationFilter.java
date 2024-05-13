@@ -18,9 +18,11 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Map;
 
 @RequiredArgsConstructor
 class JwtAuthenticationFilter extends OncePerRequestFilter {
+
     private static final String EMPTY_STRING = "";
     private static final String TOKEN_EXPIRED_ERROR_MESSAGE = "Token expired";
     private final JwtConfig jwtConfig;
@@ -57,8 +59,9 @@ class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             final var username = payload.getSubject();
             final var authorities = ((Collection<?>) payload.get("authorities")).stream()
-                    .map(authority -> (GrantedAuthority) () -> (String) authority)
+                    .map(authority -> (GrantedAuthority) () -> (String) ((Map<?, ?>) authority).get("authority"))
                     .toList();
+            
             final var authentication = new UsernamePasswordAuthenticationToken(username, null, authorities);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (Exception exception) {
