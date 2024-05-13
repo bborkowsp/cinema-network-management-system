@@ -20,10 +20,10 @@ import {EditMovieFormComponent} from "./movie/components/edit-movie-form/edit-mo
 import {MovieDetailsComponent} from "./movie/components/movie-details/movie-details.component";
 import {CreateCinemaFormComponent} from "./cinema/components/create-cinema-form/create-cinema-form.component";
 import {LoginFormComponent} from "./user/components/login-form/login-form.component";
-import {AuthGuard} from "./user/services/auth-guard";
 import {RegisterFormComponent} from "./user/components/register-form/register-form.component";
 import {CreateMovieComponent} from "./movie/components/create-movie/create-movie.component";
 import {CinemaManagerListComponent} from "./user/components/cinema-manager-list/cinema-manager-list.component";
+import {AuthGuard} from "./user/services/permission.service";
 
 
 const routes: Routes = [

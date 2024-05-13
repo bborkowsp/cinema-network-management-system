@@ -26,7 +26,6 @@ import {MovieModule} from "./movie/movie.module";
 import {JwtInterceptor} from "./shared/interceptors/jwt.interceptor";
 import {UserModule} from "./user/user.module";
 import {AuthService} from "./user/services/auth.service";
-import {AuthGuard} from "./user/services/auth-guard";
 import {MatNativeDateModule} from "@angular/material/core";
 
 @NgModule({
@@ -73,7 +72,7 @@ import {MatNativeDateModule} from "@angular/material/core";
       useClass: JwtInterceptor,
       multi: true,
     },
-    AuthService, AuthGuard
+    AuthService
   ],
   bootstrap: [AppComponent]
 })

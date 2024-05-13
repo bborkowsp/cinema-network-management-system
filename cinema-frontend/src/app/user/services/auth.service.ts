@@ -48,7 +48,6 @@ export class AuthService {
 
 
   logout() {
-    console.log("logout AuthService");
     this.loggedIn.next(false);
     localStorage.removeItem("token");
     localStorage.removeItem("expires_at");
@@ -70,11 +69,4 @@ export class AuthService {
     return moment(expiresAt);
   }
 
-
-  private setSession(authResult: AuthResult) {
-    const expiresAt = moment().add(authResult.expiresIn, 'second');
-
-    localStorage.setItem('id_token', authResult.idToken);
-    localStorage.setItem("expires_at", JSON.stringify(expiresAt.valueOf()));
-  }
 }
