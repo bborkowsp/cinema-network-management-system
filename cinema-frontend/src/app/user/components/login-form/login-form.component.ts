@@ -26,11 +26,9 @@ export class LoginFormComponent {
     const {email, password, role} = this.loginFormGroup.value;
     const loginUserRequest = new LoginUserRequest(email ?? '', password ?? '', role ?? '');
     this.authService.login(loginUserRequest);
-    console.log(loginUserRequest);
   }
 
   private goToHome(): void {
-    console.log("Login successful")
     this.router.navigate(['/home']);
   }
 }

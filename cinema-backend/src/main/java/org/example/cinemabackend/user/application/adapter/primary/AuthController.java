@@ -23,7 +23,6 @@ class AuthController {
     @PostMapping("/login")
     public ResponseEntity<JwtDto> login(@RequestBody @Valid LoginUserRequest loginUserRequest) {
         final var jwt = authUseCases.login(loginUserRequest);
-        System.out.println(jwt);
         return ResponseEntity.ok(jwt);
     }
 

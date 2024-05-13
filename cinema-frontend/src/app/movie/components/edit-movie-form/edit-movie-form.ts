@@ -56,11 +56,9 @@ export class EditMovieForm {
       const imageDataPromise = new Promise<string>((resolve, reject) => {
         const reader = new FileReader();
         reader.readAsDataURL(selectedImage);
-        console.log(selectedImage);
         reader.onload = () => {
           const dataUrl = reader.result as string;
           imageData = dataUrl.split(',')[1];
-          console.log("imageData", imageData)
           resolve(imageData);
         };
         reader.onerror = error => reject(error);

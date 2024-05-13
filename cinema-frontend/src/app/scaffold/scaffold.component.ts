@@ -59,7 +59,6 @@ export class ScaffoldComponent {
   }
 
   protected handleLogoutButtonClick() {
-    console.log("handleLogoutButtonClick scaffold component");
     this.authService.logout();
   }
 }

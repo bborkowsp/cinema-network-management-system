@@ -20,7 +20,6 @@ export class ProjectionTechnologyService {
 
   deleteProjectionTechnology(technology: string): Observable<void> {
     const url = `${ProjectionTechnologyService.projectionTechnologiesUrl}/${technology}`;
-    console.log(url);
     return this.httpClient.delete<void>(url);
   }
 

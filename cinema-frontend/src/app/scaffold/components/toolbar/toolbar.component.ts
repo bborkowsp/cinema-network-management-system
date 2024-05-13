@@ -15,8 +15,6 @@ export class ToolbarComponent {
   }
 
   protected handleLogoutButtonClick() {
-    console.log("handleLogoutButtonClick ToolbarComponent");
-
     this.logoutButtonClick.emit();
   }
 }

@@ -57,7 +57,6 @@ export class MovieService {
 
   updateMovie(title: string, movie: null | UpdateMovieRequest) {
     const url = `${MovieService.moviesUrl}/${title}`;
-    console.log(movie)
     return this.httpClient.patch<void>(url, movie);
   }
 }
