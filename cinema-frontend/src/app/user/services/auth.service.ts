@@ -6,6 +6,7 @@ import * as moment from "moment";
 import {RegisterUserRequest} from "../dtos/request/register-user.request";
 import {LoginUserRequest} from "../dtos/request/login-user.request";
 import {Router} from "@angular/router";
+import {jwtDecode} from 'jwt-decode';
 
 interface AuthResult {
   expiresIn: number;
@@ -66,6 +67,26 @@ export class AuthService {
     const expiration = localStorage.getItem("expires_at");
     const expiresAt = JSON.parse(expiration ?? '');
     return moment(expiresAt);
+  }
+
+  getUserRole(): string {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decodedToken = this.getDecodedAccessToken(token);
+      const authorities = decodedToken.authorities;
+      if (authorities && authorities.length > 0) {
+        return authorities[0].authority;
+      }
+    }
+    return '';
+  }
+
+  getDecodedAccessToken(token: string): any {
+    try {
+      return jwtDecode(token);
+    } catch (Error) {
+      return null;
+    }
   }
 
 }

@@ -9,41 +9,15 @@ import {AuthService} from "../user/services/auth.service";
   styleUrls: ['./scaffold.component.scss']
 })
 export class ScaffoldComponent {
+  protected navLinks: NavLink[] = [];
 
   protected isDrawerOpened = false;
-  protected readonly navLinks: NavLink[] = [
-    {
-      label: 'Home',
-      path: '/home',
-      icon: 'home'
-    },
-    {
-      label: 'Movies',
-      path: '/movies',
-      icon: 'movie'
-    },
-    {
-      label: 'Cinemas',
-      path: '/cinemas',
-      icon: 'business'
-    },
-    {
-      label: 'Projection technologies',
-      path: '/projection-technologies',
-      icon: 'settings'
-    },
-    {
-      label: 'Cinema managers',
-      path: '/cinema-managers',
-      icon: 'people'
-    },
-  ];
-
 
   constructor(
     private readonly router: Router,
     private readonly authService: AuthService
   ) {
+    this.setUpNavLinks();
   }
 
   protected get isUserOnLoginPage() {
@@ -60,5 +34,40 @@ export class ScaffoldComponent {
 
   protected handleLogoutButtonClick() {
     this.authService.logout();
+  }
+
+  private setUpNavLinks() {
+    const userRole = this.authService.getUserRole();
+    this.navLinks = [
+      {
+        label: 'Home',
+        path: '/home',
+        icon: 'home'
+      },
+      {
+        label: 'Movies',
+        path: '/movies',
+        icon: 'movie'
+      },
+      {
+        label: 'Cinemas',
+        path: '/cinemas',
+        icon: 'business'
+      },
+    ];
+    if (userRole === 'CINEMA_NETWORK_MANAGER') {
+      this.navLinks.push(
+        {
+          label: 'Cinema managers',
+          path: '/cinema-managers',
+          icon: 'people'
+        },
+        {
+          label: 'Projection technologies',
+          path: '/projection-technologies',
+          icon: 'settings'
+        }
+      );
+    }
   }
 }

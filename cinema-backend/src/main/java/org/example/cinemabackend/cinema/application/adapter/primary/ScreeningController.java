@@ -28,4 +28,5 @@ class ScreeningController {
         final var screenings = screeningUseCases.getScreenings(cinemaName);
         return ResponseEntity.ok(new ResponseList<>(screenings));
     }
+
 }

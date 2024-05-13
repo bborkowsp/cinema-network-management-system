@@ -27,10 +27,12 @@ import {JwtInterceptor} from "./shared/interceptors/jwt.interceptor";
 import {UserModule} from "./user/user.module";
 import {AuthService} from "./user/services/auth.service";
 import {MatNativeDateModule} from "@angular/material/core";
+import { ManageRepertoryComponent } from './repertory/components/manage-repertory/manage-repertory.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    ManageRepertoryComponent,
   ],
   imports: [
     BrowserModule,
