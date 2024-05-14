@@ -89,4 +89,12 @@ export class AuthService {
     }
   }
 
+  getLoggedInUserEmail(): string {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decodedToken = this.getDecodedAccessToken(token);
+      return decodedToken.sub;
+    }
+    return '';
+  }
 }

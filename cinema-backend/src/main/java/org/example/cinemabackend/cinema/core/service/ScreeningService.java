@@ -24,8 +24,8 @@ class ScreeningService implements ScreeningUseCases {
     }
 
     @Override
-    public List<ScreeningResponse> getScreenings(String cinemaName) {
-        final var cinema = cinemaRepository.findByName(cinemaName).orElseThrow();
+    public List<ScreeningResponse> getScreenings(String email) {
+        final var cinema = cinemaRepository.findByUserEmail(email);
         return cinema.getRepertory().stream().map(screeningMapper::mapScreeningToScreeningResponse).toList();
     }
 }

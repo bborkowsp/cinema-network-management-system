@@ -23,9 +23,9 @@ class ScreeningController {
         return ResponseEntity.ok(new ResponseList<>(cinemas));
     }
 
-    @GetMapping("/{cinema-name}")
-    ResponseEntity<ResponseList<ScreeningResponse>> getScreenings(@PathVariable("cinema-name") String cinemaName) {
-        final var screenings = screeningUseCases.getScreenings(cinemaName);
+    @GetMapping("/{email}")
+    ResponseEntity<ResponseList<ScreeningResponse>> getScreenings(@PathVariable("email") String email) {
+        final var screenings = screeningUseCases.getScreenings(email);
         return ResponseEntity.ok(new ResponseList<>(screenings));
     }
 

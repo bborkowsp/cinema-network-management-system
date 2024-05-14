@@ -24,6 +24,7 @@ import {RegisterFormComponent} from "./user/components/register-form/register-fo
 import {CreateMovieComponent} from "./movie/components/create-movie/create-movie.component";
 import {CinemaManagerListComponent} from "./user/components/cinema-manager-list/cinema-manager-list.component";
 import {AuthGuard} from "./user/services/permission.service";
+import {ManageRepertoryComponent} from "./repertory/components/manage-repertory/manage-repertory.component";
 
 
 const routes: Routes = [
@@ -52,6 +53,7 @@ const routes: Routes = [
   {path: 'movies/details/:title', component: MovieDetailsComponent, canActivate: [AuthGuard]},
   {path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
   {path: 'cinema-managers', component: CinemaManagerListComponent, canActivate: [AuthGuard]},
+  {path: 'repertory', component: ManageRepertoryComponent},
   {path: 'register', component: RegisterFormComponent},
   {path: 'login', component: LoginFormComponent},
   {path: '', redirectTo: '/login', pathMatch: 'full'},

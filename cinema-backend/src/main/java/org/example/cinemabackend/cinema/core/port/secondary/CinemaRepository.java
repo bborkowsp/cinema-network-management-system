@@ -22,4 +22,6 @@ public interface CinemaRepository {
     void deleteByName(String name);
 
     Cinema findByCinemaManager(User user);
+
+    Cinema findByUserEmail(String email);
 }

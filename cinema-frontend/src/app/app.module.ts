@@ -26,13 +26,11 @@ import {MovieModule} from "./movie/movie.module";
 import {JwtInterceptor} from "./shared/interceptors/jwt.interceptor";
 import {UserModule} from "./user/user.module";
 import {AuthService} from "./user/services/auth.service";
-import {MatNativeDateModule} from "@angular/material/core";
-import { ManageRepertoryComponent } from './repertory/components/manage-repertory/manage-repertory.component';
+import {RepertoryModule} from "./repertory/repertory.module";
 
 @NgModule({
   declarations: [
     AppComponent,
-    ManageRepertoryComponent,
   ],
   imports: [
     BrowserModule,
@@ -61,7 +59,7 @@ import { ManageRepertoryComponent } from './repertory/components/manage-repertor
     HomeModule,
     MovieModule,
     UserModule,
-    MatNativeDateModule
+    RepertoryModule,
   ],
   providers: [
     {

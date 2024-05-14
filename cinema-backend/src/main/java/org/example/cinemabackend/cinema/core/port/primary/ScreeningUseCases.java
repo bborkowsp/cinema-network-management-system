@@ -7,5 +7,5 @@ import java.util.List;
 public interface ScreeningUseCases {
     List<ScreeningResponse> getScreenings();
 
-    List<ScreeningResponse> getScreenings(String cinemaName);
+    List<ScreeningResponse> getScreenings(String email);
 }

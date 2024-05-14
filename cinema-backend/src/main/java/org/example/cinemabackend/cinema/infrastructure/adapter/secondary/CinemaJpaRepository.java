@@ -16,4 +16,6 @@ public interface CinemaJpaRepository extends JpaRepository<CinemaSchema, Long> {
     void deleteByName(String name);
 
     Optional<CinemaSchema> findByCinemaManager(UserSchema user);
+
+    Optional<CinemaSchema> findByCinemaManagerEmail(String email);
 }

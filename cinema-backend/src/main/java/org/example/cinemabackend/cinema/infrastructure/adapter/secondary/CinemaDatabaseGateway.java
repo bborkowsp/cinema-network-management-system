@@ -62,4 +62,10 @@ class CinemaDatabaseGateway implements CinemaRepository {
     public void deleteByName(String name) {
         cinemaJpaRepository.deleteByName(name);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Cinema findByUserEmail(String email) {
+        return cinemaJpaRepository.findByCinemaManagerEmail(email).map(CinemaSchema::toCinema).orElse(null);
+    }
 }
