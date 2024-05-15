@@ -2,6 +2,7 @@ package org.example.cinemabackend.user.core.port.primary;
 
 import org.example.cinemabackend.user.application.dto.response.CinemaManagerResponse;
 import org.example.cinemabackend.user.application.dto.response.CinemaManagerTableResponse;
+import org.example.cinemabackend.user.application.dto.response.UpdateCinemaManagerRequest;
 import org.example.cinemabackend.user.application.dto.response.UserResponse;
 import org.example.cinemabackend.user.core.domain.User;
 
@@ -11,4 +12,6 @@ public interface UserMapper {
     CinemaManagerTableResponse mapUserToCinemaManagerTableResponse(User user);
 
     CinemaManagerResponse mapUserToCinemaManagerResponse(User user);
+
+    void updateCinemaManager(User cinemaManager, UpdateCinemaManagerRequest updateCinemaManagerRequest);
 }

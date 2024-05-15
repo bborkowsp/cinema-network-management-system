@@ -1,8 +1,10 @@
 package org.example.cinemabackend.user.core.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.cinemabackend.cinema.core.port.secondary.CinemaRepository;
 import org.example.cinemabackend.user.application.dto.response.CinemaManagerResponse;
 import org.example.cinemabackend.user.application.dto.response.CinemaManagerTableResponse;
+import org.example.cinemabackend.user.application.dto.response.UpdateCinemaManagerRequest;
 import org.example.cinemabackend.user.core.port.primary.UserMapper;
 import org.example.cinemabackend.user.core.port.primary.UserUseCases;
 import org.example.cinemabackend.user.core.port.secondary.UserRepository;
@@ -18,6 +20,7 @@ import java.util.List;
 class UserService implements UserUseCases {
 
     private final UserRepository userRepository;
+    private final CinemaRepository cinemaRepository;
     private final UserMapper userMapper;
 
     @Override
@@ -30,5 +33,32 @@ class UserService implements UserUseCases {
     public List<CinemaManagerResponse> getCinemaManagers() {
         final var cinemaManagers = userRepository.findAllCinemaManagers();
         return cinemaManagers.stream().map(userMapper::mapUserToCinemaManagerResponse).toList();
+    }
+
+    @Override
+    public CinemaManagerResponse getCinemaManager(String email) {
+        final var cinemaManager = userRepository.findCinemaManagerByEmail(email).orElseThrow();
+        return userMapper.mapUserToCinemaManagerResponse(cinemaManager);
+    }
+
+    @Override
+    public void updateCinemaManager(String email, UpdateCinemaManagerRequest updateCinemaManagerRequest) {
+        validateEmailIsNotTaken(email, updateCinemaManagerRequest.email());
+        validateCinemaHasNoManager(email);
+        final var cinemaManager = userRepository.findCinemaManagerByEmail(email).orElseThrow();
+        userMapper.updateCinemaManager(cinemaManager, updateCinemaManagerRequest);
+        userRepository.save(cinemaManager);
+    }
+
+    private void validateCinemaHasNoManager(String email) {
+        if (cinemaRepository.findByCinemaManager(userRepository.findByEmail(email).orElseThrow()) != null) {
+            throw new IllegalArgumentException("Cinema already has a manager");
+        }
+    }
+
+    private void validateEmailIsNotTaken(String email, String updateEmail) {
+        if (!email.equals(updateEmail) && userRepository.existsByEmail(updateEmail)) {
+            throw new IllegalArgumentException("Email is already taken");
+        }
     }
 }

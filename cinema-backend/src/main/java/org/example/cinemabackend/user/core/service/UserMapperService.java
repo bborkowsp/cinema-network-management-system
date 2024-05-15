@@ -5,6 +5,7 @@ import org.example.cinemabackend.cinema.core.port.primary.CinemaMapper;
 import org.example.cinemabackend.cinema.core.port.secondary.CinemaRepository;
 import org.example.cinemabackend.user.application.dto.response.CinemaManagerResponse;
 import org.example.cinemabackend.user.application.dto.response.CinemaManagerTableResponse;
+import org.example.cinemabackend.user.application.dto.response.UpdateCinemaManagerRequest;
 import org.example.cinemabackend.user.application.dto.response.UserResponse;
 import org.example.cinemabackend.user.core.domain.User;
 import org.example.cinemabackend.user.core.port.primary.UserMapper;
@@ -17,7 +18,6 @@ class UserMapperService implements UserMapper {
 
     @Lazy
     private final CinemaMapper cinemaMapper;
-
     private final CinemaRepository cinemaRepository;
 
     @Override
@@ -43,10 +43,23 @@ class UserMapperService implements UserMapper {
 
     @Override
     public CinemaManagerResponse mapUserToCinemaManagerResponse(User user) {
+        final var managedCinema = cinemaRepository.findByCinemaManager(user);
+
         return CinemaManagerResponse.builder()
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .email(user.getEmail())
+                .managedCinemaName(managedCinema == null ? null : cinemaMapper.mapCinemaToCinemaResponse(managedCinema).name())
                 .build();
+    }
+
+    @Override
+    public void updateCinemaManager(User cinemaManager, UpdateCinemaManagerRequest updateCinemaManagerRequest) {
+        cinemaManager.setFirstName(updateCinemaManagerRequest.firstName());
+        cinemaManager.setLastName(updateCinemaManagerRequest.lastName());
+        cinemaManager.setEmail(updateCinemaManagerRequest.email());
+
+        final var managedCinema = cinemaRepository.findByName(updateCinemaManagerRequest.managedCinemaName()).orElseThrow();
+        managedCinema.setCinemaManager(cinemaManager);
     }
 }

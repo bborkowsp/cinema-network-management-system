@@ -2,6 +2,7 @@ package org.example.cinemabackend.user.core.port.primary;
 
 import org.example.cinemabackend.user.application.dto.response.CinemaManagerResponse;
 import org.example.cinemabackend.user.application.dto.response.CinemaManagerTableResponse;
+import org.example.cinemabackend.user.application.dto.response.UpdateCinemaManagerRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -12,4 +13,7 @@ public interface UserUseCases {
 
     List<CinemaManagerResponse> getCinemaManagers();
 
+    CinemaManagerResponse getCinemaManager(String email);
+
+    void updateCinemaManager(String email, UpdateCinemaManagerRequest updateCinemaManagerRequest);
 }

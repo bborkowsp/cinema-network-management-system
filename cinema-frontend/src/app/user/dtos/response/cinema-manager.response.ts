@@ -3,6 +3,7 @@ export class CinemaManagerResponse {
     readonly firstName: string,
     readonly lastName: string,
     readonly email: string,
+    readonly managedCinemaName: string,
   ) {
   }
 }

@@ -20,4 +20,6 @@ public interface UserRepository {
     List<User> findAllCinemaManagers();
 
     Optional<User> findByFirstNameAndLastNameAndEmail(String firstName, String lastName, String email);
+
+    Optional<User> findCinemaManagerByEmail(String email);
 }

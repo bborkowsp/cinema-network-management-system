@@ -24,4 +24,5 @@ public interface CinemaRepository {
     Cinema findByCinemaManager(User user);
 
     Cinema findByUserEmail(String email);
+
 }

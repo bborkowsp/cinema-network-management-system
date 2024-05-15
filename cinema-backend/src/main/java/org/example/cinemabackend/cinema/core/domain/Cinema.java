@@ -61,32 +61,65 @@ public class Cinema {
         return this.description;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public Address getAddress() {
         return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     public Image getImage() {
         return image;
     }
 
+    public void setImage(Image image) {
+        this.image = image;
+    }
+
     public Set<Screening> getRepertory() {
         return repertory;
+    }
+
+    public void setRepertory(Set<Screening> repertory) {
+        this.repertory = repertory;
     }
 
     public Set<ScreeningRoom> getScreeningRooms() {
         return screeningRooms;
     }
 
+    public void setScreeningRooms(Set<ScreeningRoom> screeningRooms) {
+        this.screeningRooms = screeningRooms;
+    }
+
     public Set<ContactDetails> getContactDetails() {
         return contactDetails;
+    }
+
+    public void setContactDetails(Set<ContactDetails> contactDetails) {
+        this.contactDetails = contactDetails;
     }
 
     public User getCinemaManager() {
         return cinemaManager;
     }
 
+    public void setCinemaManager(User cinemaManager) {
+        this.cinemaManager = cinemaManager;
+    }
 
     public Long getId() {
         return this.id;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+
 }

@@ -37,4 +37,11 @@ export class CinemaService {
   createCinema(cinema: CreateCinemaRequest) {
     return this.httpClient.post<void>(CinemaService.cinemasUrl, cinema);
   }
+
+  getAllCinemaNames() {
+    const url = `${CinemaService.cinemasUrl}/names`;
+    return this.httpClient.get<{ content: string[] }>(url).pipe(
+      map((response) => response.content),
+    );
+  }
 }

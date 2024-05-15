@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.application.dto.request.CreateCinemaRequest;
 import org.example.cinemabackend.cinema.application.dto.response.CinemaResponse;
 import org.example.cinemabackend.cinema.application.dto.response.CinemaTableResponse;
+import org.example.cinemabackend.cinema.core.domain.Cinema;
 import org.example.cinemabackend.cinema.core.port.primary.CinemaMapper;
 import org.example.cinemabackend.cinema.core.port.primary.CinemaUseCases;
 import org.example.cinemabackend.cinema.core.port.secondary.CinemaRepository;
@@ -50,6 +51,11 @@ class CinemaService implements CinemaUseCases {
     public void deleteCinema(String name) {
         validateCinemaExists(name);
         cinemaRepository.deleteByName(name);
+    }
+
+    @Override
+    public List<String> getCinemaNames() {
+        return cinemaRepository.findAll().stream().map(Cinema::getName).toList();
     }
 
     private void validateCinemaExists(String name) {

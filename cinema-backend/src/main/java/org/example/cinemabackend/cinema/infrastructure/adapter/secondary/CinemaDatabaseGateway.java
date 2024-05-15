@@ -68,4 +68,5 @@ class CinemaDatabaseGateway implements CinemaRepository {
     public Cinema findByUserEmail(String email) {
         return cinemaJpaRepository.findByCinemaManagerEmail(email).map(CinemaSchema::toCinema).orElse(null);
     }
+
 }

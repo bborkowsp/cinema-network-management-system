@@ -19,4 +19,6 @@ public interface CinemaUseCases {
     void createCinema(CreateCinemaRequest createCinemaRequest);
 
     void deleteCinema(String name);
+
+    List<String> getCinemaNames();
 }

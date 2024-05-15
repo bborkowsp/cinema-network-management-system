@@ -18,4 +18,5 @@ public interface CinemaJpaRepository extends JpaRepository<CinemaSchema, Long> {
     Optional<CinemaSchema> findByCinemaManager(UserSchema user);
 
     Optional<CinemaSchema> findByCinemaManagerEmail(String email);
+
 }

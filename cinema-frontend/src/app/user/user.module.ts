@@ -18,6 +18,8 @@ import {CinemaManagerListComponent} from './components/cinema-manager-list/cinem
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatTableModule} from "@angular/material/table";
 import {MatIconModule} from "@angular/material/icon";
+import { CinemaManagerFormComponent } from './components/cinema-manager-form/cinema-manager-form.component';
+import { CinemaManagerFormFrameComponent } from './components/cinema-manager-form/components/cinema-manager-form-frame/cinema-manager-form-frame.component';
 
 
 @NgModule({
@@ -26,7 +28,9 @@ import {MatIconModule} from "@angular/material/icon";
     RegisterFormComponent,
     LoginMainFormFrameComponent,
     RegisterMainFormFrameComponent,
-    CinemaManagerListComponent
+    CinemaManagerListComponent,
+    CinemaManagerFormComponent,
+    CinemaManagerFormFrameComponent
   ],
   imports: [
     CommonModule,

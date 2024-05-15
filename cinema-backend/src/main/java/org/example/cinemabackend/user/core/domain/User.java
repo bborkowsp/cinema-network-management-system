@@ -36,18 +36,29 @@ public class User implements UserDetails {
         return firstName;
     }
 
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
     public String getLastName() {
         return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {
         return email;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getPasswordHash() {
         return passwordHash;
     }
-
 
     public Role getRole() {
         return role;
@@ -56,7 +67,6 @@ public class User implements UserDetails {
     public Long getId() {
         return id;
     }
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -92,4 +102,5 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }

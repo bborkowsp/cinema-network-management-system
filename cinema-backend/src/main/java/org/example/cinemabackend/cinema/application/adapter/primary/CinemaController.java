@@ -30,6 +30,12 @@ class CinemaController {
         return ResponseEntity.ok(cinema);
     }
 
+    @GetMapping("/names")
+    ResponseEntity<ResponseList<String>> getCinemaNames() {
+        final var cinemaNames = cinemaUseCases.getCinemaNames();
+        return ResponseEntity.ok(new ResponseList<>(cinemaNames));
+    }
+
     @PostMapping
     ResponseEntity<Void> createCinema(@RequestBody @Valid CreateCinemaRequest createCinemaRequest) {
         cinemaUseCases.createCinema(createCinemaRequest);

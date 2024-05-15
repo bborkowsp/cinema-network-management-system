@@ -5,13 +5,14 @@ import {PaginatorRequestParams} from "../../shared/dtos/paginator-request-params
 import {CinemaManagerPageResponse} from "../dtos/response/cinema-manager-page.response";
 import {Injectable} from "@angular/core";
 import {CinemaManagerResponse} from "../dtos/response/cinema-manager.response";
-import {CinemaManagerTableResponse} from "../dtos/response/cinema-manager-table.response";
+import {CinemaManagerRequest} from "../dtos/request/cinema-manager.request";
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
   static readonly usersUrl = `${environment.apiBaseUrl}/users`;
+  static readonly cinemaManagersUrl = `${UserService.usersUrl}/cinema-managers`;
 
   constructor(private httpClient: HttpClient) {
   }
@@ -30,9 +31,9 @@ export class UserService {
       .pipe(map((response) => response));
   }
 
-  getCinemaManager(email: string): Observable<CinemaManagerTableResponse> {
-    const url = `${UserService.usersUrl}/${email}`;
-    return this.httpClient.get<CinemaManagerTableResponse>(url);
+  getCinemaManager(email: string): Observable<CinemaManagerResponse> {
+    const url = `${UserService.cinemaManagersUrl}/${email}`;
+    return this.httpClient.get<CinemaManagerResponse>(url);
   }
 
 
@@ -47,4 +48,12 @@ export class UserService {
   }
 
 
+  updateCinemaManager(cinemaManagerEmail: string, cinemaManager: CinemaManagerRequest) {
+    const url = `${UserService.cinemaManagersUrl}/${cinemaManagerEmail}`;
+    return this.httpClient.patch<void>(url, cinemaManager);
+  }
+
+  createCinemaManager(cinemaManager: CinemaManagerRequest) {
+    return this.httpClient.post<void>(UserService.cinemaManagersUrl, cinemaManager);
+  }
 }
