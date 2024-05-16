@@ -13,8 +13,8 @@ import java.util.Arrays;
 @Transactional
 @RequiredArgsConstructor
 class DatabaseSeeder implements CommandLineRunner {
+    static final int OBJECTS_TO_SEED = 4;
     private static final String SEED_FLAG = "--seed";
-    private static final int OBJECTS_TO_SEED = 2;
     private final CinemaSeeder cinemaSeeder;
     private final ProjectionTechnologySeeder projectionTechnologySeeder;
     private final UserSeeder userSeeder;
@@ -31,7 +31,7 @@ class DatabaseSeeder implements CommandLineRunner {
             movieSeeder.seedDatabase(OBJECTS_TO_SEED);
             logger.info("Movies seeded");
 
-            userSeeder.seedDatabase(12);
+            userSeeder.seedDatabase(OBJECTS_TO_SEED / 2);
             logger.info("Users seeded");
 
             cinemaSeeder.seedDatabase(OBJECTS_TO_SEED);

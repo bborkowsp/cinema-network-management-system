@@ -41,7 +41,7 @@ class CinemaMapperService implements CinemaMapper {
                 createCinemaRequest.cinemaManager().firstName(),
                 createCinemaRequest.cinemaManager().lastName(),
                 createCinemaRequest.cinemaManager().email()
-        ).orElseThrow();
+        ).orElse(null);
         return new Cinema(
                 createCinemaRequest.name(),
                 createCinemaRequest.description(),

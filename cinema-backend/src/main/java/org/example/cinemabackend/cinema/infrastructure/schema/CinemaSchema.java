@@ -34,10 +34,11 @@ public class CinemaSchema {
     @Embedded
     private ImageSchema image;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ScreeningSchema> repertory = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}
+            , mappedBy = "cinema", fetch = FetchType.LAZY)
     private Set<ScreeningRoomSchema> screeningRooms = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
@@ -56,12 +57,13 @@ public class CinemaSchema {
                 .repertory(cinema.getRepertory() == null ? new HashSet<>() : cinema.getRepertory().stream().map(ScreeningSchema::fromScreening).collect(Collectors.toSet()))
                 .screeningRooms(cinema.getScreeningRooms().stream().map(ScreeningRoomSchema::fromScreeningRoom).collect(Collectors.toSet()))
                 .contactDetails(cinema.getContactDetails().stream().map(ContactDetailsSchema::fromContactDetails).collect(Collectors.toSet()))
-                .cinemaManager(UserSchema.fromUser(cinema.getCinemaManager()))
+                .cinemaManager(cinema.getCinemaManager() == null ? null : UserSchema.fromUser(cinema.getCinemaManager()))
                 .build();
     }
 
     public Cinema toCinema() {
-        Cinema cinema = new Cinema(
+        final var user = this.cinemaManager == null ? null : this.cinemaManager.toUser();
+        return new Cinema(
                 this.id,
                 this.name,
                 this.description,
@@ -70,9 +72,8 @@ public class CinemaSchema {
                 this.repertory.stream().map(ScreeningSchema::toScreening).collect(Collectors.toSet()),
                 this.screeningRooms.stream().map(ScreeningRoomSchema::toScreeningRoom).collect(Collectors.toSet()),
                 this.contactDetails.stream().map(ContactDetailsSchema::toContactDetails).collect(Collectors.toSet()),
-                this.cinemaManager.toUser()
+                user
         );
-        return cinema;
     }
 
 }

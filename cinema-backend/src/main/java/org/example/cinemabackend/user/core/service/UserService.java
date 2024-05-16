@@ -44,17 +44,20 @@ class UserService implements UserUseCases {
     @Override
     public void updateCinemaManager(String email, UpdateCinemaManagerRequest updateCinemaManagerRequest) {
         validateEmailIsNotTaken(email, updateCinemaManagerRequest.email());
-        validateCinemaHasNoManager(email);
+        validateCinemaHasNoManager(updateCinemaManagerRequest);
         final var cinemaManager = userRepository.findCinemaManagerByEmail(email).orElseThrow();
         userMapper.updateCinemaManager(cinemaManager, updateCinemaManagerRequest);
-        userRepository.save(cinemaManager);
     }
 
-    private void validateCinemaHasNoManager(String email) {
-        if (cinemaRepository.findByCinemaManager(userRepository.findByEmail(email).orElseThrow()) != null) {
+    private void validateCinemaHasNoManager(UpdateCinemaManagerRequest updateCinemaManagerRequest) {
+        final var cinema = cinemaRepository.findByCinemaManager(userRepository.findByEmail(updateCinemaManagerRequest.email()).orElse(null));
+        if (cinema != null &&
+                !cinema.getName().equals(updateCinemaManagerRequest.managedCinemaName()) &&
+                !cinema.getCinemaManager().getEmail().equals(updateCinemaManagerRequest.email())) {
             throw new IllegalArgumentException("Cinema already has a manager");
         }
     }
+
 
     private void validateEmailIsNotTaken(String email, String updateEmail) {
         if (!email.equals(updateEmail) && userRepository.existsByEmail(updateEmail)) {

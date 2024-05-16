@@ -47,7 +47,13 @@ class CinemaSeeder implements Seeder {
         final var image = imageUtil.createImage();
         final var screeningRooms = createScreeningRooms();
         final var contactDetails = createContactDetails();
-        final var cinemaManager = getCinemaManager();
+        final User cinemaManager;
+
+        if (increment < DatabaseSeeder.OBJECTS_TO_SEED / 2)
+            cinemaManager = getCinemaManager();
+        else
+            cinemaManager = null;
+
         return new Cinema(
                 faker.company().name(),
                 faker.lorem().fixedString(100),

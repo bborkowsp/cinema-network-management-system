@@ -25,4 +25,5 @@ public interface CinemaRepository {
 
     Cinema findByUserEmail(String email);
 
+    void updateCinemaManager(Long cinemaId, Long cinemaManagerId);
 }

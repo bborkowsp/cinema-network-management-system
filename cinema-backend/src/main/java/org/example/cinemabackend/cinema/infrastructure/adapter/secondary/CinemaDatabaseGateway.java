@@ -5,6 +5,7 @@ import org.example.cinemabackend.cinema.core.domain.Cinema;
 import org.example.cinemabackend.cinema.core.port.secondary.CinemaRepository;
 import org.example.cinemabackend.cinema.infrastructure.schema.CinemaSchema;
 import org.example.cinemabackend.user.core.domain.User;
+import org.example.cinemabackend.user.core.port.secondary.UserRepository;
 import org.example.cinemabackend.user.infrastructure.scheme.UserSchema;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +20,7 @@ import java.util.Optional;
 class CinemaDatabaseGateway implements CinemaRepository {
 
     private final CinemaJpaRepository cinemaJpaRepository;
+    private final UserRepository userRepository;
 
     @Override
     @Transactional
@@ -69,4 +71,8 @@ class CinemaDatabaseGateway implements CinemaRepository {
         return cinemaJpaRepository.findByCinemaManagerEmail(email).map(CinemaSchema::toCinema).orElse(null);
     }
 
+    @Override
+    public void updateCinemaManager(Long cinemaId, Long cinemaManagerId) {
+//        this.cinemaJpaRepository.updateCinemaManager(cinemaId, UserSchema.fromUser(userRepository.findByEmail());
+    }
 }
