@@ -12,7 +12,7 @@ import {CinemaManagerResponse} from "../../dtos/response/cinema-manager.response
 })
 export class CinemaManagerFormComponent implements OnInit {
   protected isEditMode = false;
-  protected isLoading = false;
+  protected isLoading = true;
   protected cinemaManagerFormHelper !: CinemaManagerFormHelper;
   private cinemaManagerEmail !: string;
   protected pageTitle !: string;
@@ -45,6 +45,7 @@ export class CinemaManagerFormComponent implements OnInit {
 
   private setUpCinemaManagerForm() {
     this.cinemaManagerFormHelper = new CinemaManagerFormHelper(this.formBuilder);
+    this.isLoading = false;
   }
 
   private loadCinemaManager() {

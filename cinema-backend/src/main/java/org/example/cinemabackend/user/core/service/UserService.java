@@ -50,10 +50,8 @@ class UserService implements UserUseCases {
     }
 
     private void validateCinemaHasNoManager(UpdateCinemaManagerRequest updateCinemaManagerRequest) {
-        final var cinema = cinemaRepository.findByCinemaManager(userRepository.findByEmail(updateCinemaManagerRequest.email()).orElse(null));
-        if (cinema != null &&
-                !cinema.getName().equals(updateCinemaManagerRequest.managedCinemaName()) &&
-                !cinema.getCinemaManager().getEmail().equals(updateCinemaManagerRequest.email())) {
+        final var cinema = cinemaRepository.findByName(updateCinemaManagerRequest.managedCinemaName()).orElseThrow();
+        if (cinema.getCinemaManager() != null && !cinema.getCinemaManager().getEmail().equals(updateCinemaManagerRequest.email())) {
             throw new IllegalArgumentException("Cinema already has a manager");
         }
     }
