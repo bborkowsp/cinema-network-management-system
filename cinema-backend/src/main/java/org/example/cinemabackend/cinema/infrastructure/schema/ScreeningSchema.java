@@ -5,8 +5,7 @@ import lombok.*;
 import org.example.cinemabackend.cinema.core.domain.Screening;
 import org.example.cinemabackend.movie.infrastructure.schema.MovieSchema;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -22,14 +21,22 @@ public class ScreeningSchema {
     @OneToOne(fetch = FetchType.EAGER)
     private MovieSchema movie;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<ScreeningTimeScheme> screeningTimes = new ArrayList<>();
+    @Column(nullable = false)
+    private LocalDateTime startTime;
+
+    @Column(nullable = false)
+    private LocalDateTime endTime;
+
+    @OneToOne(cascade = CascadeType.ALL, optional = false, orphanRemoval = true)
+    private ScreeningRoomSchema screeningRoom;
 
     public static ScreeningSchema fromScreening(Screening screening) {
         return ScreeningSchema.builder()
                 .id(screening.getId())
                 .movie(MovieSchema.fromMovie(screening.getMovie()))
-                .screeningTimes(screening.getScreeningTimes().stream().map(ScreeningTimeScheme::fromScreeningTime).collect(java.util.stream.Collectors.toList()))
+                .startTime(screening.getStartTime())
+                .endTime(screening.getEndTime())
+                .screeningRoom(ScreeningRoomSchema.fromScreeningRoom(screening.getScreeningRoom()))
                 .build();
     }
 
@@ -37,7 +44,9 @@ public class ScreeningSchema {
         return new Screening(
                 this.id,
                 movie.toMovie(),
-                screeningTimes.stream().map(ScreeningTimeScheme::toScreeningTime).collect(java.util.stream.Collectors.toList())
+                startTime,
+                endTime,
+                screeningRoom.toScreeningRoom()
         );
     }
 }

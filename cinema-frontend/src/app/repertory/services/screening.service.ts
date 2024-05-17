@@ -3,6 +3,7 @@ import {environment} from "../../../assets/environment";
 import {ScreeningResponse} from "../dtos/screening.response";
 import {HttpClient} from "@angular/common/http";
 import {Injectable} from "@angular/core";
+import {map} from "rxjs";
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +19,9 @@ export class ScreeningService {
 
   getRepertory() {
     const email = this.authService.getLoggedInUserEmail();
-    return this.httpClient.get<ScreeningResponse[]>(`${ScreeningService.screeningsUrl}/${email}`);
+    const url = `${ScreeningService.screeningsUrl}/${email}`;
+    return this.httpClient.get<{ content: ScreeningResponse[] }>(url)
+      .pipe(map((response) => response.content));
   }
+
 }

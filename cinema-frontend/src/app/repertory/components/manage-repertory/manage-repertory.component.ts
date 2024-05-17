@@ -1,6 +1,5 @@
-import {ChangeDetectionStrategy, Component, OnInit,} from '@angular/core';
+import {Component, OnInit,} from '@angular/core';
 import {ScreeningResponse} from "../../dtos/screening.response";
-import {Observable} from "rxjs";
 import {ScreeningService} from "../../services/screening.service";
 
 
@@ -8,11 +7,12 @@ import {ScreeningService} from "../../services/screening.service";
   selector: 'app-manage-repertory',
   templateUrl: './manage-repertory.component.html',
   styleUrls: ['./manage-repertory.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ManageRepertoryComponent implements OnInit {
   protected isLoading = true;
-  repertory$ !: Observable<ScreeningResponse[]>;
+  repertory$ !: ScreeningResponse[];
+  screeningsGroupedByScreeningRoom: { [key: string]: ScreeningResponse[] } = {};
+  displayedColumns = ['movie', 'startTime', 'endTime'];
 
   constructor(
     private readonly repertoryService: ScreeningService,
@@ -20,17 +20,29 @@ export class ManageRepertoryComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.repertory$ = this.getData();
-    this.repertory$.subscribe({
-      next: () => {
-        this.isLoading = false;
-      }, error: (error) => {
-        //TODO
-      }
+    this.getData().subscribe((repertory) => {
+      this.repertory$ = repertory;
+      this.isLoading = false;
+      console.log(this.repertory$);
+      this.groupScreeningsByScreeningRoom();
     });
   }
 
-  private getData(): Observable<ScreeningResponse[]> {
+  private groupScreeningsByScreeningRoom() {
+    this.screeningsGroupedByScreeningRoom = {};
+    this.repertory$.forEach((screening: ScreeningResponse) => {
+      const roomName = screening.screeningRoom.name;
+      if (!this.screeningsGroupedByScreeningRoom[roomName]) {
+        this.screeningsGroupedByScreeningRoom[roomName] = [];
+      }
+      this.screeningsGroupedByScreeningRoom[roomName].push(screening);
+    });
+  }
+
+
+  private getData() {
     return this.repertoryService.getRepertory();
   }
+
+  protected readonly Object = Object;
 }

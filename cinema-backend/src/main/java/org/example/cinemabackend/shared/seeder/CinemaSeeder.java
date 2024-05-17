@@ -43,9 +43,9 @@ class CinemaSeeder implements Seeder {
 
     private Cinema createCinema() {
         final var address = createAddress();
-        final var repertory = createRepertory();
         final var image = imageUtil.createImage();
         final var screeningRooms = createScreeningRooms();
+        final var repertory = createRepertory();
         final var contactDetails = createContactDetails();
         final User cinemaManager;
 
@@ -79,17 +79,16 @@ class CinemaSeeder implements Seeder {
 
     private Screening createScreening() {
         final var movie = getMovie();
-        final var screeningTimes = createScreeningTimes();
-        return new Screening(movie, screeningTimes);
+        final var startTime = LocalDateTime.now().plusHours(1);
+        final var endTime = startTime.plusMinutes(30);
+        final var screeningRoom = createScreeningRoom();
+        return new Screening(
+                movie, startTime, endTime, screeningRoom
+        );
     }
 
     private Movie getMovie() {
         return movieRepository.findAll().get(increment);
-    }
-
-    private List<ScreeningTime> createScreeningTimes() {
-        final var ScreeningTime = createScreeningTime();
-        return List.of(ScreeningTime);
     }
 
     private User getCinemaManager() {
@@ -160,10 +159,6 @@ class CinemaSeeder implements Seeder {
         );
     }
 
-
-    private ScreeningTime createScreeningTime() {
-        return new ScreeningTime(createScreeningRoom(), LocalDateTime.now().plusHours(2));
-    }
 
     private SeatType getRandomSeatType() {
         return SeatType.values()[new Random().nextInt(SeatType.values().length)];

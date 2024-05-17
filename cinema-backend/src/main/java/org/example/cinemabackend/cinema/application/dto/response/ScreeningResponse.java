@@ -3,11 +3,13 @@ package org.example.cinemabackend.cinema.application.dto.response;
 import lombok.Builder;
 import org.example.cinemabackend.movie.application.dto.response.MovieResponse;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Builder
 public record ScreeningResponse(
         MovieResponse movie,
-        List<ScreeningTimeResponse> screeningTimes
+        LocalDateTime startTime,
+        LocalDateTime endTime,
+        ScreeningRoomResponse screeningRoom
 ) {
 }

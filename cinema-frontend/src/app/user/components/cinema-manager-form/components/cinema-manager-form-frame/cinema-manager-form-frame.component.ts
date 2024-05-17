@@ -20,7 +20,6 @@ export class CinemaManagerFormFrameComponent implements OnInit {
 
   ngOnInit() {
     this.cinemaNames = this.cinemaService.getAllCinemaNames();
-
   }
 
 

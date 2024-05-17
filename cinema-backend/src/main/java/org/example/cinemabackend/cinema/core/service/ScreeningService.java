@@ -28,4 +28,6 @@ class ScreeningService implements ScreeningUseCases {
         final var cinema = cinemaRepository.findByUserEmail(email);
         return cinema.getRepertory().stream().map(screeningMapper::mapScreeningToScreeningResponse).toList();
     }
+
+
 }
