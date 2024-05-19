@@ -26,6 +26,9 @@ import {CinemaManagerListComponent} from "./user/components/cinema-manager-list/
 import {AuthGuard} from "./user/services/permission.service";
 import {ManageRepertoryComponent} from "./repertory/components/manage-repertory/manage-repertory.component";
 import {CinemaManagerFormComponent} from "./user/components/cinema-manager-form/cinema-manager-form.component";
+import {
+  ScreeningFormComponent
+} from "./repertory/components/manage-repertory/components/screening-form/screening-form.component";
 
 
 const routes: Routes = [
@@ -57,6 +60,8 @@ const routes: Routes = [
   {path: 'cinema-managers/create', component: CinemaManagerFormComponent, canActivate: [AuthGuard]},
   {path: 'cinema-managers/edit/:email', component: CinemaManagerFormComponent, canActivate: [AuthGuard]},
   {path: 'repertory', component: ManageRepertoryComponent},
+  {path: 'repertory/edit/:id', component: ScreeningFormComponent},
+  {path: 'repertory/create/:roomName', component: ScreeningFormComponent},
   {path: 'register', component: RegisterFormComponent},
   {path: 'login', component: LoginFormComponent},
   {path: '', redirectTo: '/login', pathMatch: 'full'},

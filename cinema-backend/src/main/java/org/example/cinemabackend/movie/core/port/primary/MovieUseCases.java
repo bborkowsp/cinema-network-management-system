@@ -25,4 +25,6 @@ public interface MovieUseCases {
     List<AgeRestriction> getAgeRestrictions();
 
     void updateMovie(String title, UpdateMovieRequest updateMovieRequest);
+
+    List<String> getMovieTitles();
 }

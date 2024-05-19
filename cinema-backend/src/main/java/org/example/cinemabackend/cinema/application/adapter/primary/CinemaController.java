@@ -24,6 +24,13 @@ class CinemaController {
         return ResponseEntity.ok(new ResponseList<>(cinemas));
     }
 
+    @GetMapping("/screening-rooms/{email}")
+    ResponseEntity<ResponseList<String>> getScreeningRoomsNames(@PathVariable String email) {
+        final var screeningRoomsNames = cinemaUseCases.getScreeningRoomsNames(email);
+        return ResponseEntity.ok(new ResponseList<>(screeningRoomsNames));
+    }
+
+
     @GetMapping("/{name}")
     ResponseEntity<CinemaResponse> getCinema(@PathVariable String name) {
         final var cinema = cinemaUseCases.getCinema(name);
@@ -47,4 +54,6 @@ class CinemaController {
         cinemaUseCases.deleteCinema(name);
         return ResponseEntity.noContent().build();
     }
+
+
 }

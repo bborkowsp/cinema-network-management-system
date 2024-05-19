@@ -6,6 +6,7 @@ import org.example.cinemabackend.cinema.application.dto.request.CreateCinemaRequ
 import org.example.cinemabackend.cinema.application.dto.response.CinemaResponse;
 import org.example.cinemabackend.cinema.application.dto.response.CinemaTableResponse;
 import org.example.cinemabackend.cinema.core.domain.Cinema;
+import org.example.cinemabackend.cinema.core.domain.ScreeningRoom;
 import org.example.cinemabackend.cinema.core.port.primary.CinemaMapper;
 import org.example.cinemabackend.cinema.core.port.primary.CinemaUseCases;
 import org.example.cinemabackend.cinema.core.port.secondary.CinemaRepository;
@@ -56,6 +57,12 @@ class CinemaService implements CinemaUseCases {
     @Override
     public List<String> getCinemaNames() {
         return cinemaRepository.findAll().stream().map(Cinema::getName).toList();
+    }
+
+    @Override
+    public List<String> getScreeningRoomsNames(String email) {
+        final var cinema = cinemaRepository.findByUserEmail(email);
+        return cinema.getScreeningRooms().stream().map(ScreeningRoom::getName).toList();
     }
 
     private void validateCinemaExists(String name) {

@@ -1,0 +1,25 @@
+<form
+  #screeningForm="ngForm"
+  (ngSubmit)="onSubmit()"
+  [formGroup]="screeningFormHelper.form"
+>
+  <app-page-content-container
+    [isLoading]="isLoading"
+    [pageTitle]="pageTitle"
+  >
+    <ng-container content>
+      <app-screening-form-frame
+        [formGroup]="screeningFormHelper.mainFormGroup"
+        [form]="screeningForm"
+      ></app-screening-form-frame>
+    </ng-container>
+
+  </app-page-content-container>
+  <div class="button-container">
+    <button (click)=handleCancelClicked() color="warn" mat-flat-button>Cancel</button>
+    <button [disabled]="screeningForm.form.invalid" color="primary" mat-flat-button type="submit">
+      Save
+    </button>
+  </div>
+
+</form>

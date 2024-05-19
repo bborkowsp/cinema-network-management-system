@@ -1,0 +1,62 @@
+<app-generic-form-frame title="Screening info">
+  <ng-container content>
+    <div class="form-container">
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Movie title</mat-label>
+        <input
+          type="text"
+          matInput
+          [formControl]="movieTitleControl"
+          [matAutocomplete]="auto"
+        >
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayTitleFn">
+          <mat-option *ngFor="let title of filteredTitles | async" [value]="title">
+            {{ title }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Screening start time</mat-label>
+        <input
+          [formControl]="startTimeControl"
+          matInput
+          required
+          type="datetime-local"
+          placeholder="start date"
+          max="9999-12-31T23:59"
+        >
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Screening end time</mat-label>
+        <input
+          [formControl]="endTimeControl"
+          matInput
+          required
+          type="datetime-local"
+          placeholder="start date"
+          max="9999-12-31T23:59"
+        >
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Screening room name</mat-label>
+        <input
+          type="text"
+          matInput
+          [formControl]="screeningRoomControl"
+          [matAutocomplete]="auto"
+        >
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayScreeningRoomNameFn">
+          <mat-option *ngFor="let screeningRoomName of filteredScreeningRooms | async" [value]="screeningRoomName">
+            {{ screeningRoomName }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+
+    </div>
+  </ng-container>
+</app-generic-form-frame>

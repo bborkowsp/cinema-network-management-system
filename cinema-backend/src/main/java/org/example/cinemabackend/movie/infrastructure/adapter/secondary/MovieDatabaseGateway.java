@@ -54,4 +54,5 @@ class MovieDatabaseGateway implements MovieRepository {
     public List<Movie> findAll() {
         return this.movieJpaRepository.findAll().stream().map(MovieSchema::toMovie).toList();
     }
+
 }

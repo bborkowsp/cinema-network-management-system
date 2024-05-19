@@ -28,4 +28,9 @@ export class ScreeningService {
     const url = `${ScreeningService.screeningsUrl}/${id}`;
     return this.httpClient.delete(url);
   }
+
+  getScreening(id: number) {
+    const url = `${ScreeningService.screeningsUrl}/${id}`;
+    return this.httpClient.get<ScreeningResponse>(url);
+  }
 }

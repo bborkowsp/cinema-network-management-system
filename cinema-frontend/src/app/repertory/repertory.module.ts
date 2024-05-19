@@ -6,11 +6,23 @@ import {AsyncPipe, DatePipe, KeyValuePipe, NgForOf, NgIf} from "@angular/common"
 import {
   RepertoryTableComponentComponent
 } from "./components/manage-repertory/components/repertory-table-component/repertory-table-component.component";
+import {MatButtonModule} from "@angular/material/button";
+import {ScreeningFormComponent} from './components/manage-repertory/components/screening-form/screening-form.component';
+import {MatIconModule} from "@angular/material/icon";
+import {
+  ScreeningFormFrameComponent
+} from './components/manage-repertory/components/screening-form/components/screening-form-frame/screening-form-frame.component';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {MatInputModule} from "@angular/material/input";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
 @NgModule({
   declarations: [
     ManageRepertoryComponent,
-    RepertoryTableComponentComponent
+    RepertoryTableComponentComponent,
+    ScreeningFormComponent,
+    ScreeningFormFrameComponent
   ],
   imports: [
     SharedModule,
@@ -19,7 +31,14 @@ import {
     NgIf,
     NgForOf,
     KeyValuePipe,
-    AsyncPipe
+    AsyncPipe,
+    MatButtonModule,
+    MatIconModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatAutocompleteModule
   ],
 })
 export class RepertoryModule {

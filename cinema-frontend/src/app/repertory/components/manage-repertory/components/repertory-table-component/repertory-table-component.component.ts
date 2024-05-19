@@ -10,6 +10,7 @@ export class RepertoryTableComponentComponent implements OnInit {
   @Input() repertory!: ScreeningResponse[];
   @Output() handleDelete = new EventEmitter<ScreeningResponse>();
   @Output() handleEdit = new EventEmitter<ScreeningResponse>();
+  @Output() handleAdd = new EventEmitter<string>();
 
   displayedColumns = ['options', 'movie', 'startTime', 'endTime'];
   screeningsGroupedByScreeningRoom: { [key: string]: ScreeningResponse[] } = {};
@@ -38,5 +39,9 @@ export class RepertoryTableComponentComponent implements OnInit {
 
   handleEditScreening(screening: ScreeningResponse) {
     this.handleEdit.emit(screening);
+  }
+
+  handleAddScreening(roomName: string) {
+    this.handleAdd.emit(roomName);
   }
 }

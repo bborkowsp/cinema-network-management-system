@@ -5,6 +5,7 @@ import {map, Observable} from "rxjs";
 import {Injectable} from "@angular/core";
 import {CinemaDetailsComponent} from "../components/cinema-details/cinema-details.component";
 import {CreateCinemaRequest} from "../dtos/request/create-cinema.request";
+import {AuthService} from "src/app/user/services/auth.service";
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +14,10 @@ import {CreateCinemaRequest} from "../dtos/request/create-cinema.request";
 export class CinemaService {
   static readonly cinemasUrl = `${environment.apiBaseUrl}/cinemas`;
 
-  constructor(private readonly httpClient: HttpClient) {
+  constructor(
+    private readonly httpClient: HttpClient,
+    private readonly authService: AuthService,
+  ) {
   }
 
   getCinemas(): Observable<CinemaListResponse[]> {
@@ -40,6 +44,14 @@ export class CinemaService {
 
   getAllCinemaNames() {
     const url = `${CinemaService.cinemasUrl}/names`;
+    return this.httpClient.get<{ content: string[] }>(url).pipe(
+      map((response) => response.content),
+    );
+  }
+
+  getAllScreeningRoomNames() {
+    const email = this.authService.getLoggedInUserEmail();
+    const url = `${CinemaService.cinemasUrl}/screening-rooms/${email}`;
     return this.httpClient.get<{ content: string[] }>(url).pipe(
       map((response) => response.content),
     );

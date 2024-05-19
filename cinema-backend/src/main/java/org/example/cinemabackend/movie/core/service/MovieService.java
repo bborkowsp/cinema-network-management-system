@@ -8,6 +8,7 @@ import org.example.cinemabackend.movie.application.dto.response.MovieListRespons
 import org.example.cinemabackend.movie.application.dto.response.MovieResponse;
 import org.example.cinemabackend.movie.core.domain.AgeRestriction;
 import org.example.cinemabackend.movie.core.domain.Genre;
+import org.example.cinemabackend.movie.core.domain.Movie;
 import org.example.cinemabackend.movie.core.port.primary.MovieMapper;
 import org.example.cinemabackend.movie.core.port.primary.MovieUseCases;
 import org.example.cinemabackend.movie.core.port.secondary.MovieRepository;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
@@ -62,6 +64,12 @@ class MovieService implements MovieUseCases {
     public void deleteMovie(String title) {
         validateMovieExists(title);
         movieRepository.deleteByTitle(title);
+    }
+
+    @Override
+    public List<String> getMovieTitles() {
+        final var movies = movieRepository.findAll();
+        return movies.stream().map(Movie::getTitle).collect(Collectors.toList());
     }
 
     @Override

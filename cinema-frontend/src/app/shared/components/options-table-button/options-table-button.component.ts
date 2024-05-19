@@ -11,6 +11,7 @@ export class OptionsTableButtonComponent {
   @Output() edit = new EventEmitter<any>();
   @Output() delete = new EventEmitter<any>();
   @Output() showDetails = new EventEmitter<any>();
+  @Input() hasShowDetailsButton = true;
 
   handleEdit(): void {
     this.edit.emit(this.row);

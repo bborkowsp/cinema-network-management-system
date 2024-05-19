@@ -20,4 +20,5 @@ public interface MovieRepository {
     void deleteByTitle(String title);
 
     boolean findByProjectionTechnology(String technology);
+
 }

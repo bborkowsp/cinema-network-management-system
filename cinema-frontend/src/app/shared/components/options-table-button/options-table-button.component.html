@@ -10,8 +10,10 @@
     <mat-icon>delete</mat-icon>
     <span>Delete</span>
   </button>
-  <button (click)="handleShowDetails()" class="mat-menu-item" mat-menu-item>
-    <mat-icon>info</mat-icon>
-    <span>Show details</span>
-  </button>
+  <div *ngIf="hasShowDetailsButton">
+    <button (click)="handleShowDetails()" class="mat-menu-item" mat-menu-item>
+      <mat-icon>info</mat-icon>
+      <span>Show details</span>
+    </button>
+  </div>
 </mat-menu>

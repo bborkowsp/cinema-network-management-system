@@ -21,4 +21,6 @@ public interface CinemaUseCases {
     void deleteCinema(String name);
 
     List<String> getCinemaNames();
+
+    List<String> getScreeningRoomsNames(String email);
 }

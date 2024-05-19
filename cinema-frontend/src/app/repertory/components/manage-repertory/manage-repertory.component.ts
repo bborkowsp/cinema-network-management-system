@@ -43,4 +43,9 @@ export class ManageRepertoryComponent implements OnInit {
     const url = `repertory/edit/${screening.id}`;
     this.router.navigateByUrl(url);
   }
+
+  onAddScreening(roomName: string) {
+    const url = `repertory/create/${roomName}`;
+    this.router.navigateByUrl(url);
+  }
 }

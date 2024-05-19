@@ -10,6 +10,7 @@ import org.example.cinemabackend.movie.application.dto.response.MovieResponse;
 import org.example.cinemabackend.movie.core.domain.AgeRestriction;
 import org.example.cinemabackend.movie.core.domain.Genre;
 import org.example.cinemabackend.movie.core.port.primary.MovieUseCases;
+import org.example.cinemabackend.shared.dto.ResponseList;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -22,13 +23,19 @@ import java.util.List;
 @RequestMapping("/v1/movies")
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 class MovieController {
-    
+
     private final MovieUseCases movieUseCases;
 
     @GetMapping
     ResponseEntity<Page<MovieListResponse>> getMovies(Pageable pageable) {
         final var movies = movieUseCases.getMovies(pageable);
         return ResponseEntity.ok(movies);
+    }
+
+    @GetMapping({"/titles"})
+    ResponseEntity<ResponseList<String>> getMovieTitles() {
+        final var movieTitles = movieUseCases.getMovieTitles();
+        return ResponseEntity.ok(new ResponseList<>(movieTitles));
     }
 
     @GetMapping("/{title}")

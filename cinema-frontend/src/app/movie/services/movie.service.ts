@@ -59,4 +59,11 @@ export class MovieService {
     const url = `${MovieService.moviesUrl}/${title}`;
     return this.httpClient.patch<void>(url, movie);
   }
+
+  getAllMovieTitles() {
+    const url = `${MovieService.moviesUrl}/titles`;
+    return this.httpClient.get<{ content: string[] }>(url).pipe(
+      map((response) => response.content),
+    );
+  }
 }
