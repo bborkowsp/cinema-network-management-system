@@ -25,7 +25,7 @@ public class ProductionDetailsSchema {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     FilmMemberSchema director;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     Set<FilmMemberSchema> actors;
 
     @ElementCollection(fetch = FetchType.EAGER)

@@ -36,7 +36,7 @@ public class MovieSchema {
     @Column(nullable = false)
     private LocalDate releaseDate;
 
-    @OneToOne(cascade = CascadeType.ALL, optional = false, orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.ALL, optional = false, orphanRemoval = true, fetch = FetchType.EAGER)
     private ProductionDetailsSchema productionDetails;
 
     @Column(nullable = false)

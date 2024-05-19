@@ -1,5 +1,6 @@
 package org.example.cinemabackend.cinema.core.port.primary;
 
+import org.example.cinemabackend.cinema.application.dto.request.ScreeningRequest;
 import org.example.cinemabackend.cinema.application.dto.request.UpdateScreeningRequest;
 import org.example.cinemabackend.cinema.application.dto.response.ScreeningResponse;
 
@@ -13,4 +14,8 @@ public interface ScreeningUseCases {
     void deleteScreening(Long id);
 
     void updateScreening(Long id, UpdateScreeningRequest screening);
+
+    ScreeningResponse getScreening(Long id);
+
+    void createScreening(ScreeningRequest screening);
 }

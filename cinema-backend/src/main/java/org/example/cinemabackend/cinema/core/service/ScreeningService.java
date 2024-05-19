@@ -1,6 +1,7 @@
 package org.example.cinemabackend.cinema.core.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.cinemabackend.cinema.application.dto.request.ScreeningRequest;
 import org.example.cinemabackend.cinema.application.dto.request.UpdateScreeningRequest;
 import org.example.cinemabackend.cinema.application.dto.response.ScreeningResponse;
 import org.example.cinemabackend.cinema.core.port.primary.ScreeningMapper;
@@ -47,5 +48,17 @@ class ScreeningService implements ScreeningUseCases {
     @Override
     public void deleteScreening(Long id) {
         screeningRepository.deleteById(id);
+    }
+
+    @Override
+    public ScreeningResponse getScreening(Long id) {
+        final var screening = screeningRepository.findById(id).orElseThrow();
+        return screeningMapper.mapScreeningToScreeningResponse(screening);
+    }
+
+    @Override
+    public void createScreening(ScreeningRequest screening) {
+        final var newScreening = screeningMapper.mapScreeningRequestToScreening(screening);
+        screeningRepository.save(newScreening);
     }
 }

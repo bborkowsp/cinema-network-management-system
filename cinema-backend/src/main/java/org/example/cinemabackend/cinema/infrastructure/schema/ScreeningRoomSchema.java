@@ -30,11 +30,6 @@ public class ScreeningRoomSchema {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<ProjectionTechnologySchema> supportedTechnologies = new HashSet<>();
 
-    @ManyToOne
-    @JoinColumn(name = "cinema_id")
-    private CinemaSchema cinema;
-
-
     public static ScreeningRoomSchema fromScreeningRoom(ScreeningRoom screeningRoom) {
         return ScreeningRoomSchema.builder()
                 .id(screeningRoom.getId())

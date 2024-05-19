@@ -4,6 +4,7 @@ import {ScreeningResponse} from "../dtos/screening.response";
 import {HttpClient} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {map} from "rxjs";
+import {ScreeningRequest} from "../dtos/screening.request";
 
 @Injectable({
   providedIn: 'root',
@@ -30,7 +31,16 @@ export class ScreeningService {
   }
 
   getScreening(id: number) {
-    const url = `${ScreeningService.screeningsUrl}/${id}`;
+    const url = `${ScreeningService.screeningsUrl}/id/${id}`;
     return this.httpClient.get<ScreeningResponse>(url);
+  }
+
+  updateScreening(id: number, screening: ScreeningRequest) {
+    const url = `${ScreeningService.screeningsUrl}/${id}`;
+    return this.httpClient.patch(url, screening);
+  }
+
+  createScreening(screening: ScreeningRequest) {
+    return this.httpClient.post(ScreeningService.screeningsUrl, screening);
   }
 }

@@ -14,6 +14,7 @@ export class ScreeningFormComponent implements OnInit {
   protected isLoading = true;
   protected screeningFormHelper !: ScreeningFormHelper;
   protected pageTitle !: string;
+  id !: number;
 
   constructor(
     private router: Router,
@@ -28,6 +29,7 @@ export class ScreeningFormComponent implements OnInit {
 
     if (params['id']) {
       this.isEditMode = true;
+      this.id = params['id'];
       this.pageTitle = 'Edit Screening';
       this.setUpEditScreeningForm();
     } else {
@@ -64,6 +66,21 @@ export class ScreeningFormComponent implements OnInit {
   }
 
   onSubmit() {
+    const screening = this.screeningFormHelper.screeningRequestFromForm();
+    const screening$ = this.isEditMode ?
+      this.screeningService.updateScreening(this.id, screening) :
+      this.screeningService.createScreening(screening);
+
+    this.isLoading = true;
+    screening$.subscribe({
+      next: () => {
+        this.isLoading = false;
+        this.goBack();
+      },
+      error: () => {
+        this.isLoading = false;
+      }
+    });
   }
 
   handleCancelClicked() {

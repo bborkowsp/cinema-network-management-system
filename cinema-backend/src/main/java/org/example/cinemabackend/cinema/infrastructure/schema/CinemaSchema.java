@@ -37,8 +37,7 @@ public class CinemaSchema {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ScreeningSchema> repertory = new HashSet<>();
 
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}
-            , mappedBy = "cinema", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ScreeningRoomSchema> screeningRooms = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)

@@ -1,5 +1,6 @@
 import {ScreeningResponse} from "../../../../dtos/screening.response";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {ScreeningRequest} from "../../../../dtos/screening.request";
 
 export class ScreeningFormHelper {
   form: FormGroup;
@@ -13,7 +14,14 @@ export class ScreeningFormHelper {
   }
 
   fillFormWithScreening(screening: ScreeningResponse) {
-
+    this.form.setValue({
+      main: {
+        movieTitle: screening.movie.title,
+        startTime: screening.startTime,
+        endTime: screening.endTime,
+        screeningRoom: screening.screeningRoom.name
+      }
+    })
   }
 
   private createForm(): FormGroup {
@@ -25,5 +33,14 @@ export class ScreeningFormHelper {
         screeningRoom: ['', [Validators.required]],
       })
     });
+  }
+
+  screeningRequestFromForm(): ScreeningRequest {
+    return new ScreeningRequest(
+      this.mainFormGroup.get('movieTitle')!.value,
+      this.mainFormGroup.get('startTime')!.value,
+      this.mainFormGroup.get('endTime')!.value,
+      this.mainFormGroup.get('screeningRoom')!.value
+    )
   }
 }

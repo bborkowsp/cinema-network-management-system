@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.core.domain.*;
 import org.example.cinemabackend.cinema.core.port.secondary.CinemaRepository;
 import org.example.cinemabackend.cinema.core.port.secondary.ProjectionTechnologyRepository;
-import org.example.cinemabackend.cinema.infrastructure.adapter.secondary.CinemaJpaRepository;
 import org.example.cinemabackend.movie.core.domain.Movie;
 import org.example.cinemabackend.movie.core.domain.ProjectionTechnology;
 import org.example.cinemabackend.movie.core.port.secondary.MovieRepository;
@@ -23,7 +22,6 @@ import java.util.*;
 class CinemaSeeder implements Seeder {
     private static final int NUMBER_OF_SEATS = 255;
     private final CinemaRepository cinemaRepository;
-    private final CinemaJpaRepository cinemaJpaRepository;
     private final MovieRepository movieRepository;
     private final ProjectionTechnologyRepository projectionTechnologyRepository;
     private final UserRepository userRepository;
