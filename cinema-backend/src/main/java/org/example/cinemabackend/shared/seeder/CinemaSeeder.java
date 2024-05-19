@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.core.domain.*;
 import org.example.cinemabackend.cinema.core.port.secondary.CinemaRepository;
 import org.example.cinemabackend.cinema.core.port.secondary.ProjectionTechnologyRepository;
+import org.example.cinemabackend.cinema.infrastructure.adapter.secondary.CinemaJpaRepository;
 import org.example.cinemabackend.movie.core.domain.Movie;
 import org.example.cinemabackend.movie.core.domain.ProjectionTechnology;
 import org.example.cinemabackend.movie.core.port.secondary.MovieRepository;
@@ -22,6 +23,7 @@ import java.util.*;
 class CinemaSeeder implements Seeder {
     private static final int NUMBER_OF_SEATS = 255;
     private final CinemaRepository cinemaRepository;
+    private final CinemaJpaRepository cinemaJpaRepository;
     private final MovieRepository movieRepository;
     private final ProjectionTechnologyRepository projectionTechnologyRepository;
     private final UserRepository userRepository;
@@ -73,8 +75,21 @@ class CinemaSeeder implements Seeder {
 
     private Set<Screening> createRepertory() {
         Set<Screening> repertory = new HashSet<>();
-        repertory.add(createScreening());
+        for (int i = 0; i < 2; i++)
+            repertory.add(createScreening());
+
+        repertory.add(createScreeningInSameScreeningRoom(repertory.stream().findAny()));
         return repertory;
+    }
+
+    private Screening createScreeningInSameScreeningRoom(Optional<Screening> screening) {
+        final var movie = getMovie();
+        final var startTime = LocalDateTime.now().plusHours(2);
+        final var endTime = startTime.plusMinutes(30);
+        final var screeningRoom = screening.get().getScreeningRoom();
+        return new Screening(
+                movie, startTime, endTime, screeningRoom
+        );
     }
 
     private Screening createScreening() {
@@ -86,6 +101,7 @@ class CinemaSeeder implements Seeder {
                 movie, startTime, endTime, screeningRoom
         );
     }
+
 
     private Movie getMovie() {
         return movieRepository.findAll().get(increment);

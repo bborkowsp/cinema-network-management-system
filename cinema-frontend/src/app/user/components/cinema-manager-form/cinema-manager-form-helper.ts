@@ -36,11 +36,16 @@ export class CinemaManagerFormHelper {
   }
 
   cinemaManagerRequestFromForm() {
+    let managedCinemaName = this.mainFormGroup.get('managedCinemaName')!.value;
+    if (managedCinemaName == "0") {
+      managedCinemaName = null;
+    }
+
     return new CinemaManagerRequest(
       this.mainFormGroup.get('firstName')!.value,
       this.mainFormGroup.get('lastName')!.value,
       this.mainFormGroup.get('email')!.value,
-      this.mainFormGroup.get('managedCinemaName')!.value
+      managedCinemaName
     );
   }
 }

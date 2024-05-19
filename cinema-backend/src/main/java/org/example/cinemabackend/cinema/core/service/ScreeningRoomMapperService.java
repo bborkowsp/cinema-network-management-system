@@ -43,7 +43,7 @@ class ScreeningRoomMapperService implements ScreeningRoomMapper {
     @Override
     public ScreeningRoomResponse mapScreeningRoomToScreeningRoomResponse(ScreeningRoom screeningRoom) {
         return ScreeningRoomResponse.builder()
-                .name(screeningRoom.getScreeningRoomName())
+                .name(screeningRoom.getName())
                 .build();
     }
 }

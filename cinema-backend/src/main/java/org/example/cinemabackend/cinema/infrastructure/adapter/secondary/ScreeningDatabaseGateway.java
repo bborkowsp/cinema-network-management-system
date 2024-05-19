@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,5 +20,22 @@ class ScreeningDatabaseGateway implements ScreeningRepository {
     @Transactional(readOnly = true)
     public List<Screening> findAll() {
         return screeningJpaRepository.findAll().stream().map(ScreeningSchema::toScreening).toList();
+    }
+
+
+    @Override
+    public Optional<Screening> findById(Long id) {
+        return screeningJpaRepository.findById(id).map(ScreeningSchema::toScreening);
+    }
+
+    @Override
+    @Transactional
+    public void deleteById(Long id) {
+        screeningJpaRepository.deleteById(id);
+    }
+
+    @Override
+    public void save(Screening screeningToUpdate) {
+        screeningJpaRepository.save(ScreeningSchema.fromScreening(screeningToUpdate));
     }
 }

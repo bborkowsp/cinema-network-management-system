@@ -18,7 +18,7 @@ public class ScreeningSchema {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     private MovieSchema movie;
 
     @Column(nullable = false)
@@ -27,7 +27,7 @@ public class ScreeningSchema {
     @Column(nullable = false)
     private LocalDateTime endTime;
 
-    @OneToOne(cascade = CascadeType.ALL, optional = false, orphanRemoval = true)
+    @ManyToOne(cascade = CascadeType.ALL, optional = false)
     private ScreeningRoomSchema screeningRoom;
 
     public static ScreeningSchema fromScreening(Screening screening) {

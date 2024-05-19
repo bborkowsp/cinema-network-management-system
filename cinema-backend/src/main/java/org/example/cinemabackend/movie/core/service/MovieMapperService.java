@@ -94,6 +94,7 @@ class MovieMapperService implements MovieMapper {
         movie.setProjectionTechnologies(getProjectionTechnologies(updateMovieRequest.projectionTechnologies()));
     }
 
+
     private Set<ProjectionTechnology> getProjectionTechnologies(Set<ProjectionTechnologyResponse> projectionTechnologyResponses) {
         return projectionTechnologyResponses.stream()
                 .map(projectionTechnologyResponse -> projectionTechnologyRepository.findByTechnology(projectionTechnologyResponse.technology()).orElseThrow())

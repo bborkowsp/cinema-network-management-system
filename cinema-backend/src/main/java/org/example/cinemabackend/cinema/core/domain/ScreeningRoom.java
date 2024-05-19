@@ -7,25 +7,25 @@ import java.util.Set;
 
 public class ScreeningRoom {
     private Long id;
-    private String screeningRoomName;
+    private String name;
     private List<SeatRow> seatRows;
     private Set<ProjectionTechnology> supportedTechnologies;
 
-    public ScreeningRoom(String screeningRoomName, List<SeatRow> seats, Set<ProjectionTechnology> supportedTechnologies) {
-        this.screeningRoomName = screeningRoomName;
+    public ScreeningRoom(String name, List<SeatRow> seats, Set<ProjectionTechnology> supportedTechnologies) {
+        this.name = name;
         this.seatRows = seats;
         this.supportedTechnologies = supportedTechnologies;
     }
 
-    public ScreeningRoom(Long id, String screeningRoomName, List<SeatRow> seats, Set<ProjectionTechnology> supportedTechnologies) {
+    public ScreeningRoom(Long id, String name, List<SeatRow> seats, Set<ProjectionTechnology> supportedTechnologies) {
         this.id = id;
-        this.screeningRoomName = screeningRoomName;
+        this.name = name;
         this.seatRows = seats;
         this.supportedTechnologies = supportedTechnologies;
     }
 
-    public String getScreeningRoomName() {
-        return screeningRoomName;
+    public String getName() {
+        return name;
     }
 
     public Set<ProjectionTechnology> getSupportedTechnologies() {

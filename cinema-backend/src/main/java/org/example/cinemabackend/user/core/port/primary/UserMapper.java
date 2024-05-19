@@ -13,5 +13,6 @@ public interface UserMapper {
 
     CinemaManagerResponse mapUserToCinemaManagerResponse(User user);
 
-    void updateCinemaManager(User cinemaManager, UpdateCinemaManagerRequest updateCinemaManagerRequest);
+    void updateCinemaManager(User cinemaManagerToUpdate, UpdateCinemaManagerRequest updateCinemaManagerRequest);
+
 }

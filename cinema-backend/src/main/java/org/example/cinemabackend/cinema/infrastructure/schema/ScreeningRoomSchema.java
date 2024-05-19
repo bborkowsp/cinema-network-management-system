@@ -22,7 +22,7 @@ public class ScreeningRoomSchema {
     private Long id;
 
     @Column(nullable = false, length = 50)
-    private String screeningRoomName;
+    private String name;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<SeatRowSchema> seatRows = new ArrayList<>();
@@ -38,7 +38,7 @@ public class ScreeningRoomSchema {
     public static ScreeningRoomSchema fromScreeningRoom(ScreeningRoom screeningRoom) {
         return ScreeningRoomSchema.builder()
                 .id(screeningRoom.getId())
-                .screeningRoomName(screeningRoom.getScreeningRoomName())
+                .name(screeningRoom.getName())
                 .seatRows(screeningRoom.getSeatRows().stream().map(SeatRowSchema::fromSeatRow).collect(Collectors.toList()))
                 .supportedTechnologies(screeningRoom.getSupportedTechnologies().stream().map(ProjectionTechnologySchema::fromProjectionTechnology).collect(Collectors.toSet()))
                 .build();
@@ -47,7 +47,7 @@ public class ScreeningRoomSchema {
     public ScreeningRoom toScreeningRoom() {
         return new ScreeningRoom(
                 this.id,
-                this.screeningRoomName,
+                this.name,
                 this.seatRows.stream().map(SeatRowSchema::toSeatRow).collect(Collectors.toList()),
                 this.supportedTechnologies.stream().map(ProjectionTechnologySchema::toProjectionTechnology).collect(Collectors.toSet())
         );

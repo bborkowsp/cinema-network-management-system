@@ -33,6 +33,7 @@ import {MatSelectModule} from "@angular/material/select";
 import {
   ProjectionDetailsFormFrameComponentComponent
 } from './components/create-movie/components/projection-details-form-frame-component/projection-details-form-frame-component.component';
+import {MatNativeDateModule} from "@angular/material/core";
 
 
 @NgModule({
@@ -61,6 +62,7 @@ import {
     MatDatepickerModule,
     MatIconModule,
     MatSelectModule,
+    MatNativeDateModule
   ]
 })
 export class MovieModule {

@@ -18,6 +18,7 @@ class ScreeningMapperService implements ScreeningMapper {
     @Override
     public ScreeningResponse mapScreeningToScreeningResponse(Screening screening) {
         return ScreeningResponse.builder()
+                .id(screening.getId())
                 .movie(movieMapper.mapMovieToMovieResponse(screening.getMovie()))
                 .startTime(screening.getStartTime())
                 .endTime(screening.getEndTime())

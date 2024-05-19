@@ -49,6 +49,7 @@ export class UserService {
 
 
   updateCinemaManager(cinemaManagerEmail: string, cinemaManager: CinemaManagerRequest) {
+    console.log(cinemaManager)
     const url = `${UserService.cinemaManagersUrl}/${cinemaManagerEmail}`;
     return this.httpClient.patch<void>(url, cinemaManager);
   }

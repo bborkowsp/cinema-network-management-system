@@ -24,4 +24,8 @@ export class ScreeningService {
       .pipe(map((response) => response.content));
   }
 
+  deleteScreening(id: number) {
+    const url = `${ScreeningService.screeningsUrl}/${id}`;
+    return this.httpClient.delete(url);
+  }
 }

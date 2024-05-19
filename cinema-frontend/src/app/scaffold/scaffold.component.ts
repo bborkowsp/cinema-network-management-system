@@ -29,12 +29,14 @@ export class ScaffoldComponent {
   }
 
   protected handleToggleDrawerButtonClick() {
+    this.setUpNavLinks()
     this.isDrawerOpened = !this.isDrawerOpened;
   }
 
   protected handleLogoutButtonClick() {
     this.authService.logout();
   }
+
 
   private setUpNavLinks() {
     const userRole = this.authService.getUserRole();
@@ -55,6 +57,16 @@ export class ScaffoldComponent {
         icon: 'business'
       },
     ];
+    if (userRole === 'CINEMA_MANAGER') {
+      this.navLinks.push(
+        {
+          label: 'Repertory',
+          path: '/repertory',
+          icon: 'event'
+        }
+      );
+    }
+
     if (userRole === 'CINEMA_NETWORK_MANAGER') {
       this.navLinks.push(
         {

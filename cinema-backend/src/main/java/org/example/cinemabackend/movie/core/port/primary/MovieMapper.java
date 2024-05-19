@@ -14,4 +14,5 @@ public interface MovieMapper {
     Movie mapCreateMovieRequestToMovie(CreateMovieRequest createMovieRequest);
 
     void updateMovieFromUpdateMovieRequest(UpdateMovieRequest updateMovieRequest, Movie movie);
+
 }

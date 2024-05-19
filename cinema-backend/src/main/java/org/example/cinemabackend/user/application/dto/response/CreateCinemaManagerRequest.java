@@ -4,10 +4,10 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-public record UpdateCinemaManagerRequest(
+public record CreateCinemaManagerRequest(
         @NotBlank @Size(max = 255) String firstName,
         @NotBlank @Size(max = 255) String lastName,
         @NotBlank @Email @Size(max = 255) String email,
-        String managedCinemaName
+        @NotBlank String managedCinemaName
 ) {
 }

@@ -1,6 +1,9 @@
 package org.example.cinemabackend.user.core.service;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
+import org.example.cinemabackend.cinema.core.domain.Cinema;
 import org.example.cinemabackend.cinema.core.port.primary.CinemaMapper;
 import org.example.cinemabackend.cinema.core.port.secondary.CinemaRepository;
 import org.example.cinemabackend.user.application.dto.response.CinemaManagerResponse;
@@ -22,6 +25,9 @@ class UserMapperService implements UserMapper {
     private final CinemaMapper cinemaMapper;
     private final CinemaRepository cinemaRepository;
     private final UserRepository userRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
     public UserResponse mapUserToUserResponse(User cinemaManager) {
@@ -58,20 +64,42 @@ class UserMapperService implements UserMapper {
 
     @Override
     @Transactional
-    public void updateCinemaManager(User cinemaManager, UpdateCinemaManagerRequest updateCinemaManagerRequest) {
-        final var oldManagedCinema = cinemaRepository.findByCinemaManager(cinemaManager);
+    public void updateCinemaManager(User cinemaManagerToUpdate, UpdateCinemaManagerRequest updateCinemaManagerRequest) {
+        cinemaManagerToUpdate.setFirstName(updateCinemaManagerRequest.firstName());
+        cinemaManagerToUpdate.setLastName(updateCinemaManagerRequest.lastName());
+
+        if (updateCinemaManagerRequest.managedCinemaName() != null) {
+            updateCinemaManagerIfUpdatedManagedCinemaIsNotNull(cinemaManagerToUpdate, updateCinemaManagerRequest);
+        } else {
+            updateCinemaManagerIfUpdatedManagedCinemaIsNull(cinemaManagerToUpdate, updateCinemaManagerRequest);
+        }
+    }
+
+    private void updateCinemaManagerIfUpdatedManagedCinemaIsNull(User cinemaManagerToUpdate, UpdateCinemaManagerRequest updateCinemaManagerRequest) {
+        final var oldManagedCinema = cinemaRepository.findByUserEmail(cinemaManagerToUpdate.getEmail());
+
+        removeCinemaManagerFromOldManagedCinema(oldManagedCinema);
+        cinemaManagerToUpdate.setEmail(updateCinemaManagerRequest.email());
+        userRepository.save(cinemaManagerToUpdate);
+    }
+
+    private void updateCinemaManagerIfUpdatedManagedCinemaIsNotNull(User cinemaManagerToUpdate, UpdateCinemaManagerRequest updateCinemaManagerRequest) {
+        final var newManagedCinema = cinemaRepository.findByName(updateCinemaManagerRequest.managedCinemaName()).orElseThrow();
+        final var oldManagedCinema = cinemaRepository.findByUserEmail(cinemaManagerToUpdate.getEmail());
+
+        removeCinemaManagerFromOldManagedCinema(oldManagedCinema);
+
+        cinemaManagerToUpdate.setEmail(updateCinemaManagerRequest.email());
+        newManagedCinema.setCinemaManager(cinemaManagerToUpdate);
+        cinemaRepository.save(newManagedCinema);
+    }
+
+    private void removeCinemaManagerFromOldManagedCinema(Cinema oldManagedCinema) {
         if (oldManagedCinema != null) {
             oldManagedCinema.setCinemaManager(null);
             cinemaRepository.save(oldManagedCinema);
+            entityManager.flush();
         }
-
-        cinemaManager.setFirstName(updateCinemaManagerRequest.firstName());
-        cinemaManager.setLastName(updateCinemaManagerRequest.lastName());
-        cinemaManager.setEmail(updateCinemaManagerRequest.email());
-
-        final var managedCinema = cinemaRepository.findByName(updateCinemaManagerRequest.managedCinemaName()).orElseThrow();
-        managedCinema.setCinemaManager(cinemaManager);
-        cinemaRepository.save(managedCinema);
     }
 
 }

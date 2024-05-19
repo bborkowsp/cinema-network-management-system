@@ -37,6 +37,7 @@ class UserController {
         return ResponseEntity.ok(cinemaManager);
     }
 
+
     @PatchMapping("/cinema-managers/{email}")
     ResponseEntity<Void> updateProjectionTechnology(
             @PathVariable String email,

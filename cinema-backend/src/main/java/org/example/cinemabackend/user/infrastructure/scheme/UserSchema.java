@@ -1,8 +1,10 @@
 package org.example.cinemabackend.user.infrastructure.scheme;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import org.example.cinemabackend.user.core.domain.Role;
 import org.example.cinemabackend.user.core.domain.User;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,30 +14,31 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Set;
 
-@Data
 @Entity
-@AllArgsConstructor
 @Builder
-@EqualsAndHashCode(callSuper = false)
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserSchema implements UserDetails {
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    protected Role role;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false, length = 60)
+
+    @Column(nullable = false)
     private String firstName;
-    @NotBlank
-    @Column(nullable = false, length = 60)
+
+    @Column(nullable = false)
     private String lastName;
+
     @Column(nullable = false, unique = true)
     private String email;
+
     @Column(nullable = false)
     private String passwordHash;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
 
     public static UserSchema fromUser(User user) {
         return UserSchema.builder()
