@@ -35,6 +35,7 @@ export class ScreeningFormFrameComponent implements OnInit {
     this.cinemaService.getAllScreeningRoomNames().subscribe(
       screeningRooms => {
         this.screeningRoomsNames = screeningRooms;
+        console.log(this.screeningRoomsNames);
         this.setupFilteredScreeningRoomsObservable();
       }
     );
@@ -44,8 +45,8 @@ export class ScreeningFormFrameComponent implements OnInit {
     this.filteredTitles = this.movieTitleControl.valueChanges.pipe(
       startWith(''),
       map(value => {
-        const title = typeof value === 'string' ? value : value.title;
-        return title ? this._filter(title as string) : this.movieTitles.slice();
+        const title = typeof value === 'string' ? value : value?.title;
+        return title ? this._filter_titles(title as string) : this.movieTitles.slice();
       }),
     );
   }
@@ -54,16 +55,21 @@ export class ScreeningFormFrameComponent implements OnInit {
     this.filteredScreeningRooms = this.screeningRoomControl.valueChanges.pipe(
       startWith(''),
       map(value => {
-        const room = typeof value === 'string' ? value : value.room;
-        return room ? this._filter(room as string) : this.screeningRoomsNames.slice();
+        const room = typeof value === 'string' ? value : value?.room;
+        return room ? this._filter_screeningRoomNames(room as string) : this.screeningRoomsNames.slice();
       }),
     );
   }
 
 
-  private _filter(name: string): string[] {
+  private _filter_titles(name: string): string[] {
     const filterValue = name.toLowerCase();
     return this.movieTitles.filter(option => option.toLowerCase().includes(filterValue));
+  }
+
+  private _filter_screeningRoomNames(name: string): string[] {
+    const filterValue = name.toLowerCase();
+    return this.screeningRoomsNames.filter(option => option.toLowerCase().includes(filterValue));
   }
 
   displayTitleFn(title: string): string {

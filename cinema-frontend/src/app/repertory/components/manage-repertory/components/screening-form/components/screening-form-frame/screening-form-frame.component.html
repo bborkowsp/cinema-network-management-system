@@ -8,9 +8,9 @@
           type="text"
           matInput
           [formControl]="movieTitleControl"
-          [matAutocomplete]="auto"
+          [matAutocomplete]="autoMovie"
         >
-        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayTitleFn">
+        <mat-autocomplete #autoMovie="matAutocomplete" [displayWith]="displayTitleFn">
           <mat-option *ngFor="let title of filteredTitles | async" [value]="title">
             {{ title }}
           </mat-option>
@@ -47,9 +47,9 @@
           type="text"
           matInput
           [formControl]="screeningRoomControl"
-          [matAutocomplete]="auto"
+          [matAutocomplete]="autoScreeningRoom"
         >
-        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayScreeningRoomNameFn">
+        <mat-autocomplete #autoScreeningRoom="matAutocomplete" [displayWith]="displayScreeningRoomNameFn">
           <mat-option *ngFor="let screeningRoomName of filteredScreeningRooms | async" [value]="screeningRoomName">
             {{ screeningRoomName }}
           </mat-option>

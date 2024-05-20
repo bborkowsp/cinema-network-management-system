@@ -37,8 +37,10 @@ public class CinemaSchema {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ScreeningSchema> repertory = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<ScreeningRoomSchema> screeningRooms = new HashSet<>();
+
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<ContactDetailsSchema> contactDetails = new HashSet<>();

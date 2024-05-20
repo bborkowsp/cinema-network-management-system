@@ -5,8 +5,8 @@ import org.example.cinemabackend.user.infrastructure.scheme.UserSchema;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -23,6 +23,12 @@ public interface CinemaJpaRepository extends JpaRepository<CinemaSchema, Long> {
     Optional<CinemaSchema> findByCinemaManagerEmail(String email);
 
     @Modifying
-    @Query("UPDATE CinemaSchema c SET c.cinemaManager = :manager WHERE c.id = :cinemaId")
-    void updateCinemaManager(@Param("cinemaId") Long cinemaId, @Param("manager") UserSchema cinemaManager);
+    @Transactional
+    @Query("update CinemaSchema c set c.cinemaManager.id = :cinemaManagerId where c.id = :cinemaId")
+    void updateCinemaManager(Long cinemaId, Long cinemaManagerId);
+
+    @Modifying
+    @Transactional
+    @Query("update CinemaSchema c set c.cinemaManager = null where c.id = :cinemaId")
+    void updateCinemaManagerToNull(Long cinemaId);
 }

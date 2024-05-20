@@ -6,6 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.core.domain.Cinema;
 import org.example.cinemabackend.cinema.core.port.primary.CinemaMapper;
 import org.example.cinemabackend.cinema.core.port.secondary.CinemaRepository;
+import org.example.cinemabackend.cinema.core.port.secondary.ScreeningRepository;
+import org.example.cinemabackend.cinema.core.port.secondary.ScreeningRoomRepository;
+import org.example.cinemabackend.cinema.infrastructure.adapter.secondary.CinemaJpaRepository;
 import org.example.cinemabackend.user.application.dto.response.CinemaManagerResponse;
 import org.example.cinemabackend.user.application.dto.response.CinemaManagerTableResponse;
 import org.example.cinemabackend.user.application.dto.response.UpdateCinemaManagerRequest;
@@ -25,6 +28,9 @@ class UserMapperService implements UserMapper {
     private final CinemaMapper cinemaMapper;
     private final CinemaRepository cinemaRepository;
     private final UserRepository userRepository;
+    private final ScreeningRepository screeningRepository;
+    private final ScreeningRoomRepository screeningRoomRepository;
+    private final CinemaJpaRepository cinemaJpaRepository;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -90,15 +96,14 @@ class UserMapperService implements UserMapper {
         removeCinemaManagerFromOldManagedCinema(oldManagedCinema);
 
         cinemaManagerToUpdate.setEmail(updateCinemaManagerRequest.email());
-        newManagedCinema.setCinemaManager(cinemaManagerToUpdate);
-        cinemaRepository.save(newManagedCinema);
+//        newManagedCinema.setCinemaManager(cinemaManagerToUpdate);
+        userRepository.save(cinemaManagerToUpdate);
+        cinemaRepository.updateCinemaManager(newManagedCinema.getId(), cinemaManagerToUpdate.getId());
     }
 
     private void removeCinemaManagerFromOldManagedCinema(Cinema oldManagedCinema) {
         if (oldManagedCinema != null) {
-            oldManagedCinema.setCinemaManager(null);
-            cinemaRepository.save(oldManagedCinema);
-            entityManager.flush();
+            cinemaJpaRepository.updateCinemaManagerToNull(oldManagedCinema.getId());
         }
     }
 
