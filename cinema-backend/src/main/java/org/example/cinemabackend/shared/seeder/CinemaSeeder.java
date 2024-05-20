@@ -21,6 +21,7 @@ import java.util.*;
 @Order(3)
 class CinemaSeeder implements Seeder {
     private static final int NUMBER_OF_SEATS = 255;
+    private static final int NUMBER_OF_SCREENING_ROOMS = 4;
     private final CinemaRepository cinemaRepository;
     private final MovieRepository movieRepository;
     private final ProjectionTechnologyRepository projectionTechnologyRepository;
@@ -45,7 +46,7 @@ class CinemaSeeder implements Seeder {
         final var address = createAddress();
         final var image = imageUtil.createImage();
         final var screeningRooms = createScreeningRooms();
-        final var repertory = createRepertory();
+        final var repertory = createRepertory(screeningRooms);
         final var contactDetails = createContactDetails();
         final User cinemaManager;
 
@@ -61,6 +62,23 @@ class CinemaSeeder implements Seeder {
         );
     }
 
+    private Set<Screening> createRepertory(Set<ScreeningRoom> screeningRooms) {
+        Set<Screening> repertory = new HashSet<>();
+        for (int i = 0; i < 2; i++)
+            repertory.add(createScreening(screeningRooms));
+
+        return repertory;
+    }
+
+    private Screening createScreening(Set<ScreeningRoom> screeningRooms) {
+        final var movie = getMovie();
+        final var startTime = LocalDateTime.now().plusDays(1);
+        final var endTime = startTime.plusHours(2);
+        return new Screening(
+                movie, startTime, endTime, screeningRooms.stream().findAny().get()
+        );
+    }
+
     private Address createAddress() {
         return new Address(
                 faker.address().streetAddress() + " " +
@@ -68,35 +86,6 @@ class CinemaSeeder implements Seeder {
                 faker.address().city(),
                 faker.address().zipCode(),
                 faker.address().country()
-        );
-    }
-
-    private Set<Screening> createRepertory() {
-        Set<Screening> repertory = new HashSet<>();
-        for (int i = 0; i < 2; i++)
-            repertory.add(createScreening());
-
-        repertory.add(createScreeningInSameScreeningRoom(repertory.stream().findAny()));
-        return repertory;
-    }
-
-    private Screening createScreeningInSameScreeningRoom(Optional<Screening> screening) {
-        final var movie = getMovie();
-        final var startTime = LocalDateTime.now().plusHours(2);
-        final var endTime = startTime.plusMinutes(30);
-        final var screeningRoom = screening.get().getScreeningRoom();
-        return new Screening(
-                movie, startTime, endTime, screeningRoom
-        );
-    }
-
-    private Screening createScreening() {
-        final var movie = getMovie();
-        final var startTime = LocalDateTime.now().plusHours(1);
-        final var endTime = startTime.plusMinutes(30);
-        final var screeningRoom = createScreeningRoom();
-        return new Screening(
-                movie, startTime, endTime, screeningRoom
         );
     }
 
@@ -128,7 +117,9 @@ class CinemaSeeder implements Seeder {
 
     private Set<ScreeningRoom> createScreeningRooms() {
         Set<ScreeningRoom> screeningRooms = new HashSet<>();
-        screeningRooms.add(createScreeningRoom());
+        while (screeningRooms.size() < NUMBER_OF_SCREENING_ROOMS) {
+            screeningRooms.add(createScreeningRoom());
+        }
         return screeningRooms;
     }
 

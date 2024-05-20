@@ -38,10 +38,10 @@ class ScreeningService implements ScreeningUseCases {
     @Override
     public void updateScreening(Long id, UpdateScreeningRequest screening) {
         final var screeningToUpdate = screeningRepository.findById(id).orElseThrow();
-        screeningToUpdate.setMovie(movieRepository.findByTitle(screening.movie().title()).orElseThrow());
+        screeningToUpdate.setMovie(movieRepository.findByTitle(screening.movieTitle()).orElseThrow());
         screeningToUpdate.setStartTime(screening.startTime());
         screeningToUpdate.setEndTime(screening.endTime());
-        screeningToUpdate.setScreeningRoom(screeningRoomRepository.findByName(screening.screeningRoom().name()).orElseThrow());
+        screeningToUpdate.setScreeningRoom(screeningRoomRepository.findByName(screening.screeningRoom()).orElseThrow());
         screeningRepository.save(screeningToUpdate);
     }
 

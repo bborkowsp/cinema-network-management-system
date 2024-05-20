@@ -17,8 +17,8 @@ export class ScreeningFormHelper {
     this.form.setValue({
       main: {
         movieTitle: screening.movie.title,
-        startTime: screening.startTime,
-        endTime: screening.endTime,
+        startTime: this.formatDate(screening.startTime),
+        endTime: this.formatDate(screening.endTime),
         screeningRoom: screening.screeningRoom.name
       }
     })
@@ -43,4 +43,18 @@ export class ScreeningFormHelper {
       this.mainFormGroup.get('screeningRoom')!.value
     )
   }
+
+  formatDate(date: Date): string {
+    const dat2e = new Date(date);
+    const year = dat2e.getFullYear();
+    const month = ('0' + (dat2e.getMonth() + 1)).slice(-2);
+    const day = ('0' + dat2e.getDate()).slice(-2);
+    const hours = ('0' + dat2e.getHours()).slice(-2);
+    const minutes = ('0' + dat2e.getMinutes()).slice(-2);
+
+    // Return date in 'YYYY-MM-DDTHH:MM' format
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  }
+
+
 }

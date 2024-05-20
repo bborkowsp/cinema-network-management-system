@@ -37,6 +37,7 @@ export class ScreeningService {
 
   updateScreening(id: number, screening: ScreeningRequest) {
     const url = `${ScreeningService.screeningsUrl}/${id}`;
+    console.log(screening);
     return this.httpClient.patch(url, screening);
   }
 

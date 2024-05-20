@@ -96,7 +96,6 @@ class UserMapperService implements UserMapper {
         removeCinemaManagerFromOldManagedCinema(oldManagedCinema);
 
         cinemaManagerToUpdate.setEmail(updateCinemaManagerRequest.email());
-//        newManagedCinema.setCinemaManager(cinemaManagerToUpdate);
         userRepository.save(cinemaManagerToUpdate);
         cinemaRepository.updateCinemaManager(newManagedCinema.getId(), cinemaManagerToUpdate.getId());
     }
