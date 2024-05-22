@@ -1,5 +1,6 @@
-package org.example.cinemabackend.cinema.application.dto.request;
+package org.example.cinemabackend.cinema.application.dto.request.create;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -11,7 +12,7 @@ import java.util.Set;
 @Builder
 public record CreateScreeningRoomRequest(
         @NotBlank @Size(max = 50) String name,
-        @NotNull CreatSeatRequest[][] seats,
-        @NotNull Set<@NotNull ProjectionTechnologyNameResponse> supportedTechnologies
+        @NotNull @Valid CreatSeatRequest[][] seats,
+        @NotNull Set<@NotNull @Valid ProjectionTechnologyNameResponse> supportedTechnologies
 ) {
 }

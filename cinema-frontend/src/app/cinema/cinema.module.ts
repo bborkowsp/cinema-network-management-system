@@ -21,8 +21,6 @@ import {MatExpansionModule} from "@angular/material/expansion";
 import {CinemaDetailsComponent} from "./components/cinema-details/cinema-details.component";
 import {MatSortModule} from "@angular/material/sort";
 import {MatStepperModule} from "@angular/material/stepper";
-import {CreateCinemaFormComponent} from "./components/create-cinema-form/create-cinema-form.component";
-import {EditCinemaFormComponent} from './components/edit-cinema-form/edit-cinema-form.component';
 import {CinemaFormComponent} from './components/cinema-form/cinema-form.component';
 import {StepsContainerComponent} from './components/cinema-form/components/steps-container/steps-container.component';
 import {
@@ -76,11 +74,9 @@ import {
   declarations: [
     CinemaListComponent,
     CinemaDetailsComponent,
-    CreateCinemaFormComponent,
     AboutCinemaComponent,
     AddressComponent,
     ScreeningRoomComponent,
-    EditCinemaFormComponent,
     StepOneComponent,
     StepTwoComponent,
     StepThreeComponent,

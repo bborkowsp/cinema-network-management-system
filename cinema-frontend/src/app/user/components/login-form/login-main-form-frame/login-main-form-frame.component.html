@@ -10,7 +10,7 @@
       <input [formControl]="passwordControl" [type]="hidePassword ? 'password' : 'text'" matInput maxlength="255"
              required>
       <button (click)="togglePasswordVisibility()" mat-icon-button matSuffix type="button">
-        <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+        <mat-icon matSuffix>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
       </button>
     </div>
   </mat-form-field>

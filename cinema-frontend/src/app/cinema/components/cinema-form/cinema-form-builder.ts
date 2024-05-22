@@ -79,10 +79,6 @@ export class CinemaFormBuilder {
     return this.form.get('stepOne') as FormGroup;
   }
 
-  public get aboutCinemaFormGroup() {
-    return this.form.get('stepOne')?.get('aboutCinema') as FormGroup;
-  }
-
   public get imageFormGroup() {
     return this.form.get('stepOne')?.get('aboutCinema')?.get('image') as FormGroup;
   }

@@ -41,4 +41,24 @@ public class Seat {
     public Long getId() {
         return id;
     }
+
+    public void setSeatZone(SeatZone seatZone) {
+        this.seatZone = seatZone;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setSeatRow(Integer seatRow) {
+        this.seatRow = seatRow;
+    }
+
+    public void setSeatColumn(Integer seatColumn) {
+        this.seatColumn = seatColumn;
+    }
+
+    public void setSeatType(SeatType seatType) {
+        this.seatType = seatType;
+    }
 }

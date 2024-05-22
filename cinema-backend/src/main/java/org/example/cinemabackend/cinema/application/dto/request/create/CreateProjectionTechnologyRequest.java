@@ -1,9 +1,11 @@
-package org.example.cinemabackend.cinema.application.dto.request;
+package org.example.cinemabackend.cinema.application.dto.request.create;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.Builder;
 
-public record UpdateProjectionTechnologyRequest(
+@Builder
+public record CreateProjectionTechnologyRequest(
         @NotBlank @Size(max = 50) String technology,
         @NotBlank @Size(max = 200) String description
 ) {

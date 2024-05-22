@@ -11,6 +11,7 @@ public record CinemaResponse(
         String description,
         AddressResponse address,
         ImageResponse image,
+        Set<ScreeningRoomResponse> screeningRooms,
         Set<ContactDetailsResponse> contactDetails,
         UserResponse cinemaManager
 ) {

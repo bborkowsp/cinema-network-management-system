@@ -2,7 +2,8 @@ package org.example.cinemabackend.cinema.application.adapter.primary;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.cinemabackend.cinema.application.dto.request.CreateCinemaRequest;
+import org.example.cinemabackend.cinema.application.dto.request.create.CreateCinemaRequest;
+import org.example.cinemabackend.cinema.application.dto.request.update.UpdateCinemaRequest;
 import org.example.cinemabackend.cinema.application.dto.response.CinemaResponse;
 import org.example.cinemabackend.cinema.application.dto.response.CinemaTableResponse;
 import org.example.cinemabackend.cinema.core.port.primary.CinemaUseCases;
@@ -24,23 +25,22 @@ class CinemaController {
         return ResponseEntity.ok(new ResponseList<>(cinemas));
     }
 
+    @GetMapping("/names")
+    ResponseEntity<ResponseList<String>> getCinemaNames() {
+        final var cinemaNames = cinemaUseCases.getCinemaNames();
+        return ResponseEntity.ok(new ResponseList<>(cinemaNames));
+    }
+
     @GetMapping("/screening-rooms/{email}")
     ResponseEntity<ResponseList<String>> getScreeningRoomsNames(@PathVariable String email) {
         final var screeningRoomsNames = cinemaUseCases.getScreeningRoomsNames(email);
         return ResponseEntity.ok(new ResponseList<>(screeningRoomsNames));
     }
 
-
     @GetMapping("/{name}")
     ResponseEntity<CinemaResponse> getCinema(@PathVariable String name) {
         final var cinema = cinemaUseCases.getCinema(name);
         return ResponseEntity.ok(cinema);
-    }
-
-    @GetMapping("/names")
-    ResponseEntity<ResponseList<String>> getCinemaNames() {
-        final var cinemaNames = cinemaUseCases.getCinemaNames();
-        return ResponseEntity.ok(new ResponseList<>(cinemaNames));
     }
 
     @PostMapping
@@ -49,11 +49,15 @@ class CinemaController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @PatchMapping("/{name}")
+    ResponseEntity<Void> updateCinema(@PathVariable String name, @RequestBody @Valid UpdateCinemaRequest updateCinemaRequest) {
+        cinemaUseCases.updateCinema(name, updateCinemaRequest);
+        return ResponseEntity.noContent().build();
+    }
+
     @DeleteMapping("/{name}")
     ResponseEntity<Void> deleteCinema(@PathVariable String name) {
         cinemaUseCases.deleteCinema(name);
         return ResponseEntity.noContent().build();
     }
-
-
 }

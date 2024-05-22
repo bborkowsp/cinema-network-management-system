@@ -5,10 +5,7 @@ import org.example.cinemabackend.cinema.core.domain.Cinema;
 import org.example.cinemabackend.cinema.core.port.secondary.CinemaRepository;
 import org.example.cinemabackend.cinema.infrastructure.schema.CinemaSchema;
 import org.example.cinemabackend.user.core.domain.User;
-import org.example.cinemabackend.user.core.port.secondary.UserRepository;
 import org.example.cinemabackend.user.infrastructure.scheme.UserSchema;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +17,6 @@ import java.util.Optional;
 class CinemaDatabaseGateway implements CinemaRepository {
 
     private final CinemaJpaRepository cinemaJpaRepository;
-    private final UserRepository userRepository;
 
     @Override
     @Transactional
@@ -33,12 +29,6 @@ class CinemaDatabaseGateway implements CinemaRepository {
     @Transactional(readOnly = true)
     public Optional<Cinema> findByName(String name) {
         return cinemaJpaRepository.findByName(name).map(CinemaSchema::toCinema);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Page<Cinema> findAll(Pageable pageable) {
-        return cinemaJpaRepository.findAll(pageable).map(CinemaSchema::toCinema);
     }
 
     @Override

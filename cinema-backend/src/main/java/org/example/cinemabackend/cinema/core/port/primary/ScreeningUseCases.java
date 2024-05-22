@@ -1,7 +1,7 @@
 package org.example.cinemabackend.cinema.core.port.primary;
 
 import org.example.cinemabackend.cinema.application.dto.request.ScreeningRequest;
-import org.example.cinemabackend.cinema.application.dto.request.UpdateScreeningRequest;
+import org.example.cinemabackend.cinema.application.dto.request.update.UpdateScreeningRequest;
 import org.example.cinemabackend.cinema.application.dto.response.ScreeningResponse;
 
 import java.util.List;

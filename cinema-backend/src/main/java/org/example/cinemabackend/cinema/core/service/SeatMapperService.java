@@ -1,6 +1,7 @@
 package org.example.cinemabackend.cinema.core.service;
 
-import org.example.cinemabackend.cinema.application.dto.request.CreatSeatRequest;
+import org.example.cinemabackend.cinema.application.dto.request.create.CreatSeatRequest;
+import org.example.cinemabackend.cinema.application.dto.response.SeatResponse;
 import org.example.cinemabackend.cinema.core.domain.Seat;
 import org.example.cinemabackend.cinema.core.domain.SeatRow;
 import org.example.cinemabackend.cinema.core.port.primary.SeatMapper;
@@ -36,6 +37,16 @@ class SeatMapperService implements SeatMapper {
             seatRows.add(seatRow);
         }
         return seatRows;
+    }
+
+    @Override
+    public SeatResponse mapSeatToSeatResponse(Seat seat) {
+        return new SeatResponse(
+                seat.getSeatRow(),
+                seat.getSeatColumn(),
+                seat.getSeatZone(),
+                seat.getSeatType()
+        );
     }
 
     private Seat[][] mapCreateSeatToSeats(CreatSeatRequest[][] creatSeatRequest) {

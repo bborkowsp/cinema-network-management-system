@@ -1,6 +1,7 @@
 package org.example.cinemabackend.cinema.core.service;
 
-import org.example.cinemabackend.cinema.application.dto.request.CreateImageRequest;
+import org.example.cinemabackend.cinema.application.dto.request.create.CreateImageRequest;
+import org.example.cinemabackend.cinema.application.dto.request.update.UpdateImageRequest;
 import org.example.cinemabackend.cinema.application.dto.response.ImageResponse;
 import org.example.cinemabackend.cinema.core.port.primary.ImageMapper;
 import org.example.cinemabackend.movie.core.domain.Image;
@@ -27,7 +28,7 @@ class ImageMapperService implements ImageMapper {
     }
 
     @Override
-    public Image mapUpdateImageRequestToImage(CreateImageRequest image, Image moviePoster) {
+    public Image mapUpdateImageRequestToImage(UpdateImageRequest image, Image moviePoster) {
         moviePoster.setName(image.name());
         moviePoster.setType(image.type());
         moviePoster.setData(image.data());

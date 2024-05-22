@@ -30,4 +30,20 @@ public class Address {
         return this.country;
     }
 
+    public void setStreetAndBuildingNumber(String streetAndBuildingNumber) {
+        this.streetAndBuildingNumber = streetAndBuildingNumber;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
 }

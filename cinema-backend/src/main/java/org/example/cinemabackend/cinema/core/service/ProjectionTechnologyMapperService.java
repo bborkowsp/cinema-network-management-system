@@ -1,8 +1,8 @@
 package org.example.cinemabackend.cinema.core.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.cinemabackend.cinema.application.dto.request.CreateProjectionTechnologyRequest;
-import org.example.cinemabackend.cinema.application.dto.request.UpdateProjectionTechnologyRequest;
+import org.example.cinemabackend.cinema.application.dto.request.create.CreateProjectionTechnologyRequest;
+import org.example.cinemabackend.cinema.application.dto.request.update.UpdateProjectionTechnologyRequest;
 import org.example.cinemabackend.cinema.application.dto.response.ProjectionTechnologyNameResponse;
 import org.example.cinemabackend.cinema.application.dto.response.ProjectionTechnologyResponse;
 import org.example.cinemabackend.cinema.core.port.primary.ProjectionTechnologyMapper;
@@ -20,7 +20,7 @@ class ProjectionTechnologyMapperService implements ProjectionTechnologyMapper {
 
     @Override
     public ProjectionTechnologyResponse mapProjectionTechnologyToProjectionTechnologyResponse(
-            ProjectionTechnology projectionTechnology
+            @NonNull ProjectionTechnology projectionTechnology
     ) {
         return ProjectionTechnologyResponse.builder()
                 .technology(projectionTechnology.getTechnology())
@@ -29,9 +29,9 @@ class ProjectionTechnologyMapperService implements ProjectionTechnologyMapper {
     }
 
     @Override
-    public ProjectionTechnologyNameResponse mapProjectionTechnologyToProjectionTechnologyNameResponse
-            (ProjectionTechnology projectionTechnology
-            ) {
+    public ProjectionTechnologyNameResponse mapProjectionTechnologyToProjectionTechnologyNameResponse(
+            @NonNull ProjectionTechnology projectionTechnology
+    ) {
         return ProjectionTechnologyNameResponse.builder()
                 .technology(projectionTechnology.getTechnology())
                 .build();
@@ -58,7 +58,7 @@ class ProjectionTechnologyMapperService implements ProjectionTechnologyMapper {
 
     @Override
     public Set<ProjectionTechnologyResponse> mapProjectionTechnologiesToProjectionTechnologyResponses(
-            Set<ProjectionTechnology> projectionTechnologies
+            @NonNull Set<ProjectionTechnology> projectionTechnologies
     ) {
         return projectionTechnologies.stream()
                 .map(this::mapProjectionTechnologyToProjectionTechnologyResponse)

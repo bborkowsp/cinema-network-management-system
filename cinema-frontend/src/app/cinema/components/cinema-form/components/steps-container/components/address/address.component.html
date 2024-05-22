@@ -3,13 +3,22 @@
     <td>
       <mat-form-field class="example-full-width">
         <mat-label>Street and building number</mat-label>
-        <input [formControl]="streetAndBuildingNumberControl" matInput placeholder="Ex. Main Street 123" required>
+        <input [formControl]="streetAndBuildingNumberControl" matInput placeholder="Ex. Main Street 123" required
+               maxlength="255">
+        <mat-hint align="end">{{ streetAndBuildingNumberControl.value.length }} / 255</mat-hint>
+        <mat-error *ngIf="streetAndBuildingNumberControl.hasError('pattern')">
+          Street or building number is <strong>invalid</strong>
+        </mat-error>
       </mat-form-field>
     </td>
     <td>
       <mat-form-field class="example-full-width">
         <mat-label>Postal code</mat-label>
         <input [formControl]="postalCodeControl" matInput placeholder="Ex. 00-000" required>
+        <mat-hint align="end">{{ postalCodeControl.value.length }} / 255</mat-hint>
+        <mat-error *ngIf="postalCodeControl.hasError('pattern')">
+          Postal code is <strong>invalid</strong>
+        </mat-error>
       </mat-form-field>
     </td>
   </tr>
@@ -21,12 +30,14 @@
       <mat-form-field class="example-full-width">
         <mat-label>City</mat-label>
         <input [formControl]="cityControl" matInput required>
+        <mat-hint align="end">{{ cityControl.value.length }} / 255</mat-hint>
       </mat-form-field>
     </td>
     <td>
       <mat-form-field class="example-full-width">
         <mat-label>Country</mat-label>
         <input [formControl]="countryControl" matInput required>
+        <mat-hint align="end">{{ countryControl.value.length }} / 255</mat-hint>
       </mat-form-field>
     </td>
   </tr>

@@ -1,6 +1,7 @@
 <mat-form-field class="example-full-width">
   <mat-label>Screening room name</mat-label>
-  <input [(ngModel)]="name" matInput name="name" required type="string">
+  <input [(ngModel)]="name" matInput name="name" required type="string" maxlength="255">
+  <mat-hint align="end">{{ name.length }} / 255</mat-hint>
 </mat-form-field>
 
 <form #seatingPlanForm="ngForm" (ngSubmit)="createSeatingGrid()">
@@ -9,18 +10,24 @@
       <td>
         <mat-form-field class="example-full-width">
           <mat-label>Number of rows</mat-label>
-          <input [(ngModel)]="rows" matInput name="rows" required type="number">
+          <input [(ngModel)]="rows" matInput name="rows" required type="number" [max]="20" [min]="1">
+          <mat-hint align="end">{{ rows }} / 20</mat-hint>
+          <mat-error *ngIf="rows > 30">Maximum number of rows is <strong>20</strong>!</mat-error>
+          <mat-error *ngIf="rows < 1">Minimum number of rows must be greater than <strong>0</strong>!</mat-error>
         </mat-form-field>
       </td>
       <td>
         <mat-form-field class="example-full-width">
           <mat-label>Number of columns</mat-label>
-          <input [(ngModel)]="columns" matInput name="columns" required type="number">
+          <input [(ngModel)]="columns" matInput name="columns" required type="number" [min]="1" [max]="30">
+          <mat-hint align="end">{{ columns }} / 30</mat-hint>
+          <mat-error *ngIf="columns > 30">Maximum number of columns is <strong>30</strong>!</mat-error>
+          <mat-error *ngIf="columns < 1">Minimum number of columns must be greater than <strong>0</strong>!</mat-error>
         </mat-form-field>
       </td>
     </tr>
   </table>
-  <button [disabled]="seatingPlanForm.invalid || rows === 0 || columns === 0" color="primary" mat-flat-button
+  <button [disabled]="seatingPlanForm.invalid" color="primary" mat-flat-button
           type="submit">
     Create a grid of seats
   </button>

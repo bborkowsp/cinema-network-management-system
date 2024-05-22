@@ -13,12 +13,13 @@ import org.example.cinemabackend.movie.core.domain.Image;
 @NoArgsConstructor(force = true)
 public class ImageSchema {
 
-    @Column(name = "image_file_name")
+    @Column(nullable = false, name = "image_file_name")
     String name;
 
-    @Column(name = "image_file_type")
+    @Column(nullable = false, name = "image_file_type")
     String type;
 
+    @Column(nullable = false)
     byte[] image;
 
     public static ImageSchema fromImage(Image image) {

@@ -27,4 +27,16 @@ public class ContactDetails {
     public Long getId() {
         return id;
     }
+
+    public void setContactType(ContactType contactType) {
+        this.contactType = contactType;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
 }

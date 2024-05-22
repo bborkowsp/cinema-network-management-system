@@ -32,6 +32,7 @@ public class CinemaSchema {
     private AddressSchema address;
 
     @Embedded
+    @NotNull
     private ImageSchema image;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)

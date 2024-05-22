@@ -1,6 +1,7 @@
 package org.example.cinemabackend.cinema.core.service;
 
-import org.example.cinemabackend.cinema.application.dto.request.CreateAddressRequest;
+import org.example.cinemabackend.cinema.application.dto.request.create.CreateAddressRequest;
+import org.example.cinemabackend.cinema.application.dto.request.update.UpdateAddressRequest;
 import org.example.cinemabackend.cinema.application.dto.response.AddressResponse;
 import org.example.cinemabackend.cinema.core.domain.Address;
 import org.example.cinemabackend.cinema.core.port.primary.AddressMapper;
@@ -29,5 +30,15 @@ class AddressMapperService implements AddressMapper {
                 .postalCode(address.getPostalCode())
                 .country(address.getCountry())
                 .build();
+    }
+
+    @Override
+    public Address mapUpdateAddressRequestToAddress(UpdateAddressRequest address) {
+        return new Address(
+                address.streetAndBuildingNumber(),
+                address.city(),
+                address.postalCode(),
+                address.country()
+        );
     }
 }

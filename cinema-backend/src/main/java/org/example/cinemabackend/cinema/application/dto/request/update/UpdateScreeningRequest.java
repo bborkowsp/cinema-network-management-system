@@ -1,4 +1,4 @@
-package org.example.cinemabackend.cinema.application.dto.request;
+package org.example.cinemabackend.cinema.application.dto.request.update;
 
 import lombok.Builder;
 

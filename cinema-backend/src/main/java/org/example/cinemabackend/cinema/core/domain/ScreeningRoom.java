@@ -39,4 +39,21 @@ public class ScreeningRoom {
     public List<SeatRow> getSeatRows() {
         return seatRows;
     }
+
+    public void setSupportedTechnologies(Set<ProjectionTechnology> supportedTechnologies) {
+        this.supportedTechnologies = supportedTechnologies;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSeatRows(List<SeatRow> seatRows) {
+        this.seatRows = seatRows;
+    }
+
 }

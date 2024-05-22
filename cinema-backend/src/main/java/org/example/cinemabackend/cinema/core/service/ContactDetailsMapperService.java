@@ -1,7 +1,8 @@
 package org.example.cinemabackend.cinema.core.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.cinemabackend.cinema.application.dto.request.CreateContactDetailsRequest;
+import org.example.cinemabackend.cinema.application.dto.request.create.CreateContactDetailsRequest;
+import org.example.cinemabackend.cinema.application.dto.request.update.UpdateContactDetailsRequest;
 import org.example.cinemabackend.cinema.application.dto.response.ContactDetailsResponse;
 import org.example.cinemabackend.cinema.core.domain.ContactDetails;
 import org.example.cinemabackend.cinema.core.port.primary.ContactDetailsMapper;
@@ -41,5 +42,22 @@ class ContactDetailsMapperService implements ContactDetailsMapper {
                 .department(contactDetails.getDepartment())
                 .contactType(contactTypeMapper.mapContactTypeToContactTypeResponse(contactDetails.getContactType()))
                 .build();
+    }
+
+    @Override
+    public ContactDetails mapUpdateContactDetailsToContactDetails(UpdateContactDetailsRequest updateContactDetailsRequest, ContactDetails contactDetails) {
+        contactDetails.setContactType(contactTypeMapper.mapUpdateContactTypeRequestToContactType(updateContactDetailsRequest.contactType()));
+        return contactDetails;
+    }
+
+    @Override
+    public Set<ContactDetails> mapUpdateContactDetailsToContactDetails(Set<UpdateContactDetailsRequest> updateContactDetailsRequests, Set<ContactDetails> contactDetails) {
+        return contactDetails.stream().map(contactDetail -> {
+            final var updateContactDetailsRequest = updateContactDetailsRequests.stream()
+                    .filter(request -> request.department().equals(contactDetail.getDepartment()))
+                    .findFirst()
+                    .orElseThrow();
+            return mapUpdateContactDetailsToContactDetails(updateContactDetailsRequest, contactDetail);
+        }).collect(Collectors.toSet());
     }
 }

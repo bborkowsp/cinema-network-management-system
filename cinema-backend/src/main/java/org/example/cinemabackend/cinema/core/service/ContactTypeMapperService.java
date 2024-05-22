@@ -1,6 +1,7 @@
 package org.example.cinemabackend.cinema.core.service;
 
-import org.example.cinemabackend.cinema.application.dto.request.CreateContactTypeRequest;
+import org.example.cinemabackend.cinema.application.dto.request.create.CreateContactTypeRequest;
+import org.example.cinemabackend.cinema.application.dto.request.update.UpdateContactTypeRequest;
 import org.example.cinemabackend.cinema.application.dto.response.ContactTypeResponse;
 import org.example.cinemabackend.cinema.core.domain.ContactType;
 import org.example.cinemabackend.cinema.core.port.primary.ContactTypeMapper;
@@ -21,6 +22,14 @@ class ContactTypeMapperService implements ContactTypeMapper {
         return new ContactType(
                 contactType.phoneNumber(),
                 contactType.email()
+        );
+    }
+
+    @Override
+    public ContactType mapUpdateContactTypeRequestToContactType(UpdateContactTypeRequest updateContactTypeRequest) {
+        return new ContactType(
+                updateContactTypeRequest.phoneNumber(),
+                updateContactTypeRequest.email()
         );
     }
 }

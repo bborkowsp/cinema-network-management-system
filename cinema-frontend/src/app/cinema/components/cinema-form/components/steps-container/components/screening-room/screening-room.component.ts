@@ -66,8 +66,8 @@ export class ScreeningRoomComponent implements OnInit {
     ));
     this.screeningRooms.push({index: this.screeningRooms.length + 1, rows: this.rows, columns: this.columns});
 
-    this.rows = 0;
-    this.columns = 0;
+    this.rows = 1;
+    this.columns = 1;
     this.currentScreeningRoom = [];
     this.selectedProjectionTechnologies = [];
     this.screeningRoomsControl.setValue(this.seatingPlan);

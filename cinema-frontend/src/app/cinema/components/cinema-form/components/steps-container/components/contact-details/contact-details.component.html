@@ -2,6 +2,7 @@
   <mat-form-field class="example-full-width">
     <mat-label>Department</mat-label>
     <input [formControl]="currentDepartment" matInput name="currentDepartment" required type="string">
+    <mat-hint align="end">{{ currentDepartment.value?.length }} / 255</mat-hint>
   </mat-form-field>
   <table class="example-full-width">
     <tr>
@@ -9,12 +10,15 @@
         <mat-form-field class="example-full-width">
           <mat-label>Email</mat-label>
           <input [formControl]="currentEmail" matInput name="currentEmail" required type="string">
+          <mat-icon matSuffix>alternate_email</mat-icon>
+          <mat-hint align="end">{{ currentDepartment.value?.length }} / 255</mat-hint>
         </mat-form-field>
       </td>
       <td>
         <mat-form-field class="example-full-width">
           <mat-label>Phone number</mat-label>
           <input [formControl]="currentPhoneNumber" matInput name="currentPhoneNumber" required type="string">
+          <mat-icon matSuffix>phone</mat-icon>
         </mat-form-field>
       </td>
     </tr>

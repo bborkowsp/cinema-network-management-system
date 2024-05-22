@@ -2,8 +2,8 @@ package org.example.cinemabackend.cinema.core.service;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import org.example.cinemabackend.cinema.application.dto.request.CreateProjectionTechnologyRequest;
-import org.example.cinemabackend.cinema.application.dto.request.UpdateProjectionTechnologyRequest;
+import org.example.cinemabackend.cinema.application.dto.request.create.CreateProjectionTechnologyRequest;
+import org.example.cinemabackend.cinema.application.dto.request.update.UpdateProjectionTechnologyRequest;
 import org.example.cinemabackend.cinema.application.dto.response.ProjectionTechnologyNameResponse;
 import org.example.cinemabackend.cinema.application.dto.response.ProjectionTechnologyResponse;
 import org.example.cinemabackend.cinema.core.port.primary.ProjectionTechnologyMapper;
@@ -61,7 +61,9 @@ class ProjectionTechnologyService implements ProjectionTechnologyUseCases {
     }
 
     @Override
-    public void updateProjectionTechnology(String technology, UpdateProjectionTechnologyRequest updateProjectionTechnologyRequest) {
+    public void updateProjectionTechnology(
+            String technology, UpdateProjectionTechnologyRequest updateProjectionTechnologyRequest
+    ) {
         validateProjectionTechnologyIsNotTaken(technology, updateProjectionTechnologyRequest.technology());
 
         final var projectionTechnology = projectionTechnologyRepository.findByTechnology(technology).orElseThrow();
