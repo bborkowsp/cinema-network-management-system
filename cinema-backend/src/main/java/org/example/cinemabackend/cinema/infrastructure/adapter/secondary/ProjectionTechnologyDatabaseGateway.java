@@ -6,6 +6,7 @@ import org.example.cinemabackend.cinema.infrastructure.schema.ProjectionTechnolo
 import org.example.cinemabackend.movie.core.domain.ProjectionTechnology;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +21,7 @@ class ProjectionTechnologyDatabaseGateway implements ProjectionTechnologyReposit
 
     @Override
     @Transactional(readOnly = true)
-    public Page<ProjectionTechnology> findAll(Pageable pageable) {
+    public Page<ProjectionTechnology> findProjectionTechnologyPage(Pageable pageable) {
         final var projectionTechnologies = this.projectionTechnologyJpaRepository.findAll(pageable);
         return projectionTechnologies.map(ProjectionTechnologySchema::toProjectionTechnology);
     }
@@ -34,27 +35,27 @@ class ProjectionTechnologyDatabaseGateway implements ProjectionTechnologyReposit
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<ProjectionTechnology> findByTechnology(String technology) {
+    public Optional<ProjectionTechnology> findByTechnology(@NonNull String technology) {
         final var projectionTechnology = this.projectionTechnologyJpaRepository.findByTechnology(technology);
         return projectionTechnology.map(ProjectionTechnologySchema::toProjectionTechnology);
     }
 
     @Override
     @Transactional
-    public void save(ProjectionTechnology projectionTechnology) {
+    public void save(@NonNull ProjectionTechnology projectionTechnology) {
         final var projectionTechnologySchema = ProjectionTechnologySchema.fromProjectionTechnology(projectionTechnology);
         this.projectionTechnologyJpaRepository.save(projectionTechnologySchema);
     }
 
     @Override
     @Transactional
-    public void deleteByTechnology(String technology) {
+    public void deleteByTechnology(@NonNull String technology) {
         this.projectionTechnologyJpaRepository.deleteByTechnology(technology);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public boolean existsByTechnology(String technology) {
+    public boolean existsByTechnology(@NonNull String technology) {
         return this.projectionTechnologyJpaRepository.existsByTechnology(technology);
     }
 }

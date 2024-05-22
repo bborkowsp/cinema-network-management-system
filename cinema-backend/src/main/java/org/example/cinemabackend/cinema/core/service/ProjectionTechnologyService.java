@@ -26,21 +26,9 @@ class ProjectionTechnologyService implements ProjectionTechnologyUseCases {
     private final MovieRepository movieRepository;
 
     @Override
-    public ProjectionTechnologyResponse getProjectionTechnology(String technology) {
-        final var projectionTechnology = projectionTechnologyRepository.findByTechnology(technology).orElseThrow();
-        return projectionTechnologyMapper.mapProjectionTechnologyToProjectionTechnologyResponse(projectionTechnology);
-    }
-
-    @Override
-    public List<ProjectionTechnologyNameResponse> getProjectionTechnologiesNames() {
-        return projectionTechnologyRepository.findAll().stream()
-                .map(projectionTechnologyMapper::mapProjectionTechnologyToProjectionTechnologyNameResponse)
-                .toList();
-    }
-
-    @Override
     public Page<ProjectionTechnologyResponse> getProjectionTechnologies(Pageable pageable) {
-        return projectionTechnologyRepository.findAll(pageable).map(projectionTechnologyMapper::mapProjectionTechnologyToProjectionTechnologyResponse);
+        return projectionTechnologyRepository.findProjectionTechnologyPage(pageable)
+                .map(projectionTechnologyMapper::mapProjectionTechnologyToProjectionTechnologyResponse);
     }
 
     @Override
@@ -51,9 +39,34 @@ class ProjectionTechnologyService implements ProjectionTechnologyUseCases {
     }
 
     @Override
+    public List<ProjectionTechnologyNameResponse> getProjectionTechnologiesNames() {
+        return projectionTechnologyRepository.findAll().stream()
+                .map(projectionTechnologyMapper::mapProjectionTechnologyToProjectionTechnologyNameResponse)
+                .toList();
+    }
+
+    @Override
+    public ProjectionTechnologyResponse getProjectionTechnology(String technology) {
+        final var projectionTechnology = projectionTechnologyRepository.findByTechnology(technology).orElseThrow();
+        return projectionTechnologyMapper.mapProjectionTechnologyToProjectionTechnologyResponse(projectionTechnology);
+    }
+
+    @Override
     public void createProjectionTechnology(CreateProjectionTechnologyRequest createProjectionTechnologyRequest) {
         validateProjectionTechnologyDoesntExist(createProjectionTechnologyRequest.technology());
-        final var projectionTechnology = projectionTechnologyMapper.mapCreateProjectionTechnologyRequestToProjectionTechnology(createProjectionTechnologyRequest);
+
+        final var projectionTechnology = projectionTechnologyMapper
+                .mapCreateProjectionTechnologyRequestToProjectionTechnology(createProjectionTechnologyRequest);
+        projectionTechnologyRepository.save(projectionTechnology);
+    }
+
+    @Override
+    public void updateProjectionTechnology(String technology, UpdateProjectionTechnologyRequest updateProjectionTechnologyRequest) {
+        validateProjectionTechnologyIsNotTaken(technology, updateProjectionTechnologyRequest.technology());
+
+        final var projectionTechnology = projectionTechnologyRepository.findByTechnology(technology).orElseThrow();
+        projectionTechnologyMapper.updateProjectionTechnologyFromUpdateProjectionTechnologyRequest(
+                updateProjectionTechnologyRequest, projectionTechnology);
         projectionTechnologyRepository.save(projectionTechnology);
     }
 
@@ -61,26 +74,19 @@ class ProjectionTechnologyService implements ProjectionTechnologyUseCases {
     public void deleteProjectionTechnology(String technology) {
         validateProjectionTechnologyExists(technology);
         validateProjectionTechnologyIsNotUsedInAnyMovie(technology);
+
         projectionTechnologyRepository.deleteByTechnology(technology);
     }
 
-    @Override
-    public void updateProjectionTechnology(String technology, UpdateProjectionTechnologyRequest updateProjectionTechnologyRequest) {
-        validateProjectionTechnologyIsNotTaken(technology, updateProjectionTechnologyRequest.technology());
-        final var projectionTechnology = projectionTechnologyRepository.findByTechnology(technology).orElseThrow();
-        projectionTechnologyMapper.updateProjectionTechnologyFromUpdateProjectionTechnologyRequest(updateProjectionTechnologyRequest, projectionTechnology);
-        projectionTechnologyRepository.save(projectionTechnology);
-    }
-
-    private void validateProjectionTechnologyIsNotTaken(String oldTechnology, String newTechnology) {
-        if (!oldTechnology.equals(newTechnology) && projectionTechnologyRepository.findByTechnology(newTechnology).isPresent()) {
-            throw new IllegalArgumentException("Projection technology already exists");
+    private void validateProjectionTechnologyDoesntExist(String technology) {
+        if (projectionTechnologyRepository.existsByTechnology(technology)) {
+            throw new IllegalArgumentException("Projection technology '" + technology + "' already exists");
         }
     }
 
-    private void validateProjectionTechnologyIsNotUsedInAnyMovie(String technology) {
-        if (movieRepository.findByProjectionTechnology(technology)) {
-            throw new IllegalArgumentException("Projection technology is used in a movie");
+    private void validateProjectionTechnologyIsNotTaken(String oldTechnology, String newTechnology) {
+        if (!oldTechnology.equals(newTechnology) && projectionTechnologyRepository.existsByTechnology(newTechnology)) {
+            throw new IllegalArgumentException("Projection technology '" + newTechnology + "' already exists");
         }
     }
 
@@ -90,9 +96,9 @@ class ProjectionTechnologyService implements ProjectionTechnologyUseCases {
         }
     }
 
-    private void validateProjectionTechnologyDoesntExist(String technology) {
-        if (projectionTechnologyRepository.existsByTechnology(technology)) {
-            throw new IllegalArgumentException("Projection technology with name " + technology + " already exists");
+    private void validateProjectionTechnologyIsNotUsedInAnyMovie(String technology) {
+        if (movieRepository.findByProjectionTechnology(technology)) {
+            throw new IllegalArgumentException("Cannot delete projection technology '" + technology + "' because it is used in some movies");
         }
     }
 }

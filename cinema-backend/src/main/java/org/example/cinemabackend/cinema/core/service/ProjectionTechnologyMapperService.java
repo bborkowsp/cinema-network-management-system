@@ -7,6 +7,7 @@ import org.example.cinemabackend.cinema.application.dto.response.ProjectionTechn
 import org.example.cinemabackend.cinema.application.dto.response.ProjectionTechnologyResponse;
 import org.example.cinemabackend.cinema.core.port.primary.ProjectionTechnologyMapper;
 import org.example.cinemabackend.movie.core.domain.ProjectionTechnology;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -18,7 +19,9 @@ class ProjectionTechnologyMapperService implements ProjectionTechnologyMapper {
 
 
     @Override
-    public ProjectionTechnologyResponse mapProjectionTechnologyToProjectionTechnologyResponse(ProjectionTechnology projectionTechnology) {
+    public ProjectionTechnologyResponse mapProjectionTechnologyToProjectionTechnologyResponse(
+            ProjectionTechnology projectionTechnology
+    ) {
         return ProjectionTechnologyResponse.builder()
                 .technology(projectionTechnology.getTechnology())
                 .description(projectionTechnology.getDescription())
@@ -26,40 +29,39 @@ class ProjectionTechnologyMapperService implements ProjectionTechnologyMapper {
     }
 
     @Override
-    public ProjectionTechnology mapCreateProjectionTechnologyRequestToProjectionTechnology(CreateProjectionTechnologyRequest createProjectionTechnologyRequest) {
-        return new ProjectionTechnology(createProjectionTechnologyRequest.technology(), createProjectionTechnologyRequest.description());
+    public ProjectionTechnologyNameResponse mapProjectionTechnologyToProjectionTechnologyNameResponse
+            (ProjectionTechnology projectionTechnology
+            ) {
+        return ProjectionTechnologyNameResponse.builder()
+                .technology(projectionTechnology.getTechnology())
+                .build();
     }
 
     @Override
-    public Set<ProjectionTechnologyResponse> mapProjectionTechnologiesToProjectionTechnologyResponses(Set<ProjectionTechnology> projectionTechnologies) {
-        return projectionTechnologies.stream().map(this::mapProjectionTechnologyToProjectionTechnologyResponse).collect(Collectors.toSet());
+    public ProjectionTechnology mapCreateProjectionTechnologyRequestToProjectionTechnology(
+            @NonNull CreateProjectionTechnologyRequest createProjectionTechnologyRequest
+    ) {
+        return new ProjectionTechnology(
+                createProjectionTechnologyRequest.technology(),
+                createProjectionTechnologyRequest.description()
+        );
     }
 
     @Override
-    public Set<ProjectionTechnology> mapCreateProjectionTechnologyRequestsToProjectionTechnologies(Set<ProjectionTechnologyResponse> createProjectionTechnologyRequests) {
-        return createProjectionTechnologyRequests.stream().map(this::mapProjectionTechnologyResponseToProjectionTechnology).collect(Collectors.toSet());
-    }
-
-    @Override
-    public ProjectionTechnology mapProjectionTechnologyResponseToProjectionTechnology(ProjectionTechnologyResponse projectionTechnologyResponse) {
-        return new ProjectionTechnology(projectionTechnologyResponse.technology(), projectionTechnologyResponse.description());
-    }
-
-    @Override
-    public void updateProjectionTechnologyFromUpdateProjectionTechnologyRequest(UpdateProjectionTechnologyRequest updateProjectionTechnologyRequest, ProjectionTechnology projectionTechnology) {
+    public void updateProjectionTechnologyFromUpdateProjectionTechnologyRequest(
+            @NonNull UpdateProjectionTechnologyRequest updateProjectionTechnologyRequest,
+            @NonNull ProjectionTechnology projectionTechnology
+    ) {
         projectionTechnology.setDescription(updateProjectionTechnologyRequest.description());
         projectionTechnology.setTechnology(updateProjectionTechnologyRequest.technology());
     }
 
     @Override
-    public Set<ProjectionTechnology> mapProjectionTechnologyResponsesToProjectionTechnologies(Set<ProjectionTechnologyResponse> projectionTechnologyResponses) {
-        return projectionTechnologyResponses.stream().map(this::mapProjectionTechnologyResponseToProjectionTechnology).collect(Collectors.toSet());
-    }
-
-    @Override
-    public ProjectionTechnologyNameResponse mapProjectionTechnologyToProjectionTechnologyNameResponse(ProjectionTechnology projectionTechnology) {
-        return ProjectionTechnologyNameResponse.builder()
-                .technology(projectionTechnology.getTechnology())
-                .build();
+    public Set<ProjectionTechnologyResponse> mapProjectionTechnologiesToProjectionTechnologyResponses(
+            Set<ProjectionTechnology> projectionTechnologies
+    ) {
+        return projectionTechnologies.stream()
+                .map(this::mapProjectionTechnologyToProjectionTechnologyResponse)
+                .collect(Collectors.toSet());
     }
 }

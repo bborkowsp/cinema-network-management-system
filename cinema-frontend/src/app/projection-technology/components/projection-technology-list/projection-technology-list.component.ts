@@ -4,7 +4,7 @@ import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {PaginatorRequestParams} from '../../../shared/dtos/paginator-request-params';
 import {ProjectionTechnologyService} from "../../services/projection-technology.service";
 import {Router} from "@angular/router";
-import {ProjectionTechnologyRequest} from "../../dtos/request/projection-technology.request";
+import {CreateProjectionTechnologyRequest} from "../../dtos/request/create-projection-technology.request";
 
 @Component({
   selector: 'app-projection-technology-list',
@@ -13,7 +13,7 @@ import {ProjectionTechnologyRequest} from "../../dtos/request/projection-technol
 })
 export class ProjectionTechnologyListComponent {
   displayedColumns = ['options', 'technology', 'description'];
-  projectionTechnologies$!: Observable<ProjectionTechnologyRequest[]>;
+  projectionTechnologies$!: Observable<CreateProjectionTechnologyRequest[]>;
   dataLength = 0;
   @ViewChild(MatPaginator) readonly paginator!: MatPaginator;
   paginatorRequestParams = new PaginatorRequestParams(0, 10);
@@ -39,24 +39,24 @@ export class ProjectionTechnologyListComponent {
     this.router.navigateByUrl(url);
   }
 
-  handleEdit(projectionTechnology: ProjectionTechnologyRequest): void {
+  handleEdit(projectionTechnology: CreateProjectionTechnologyRequest): void {
     const url = `projection-technologies/edit/${projectionTechnology.technology}`;
     this.router.navigateByUrl(url);
   }
 
-  handleDelete(projectionTechnology: ProjectionTechnologyRequest): void {
+  handleDelete(projectionTechnology: CreateProjectionTechnologyRequest): void {
     this.projectionTechnologyService.deleteProjectionTechnology(projectionTechnology.technology).subscribe({
       next: () => (this.projectionTechnologies$ = this.getData()),
     });
   }
 
-  handleShowDetails(projectionTechnology: ProjectionTechnologyRequest): void {
+  handleShowDetails(projectionTechnology: CreateProjectionTechnologyRequest): void {
     const url = `projection-technologies/details/${projectionTechnology.technology}`;
     this.router.navigateByUrl(url);
   }
 
-  private getData(): Observable<ProjectionTechnologyRequest[]> {
-    return this.projectionTechnologyService.getProjectionTechnologies(this.paginatorRequestParams).pipe(
+  private getData(): Observable<CreateProjectionTechnologyRequest[]> {
+    return this.projectionTechnologyService.getProjectionTechnologiesPage(this.paginatorRequestParams).pipe(
       tap({
         next: (projectionTechnologyPage) => {
           this.dataLength = projectionTechnologyPage.totalElements;

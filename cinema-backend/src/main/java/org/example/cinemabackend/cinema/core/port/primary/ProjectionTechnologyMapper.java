@@ -5,23 +5,20 @@ import org.example.cinemabackend.cinema.application.dto.request.UpdateProjection
 import org.example.cinemabackend.cinema.application.dto.response.ProjectionTechnologyNameResponse;
 import org.example.cinemabackend.cinema.application.dto.response.ProjectionTechnologyResponse;
 import org.example.cinemabackend.movie.core.domain.ProjectionTechnology;
+import org.springframework.lang.NonNull;
 
 import java.util.Set;
 
 public interface ProjectionTechnologyMapper {
     ProjectionTechnologyResponse mapProjectionTechnologyToProjectionTechnologyResponse(ProjectionTechnology projectionTechnology);
 
-    ProjectionTechnology mapCreateProjectionTechnologyRequestToProjectionTechnology(CreateProjectionTechnologyRequest createProjectionTechnologyRequest);
+    ProjectionTechnologyNameResponse mapProjectionTechnologyToProjectionTechnologyNameResponse(ProjectionTechnology projectionTechnology);
+
+
+    ProjectionTechnology mapCreateProjectionTechnologyRequestToProjectionTechnology(@NonNull CreateProjectionTechnologyRequest createProjectionTechnologyRequest);
+
+    void updateProjectionTechnologyFromUpdateProjectionTechnologyRequest(@NonNull UpdateProjectionTechnologyRequest updateProjectionTechnologyRequest, @NonNull ProjectionTechnology projectionTechnology);
 
     Set<ProjectionTechnologyResponse> mapProjectionTechnologiesToProjectionTechnologyResponses(Set<ProjectionTechnology> projectionTechnologies);
 
-    Set<ProjectionTechnology> mapCreateProjectionTechnologyRequestsToProjectionTechnologies(Set<ProjectionTechnologyResponse> createProjectionTechnologyRequests);
-
-    ProjectionTechnology mapProjectionTechnologyResponseToProjectionTechnology(ProjectionTechnologyResponse projectionTechnologyResponse);
-
-    Set<ProjectionTechnology> mapProjectionTechnologyResponsesToProjectionTechnologies(Set<ProjectionTechnologyResponse> projectionTechnologyResponses);
-
-    void updateProjectionTechnologyFromUpdateProjectionTechnologyRequest(UpdateProjectionTechnologyRequest updateProjectionTechnologyRequest, ProjectionTechnology projectionTechnology);
-
-    ProjectionTechnologyNameResponse mapProjectionTechnologyToProjectionTechnologyNameResponse(ProjectionTechnology projectionTechnology);
 }

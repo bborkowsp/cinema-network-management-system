@@ -8,16 +8,16 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProjectionTechnologyRepository {
+
+    Page<ProjectionTechnology> findProjectionTechnologyPage(Pageable pageable);
+
+    List<ProjectionTechnology> findAll();
+
     Optional<ProjectionTechnology> findByTechnology(String technology);
 
     void save(ProjectionTechnology projectionTechnology);
 
-    Page<ProjectionTechnology> findAll(Pageable pageable);
-
-    List<ProjectionTechnology> findAll();
-
     void deleteByTechnology(String technology);
-
 
     boolean existsByTechnology(String technology);
 }
