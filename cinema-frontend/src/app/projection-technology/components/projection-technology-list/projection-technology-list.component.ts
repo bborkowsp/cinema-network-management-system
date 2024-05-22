@@ -5,6 +5,7 @@ import {PaginatorRequestParams} from '../../../shared/dtos/paginator-request-par
 import {ProjectionTechnologyService} from "../../services/projection-technology.service";
 import {Router} from "@angular/router";
 import {CreateProjectionTechnologyRequest} from "../../dtos/request/create-projection-technology.request";
+import {ProjectionTechnologyResponse} from "../../dtos/response/projection-technology.response";
 
 @Component({
   selector: 'app-projection-technology-list',
@@ -12,18 +13,31 @@ import {CreateProjectionTechnologyRequest} from "../../dtos/request/create-proje
   styleUrls: ['./projection-technology-list.component.scss']
 })
 export class ProjectionTechnologyListComponent {
-  displayedColumns = ['options', 'technology', 'description'];
-  projectionTechnologies$!: Observable<CreateProjectionTechnologyRequest[]>;
   dataLength = 0;
-  @ViewChild(MatPaginator) readonly paginator!: MatPaginator;
-  paginatorRequestParams = new PaginatorRequestParams(0, 10);
   protected isLoading = true;
+  displayedColumns = ['options', 'technology', 'description'];
+  @ViewChild(MatPaginator) readonly paginator!: MatPaginator;
+  projectionTechnologies$!: Observable<ProjectionTechnologyResponse[]>;
+  paginatorRequestParams = new PaginatorRequestParams(0, 10);
 
   constructor(
     private readonly projectionTechnologyService: ProjectionTechnologyService,
     private readonly router: Router,
   ) {
-    this.projectionTechnologies$ = this.getData();
+    this.projectionTechnologies$ = this.getProjectionTechnologyPage();
+  }
+
+  private getProjectionTechnologyPage(): Observable<ProjectionTechnologyResponse[]> {
+    return this.projectionTechnologyService.getProjectionTechnologiesPage(this.paginatorRequestParams).pipe(
+      tap({
+        next: (projectionTechnologyPage) => {
+          this.dataLength = projectionTechnologyPage.totalElements;
+          this.isLoading = false;
+        },
+        error: (err) => console.log(err),
+      }),
+      map(projectionTechnologyPage => projectionTechnologyPage.content),
+    );
   }
 
   handlePageEvent(event: PageEvent): void {
@@ -31,12 +45,7 @@ export class ProjectionTechnologyListComponent {
       event.pageIndex,
       event.pageSize,
     );
-    this.projectionTechnologies$ = this.getData();
-  }
-
-  goToCreate(): void {
-    const url = 'projection-technologies/create';
-    this.router.navigateByUrl(url);
+    this.projectionTechnologies$ = this.getProjectionTechnologyPage();
   }
 
   handleEdit(projectionTechnology: CreateProjectionTechnologyRequest): void {
@@ -46,7 +55,7 @@ export class ProjectionTechnologyListComponent {
 
   handleDelete(projectionTechnology: CreateProjectionTechnologyRequest): void {
     this.projectionTechnologyService.deleteProjectionTechnology(projectionTechnology.technology).subscribe({
-      next: () => (this.projectionTechnologies$ = this.getData()),
+      next: () => (this.projectionTechnologies$ = this.getProjectionTechnologyPage()),
     });
   }
 
@@ -54,18 +63,4 @@ export class ProjectionTechnologyListComponent {
     const url = `projection-technologies/details/${projectionTechnology.technology}`;
     this.router.navigateByUrl(url);
   }
-
-  private getData(): Observable<CreateProjectionTechnologyRequest[]> {
-    return this.projectionTechnologyService.getProjectionTechnologiesPage(this.paginatorRequestParams).pipe(
-      tap({
-        next: (projectionTechnologyPage) => {
-          this.dataLength = projectionTechnologyPage.totalElements;
-          this.isLoading = false;
-        },
-        error: (err) => console.log(err),
-      }),
-      map((projectionTechnologyPage) => projectionTechnologyPage.content),
-    );
-  }
-
 }
