@@ -29,6 +29,8 @@ import {
 } from './components/confirm-deletion-projection-technology-dialog/confirm-deletion-projection-technology-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import { EditProjectionTechnologyMainFormFrameComponent } from './components/edit-projection-technology/components/edit-projection-technology-main-form-frame/edit-projection-technology-main-form-frame.component';
+import { ProjectionTechnologyFormComponent } from './components/projection-technology-form/projection-technology-form.component';
+import { ProjectionTechnologyFormFrameComponent } from './components/projection-technology-form/components/projection-technology-form-frame/projection-technology-form-frame.component';
 
 
 @NgModule({
@@ -40,6 +42,8 @@ import { EditProjectionTechnologyMainFormFrameComponent } from './components/edi
     CreateProjectionTechnologyMainFormFrameComponent,
     ConfirmDeletionProjectionTechnologyDialogComponent,
     EditProjectionTechnologyMainFormFrameComponent,
+    ProjectionTechnologyFormComponent,
+    ProjectionTechnologyFormFrameComponent,
   ],
   imports: [
     CommonModule,

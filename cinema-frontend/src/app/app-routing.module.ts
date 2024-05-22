@@ -8,12 +8,6 @@ import {
 import {
   ProjectionTechnologyDetailsComponent
 } from "./projection-technology/components/projection-technology-details/projection-technology-details.component";
-import {
-  EditProjectionTechnologyComponent
-} from "./projection-technology/components/edit-projection-technology/edit-projection-technology.component";
-import {
-  CreateProjectionTechnologyFormComponent
-} from "./projection-technology/components/create-projection-technology-form/create-projection-technology-form.component";
 import {HomeComponent} from "./home/home.component";
 import {MovieListComponent} from "./movie/components/movie-list/movie-list.component";
 import {EditMovieFormComponent} from "./movie/components/edit-movie-form/edit-movie-form.component";
@@ -29,6 +23,9 @@ import {CinemaManagerFormComponent} from "./user/components/cinema-manager-form/
 import {
   ScreeningFormComponent
 } from "./repertory/components/manage-repertory/components/screening-form/screening-form.component";
+import {
+  ProjectionTechnologyFormComponent
+} from "./projection-technology/components/projection-technology-form/projection-technology-form.component";
 
 
 const routes: Routes = [
@@ -38,12 +35,12 @@ const routes: Routes = [
   {path: 'projection-technologies', component: ProjectionTechnologyListComponent, canActivate: [AuthGuard]},
   {
     path: 'projection-technologies/create',
-    component: CreateProjectionTechnologyFormComponent,
+    component: ProjectionTechnologyFormComponent,
     canActivate: [AuthGuard]
   },
   {
     path: 'projection-technologies/edit/:technology',
-    component: EditProjectionTechnologyComponent,
+    component: ProjectionTechnologyFormComponent,
     canActivate: [AuthGuard]
   },
   {

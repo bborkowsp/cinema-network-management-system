@@ -1,0 +1,24 @@
+<form
+  #projectionTechnologyForm="ngForm"
+  (ngSubmit)="onSubmit()"
+  [formGroup]="projectionTechnologyFormBuilder.form"
+>
+  <app-page-content-container
+    [isLoading]="isLoading"
+    [pageTitle]="pageTitle"
+  >
+    <ng-container content>
+      <app-projection-technology-form-frame
+        [formGroup]="projectionTechnologyFormBuilder.mainFormGroup"
+        [form]="projectionTechnologyForm"
+      ></app-projection-technology-form-frame>
+    </ng-container>
+  </app-page-content-container>
+
+  <div class="button-container">
+    <button (click)=handleCancelClicked() color="warn" mat-flat-button>Cancel</button>
+    <button [disabled]="projectionTechnologyForm.form.invalid" color="primary" mat-flat-button type="submit">
+      Save
+    </button>
+  </div>
+</form>

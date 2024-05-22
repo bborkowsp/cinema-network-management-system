@@ -19,4 +19,5 @@ public interface ProjectionTechnologyRepository {
     void deleteByTechnology(String technology);
 
 
+    boolean existsByTechnology(String technology);
 }

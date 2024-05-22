@@ -91,8 +91,8 @@ class ProjectionTechnologyService implements ProjectionTechnologyUseCases {
     }
 
     private void validateProjectionTechnologyDoesntExist(String technology) {
-        if (projectionTechnologyRepository.findByTechnology(technology).isPresent()) {
-            throw new IllegalArgumentException("Projection technology already exists");
+        if (projectionTechnologyRepository.existsByTechnology(technology)) {
+            throw new IllegalArgumentException("Projection technology with name " + technology + " already exists");
         }
     }
 }

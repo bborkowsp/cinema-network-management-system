@@ -4,12 +4,10 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.example.cinemabackend.movie.core.domain.ProjectionTechnology;
 
-import java.util.Objects;
-
 @Data
 @Entity
-@AllArgsConstructor
 @Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ProjectionTechnologySchema {
 
@@ -39,16 +37,4 @@ public class ProjectionTechnologySchema {
         );
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ProjectionTechnologySchema that = (ProjectionTechnologySchema) o;
-        return Objects.equals(technology, that.technology);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(technology);
-    }
 }

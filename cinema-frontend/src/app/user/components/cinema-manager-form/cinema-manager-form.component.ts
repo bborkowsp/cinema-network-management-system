@@ -14,8 +14,8 @@ export class CinemaManagerFormComponent implements OnInit {
   protected isEditMode = false;
   protected isLoading = true;
   protected cinemaManagerFormHelper !: CinemaManagerFormHelper;
-  private cinemaManagerEmail !: string;
   protected pageTitle !: string;
+  private cinemaManagerEmail !: string;
 
   constructor(
     private router: Router,

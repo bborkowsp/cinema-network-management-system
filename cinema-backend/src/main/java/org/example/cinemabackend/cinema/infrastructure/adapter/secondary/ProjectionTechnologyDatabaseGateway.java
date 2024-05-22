@@ -52,4 +52,9 @@ class ProjectionTechnologyDatabaseGateway implements ProjectionTechnologyReposit
         this.projectionTechnologyJpaRepository.deleteByTechnology(technology);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public boolean existsByTechnology(String technology) {
+        return this.projectionTechnologyJpaRepository.existsByTechnology(technology);
+    }
 }
