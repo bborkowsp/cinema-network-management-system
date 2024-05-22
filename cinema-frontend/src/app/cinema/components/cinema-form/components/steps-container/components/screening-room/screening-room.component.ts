@@ -1,12 +1,14 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormControl, FormGroup, FormGroupDirective, NgForm} from "@angular/forms";
-import {CreateScreeningRoomRequest} from "../../../../dtos/request/create-screening-room.request";
-import {ProjectionTechnologyService} from "../../../../../projection-technology/services/projection-technology.service";
 import {map, Observable} from "rxjs";
-import {CreateSeatRequest} from "../../../../dtos/request/create-seat.request";
+import {CreateSeatRequest} from "../../../../../../dtos/request/create-seat.request";
+import {CreateScreeningRoomRequest} from "../../../../../../dtos/request/create-screening-room.request";
+import {
+  ProjectionTechnologyService
+} from "../../../../../../../projection-technology/services/projection-technology.service";
 import {
   ProjectionTechnologyNameResponse
-} from "../../../../../projection-technology/dtos/response/projection-technology-name.response";
+} from "../../../../../../../projection-technology/dtos/response/projection-technology-name.response";
 
 @Component({
   selector: 'app-screening-room',

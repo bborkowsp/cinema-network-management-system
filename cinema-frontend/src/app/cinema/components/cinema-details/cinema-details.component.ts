@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {map, Observable, switchMap, tap} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
 import {CinemaService} from "../../services/cinema.service";
+import {CinemaResponse} from "../../dtos/response/cinema.response";
 
 @Component({
   selector: 'app-cinema-details',
@@ -10,7 +11,7 @@ import {CinemaService} from "../../services/cinema.service";
 })
 export class CinemaDetailsComponent implements OnInit {
 
-  cinemaDetails$!: Observable<CinemaDetailsComponent>;
+  cinemaDetails$!: Observable<CinemaResponse>;
   name: string = '';
   protected isLoading = true;
 

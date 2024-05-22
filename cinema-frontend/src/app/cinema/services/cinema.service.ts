@@ -3,9 +3,10 @@ import {HttpClient} from "@angular/common/http";
 import {CinemaListResponse} from "../dtos/response/cinema-list.response";
 import {map, Observable} from "rxjs";
 import {Injectable} from "@angular/core";
-import {CinemaDetailsComponent} from "../components/cinema-details/cinema-details.component";
 import {CreateCinemaRequest} from "../dtos/request/create-cinema.request";
 import {AuthService} from "src/app/user/services/auth.service";
+import {CinemaResponse} from "../dtos/response/cinema.response";
+import {UpdateCinemaRequest} from "../dtos/request/update-cinema.request";
 
 @Injectable({
   providedIn: 'root',
@@ -28,9 +29,9 @@ export class CinemaService {
       );
   }
 
-  getCinema(name: string): Observable<CinemaDetailsComponent> {
+  getCinema(name: string): Observable<CinemaResponse> {
     const url = `${CinemaService.cinemasUrl}/${name}`;
-    return this.httpClient.get<CinemaDetailsComponent>(url);
+    return this.httpClient.get<CinemaResponse>(url);
   }
 
   deleteCinema(name: string) {
@@ -56,5 +57,10 @@ export class CinemaService {
     return this.httpClient.get<{ content: string[] }>(url).pipe(
       map((response) => response.content),
     );
+  }
+
+  updateCinema(cinemaName: string, cinema: UpdateCinemaRequest) {
+    const url = `${CinemaService.cinemasUrl}/${cinemaName}`;
+    return this.httpClient.patch<void>(url, cinema);
   }
 }

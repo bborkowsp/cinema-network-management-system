@@ -1,0 +1,24 @@
+<form
+  #cinemaForm="ngForm"
+  (ngSubmit)="onSubmit()"
+  [formGroup]="cinemaFormBuilder.form"
+>
+  <app-page-content-container
+    [isLoading]="isLoading"
+    [pageTitle]="pageTitle"
+  >
+    <ng-container content>
+      <app-steps-container
+        [cinemaFormBuilder]="cinemaFormBuilder"
+        [cinemaForm]="cinemaForm"
+      ></app-steps-container>
+    </ng-container>
+  </app-page-content-container>
+
+  <div class="button-container">
+    <button (click)=handleCancelClicked() color="warn" mat-flat-button>Cancel</button>
+    <button [disabled]="cinemaForm.form.invalid" color="primary" mat-flat-button type="submit">
+      Save
+    </button>
+  </div>
+</form>

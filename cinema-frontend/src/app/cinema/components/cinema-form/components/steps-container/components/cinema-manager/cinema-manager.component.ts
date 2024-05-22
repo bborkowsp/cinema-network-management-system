@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {UserService} from "../../../../../user/services/user.service";
 import {Observable} from "rxjs";
-import {CinemaManagerResponse} from "../../../../../user/dtos/response/cinema-manager.response";
 import {FormControl, FormGroup, FormGroupDirective, NgForm} from "@angular/forms";
+import {CinemaManagerResponse} from "../../../../../../../user/dtos/response/cinema-manager.response";
+import {UserService} from "../../../../../../../user/services/user.service";
 
 @Component({
   selector: 'app-cinema-manager',

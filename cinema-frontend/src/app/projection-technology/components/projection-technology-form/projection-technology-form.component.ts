@@ -12,8 +12,9 @@ import {ProjectionTechnologyFormBuilder} from "./projection-technology-form-buil
 export class ProjectionTechnologyFormComponent implements OnInit {
   protected isEditMode = false;
   protected isLoading = true;
-  protected projectionTechnologyFormBuilder !: ProjectionTechnologyFormBuilder;
   protected pageTitle !: string;
+  protected projectionTechnologyFormBuilder !: ProjectionTechnologyFormBuilder;
+  private static readonly GO_BACK_NAVIGATION_PATH = '/projection-technologies';
   private technology !: string;
 
   constructor(
@@ -86,6 +87,6 @@ export class ProjectionTechnologyFormComponent implements OnInit {
   }
 
   private goBack() {
-    this.router.navigate(['/projection-technologies']);
+    this.router.navigate([ProjectionTechnologyFormComponent.GO_BACK_NAVIGATION_PATH]);
   }
 }

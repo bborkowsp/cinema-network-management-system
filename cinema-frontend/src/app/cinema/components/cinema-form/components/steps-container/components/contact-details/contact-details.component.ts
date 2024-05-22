@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {FormControl, FormGroup, FormGroupDirective, NgForm} from "@angular/forms";
-import {ContactDetailsRequest} from "../../../../dtos/request/contact-details.request";
-import {CreateContactTypeRequest} from "../../../../dtos/request/create-contact-type.request";
+import {ContactDetailsRequest} from "../../../../../../dtos/request/contact-details.request";
+import {CreateContactTypeRequest} from "../../../../../../dtos/request/create-contact-type.request";
 
 @Component({
   selector: 'app-contact-details',

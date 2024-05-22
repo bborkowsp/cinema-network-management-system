@@ -31,6 +31,7 @@ import {
 const routes: Routes = [
   {path: 'cinemas', component: CinemaListComponent, canActivate: [AuthGuard]},
   {path: 'cinemas/create', component: CreateCinemaFormComponent, canActivate: [AuthGuard]},
+  {path: 'cinemas/edit/:name', component: CreateCinemaFormComponent, canActivate: [AuthGuard]},
   {path: 'cinemas/details/:name', component: CinemaDetailsComponent, canActivate: [AuthGuard]},
   {path: 'projection-technologies', component: ProjectionTechnologyListComponent, canActivate: [AuthGuard]},
   {

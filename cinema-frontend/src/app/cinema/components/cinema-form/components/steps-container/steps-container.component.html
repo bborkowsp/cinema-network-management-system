@@ -1,0 +1,51 @@
+<mat-stepper #stepper linear>
+
+  <mat-step>
+    <ng-template matStepLabel>About cinema</ng-template>
+    <app-step-one
+      [createCinemaForm]="stepOneFormGroup"
+      [stepOneFormGroup]="cinemaForm"
+    ></app-step-one>
+    <div>
+      <button color="primary" mat-flat-button matStepperNext type="button">Next</button>
+    </div>
+  </mat-step>
+
+  <mat-step>
+    <ng-template matStepLabel>Screening rooms</ng-template>
+    <app-step-two
+      [createCinemaForm]="stepTwoFormGroup"
+      [stepTwoFormGroup]="cinemaForm"
+    ></app-step-two>
+    <div>
+      <button color="primary" mat-flat-button matStepperNext type="button">Next</button>
+    </div>
+  </mat-step>
+
+  <mat-step>
+    <ng-template matStepLabel>Contact details</ng-template>
+    <app-step-three
+      [createCinemaForm]="stepThreeFormGroup"
+      [stepThreeFormGroup]="cinemaForm"
+    ></app-step-three>
+    <div>
+      <button color="primary" mat-flat-button matStepperNext type="button">Next</button>
+    </div>
+  </mat-step>
+
+  <mat-step>
+    <ng-template matStepLabel>Manager</ng-template>
+    <app-step-four
+      [createCinemaForm]="stepFourFormGroup"
+      [stepFourFormGroup]="cinemaForm"
+    ></app-step-four>
+    <p>Click submit to finish creating new cinema!</p>
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button (click)="stepper.reset()" mat-button>Reset</button>
+      <button color="primary" mat-raised-button type="submit">
+        Submit
+      </button>
+    </div>
+  </mat-step>
+</mat-stepper>

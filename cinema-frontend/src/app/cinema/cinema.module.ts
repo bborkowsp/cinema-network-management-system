@@ -23,17 +23,31 @@ import {MatSortModule} from "@angular/material/sort";
 import {MatStepperModule} from "@angular/material/stepper";
 import {CreateCinemaFormComponent} from "./components/create-cinema-form/create-cinema-form.component";
 import {EditCinemaFormComponent} from './components/edit-cinema-form/edit-cinema-form.component';
-import {AboutCinemaComponent} from "./components/create-cinema-form/components/about-cinema/about-cinema.component";
-import {AddressComponent} from "./components/create-cinema-form/components/address/address.component";
-import {StepOneComponent} from "./components/create-cinema-form/steps/step-one/step-one.component";
-import {StepTwoComponent} from './components/create-cinema-form/steps/step-two/step-two.component';
-import {StepThreeComponent} from './components/create-cinema-form/steps/step-three/step-three.component';
+import {CinemaFormComponent} from './components/cinema-form/cinema-form.component';
+import {StepsContainerComponent} from './components/cinema-form/components/steps-container/steps-container.component';
 import {
   ScreeningRoomComponent
-} from "./components/create-cinema-form/components/screening-room/screening-room.component";
-import { ContactDetailsComponent } from './components/create-cinema-form/components/contact-details/contact-details.component';
-import { StepFourComponent } from './components/create-cinema-form/steps/step-four/step-four.component';
-import { CinemaManagerComponent } from './components/create-cinema-form/components/cinema-manager/cinema-manager.component';
+} from "./components/cinema-form/components/steps-container/components/screening-room/screening-room.component";
+import {
+  AddressComponent
+} from "./components/cinema-form/components/steps-container/components/address/address.component";
+import {
+  AboutCinemaComponent
+} from "./components/cinema-form/components/steps-container/components/about-cinema/about-cinema.component";
+import {StepOneComponent} from "./components/cinema-form/components/steps-container/steps/step-one/step-one.component";
+import {StepTwoComponent} from "./components/cinema-form/components/steps-container/steps/step-two/step-two.component";
+import {
+  StepThreeComponent
+} from "./components/cinema-form/components/steps-container/steps/step-three/step-three.component";
+import {
+  ContactDetailsComponent
+} from "./components/cinema-form/components/steps-container/components/contact-details/contact-details.component";
+import {
+  StepFourComponent
+} from "./components/cinema-form/components/steps-container/steps/step-four/step-four.component";
+import {
+  CinemaManagerComponent
+} from "./components/cinema-form/components/steps-container/components/cinema-manager/cinema-manager.component";
 
 @NgModule({
   imports: [
@@ -73,6 +87,8 @@ import { CinemaManagerComponent } from './components/create-cinema-form/componen
     ContactDetailsComponent,
     StepFourComponent,
     CinemaManagerComponent,
+    CinemaFormComponent,
+    StepsContainerComponent,
   ],
 })
 
