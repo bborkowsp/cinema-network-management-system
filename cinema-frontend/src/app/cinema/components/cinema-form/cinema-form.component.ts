@@ -3,6 +3,8 @@ import {CinemaFormBuilder} from "./cinema-form-builder";
 import {ActivatedRoute, Router} from "@angular/router";
 import {FormBuilder} from "@angular/forms";
 import {CinemaService} from "../../services/cinema.service";
+import {CreateCinemaRequest} from "../../dtos/request/create-cinema.request";
+import {UpdateCinemaRequest} from "../../dtos/request/update-cinema.request";
 
 @Component({
   selector: 'app-cinema-form',
@@ -62,25 +64,35 @@ export class CinemaFormComponent implements OnInit {
   }
 
   protected onSubmit() {
-    const cinema = this.isEditMode ?
-      this.cinemaFormBuilder.getUpdateCinemaRequestFromForm() :
-      this.cinemaFormBuilder.getCreateCinemaRequestFromForm();
+    const cinemaRequestPromise = this.isEditMode
+      ? this.cinemaFormBuilder.getUpdateCinemaRequestFromForm()
+      : this.cinemaFormBuilder.getCreateCinemaRequestFromForm();
 
-    const cinemaRequest$ = this.isEditMode ?
-      this.cinemaService.updateCinema(this.cinemaName, cinema) :
-      this.cinemaService.createCinema(cinema);
+    this.handleFormSubmission(cinemaRequestPromise);
+  }
 
+  private handleFormSubmission(cinemaRequestPromise: Promise<CreateCinemaRequest | UpdateCinemaRequest>) {
     this.isLoading = true;
-    cinemaRequest$.subscribe({
-      next: () => {
-        this.isLoading = false;
-        this.goBack();
-      },
-      error: () => {
-        this.isLoading = false;
-      }
+
+    cinemaRequestPromise.then((cinemaRequest) => {
+      const cinemaServiceObservable = this.isEditMode
+        ? this.cinemaService.updateCinema(this.cinemaName, cinemaRequest)
+        : this.cinemaService.createCinema(cinemaRequest);
+
+      cinemaServiceObservable.subscribe({
+        next: () => {
+          this.isLoading = false;
+          this.goBack();
+        },
+        error: () => {
+          this.isLoading = false;
+        }
+      });
+    }).catch(() => {
+      this.isLoading = false;
     });
   }
+
 
   protected handleCancelClicked() {
     this.goBack();

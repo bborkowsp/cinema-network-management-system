@@ -123,45 +123,77 @@ export class CinemaFormBuilder {
     )
   }
 
-  getCreateCinemaRequestFromForm() {
-    return new CreateCinemaRequest(
-      this.stepOneFormGroup.get('aboutCinema')?.get('name')?.value,
-      this.stepOneFormGroup.get('aboutCinema')?.get('description')?.value,
-      new CreateAddressRequest(
-        this.stepOneFormGroup.get('address')?.get('city')?.value,
-        this.stepOneFormGroup.get('address')?.get('country')?.value,
-        this.stepOneFormGroup.get('address')?.get('postalCode')?.value,
-        this.stepOneFormGroup.get('address')?.get('streetAndBuildingNumber')?.value,
-      ),
-      new CreateImageRequest(
-        this.imageFormGroup?.get('name')?.value,
-        this.imageFormGroup?.get('type')?.value,
-        this.imageFormGroup?.get('data')?.value,
-      ),
-      this.stepTwoFormGroup.get('screeningRooms')?.value,
-      this.stepThreeFormGroup.get('contactDetails')?.value,
-      this.stepFourFormGroup.get('cinemaManager')?.value,
+
+  private readFileData(file: File): Promise<string> {
+    return new Promise<string>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        const dataUrl = reader.result as string;
+        const imageData = dataUrl.split(',')[1];
+        resolve(imageData);
+      };
+      reader.onerror = error => reject(error);
+    });
+  }
+
+  private async createImageRequest(): Promise<CreateImageRequest> {
+    const selectedImage: File = this.imageFormGroup?.value;
+    const name = selectedImage.name;
+    const type = selectedImage.type;
+    const data = await this.readFileData(selectedImage);
+
+    return new CreateImageRequest(name, type, data);
+  }
+
+  private createAddressRequest(): CreateAddressRequest {
+    return new CreateAddressRequest(
+      this.stepOneFormGroup.get('address')?.get('city')?.value,
+      this.stepOneFormGroup.get('address')?.get('country')?.value,
+      this.stepOneFormGroup.get('address')?.get('postalCode')?.value,
+      this.stepOneFormGroup.get('address')?.get('streetAndBuildingNumber')?.value,
     );
   }
 
-  getUpdateCinemaRequestFromForm() {
+  private getCommonRequestFields() {
+    return {
+      name: this.stepOneFormGroup.get('aboutCinema')?.get('name')?.value,
+      description: this.stepOneFormGroup.get('aboutCinema')?.get('description')?.value,
+      address: this.createAddressRequest(),
+      screeningRooms: this.stepTwoFormGroup.get('screeningRooms')?.value,
+      contactDetails: this.stepThreeFormGroup.get('contactDetails')?.value,
+      cinemaManager: this.stepFourFormGroup.get('cinemaManager')?.value,
+    };
+  }
+
+  async getCreateCinemaRequestFromForm(): Promise<CreateCinemaRequest> {
+    const imageRequest = await this.createImageRequest();
+    const commonFields = this.getCommonRequestFields();
+
+    return new CreateCinemaRequest(
+      commonFields.name,
+      commonFields.description,
+      commonFields.address,
+      imageRequest,
+      commonFields.screeningRooms,
+      commonFields.contactDetails,
+      commonFields.cinemaManager,
+    );
+  }
+
+  async getUpdateCinemaRequestFromForm(): Promise<UpdateCinemaRequest> {
+    const imageRequest = await this.createImageRequest();
+    const commonFields = this.getCommonRequestFields();
+
     return new UpdateCinemaRequest(
-      this.stepOneFormGroup.get('aboutCinema')?.get('name')?.value,
-      this.stepOneFormGroup.get('aboutCinema')?.get('description')?.value,
-      new CreateAddressRequest(
-        this.stepOneFormGroup.get('address')?.get('city')?.value,
-        this.stepOneFormGroup.get('address')?.get('country')?.value,
-        this.stepOneFormGroup.get('address')?.get('postalCode')?.value,
-        this.stepOneFormGroup.get('address')?.get('streetAndBuildingNumber')?.value,
-      ),
-      new CreateImageRequest(
-        this.imageFormGroup?.get('name')?.value,
-        this.imageFormGroup?.get('type')?.value,
-        this.imageFormGroup?.get('data')?.value,
-      ),
-      this.stepTwoFormGroup.get('screeningRooms')?.value,
-      this.stepThreeFormGroup.get('contactDetails')?.value,
-      this.stepFourFormGroup.get('cinemaManager')?.value,
+      commonFields.name,
+      commonFields.description,
+      commonFields.address,
+      imageRequest,
+      commonFields.screeningRooms,
+      commonFields.contactDetails,
+      commonFields.cinemaManager,
     );
   }
 }
+
