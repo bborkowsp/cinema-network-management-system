@@ -134,6 +134,105 @@ export class ScreeningRoomComponent implements OnInit, OnChanges {
     return this.createScreeningRoomFormGroup.get('seats') as FormArray;
   }
 
+  createGridOfSeats() {
+    if (this.currentEditedContactDetailIndex >= 0) {
+      this.updateExistingScreeningRoom();
+    } else {
+      this.createInitialScreeningRoom();
+    }
+  }
+
+  private updateExistingScreeningRoom() {
+    const numberOfRowsInOldScreeningRoom = this.currentScreeningRoom.length;
+    const numberOfColumnsInOldScreeningRoom = this.currentScreeningRoom[0].length;
+
+    const newNumberOfRows = this.rowsNumberControl.value;
+    const newNumberOfColumns = this.columnsNumberControl.value;
+
+    if (newNumberOfRows != null && newNumberOfColumns != null) {
+      if (newNumberOfRows < numberOfRowsInOldScreeningRoom) {
+        this.removeExcessRows(newNumberOfRows);
+      }
+
+      if (newNumberOfColumns < numberOfColumnsInOldScreeningRoom) {
+        this.removeExcessColumns(newNumberOfColumns);
+      }
+
+      if (newNumberOfRows > numberOfRowsInOldScreeningRoom) {
+        this.addAdditionalRows(newNumberOfRows, newNumberOfColumns);
+      }
+
+      if (newNumberOfColumns > numberOfColumnsInOldScreeningRoom) {
+        this.addAdditionalColumns(newNumberOfColumns);
+      }
+    }
+  }
+
+  private createInitialScreeningRoom() {
+    this.showCurrentScreeningRoom = true;
+    const newNumberOfRows = this.rowsNumberControl.value;
+    const newNumberOfColumns = this.columnsNumberControl.value;
+
+    this.currentScreeningRoom = [];
+    if (newNumberOfRows != null && newNumberOfColumns != null) {
+      for (let i = 0; i < newNumberOfRows; i++) {
+        const newRow: SeatResponse[] = [];
+        for (let j = 0; j < newNumberOfColumns; j++) {
+          const newSeat: SeatResponse = {
+            seatRow: i + 1,
+            seatColumn: j + 1,
+            seatZone: 'STANDARD',
+            seatType: 'AVAILABLE'
+          };
+          newRow.push(newSeat);
+        }
+        this.currentScreeningRoom.push(newRow);
+      }
+    }
+  }
+
+  private removeExcessRows(newNumberOfRows: number) {
+    this.currentScreeningRoom.splice(newNumberOfRows);
+  }
+
+  private removeExcessColumns(newNumberOfColumns: number) {
+    this.currentScreeningRoom.forEach(row => {
+      row.splice(newNumberOfColumns);
+    });
+  }
+
+  private addAdditionalRows(newNumberOfRows: number, newNumberOfColumns: number) {
+    const numberOfRowsInOldScreeningRoom = this.currentScreeningRoom.length;
+    for (let i = numberOfRowsInOldScreeningRoom; i < newNumberOfRows; i++) {
+      const newRow: SeatResponse[] = [];
+      for (let j = 0; j < newNumberOfColumns; j++) {
+        const newSeat: SeatResponse = {
+          seatRow: i + 1,
+          seatColumn: j + 1,
+          seatZone: 'STANDARD',
+          seatType: 'AVAILABLE'
+        };
+        newRow.push(newSeat);
+      }
+      this.currentScreeningRoom.push(newRow);
+    }
+  }
+
+  private addAdditionalColumns(newNumberOfColumns: number) {
+    const numberOfColumnsInOldScreeningRoom = this.currentScreeningRoom[0].length;
+    this.currentScreeningRoom.forEach(row => {
+      for (let j = numberOfColumnsInOldScreeningRoom; j < newNumberOfColumns; j++) {
+        const newSeat: SeatResponse = {
+          seatRow: row.length + 1,
+          seatColumn: j + 1,
+          seatZone: 'STANDARD',
+          seatType: 'AVAILABLE'
+        };
+        row.push(newSeat);
+      }
+    });
+  }
+
   handleStandardClicked(cell: any) {
     cell.seatZone = 'STANDARD';
   }
@@ -151,80 +250,7 @@ export class ScreeningRoomComponent implements OnInit, OnChanges {
   }
 
   handleCorridorClicked(cell: any) {
-    cell.seatZone = 'Corridor';
-  }
-
-  createGridOfSeats() {
-    if (this.currentEditedContactDetailIndex >= 0) {
-      const numberOfRowsInOldScreeningRoom = this.currentScreeningRoom.length;
-      const numberOfColumnsInOldScreeningRoom = this.currentScreeningRoom[0].length;
-
-      const newNumberOfRows = this.rowsNumberControl.value;
-      const newNumberOfColumns = this.columnsNumberControl.value;
-
-      if (newNumberOfRows != null && newNumberOfColumns != null) {
-        if (newNumberOfRows < numberOfRowsInOldScreeningRoom) {
-          this.currentScreeningRoom.splice(newNumberOfRows);
-        }
-
-        // Usuwanie nadmiarowych kolumn z każdego wiersza, jeśli użytkownik podał mniejszą liczbę kolumn
-        if (newNumberOfColumns < numberOfColumnsInOldScreeningRoom) {
-          this.currentScreeningRoom.forEach(row => {
-            row.splice(newNumberOfColumns);
-          });
-        }
-
-        // Tworzenie nowych wierszy, jeśli użytkownik podał większą liczbę wierszy
-        for (let i = numberOfRowsInOldScreeningRoom; i < newNumberOfRows; i++) {
-          const newRow: SeatResponse[] = [];
-          for (let j = 0; j < newNumberOfColumns; j++) {
-            const newSeat: SeatResponse = {
-              seatRow: i + 1,
-              seatColumn: j + 1,
-              seatZone: 'STANDARD',
-              seatType: 'AVAILABLE'
-            };
-            newRow.push(newSeat);
-          }
-          this.currentScreeningRoom.push(newRow);
-        }
-
-        // Dodawanie nowych kolumn do istniejących wierszy, jeśli użytkownik podał większą liczbę kolumn
-        if (newNumberOfColumns > numberOfColumnsInOldScreeningRoom) {
-          this.currentScreeningRoom.forEach(row => {
-            for (let j = numberOfColumnsInOldScreeningRoom; j < newNumberOfColumns; j++) {
-              const newSeat: SeatResponse = {
-                seatRow: row.length + 1,
-                seatColumn: j + 1,
-                seatZone: 'STANDARD',
-                seatType: 'AVAILABLE'
-              };
-              row.push(newSeat);
-            }
-          });
-        }
-      }
-    } else {
-      this.showCurrentScreeningRoom = true;
-      const newNumberOfRows = this.rowsNumberControl.value;
-      const newNumberOfColumns = this.columnsNumberControl.value;
-
-      this.currentScreeningRoom = [];
-      if (newNumberOfRows != null && newNumberOfColumns != null)
-        for (let i = 0; i < newNumberOfRows; i++) {
-          const newRow: SeatResponse[] = [];
-          for (let j = 0; j < newNumberOfColumns; j++) {
-            const newSeat: SeatResponse = {
-              seatRow: i + 1,
-              seatColumn: j + 1,
-              seatZone: 'STANDARD',
-              seatType: 'AVAILABLE'
-            };
-            newRow.push(newSeat);
-          }
-          this.currentScreeningRoom.push(newRow);
-        }
-    }
+    cell.seatZone = 'CORRIDOR';
   }
 
 }
