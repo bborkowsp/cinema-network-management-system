@@ -1,26 +1,31 @@
-<mat-form-field class="example-full-width" *ngIf="currentDepartmentControl">
-  <mat-label>Department</mat-label>
-  <input [formControl]="currentDepartmentControl" matInput required type="string">
-</mat-form-field>
+<form #contactDetailForm="ngForm" (ngSubmit)="saveContactDetail()">
+  <mat-form-field class="example-full-width" *ngIf="currentDepartmentControl">
+    <mat-label>Department</mat-label>
+    <input [formControl]="currentDepartmentControl" matInput required type="string">
+  </mat-form-field>
 
-<table class="example-full-width">
-  <tr>
-    <td>
-      <mat-form-field class="example-full-width" *ngIf="currentEmailControl">
-        <mat-label>Email</mat-label>
-        <input [formControl]="currentEmailControl" matInput required type="string">
-        <mat-icon matSuffix>alternate_email</mat-icon>
-      </mat-form-field>
-    </td>
-    <td>
-      <mat-form-field class="example-full-width" *ngIf="currentPhoneNumberControl">
-        <mat-label>Phone number</mat-label>
-        <input [formControl]="currentPhoneNumberControl" matInput required type="string">
-        <mat-icon matSuffix>phone</mat-icon>
-      </mat-form-field>
-    </td>
-  </tr>
-</table>
+  <table class="example-full-width">
+    <tr>
+      <td>
+        <mat-form-field class="example-full-width" *ngIf="currentEmailControl">
+          <mat-label>Email</mat-label>
+          <input [formControl]="currentEmailControl" matInput required type="string">
+          <mat-icon matSuffix>alternate_email</mat-icon>
+        </mat-form-field>
+      </td>
+      <td>
+        <mat-form-field class="example-full-width" *ngIf="currentPhoneNumberControl">
+          <mat-label>Phone number</mat-label>
+          <input [formControl]="currentPhoneNumberControl" matInput required type="string">
+          <mat-icon matSuffix>phone</mat-icon>
+        </mat-form-field>
+      </td>
+    </tr>
+  </table>
+  <button [disabled]="contactDetailForm.invalid" color="primary" mat-flat-button type="submit">
+    Save contact
+  </button>
+</form>
 
 
 <div mat-subheader>Saved contacts list:</div>
@@ -28,6 +33,9 @@
   <mat-list-item *ngFor="let contact of allContactDetails; let i = index" role="listitem">
     <button (click)="editContact(i)" color="primary" mat-icon-button type="button">
       <mat-icon>edit</mat-icon>
+    </button>
+    <button (click)="deleteContact(i)" color="warn" mat-icon-button type="button">
+      <mat-icon>delete</mat-icon>
     </button>
     <span>Contact no. {{ i + 1 }} - Department: {{ contact.department }}</span>
   </mat-list-item>

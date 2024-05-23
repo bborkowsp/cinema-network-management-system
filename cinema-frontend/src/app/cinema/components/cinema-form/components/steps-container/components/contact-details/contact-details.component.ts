@@ -1,6 +1,7 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {FormArray, FormControl, FormGroupDirective, NgForm} from "@angular/forms";
 import {ContactDetailsResponse} from "../../../../../../dtos/response/contact-details.response";
+import {ContactTypeResponse} from "../../../../../../dtos/response/contact-type.response";
 
 @Component({
   selector: 'app-contact-details',
@@ -23,11 +24,6 @@ export class ContactDetailsComponent implements OnInit, OnChanges {
     }
   }
 
-  private updateContactDetails() {
-    console.log('this.formArray.value', this.formArray.value);
-    this.allContactDetails = this.formArray.value as ContactDetailsResponse[];
-  }
-
   get currentDepartmentControl(): FormControl | null {
     if (
       this.currentEditedContactDetailIndex >= 0 &&
@@ -35,8 +31,9 @@ export class ContactDetailsComponent implements OnInit, OnChanges {
     ) {
       return this.formArray.at(this.currentEditedContactDetailIndex)
         .get('department') as FormControl;
+    } else {
+      return null;
     }
-    return null;
   }
 
   get currentEmailControl(): FormControl | null {
@@ -62,5 +59,33 @@ export class ContactDetailsComponent implements OnInit, OnChanges {
 
   protected editContact(i: number) {
     this.currentEditedContactDetailIndex = i;
+  }
+
+  protected deleteContact(i: number) {
+    this.formArray.removeAt(i);
+    this.updateContactDetails();
+    this.currentEditedContactDetailIndex = -1;
+  }
+
+  protected saveContactDetail() {
+    const contactDetailsResponse = new ContactDetailsResponse(
+      this.currentDepartmentControl?.value,
+      new ContactTypeResponse(
+        this.currentEmailControl?.value,
+        this.currentPhoneNumberControl?.value
+      )
+    );
+    if (this.currentEditedContactDetailIndex === -1) {
+      this.formArray.value.push(contactDetailsResponse);
+      this.updateContactDetails();
+    } else {
+      this.formArray.at(this.currentEditedContactDetailIndex).patchValue(contactDetailsResponse);
+      this.updateContactDetails();
+      this.currentEditedContactDetailIndex = -1;
+    }
+  }
+
+  private updateContactDetails() {
+    this.allContactDetails = this.formArray.value as ContactDetailsResponse[];
   }
 }
