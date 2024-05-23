@@ -1,21 +1,26 @@
 <form #contactForm="ngForm" (ngSubmit)="saveContactDetail()">
   <mat-form-field class="example-full-width">
     <mat-label>Department</mat-label>
-    <input matInput [formControl]="departmentControl" required type="text">
+    <input matInput [formControl]="departmentControl" required type="text" maxlength="100">
   </mat-form-field>
-
-  <mat-form-field class="example-full-width">
-    <mat-label>Email</mat-label>
-    <input matInput [formControl]="emailControl" required type="email">
-    <mat-icon matSuffix>alternate_email</mat-icon>
-  </mat-form-field>
-
-  <mat-form-field class="example-full-width">
-    <mat-label>Phone number</mat-label>
-    <input matInput [formControl]="phoneNumberControl" required type="tel">
-    <mat-icon matSuffix>phone</mat-icon>
-  </mat-form-field>
-
+  <table class="example-full-width">
+    <tr>
+      <td>
+        <mat-form-field class="example-full-width">
+          <mat-label>Email</mat-label>
+          <input matInput [formControl]="emailControl" required type="email">
+          <mat-icon matSuffix>alternate_email</mat-icon>
+        </mat-form-field>
+      </td>
+      <td>
+        <mat-form-field class="example-full-width">
+          <mat-label>Phone number</mat-label>
+          <input matInput [formControl]="phoneNumberControl" required type="tel">
+          <mat-icon matSuffix>phone</mat-icon>
+        </mat-form-field>
+      </td>
+    </tr>
+  </table>
   <button [disabled]="contactForm.invalid" color="primary" mat-flat-button type="submit">
     Save contact
   </button>
