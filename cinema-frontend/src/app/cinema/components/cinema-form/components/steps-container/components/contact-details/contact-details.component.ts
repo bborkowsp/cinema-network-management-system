@@ -16,7 +16,7 @@ export class ContactDetailsComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.updateContactDetails();
-    this.createContactDetailFormGroup$ = this.createContactDetailFormGroup();
+    this.createContactDetailFormGroup$ = this.createFormGroup();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -61,46 +61,38 @@ export class ContactDetailsComponent implements OnInit, OnChanges {
   }
 
   protected saveContactDetail() {
+    const contactDetailsResponse = this.createFilledContactFormGroup();
+
     if (this.currentEditedContactDetailIndex === -1) {
-      const contactDetailsResponse = new FormGroup(
-        {
-          department: new FormControl(this.departmentControl.value),
-          contactType: new FormGroup({
-            email: new FormControl(this.emailControl.value),
-            phoneNumber: new FormControl(this.phoneNumberControl.value)
-          })
-        }
-      )
       this.formArray.push(contactDetailsResponse);
-      this.updateContactDetails();
-      this.currentEditedContactDetailIndex = -1;
       this.createContactDetailFormGroup$.reset();
-
     } else {
-      const contactDetailsResponse = new FormGroup({
-        department: new FormControl(this.departmentControl?.value),
-        contactType: new FormGroup({
-          email: new FormControl(this.emailControl?.value),
-          phoneNumber: new FormControl(this.phoneNumberControl?.value)
-        })
-      });
-
       this.formArray.at(this.currentEditedContactDetailIndex).patchValue(contactDetailsResponse);
-      this.updateContactDetails();
-      this.currentEditedContactDetailIndex = -1;
     }
+    this.updateContactDetails();
+    this.currentEditedContactDetailIndex = -1;
   }
 
   private updateContactDetails() {
     this.allContactDetails = this.formArray.value as ContactDetailsResponse[];
   }
 
-  private createContactDetailFormGroup(): FormGroup {
+  private createFormGroup(): FormGroup {
     return new FormGroup({
       department: new FormControl(''),
       contactType: new FormGroup({
         email: new FormControl(''),
         phoneNumber: new FormControl('')
+      })
+    });
+  }
+
+  private createFilledContactFormGroup(): FormGroup {
+    return new FormGroup({
+      department: new FormControl(this.departmentControl.value),
+      contactType: new FormGroup({
+        email: new FormControl(this.emailControl.value),
+        phoneNumber: new FormControl(this.phoneNumberControl.value)
       })
     });
   }
