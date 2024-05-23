@@ -1,61 +1,22 @@
-<form #createContact="ngForm" *ngIf="currentEditedContactDetailIndex === -1" (ngSubmit)="saveContactDetail()">
+<form #contactForm="ngForm" (ngSubmit)="saveContactDetail()">
   <mat-form-field class="example-full-width">
     <mat-label>Department</mat-label>
-    <input matInput [formControl]="createDepartment" required type="string">
+    <input matInput [formControl]="departmentControl" required type="text">
   </mat-form-field>
 
-  <table class="example-full-width">
-    <tr>
-      <td>
-        <mat-form-field class="example-full-width">
-          <mat-label>Email</mat-label>
-          <input matInput [formControl]="createEmail" required type="email">
-          <mat-icon matSuffix>alternate_email</mat-icon>
-        </mat-form-field>
-      </td>
-      <td>
-        <mat-form-field class="example-full-width">
-          <mat-label>Phone number</mat-label>
-          <input matInput [formControl]="createPhoneNumber" required type="tel">
-          <mat-icon matSuffix>phone</mat-icon>
-        </mat-form-field>
-      </td>
-    </tr>
-  </table>
-
-  <button [disabled]="createContact.invalid" color="primary" mat-flat-button type="submit">
-    Save contact
-  </button>
-</form>
-
-
-<form #contactDetailForm="ngForm" (ngSubmit)="saveContactDetail()" *ngIf="currentEditedContactDetailIndex !== -1">
-  <mat-form-field class="example-full-width" *ngIf="currentEditedContactDetailIndex !== -1 && currentDepartmentControl">
-    <mat-label>Department</mat-label>
-    <input [formControl]="currentDepartmentControl" matInput required type="string">
+  <mat-form-field class="example-full-width">
+    <mat-label>Email</mat-label>
+    <input matInput [formControl]="emailControl" required type="email">
+    <mat-icon matSuffix>alternate_email</mat-icon>
   </mat-form-field>
-  <table class="example-full-width">
-    <tr>
-      <td>
-        <mat-form-field class="example-full-width"
-                        *ngIf="currentEditedContactDetailIndex !== -1 && currentEmailControl">
-          <mat-label>Email</mat-label>
-          <input
-            [formControl]="currentEmailControl" matInput required type="string">
-        </mat-form-field>
-      </td>
-      <td>
-        <mat-form-field class="example-full-width"
-                        *ngIf="currentEditedContactDetailIndex !== -1 && currentPhoneNumberControl">
-          <mat-label>Phone number</mat-label>
-          <input
-            [formControl]="currentPhoneNumberControl" matInput required type="string">
-        </mat-form-field>
-      </td>
-    </tr>
-  </table>
 
-  <button [disabled]="contactDetailForm.invalid" color="primary" mat-flat-button type="submit">
+  <mat-form-field class="example-full-width">
+    <mat-label>Phone number</mat-label>
+    <input matInput [formControl]="phoneNumberControl" required type="tel">
+    <mat-icon matSuffix>phone</mat-icon>
+  </mat-form-field>
+
+  <button [disabled]="contactForm.invalid" color="primary" mat-flat-button type="submit">
     Save contact
   </button>
 </form>

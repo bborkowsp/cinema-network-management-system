@@ -1,7 +1,6 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {FormArray, FormControl, FormGroup, FormGroupDirective, NgForm} from "@angular/forms";
 import {ContactDetailsResponse} from "../../../../../../dtos/response/contact-details.response";
-import {ContactTypeResponse} from "../../../../../../dtos/response/contact-type.response";
 
 @Component({
   selector: 'app-contact-details',
@@ -26,58 +25,36 @@ export class ContactDetailsComponent implements OnInit, OnChanges {
     }
   }
 
-  get currentDepartmentControl(): FormControl | null {
-    console.log("currentindex", this.currentEditedContactDetailIndex)
-    if (
-      this.currentEditedContactDetailIndex >= 0
-    ) {
-      console.log(this.formArray.at(this.currentEditedContactDetailIndex).get('department'));
+  get departmentControl(): FormControl {
+    if (this.currentEditedContactDetailIndex >= 0) {
       return this.formArray.at(this.currentEditedContactDetailIndex)
         .get('department') as FormControl;
     } else {
-      console.log("currentDepartmentControl is null")
-      return null;
+      return this.createContactDetailFormGroup$.get('department') as FormControl;
     }
   }
 
-  get currentEmailControl(): FormControl | null {
-    if (
-      this.currentEditedContactDetailIndex >= 0
-    ) {
-      return this.formArray.at(this.currentEditedContactDetailIndex).get('contactType')?.get('email') as FormControl;
-    }
-    return null;
-  }
-
-  get currentPhoneNumberControl(): FormControl | null {
-    if (
-      this.currentEditedContactDetailIndex >= 0
-    ) {
+  get emailControl(): FormControl {
+    if (this.currentEditedContactDetailIndex >= 0) {
       return this.formArray.at(this.currentEditedContactDetailIndex)
-        .get('contactType')?.get('phoneNumber') as FormControl;
+        .get('contactType')?.get('email') as FormControl;
     }
-    return null;
-  }
-
-  get createDepartment(): FormControl {
-    return this.createContactDetailFormGroup$.get('department') as FormControl;
-  }
-
-  get createEmail(): FormControl {
     return this.createContactDetailFormGroup$.get('contactType')?.get('email') as FormControl;
   }
 
-  get createPhoneNumber(): FormControl {
+  get phoneNumberControl(): FormControl {
+    if (this.currentEditedContactDetailIndex >= 0) {
+      return this.formArray.at(this.currentEditedContactDetailIndex)
+        .get('contactType')?.get('phoneNumber') as FormControl;
+    }
     return this.createContactDetailFormGroup$.get('contactType')?.get('phoneNumber') as FormControl;
   }
 
   protected editContact(i: number) {
-    console.log('editContact', i);
     this.currentEditedContactDetailIndex = i;
   }
 
   protected deleteContact(i: number) {
-    console.log('deleteContact', i);
     this.formArray.removeAt(i);
     this.updateContactDetails();
     this.currentEditedContactDetailIndex = -1;
@@ -87,27 +64,27 @@ export class ContactDetailsComponent implements OnInit, OnChanges {
     if (this.currentEditedContactDetailIndex === -1) {
       const contactDetailsResponse = new FormGroup(
         {
-          department: new FormControl(this.createDepartment.value),
+          department: new FormControl(this.departmentControl.value),
           contactType: new FormGroup({
-            email: new FormControl(this.createEmail.value),
-            phoneNumber: new FormControl(this.createPhoneNumber.value)
+            email: new FormControl(this.emailControl.value),
+            phoneNumber: new FormControl(this.phoneNumberControl.value)
           })
         }
       )
       this.formArray.push(contactDetailsResponse);
-      console.log(this.formArray.value);
       this.updateContactDetails();
       this.currentEditedContactDetailIndex = -1;
       this.createContactDetailFormGroup$.reset();
 
     } else {
-      const contactDetailsResponse = new ContactDetailsResponse(
-        this.currentDepartmentControl?.value,
-        new ContactTypeResponse(
-          this.currentEmailControl?.value,
-          this.currentPhoneNumberControl?.value
-        )
-      );
+      const contactDetailsResponse = new FormGroup({
+        department: new FormControl(this.departmentControl?.value),
+        contactType: new FormGroup({
+          email: new FormControl(this.emailControl?.value),
+          phoneNumber: new FormControl(this.phoneNumberControl?.value)
+        })
+      });
+
       this.formArray.at(this.currentEditedContactDetailIndex).patchValue(contactDetailsResponse);
       this.updateContactDetails();
       this.currentEditedContactDetailIndex = -1;
