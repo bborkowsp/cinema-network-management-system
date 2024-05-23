@@ -11,12 +11,12 @@ export class ContactDetailsComponent implements OnInit, OnChanges {
   @Input({required: true}) form!: FormGroupDirective | NgForm;
   @Input({required: true}) formArray!: FormArray;
   protected allContactDetails: ContactDetailsResponse[] = [];
-  createContactDetailFormGroup$!: FormGroup;
+  createContactDetailFormGroup!: FormGroup;
   currentEditedContactDetailIndex: number = -1;
 
   ngOnInit() {
     this.updateContactDetails();
-    this.createContactDetailFormGroup$ = this.createFormGroup();
+    this.createContactDetailFormGroup = this.createFormGroup();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -26,28 +26,26 @@ export class ContactDetailsComponent implements OnInit, OnChanges {
   }
 
   get departmentControl(): FormControl {
-    if (this.currentEditedContactDetailIndex >= 0) {
-      return this.formArray.at(this.currentEditedContactDetailIndex)
-        .get('department') as FormControl;
-    } else {
-      return this.createContactDetailFormGroup$.get('department') as FormControl;
-    }
+    return this.getFormControl('department');
   }
 
   get emailControl(): FormControl {
-    if (this.currentEditedContactDetailIndex >= 0) {
-      return this.formArray.at(this.currentEditedContactDetailIndex)
-        .get('contactType')?.get('email') as FormControl;
-    }
-    return this.createContactDetailFormGroup$.get('contactType')?.get('email') as FormControl;
+    return this.getFormControl('contactType', 'email');
   }
 
   get phoneNumberControl(): FormControl {
-    if (this.currentEditedContactDetailIndex >= 0) {
-      return this.formArray.at(this.currentEditedContactDetailIndex)
-        .get('contactType')?.get('phoneNumber') as FormControl;
+    return this.getFormControl('contactType', 'phoneNumber');
+  }
+
+  private getFormControl(controlName: string, secondControlName?: string): FormControl {
+    const formGroup = this.currentEditedContactDetailIndex >= 0 ?
+      this.formArray.at(this.currentEditedContactDetailIndex) : this.createContactDetailFormGroup;
+
+    if (secondControlName) {
+      return formGroup.get(controlName)?.get(secondControlName) as FormControl;
+    } else {
+      return formGroup.get(controlName) as FormControl;
     }
-    return this.createContactDetailFormGroup$.get('contactType')?.get('phoneNumber') as FormControl;
   }
 
   protected editContact(i: number) {
@@ -65,7 +63,7 @@ export class ContactDetailsComponent implements OnInit, OnChanges {
 
     if (this.currentEditedContactDetailIndex === -1) {
       this.formArray.push(contactDetailsResponse);
-      this.createContactDetailFormGroup$.reset();
+      this.createContactDetailFormGroup.reset();
     } else {
       this.formArray.at(this.currentEditedContactDetailIndex).patchValue(contactDetailsResponse);
     }
