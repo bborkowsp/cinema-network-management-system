@@ -100,11 +100,13 @@ class CinemaSeeder implements Seeder {
 
     private Set<ContactDetails> createContactDetails() {
         Set<ContactDetails> contactDetails = new HashSet<>();
-        final var contactType = createContactType();
-        contactDetails.add(new ContactDetails(
-                faker.lorem().fixedString(10),
-                contactType
-        ));
+        for (int i = 0; i < 4; i++) {
+            final var contactType = createContactType();
+            contactDetails.add(new ContactDetails(
+                    faker.lorem().fixedString(10),
+                    contactType
+            ));
+        }
         return contactDetails;
     }
 

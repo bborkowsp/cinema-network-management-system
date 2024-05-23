@@ -21,13 +21,7 @@ export class CinemaFormBuilder {
       stepOne: this.formBuilder.group({
         address: this.formBuilder.group({
           city: ['', [Validators.required, Validators.maxLength(FormValidatorLengths.DEFAULT_MAX_INPUT_LENGTH),],],
-          country: [
-            '',
-            [
-              Validators.required,
-              Validators.maxLength(FormValidatorLengths.DEFAULT_MAX_INPUT_LENGTH),
-            ],
-          ],
+          country: ['', [Validators.required, Validators.maxLength(FormValidatorLengths.DEFAULT_MAX_INPUT_LENGTH),],],
           postalCode: [
             '',
             [
@@ -46,20 +40,8 @@ export class CinemaFormBuilder {
           ],
         }),
         aboutCinema: this.formBuilder.group({
-          name: [
-            '',
-            [
-              Validators.required,
-              Validators.maxLength(FormValidatorLengths.DEFAULT_MAX_INPUT_LENGTH),
-            ]
-          ],
-          description: [
-            '',
-            [
-              Validators.required,
-              Validators.maxLength(FormValidatorLengths.DEFAULT_MAX_INPUT_LENGTH),
-            ]
-          ],
+          name: ['', [Validators.required, Validators.maxLength(FormValidatorLengths.DEFAULT_MAX_INPUT_LENGTH),]],
+          description: ['', [Validators.required, Validators.maxLength(FormValidatorLengths.DEFAULT_MAX_INPUT_LENGTH)]],
           image: ['', [Validators.required]],
         }),
       }),
@@ -67,7 +49,7 @@ export class CinemaFormBuilder {
         screeningRooms: ['', [Validators.required]],
       }),
       stepThree: this.formBuilder.group({
-        contactDetails: ['', [Validators.required]],
+        contactDetails: this.formBuilder.array([], [Validators.required])
       }),
       stepFour: this.formBuilder.group({
         cinemaManager: ['', [Validators.required]],
@@ -97,32 +79,73 @@ export class CinemaFormBuilder {
 
   fillFormWithCinema(cinema: CinemaResponse) {
     this.form.setValue({
-        stepOne: {
-          address: {
-            city: cinema.address.city,
-            country: cinema.address.country,
-            postalCode: cinema.address.postalCode,
-            streetAndBuildingNumber: cinema.address.streetAndBuildingNumber,
-          },
-          aboutCinema: {
-            name: cinema.name,
-            description: cinema.description,
-            image: cinema.image,
-          }
+      stepOne: {
+        address: {
+          city: cinema.address.city,
+          country: cinema.address.country,
+          postalCode: cinema.address.postalCode,
+          streetAndBuildingNumber: cinema.address.streetAndBuildingNumber,
         },
-        stepTwo: {
-          screeningRooms: cinema.screeningRooms,
-        },
-        stepThree: {
-          contactDetails: cinema.contactDetails,
-        },
-        stepFour: {
-          cinemaManager: ['', [Validators.required]],
+        aboutCinema: {
+          name: cinema.name,
+          description: cinema.description,
+          image: cinema.image,
         }
+      },
+      stepTwo: {
+        screeningRooms: cinema.screeningRooms,
+      },
+      stepThree: {
+        contactDetails: [],
+      },
+      stepFour: {
+        cinemaManager: cinema.cinemaManager
       }
-    )
+    });
+    const contactDetailsFormArray = this.formBuilder.array(
+      cinema.contactDetails.map(contactDetail => this.formBuilder.group({
+        department: [contactDetail.department, Validators.required],
+        contactType: this.formBuilder.group({
+          email: [contactDetail.contactType.email, Validators.required],
+          phoneNumber: [contactDetail.contactType.phoneNumber, Validators.required],
+        })
+      }))
+    );
+    this.stepThreeFormGroup.setControl('contactDetails', contactDetailsFormArray);
+
+    console.log("ddddd")
   }
 
+
+  async getCreateCinemaRequestFromForm(): Promise<CreateCinemaRequest> {
+    const imageRequest = await this.createImageRequest();
+    const commonFields = this.getCommonRequestFields();
+
+    return new CreateCinemaRequest(
+      commonFields.name,
+      commonFields.description,
+      commonFields.address,
+      imageRequest,
+      commonFields.screeningRooms,
+      commonFields.contactDetails,
+      commonFields.cinemaManager,
+    );
+  }
+
+  async getUpdateCinemaRequestFromForm(): Promise<UpdateCinemaRequest> {
+    const imageRequest = await this.createImageRequest();
+    const commonFields = this.getCommonRequestFields();
+
+    return new UpdateCinemaRequest(
+      commonFields.name,
+      commonFields.description,
+      commonFields.address,
+      imageRequest,
+      commonFields.screeningRooms,
+      commonFields.contactDetails,
+      commonFields.cinemaManager,
+    );
+  }
 
   private readFileData(file: File): Promise<string> {
     return new Promise<string>((resolve, reject) => {
@@ -164,36 +187,6 @@ export class CinemaFormBuilder {
       contactDetails: this.stepThreeFormGroup.get('contactDetails')?.value,
       cinemaManager: this.stepFourFormGroup.get('cinemaManager')?.value,
     };
-  }
-
-  async getCreateCinemaRequestFromForm(): Promise<CreateCinemaRequest> {
-    const imageRequest = await this.createImageRequest();
-    const commonFields = this.getCommonRequestFields();
-
-    return new CreateCinemaRequest(
-      commonFields.name,
-      commonFields.description,
-      commonFields.address,
-      imageRequest,
-      commonFields.screeningRooms,
-      commonFields.contactDetails,
-      commonFields.cinemaManager,
-    );
-  }
-
-  async getUpdateCinemaRequestFromForm(): Promise<UpdateCinemaRequest> {
-    const imageRequest = await this.createImageRequest();
-    const commonFields = this.getCommonRequestFields();
-
-    return new UpdateCinemaRequest(
-      commonFields.name,
-      commonFields.description,
-      commonFields.address,
-      imageRequest,
-      commonFields.screeningRooms,
-      commonFields.contactDetails,
-      commonFields.cinemaManager,
-    );
   }
 }
 

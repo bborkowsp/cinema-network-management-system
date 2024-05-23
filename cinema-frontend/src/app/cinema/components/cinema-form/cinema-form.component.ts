@@ -32,10 +32,10 @@ export class CinemaFormComponent implements OnInit {
     if (params['name']) {
       this.isEditMode = true;
       this.cinemaName = params['name'];
-      this.pageTitle = 'Edit Projection Technology';
+      this.pageTitle = 'Edit Cinema';
       this.setUpEditCinemaForm();
     } else {
-      this.pageTitle = 'Add Projection Technology';
+      this.pageTitle = 'Add Cinema';
       this.setUpCreateCinemaForm();
     }
   }

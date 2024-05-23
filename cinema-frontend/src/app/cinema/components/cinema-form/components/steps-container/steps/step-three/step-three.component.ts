@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {FormGroup, FormGroupDirective, NgForm} from "@angular/forms";
+import {FormArray, FormGroup, FormGroupDirective, NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-step-three',
@@ -9,5 +9,9 @@ import {FormGroup, FormGroupDirective, NgForm} from "@angular/forms";
 export class StepThreeComponent {
   @Input({required: true}) stepThreeFormGroup!: FormGroupDirective | NgForm;
   @Input({required: true}) createCinemaForm!: FormGroup;
+
+  get contactDetailsArray(): FormArray {
+    return this.createCinemaForm.get('contactDetails') as FormArray;
+  }
 
 }
