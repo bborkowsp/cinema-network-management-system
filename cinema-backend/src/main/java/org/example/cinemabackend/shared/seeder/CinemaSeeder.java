@@ -1,5 +1,6 @@
 package org.example.cinemabackend.shared.seeder;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.javafaker.Faker;
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.core.domain.*;
@@ -14,13 +15,14 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
 @Order(3)
 class CinemaSeeder implements Seeder {
-    private static final int NUMBER_OF_SEATS = 255;
     private static final int NUMBER_OF_SCREENING_ROOMS = 4;
     private final CinemaRepository cinemaRepository;
     private final MovieRepository movieRepository;
@@ -28,6 +30,7 @@ class CinemaSeeder implements Seeder {
     private final UserRepository userRepository;
     private final ImageUtil imageUtil;
     private final Faker faker;
+    private final ObjectMapper objectMapper;
     private int increment = 0;
 
     @Override
@@ -83,8 +86,8 @@ class CinemaSeeder implements Seeder {
         return new Address(
                 faker.address().streetAddress() + " " +
                         faker.address().buildingNumber(),
-                faker.address().city(),
                 faker.address().zipCode(),
+                faker.address().city(),
                 faker.address().country()
         );
     }
@@ -126,34 +129,29 @@ class CinemaSeeder implements Seeder {
     }
 
     private ScreeningRoom createScreeningRoom() {
-        final var seatRows = createSeats();
+        final var seats = createSeats();
         final var projectionTechnologies = getProjectionTechnologies();
         return new ScreeningRoom(
                 faker.lorem().fixedString(10),
-                seatRows, projectionTechnologies
+                seats,
+                projectionTechnologies
         );
     }
 
-    private List<SeatRow> createSeats() {
-        List<SeatRow> seatRows = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            seatRows.add(new SeatRow(createSeatRow()));
-        }
-        return seatRows;
-    }
-
-    private List<Seat> createSeatRow() {
-        List<Seat> seats = new ArrayList<>();
-        for (int i = 0; i < NUMBER_OF_SEATS; i++) {
-            seats.add(createSeat(i));
+    private Seat[][] createSeats() {
+        Seat[][] seats = new Seat[3][6];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 6; j++)
+                seats[i][j] = createSeat(i, j);
         }
         return seats;
     }
 
-    private Seat createSeat(int seatNumber) {
+
+    private Seat createSeat(int seatRow, int seatColumn) {
         return new Seat(
-                seatNumber,
-                seatNumber % 10,
+                seatRow,
+                seatColumn,
                 getRandomSeatZone(),
                 getRandomSeatType()
         );

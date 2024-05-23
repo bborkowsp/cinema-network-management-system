@@ -1,5 +1,6 @@
 package org.example.cinemabackend.cinema.core.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.application.dto.request.create.CreateScreeningRoomRequest;
 import org.example.cinemabackend.cinema.application.dto.request.update.UpdateScreeningRoomRequest;
@@ -8,7 +9,6 @@ import org.example.cinemabackend.cinema.core.domain.ScreeningRoom;
 import org.example.cinemabackend.cinema.core.port.primary.ProjectionTechnologyMapper;
 import org.example.cinemabackend.cinema.core.port.primary.ScreeningRoomMapper;
 import org.example.cinemabackend.cinema.core.port.primary.SeatMapper;
-import org.example.cinemabackend.cinema.core.port.primary.SeatRowMapper;
 import org.example.cinemabackend.cinema.core.port.secondary.ProjectionTechnologyRepository;
 import org.springframework.stereotype.Service;
 
@@ -20,9 +20,9 @@ import java.util.stream.Collectors;
 class ScreeningRoomMapperService implements ScreeningRoomMapper {
 
     private final SeatMapper seatMapper;
-    private final SeatRowMapper seatRowMapper;
     private final ProjectionTechnologyMapper projectionTechnologyMapper;
     private final ProjectionTechnologyRepository projectionTechnologyRepository;
+    private final ObjectMapper objectMapper;
 
     @Override
     public Set<ScreeningRoom> mapCreateScreeningRoomToScreeningRoom(Set<CreateScreeningRoomRequest> createScreeningRoomRequests) {
@@ -35,10 +35,9 @@ class ScreeningRoomMapperService implements ScreeningRoomMapper {
                 .map(projectionTechnologyResponse -> projectionTechnologyRepository.findByTechnology(projectionTechnologyResponse.technology()).orElseThrow())
                 .collect(Collectors.toSet());
 
-
         return new ScreeningRoom(
                 createScreeningRoomRequest.name(),
-                seatMapper.mapCreateSeatToSeatGrid(createScreeningRoomRequest.seats()),
+                seatMapper.mapCreateSeatRequestToSeat(createScreeningRoomRequest.seats()),
                 supportedTechnologies
         );
     }
@@ -47,7 +46,7 @@ class ScreeningRoomMapperService implements ScreeningRoomMapper {
     public ScreeningRoomResponse mapScreeningRoomToScreeningRoomResponse(ScreeningRoom screeningRoom) {
         return ScreeningRoomResponse.builder()
                 .name(screeningRoom.getName())
-                .seatRows(screeningRoom.getSeatRows().stream().map(seatRowMapper::mapSeatRowToSeatRowResponse).toList())
+                .seats(seatMapper.mapSeatToSeatResponses(screeningRoom.getSeatingPlan()))
                 .supportedTechnologies(projectionTechnologyMapper.mapProjectionTechnologiesToProjectionTechnologyResponses(screeningRoom.getSupportedTechnologies()))
                 .build();
     }

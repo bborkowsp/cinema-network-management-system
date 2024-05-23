@@ -2,25 +2,24 @@ package org.example.cinemabackend.cinema.core.domain;
 
 import org.example.cinemabackend.movie.core.domain.ProjectionTechnology;
 
-import java.util.List;
 import java.util.Set;
 
 public class ScreeningRoom {
     private Long id;
     private String name;
-    private List<SeatRow> seatRows;
+    private Seat[][] seatingPlan;
     private Set<ProjectionTechnology> supportedTechnologies;
 
-    public ScreeningRoom(String name, List<SeatRow> seats, Set<ProjectionTechnology> supportedTechnologies) {
+    public ScreeningRoom(String name, Seat[][] seatingPlan, Set<ProjectionTechnology> supportedTechnologies) {
         this.name = name;
-        this.seatRows = seats;
+        this.seatingPlan = seatingPlan;
         this.supportedTechnologies = supportedTechnologies;
     }
 
-    public ScreeningRoom(Long id, String name, List<SeatRow> seats, Set<ProjectionTechnology> supportedTechnologies) {
+    public ScreeningRoom(Long id, String name, Seat[][] seatingPlan, Set<ProjectionTechnology> supportedTechnologies) {
         this.id = id;
         this.name = name;
-        this.seatRows = seats;
+        this.seatingPlan = seatingPlan;
         this.supportedTechnologies = supportedTechnologies;
     }
 
@@ -36,8 +35,8 @@ public class ScreeningRoom {
         return id;
     }
 
-    public List<SeatRow> getSeatRows() {
-        return seatRows;
+    public Seat[][] getSeatingPlan() {
+        return seatingPlan;
     }
 
     public void setSupportedTechnologies(Set<ProjectionTechnology> supportedTechnologies) {
@@ -52,8 +51,9 @@ public class ScreeningRoom {
         this.name = name;
     }
 
-    public void setSeatRows(List<SeatRow> seatRows) {
-        this.seatRows = seatRows;
+    public void setSeatingPlan(Seat[][] seatingPlan) {
+        this.seatingPlan = seatingPlan;
     }
+
 
 }

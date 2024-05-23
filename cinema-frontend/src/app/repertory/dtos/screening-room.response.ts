@@ -1,10 +1,10 @@
 import {ProjectionTechnologyResponse} from "../../projection-technology/dtos/response/projection-technology.response";
-import {SeatRowResponse} from "../../cinema/dtos/response/seat-row.respones";
+import {SeatResponse} from "../../cinema/dtos/response/seat.response";
 
 export class ScreeningRoomResponse {
   constructor(
     readonly name: string,
-    readonly seatRows: SeatRowResponse[],
+    readonly seats: SeatResponse[][],
     readonly supportedTechnologies: ProjectionTechnologyResponse[],
   ) {
   }

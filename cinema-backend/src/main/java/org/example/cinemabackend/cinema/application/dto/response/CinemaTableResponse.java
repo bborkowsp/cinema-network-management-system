@@ -6,8 +6,8 @@ import lombok.Builder;
 public record CinemaTableResponse(
         String name,
         String cinemaManager,
-        String numberOfScreeningRooms,
-        String numberOfAvailableSeats,
-        String numberOfUnavailableSeats
+        int numberOfScreeningRooms,
+        int numberOfAvailableSeats,
+        int numberOfUnavailableSeats
 ) {
 }

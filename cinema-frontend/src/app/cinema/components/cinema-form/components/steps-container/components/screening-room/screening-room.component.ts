@@ -1,80 +1,131 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {FormControl, FormGroup, FormGroupDirective, NgForm} from "@angular/forms";
-import {map, Observable} from "rxjs";
-import {CreateSeatRequest} from "../../../../../../dtos/request/create-seat.request";
-import {CreateScreeningRoomRequest} from "../../../../../../dtos/request/create-screening-room.request";
-import {
-  ProjectionTechnologyService
-} from "../../../../../../../projection-technology/services/projection-technology.service";
-import {
-  ProjectionTechnologyNameResponse
-} from "../../../../../../../projection-technology/dtos/response/projection-technology-name.response";
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {FormArray, FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from "@angular/forms";
+import {ScreeningRoomResponse} from "../../../../../../../repertory/dtos/screening-room.response";
+import {SeatResponse} from "../../../../../../dtos/response/seat.response";
 
 @Component({
   selector: 'app-screening-room',
   templateUrl: './screening-room.component.html',
   styleUrls: ['./screening-room.component.scss']
 })
-export class ScreeningRoomComponent implements OnInit {
+export class ScreeningRoomComponent implements OnInit, OnChanges {
   @Input({required: true}) form!: FormGroupDirective | NgForm;
-  @Input({required: true}) formGroup!: FormGroup;
-
-  projectionTechnologies!: Observable<string[]>;
-  rows: number = 0;
-  columns: number = 0;
-  name: string = '';
-  currentScreeningRoom: CreateSeatRequest[][] = [];
-  seatingPlan: CreateScreeningRoomRequest[] = [];
-  screeningRooms: { index: number, rows: number, columns: number }[] = [];
-  showCurrentScreeningRoom: boolean = true;
-  selectedProjectionTechnologies: any[] = [];
-
-  constructor(
-    private readonly projectionTechnologyService: ProjectionTechnologyService,
-  ) {
-  }
-
-  get screeningRoomsControl(): FormControl {
-    return this.formGroup.get('screeningRooms') as FormControl;
-  }
+  @Input({required: true}) formArray!: FormArray;
+  protected allScreeningRooms: ScreeningRoomResponse[] = [];
+  createScreeningRoomFormGroup!: FormGroup;
+  currentEditedContactDetailIndex: number = -1;
+  rowsNumberControl = new FormControl(0, Validators.required);
+  columnsNumberControl = new FormControl(0, Validators.required);
+  currentScreeningRoom: SeatResponse[][] = [];
+  showCurrentScreeningRoom = false;
 
   ngOnInit() {
-    this.projectionTechnologies = this.getOnlyTechnologyNames(this.projectionTechnologyService.getAllProjectionTechnologiesNames());
+    this.updateScreeningRooms();
+    this.createScreeningRoomFormGroup = this.createFormGroup();
   }
 
-  createSeatingGrid() {
-    this.emptyGrid()
-
-    this.showCurrentScreeningRoom = true;
-    for (let rowNumber = 0; rowNumber < this.rows; rowNumber++) {
-      const row: CreateSeatRequest[] = [];
-      for (let columnNumber = 0; columnNumber < this.columns; columnNumber++) {
-        row.push(new CreateSeatRequest(rowNumber, columnNumber, 'STANDARD'));
-      }
-      this.currentScreeningRoom.push(row);
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['formArray']) {
+      this.updateScreeningRooms();
+      this.updateRowsAndColumnsNumberControl();
     }
   }
 
-  saveScreeningRoom() {
-    this.showCurrentScreeningRoom = false;
-    this.seatingPlan.push(new CreateScreeningRoomRequest(
-      this.name,
-      this.currentScreeningRoom,
-      this.selectedProjectionTechnologies.map((technology: string) => {
-        return new ProjectionTechnologyNameResponse(technology);
-      })
-    ));
-    this.screeningRooms.push({index: this.screeningRooms.length + 1, rows: this.rows, columns: this.columns});
+  private updateRowsAndColumnsNumberControl() {
+    const seatsControl = this.seatRowsControl;
+    if (!seatsControl) {
+      this.rowsNumberControl.setValue(0);
+      this.columnsNumberControl.setValue(0);
+      return;
+    }
 
-    this.rows = 1;
-    this.columns = 1;
-    this.currentScreeningRoom = [];
-    this.selectedProjectionTechnologies = [];
-    this.screeningRoomsControl.setValue(this.seatingPlan);
+    this.rowsNumberControl.setValue(seatsControl.length);
+    this.columnsNumberControl.setValue(seatsControl.at(0).value.length);
+  }
+
+  private updateScreeningRooms() {
+    this.allScreeningRooms = this.formArray.value as ScreeningRoomResponse[];
+  }
+
+  editScreeningRoom(i: number) {
+    this.currentEditedContactDetailIndex = i;
+    this.showCurrentScreeningRoom = true;
+    this.currentScreeningRoom = (this.formArray.at(i).get('seats') as FormArray).value;
+
+    console.log(this.currentScreeningRoom);
+
+    const row = this.currentScreeningRoom[0];
+    console.log(row);
+    const row2 = this.currentScreeningRoom[1];
+    console.log(row2);
+
+    this.updateRowsAndColumnsNumberControl();
+  }
+
+  deleteScreeningRoom(i: number) {
+    this.formArray.removeAt(i);
+    this.updateScreeningRooms();
+    this.currentEditedContactDetailIndex = -1;
+  }
+
+  saveScreeningRoom() {
+    const screeningRoom = this.createFilledScreeningRoomGroup();
+
+    if (this.currentEditedContactDetailIndex === -1) {
+      this.formArray.push(screeningRoom);
+      this.createScreeningRoomFormGroup.reset();
+    } else {
+      this.formArray.at(this.currentEditedContactDetailIndex).patchValue(screeningRoom);
+    }
+    this.updateScreeningRooms();
+    this.currentEditedContactDetailIndex = -1;
+  }
+
+  private createFilledScreeningRoomGroup(): FormGroup {
+    return new FormGroup({
+      name: new FormControl(this.nameControl.value),
+    });
+  }
+
+  private createFormGroup(): FormGroup {
+    return new FormGroup({
+      name: new FormControl(''),
+      seats: new FormArray([
+        new FormArray([
+          new FormGroup({
+            seatRow: new FormControl(''),
+            seatColumn: new FormControl(''),
+            seatZone: new FormControl(''),
+            seatType: new FormControl(''),
+          })
+        ])
+      ]),
+      supportedTechnologies: new FormArray([
+        new FormGroup({
+          technology: new FormControl(''),
+          description: new FormControl(''),
+        })
+      ])
+    });
+  }
+
+
+  get nameControl(): FormControl {
+    if (this.currentEditedContactDetailIndex >= 0) {
+      return this.formArray.at(this.currentEditedContactDetailIndex).get('name') as FormControl;
+    }
+    return this.createScreeningRoomFormGroup.get('name') as FormControl;
+  }
+
+  get seatRowsControl(): FormArray {
+    if (this.currentEditedContactDetailIndex >= 0) {
+      return this.formArray.at(this.currentEditedContactDetailIndex).get('seats') as FormArray;
+    }
+    return '' as unknown as FormArray;
   }
 
   handleStandardClicked(cell: any) {
-    cell.seatZone = 'Standard';
+    cell.seatZone = 'STANDARD';
   }
 
   handleVIPClicked(cell: any) {
@@ -82,47 +133,61 @@ export class ScreeningRoomComponent implements OnInit {
   }
 
   handlePromoClicked(cell: any) {
-    cell.seatZone = 'Promo';
+    cell.seatZone = 'PROMO';
   }
 
   handleWheelchairClicked(cell: any) {
-    cell.seatZone = 'Wheelchair';
+    cell.seatZone = 'WHEELCHAIR';
   }
 
   handleCorridorClicked(cell: any) {
     cell.seatZone = 'Corridor';
   }
 
-  deleteScreeningRoom(i: number) {
-    this.seatingPlan.splice(i, 1);
-    this.screeningRooms.splice(i, 1);
-  }
+  createGridOfSeats() {
+    if (this.currentEditedContactDetailIndex >= 0) {
+      const numberOfRowsInOldScreeningRoom = this.currentScreeningRoom.length;
+      const numberOfColumnsInOldScreeningRoom = this.currentScreeningRoom[0].length;
 
-  editScreeningRoom(room: number) {
-    this.rows = 0;
-    this.columns = 0;
-    this.currentScreeningRoom = [];
-    this.selectedProjectionTechnologies = [];
+      const newNumberOfRows = this.rowsNumberControl.value;
+      const newNumberOfColumns = this.columnsNumberControl.value;
 
-    const screeningRoomToEdit = this.seatingPlan[room];
-    this.rows = screeningRoomToEdit.seats.length;
-    this.columns = screeningRoomToEdit.seats[0].length;
-    this.currentScreeningRoom = screeningRoomToEdit.seats;
-    this.selectedProjectionTechnologies = screeningRoomToEdit.supportedTechnologies;
-    this.showCurrentScreeningRoom = true;
-  }
+      let actualNumberOfNewRows = 0;
+      let actualNumberOfNewColumns = 0;
 
-  private emptyGrid() {
-    this.currentScreeningRoom = [];
-  }
+      if (newNumberOfRows && newNumberOfColumns) {
+        actualNumberOfNewRows = newNumberOfRows - numberOfRowsInOldScreeningRoom;
+        actualNumberOfNewColumns = newNumberOfColumns - numberOfColumnsInOldScreeningRoom;
 
-  private getOnlyTechnologyNames(allProjectionTechnologies: Observable<ProjectionTechnologyNameResponse[]>) {
-    return allProjectionTechnologies.pipe(
-      map((projectionTechnologies: ProjectionTechnologyNameResponse[]) => {
-        return projectionTechnologies.map((projectionTechnology: ProjectionTechnologyNameResponse) => {
-          return projectionTechnology.technology;
-        });
-      })
-    );
+        // Dodanie nowych wierszy
+        for (let i = 0; i < actualNumberOfNewRows; i++) {
+          const newRow: SeatResponse[] = [];
+          for (let j = 0; j < numberOfColumnsInOldScreeningRoom; j++) {
+            const newSeat: SeatResponse = {
+              seatRow: numberOfRowsInOldScreeningRoom + i + 1,
+              seatColumn: j + 1,
+              seatZone: 'STANDARD',
+              seatType: 'AVAILABLE'
+            };
+            newRow.push(newSeat);
+          }
+          this.currentScreeningRoom.push(newRow);
+        }
+
+        // Dodanie nowych kolumn do istniejących wierszy
+        for (let i = 0; i < numberOfRowsInOldScreeningRoom; i++) {
+          const row = this.currentScreeningRoom[i];
+          for (let j = 0; j < actualNumberOfNewColumns; j++) {
+            const newSeat: SeatResponse = {
+              seatRow: i + 1,
+              seatColumn: numberOfColumnsInOldScreeningRoom + j + 1,
+              seatZone: 'STANDARD',
+              seatType: 'AVAILABLE'
+            };
+            row.push(newSeat);
+          }
+        }
+      }
+    }
   }
 }

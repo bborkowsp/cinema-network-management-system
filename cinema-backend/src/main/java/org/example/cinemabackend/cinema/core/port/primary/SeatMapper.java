@@ -15,4 +15,7 @@ public interface SeatMapper {
 
     SeatResponse mapSeatToSeatResponse(Seat seat);
 
+    Seat[][] mapCreateSeatRequestToSeat(CreatSeatRequest[][] seats);
+
+    SeatResponse[][] mapSeatToSeatResponses(Seat[][] seatingPlan);
 }

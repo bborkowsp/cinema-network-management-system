@@ -49,6 +49,22 @@ class SeatMapperService implements SeatMapper {
         );
     }
 
+    @Override
+    public Seat[][] mapCreateSeatRequestToSeat(CreatSeatRequest[][] seats) {
+        return mapCreateSeatToSeats(seats);
+    }
+
+    @Override
+    public SeatResponse[][] mapSeatToSeatResponses(Seat[][] seatingPlan) {
+        SeatResponse[][] seatResponses = new SeatResponse[seatingPlan.length][seatingPlan[0].length];
+        for (int i = 0; i < seatingPlan.length; i++) {
+            for (int j = 0; j < seatingPlan[i].length; j++) {
+                seatResponses[i][j] = mapSeatToSeatResponse(seatingPlan[i][j]);
+            }
+        }
+        return seatResponses;
+    }
+
     private Seat[][] mapCreateSeatToSeats(CreatSeatRequest[][] creatSeatRequest) {
         Seat[][] seats = new Seat[creatSeatRequest.length][creatSeatRequest[0].length];
         for (int i = 0; i < creatSeatRequest.length; i++) {

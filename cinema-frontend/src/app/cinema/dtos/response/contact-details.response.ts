@@ -6,6 +6,4 @@ export class ContactDetailsResponse {
     readonly contactType: ContactTypeResponse,
   ) {
   }
-
-
 }

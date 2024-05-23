@@ -46,7 +46,7 @@ export class CinemaFormBuilder {
         }),
       }),
       stepTwo: this.formBuilder.group({
-        screeningRooms: ['', [Validators.required]],
+        screeningRooms: this.formBuilder.array([], [Validators.required])
       }),
       stepThree: this.formBuilder.group({
         contactDetails: this.formBuilder.array([], [Validators.required])
@@ -93,7 +93,7 @@ export class CinemaFormBuilder {
         }
       },
       stepTwo: {
-        screeningRooms: cinema.screeningRooms,
+        screeningRooms: [],
       },
       stepThree: {
         contactDetails: [],
@@ -102,6 +102,28 @@ export class CinemaFormBuilder {
         cinemaManager: cinema.cinemaManager
       }
     });
+    const screeningRoomsFormArray = this.formBuilder.array(
+      cinema.screeningRooms.map(screeningRoom => this.formBuilder.group({
+        name: [screeningRoom.name, Validators.required],
+        seats: this.formBuilder.array(
+          screeningRoom.seats.map(seatRow => this.formBuilder.array(
+            seatRow.map(seat => this.formBuilder.group({
+              seatRow: [seat.seatRow, Validators.required],
+              seatColumn: [seat.seatColumn, Validators.required],
+              seatZone: [seat.seatZone, Validators.required],
+              seatType: [seat.seatType, Validators.required],
+            }))
+          ))
+        ),
+        supportedTechnologies: this.formBuilder.array(
+          screeningRoom.supportedTechnologies.map(technology => this.formBuilder.group({
+            technology: [technology.technology, Validators.required],
+            description: [technology.description, Validators.required],
+          })))
+      })));
+
+    this.stepTwoFormGroup.setControl('screeningRooms', screeningRoomsFormArray);
+
     const contactDetailsFormArray = this.formBuilder.array(
       cinema.contactDetails.map(contactDetail => this.formBuilder.group({
         department: [contactDetail.department, Validators.required],
@@ -112,8 +134,6 @@ export class CinemaFormBuilder {
       }))
     );
     this.stepThreeFormGroup.setControl('contactDetails', contactDetailsFormArray);
-
-    console.log("ddddd")
   }
 
 

@@ -1,37 +1,31 @@
-<mat-form-field class="example-full-width">
-  <mat-label>Screening room name</mat-label>
-  <input [(ngModel)]="name" matInput name="name" required type="string" maxlength="255">
-  <mat-hint align="end">{{ name.length }} / 255</mat-hint>
-</mat-form-field>
+<form #contactForm="ngForm" (ngSubmit)="createGridOfSeats()">
+  <mat-form-field class="example-full-width">
+    <mat-label>Screening room name</mat-label>
+    <input matInput [formControl]="nameControl" required type="text" maxlength="100">
+  </mat-form-field>
 
-<form #seatingPlanForm="ngForm" (ngSubmit)="createSeatingGrid()">
   <table class="example-full-width">
     <tr>
       <td>
         <mat-form-field class="example-full-width">
           <mat-label>Number of rows</mat-label>
-          <input [(ngModel)]="rows" matInput name="rows" required type="number" [max]="20" [min]="1">
-          <mat-hint align="end">{{ rows }} / 20</mat-hint>
-          <mat-error *ngIf="rows > 30">Maximum number of rows is <strong>20</strong>!</mat-error>
-          <mat-error *ngIf="rows < 1">Minimum number of rows must be greater than <strong>0</strong>!</mat-error>
+          <input [formControl]="rowsNumberControl" matInput required type="number">
         </mat-form-field>
       </td>
       <td>
         <mat-form-field class="example-full-width">
-          <mat-label>Number of columns</mat-label>
-          <input [(ngModel)]="columns" matInput name="columns" required type="number" [min]="1" [max]="30">
-          <mat-hint align="end">{{ columns }} / 30</mat-hint>
-          <mat-error *ngIf="columns > 30">Maximum number of columns is <strong>30</strong>!</mat-error>
-          <mat-error *ngIf="columns < 1">Minimum number of columns must be greater than <strong>0</strong>!</mat-error>
+          <mat-label>Number columns</mat-label>
+          <input [formControl]="columnsNumberControl" matInput required type="number">
         </mat-form-field>
-      </td>
     </tr>
   </table>
-  <button [disabled]="seatingPlanForm.invalid" color="primary" mat-flat-button
+
+  <button [disabled]="contactForm.invalid" color="primary" mat-flat-button
           type="submit">
     Create a grid of seats
   </button>
 </form>
+
 
 <div class="grid-container-overall">
   <div *ngIf="showCurrentScreeningRoom" class="grid-container">
@@ -41,12 +35,14 @@
           'selected-standard': cell.seatZone === 'STANDARD',
            'selected-vip': cell.seatZone === 'VIP',
             'selected-promo': cell.seatZone === 'PROMO',
-             'selected-wheelchair': cell.seatZone === 'WHEELCHAIR'
+             'selected-wheelchair': cell.seatZone === 'WHEELCHAIR',
+             'selected-corridor': cell.seatZone === 'CORRIDOR'
               }"
-           class="cell">
+           class="cell"
+      >
         <button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" mat-icon-button
                 type="button">
-          <mat-icon>{{ cell.seatZone === 'Corridor' ? 'block' : 'event_seat' }}</mat-icon>
+          <mat-icon>{{ cell.seatZone === 'CORRIDOR' ? 'block' : 'event_seat' }}</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
           <button (click)="handleStandardClicked(cell)" class="selected-standard" mat-menu-item type="button">
@@ -66,7 +62,7 @@
             <span>Wheelchair</span>
           </button>
           <button (click)="handleCorridorClicked(cell)" class="selected-corridor" mat-menu-item type="button">
-            <mat-icon>blocked</mat-icon>
+            <mat-icon>block</mat-icon>
             <span>Corridor</span>
           </button>
         </mat-menu>
@@ -75,32 +71,23 @@
   </div>
 </div>
 
-<mat-form-field style="width: 50%;">
-  <mat-label>Choose projection technology for screening room</mat-label>
-  <mat-select [(ngModel)]="selectedProjectionTechnologies" multiple>
-    <mat-option *ngFor="let projectionTechnology of projectionTechnologies | async"
-                [value]="projectionTechnology">{{ projectionTechnology }}
-    </mat-option>
-  </mat-select>
-</mat-form-field>
-<br>
-<button (click)="saveScreeningRoom()" [disabled]="rows === 0 || columns === 0" color="primary" mat-flat-button
-        type="button">Save
-  current screening room
+
+<button (click)="saveScreeningRoom()" color="primary" mat-flat-button
+        type="button">
+  Save screening room
 </button>
+
 
 <div mat-subheader>Saved screening rooms:</div>
 <mat-list role="list">
-  <mat-list-item *ngFor="let room of seatingPlan; let i = index" role="listitem">
+  <mat-list-item *ngFor="let room of allScreeningRooms; let i = index" role="listitem">
     <button (click)="editScreeningRoom(i)" color="primary" mat-icon-button type="button">
       <mat-icon>edit</mat-icon>
     </button>
     <button (click)="deleteScreeningRoom(i)" color="warn" mat-icon-button type="button">
       <mat-icon>delete</mat-icon>
     </button>
-    <span>Screening Room {{ i + 1 }} - Rows: {{ room.seats.length }}, Columns: {{ room.seats[0].length }}</span>
+    <span>Screening Room '{{ room.name }}' — No. of rows {{ room.seats.length }}
+      , No. of columns {{ room.seats[0].length }} </span>
   </mat-list-item>
 </mat-list>
-
-
-
