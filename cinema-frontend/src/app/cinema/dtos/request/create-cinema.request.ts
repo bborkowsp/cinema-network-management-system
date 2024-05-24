@@ -1,8 +1,8 @@
 import {CreateScreeningRoomRequest} from "./create-screening-room.request";
-import {ContactDetailsRequest} from "./contact-details.request";
+import {CreateContactDetailsRequest} from "./create-contact-details.request";
 import {CreateImageRequest} from "../../../movie/dtos/request/create-image.request";
-import {CinemaManagerResponse} from "../../../user/dtos/response/cinema-manager.response";
 import {CreateAddressRequest} from "./create-address.request";
+import {UserResponse} from "../../../user/dtos/response/user.response";
 
 export class CreateCinemaRequest {
 
@@ -12,8 +12,8 @@ export class CreateCinemaRequest {
     readonly address: CreateAddressRequest,
     readonly image: CreateImageRequest,
     readonly screeningRooms: CreateScreeningRoomRequest[],
-    readonly contactDetails: ContactDetailsRequest[],
-    readonly cinemaManager: CinemaManagerResponse
+    readonly contactDetails: CreateContactDetailsRequest[],
+    readonly cinemaManager: UserResponse
   ) {
 
   }

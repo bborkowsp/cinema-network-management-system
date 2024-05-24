@@ -1,6 +1,6 @@
 import {CreateContactTypeRequest} from "./create-contact-type.request";
 
-export class ContactDetailsRequest {
+export class CreateContactDetailsRequest {
   constructor(
     readonly department: string,
     readonly contactType: CreateContactTypeRequest,

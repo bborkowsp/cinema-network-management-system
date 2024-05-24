@@ -64,21 +64,26 @@ export class CinemaFormComponent implements OnInit {
   }
 
   protected onSubmit() {
-    const cinemaRequestPromise = this.isEditMode
-      ? this.cinemaFormBuilder.getUpdateCinemaRequestFromForm()
-      : this.cinemaFormBuilder.getCreateCinemaRequestFromForm();
+    let cinemaRequestPromise: Promise<CreateCinemaRequest | UpdateCinemaRequest>;
+
+    if (this.isEditMode) {
+      cinemaRequestPromise = this.cinemaFormBuilder.getUpdateCinemaRequestFromForm();
+    } else {
+      cinemaRequestPromise = this.cinemaFormBuilder.getCreateCinemaRequestFromForm();
+    }
 
     this.handleFormSubmission(cinemaRequestPromise);
   }
 
   private handleFormSubmission(cinemaRequestPromise: Promise<CreateCinemaRequest | UpdateCinemaRequest>) {
     this.isLoading = true;
-
     cinemaRequestPromise.then((cinemaRequest) => {
-      const cinemaServiceObservable = this.isEditMode
-        ? this.cinemaService.updateCinema(this.cinemaName, cinemaRequest)
-        : this.cinemaService.createCinema(cinemaRequest);
-
+      let cinemaServiceObservable;
+      if (this.isEditMode) {
+        cinemaServiceObservable = this.cinemaService.updateCinema(this.cinemaName, cinemaRequest as UpdateCinemaRequest);
+      } else {
+        cinemaServiceObservable = this.cinemaService.createCinema(cinemaRequest as CreateCinemaRequest);
+      }
       cinemaServiceObservable.subscribe({
         next: () => {
           this.isLoading = false;
