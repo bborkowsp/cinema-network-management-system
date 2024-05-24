@@ -7,8 +7,8 @@ import {
   ProjectionTechnologyService
 } from "../../../../../../../projection-technology/services/projection-technology.service";
 import {
-  ProjectionTechnologyResponse
-} from "../../../../../../../projection-technology/dtos/response/projection-technology.response";
+  ProjectionTechnologyNameResponse
+} from "../../../../../../../projection-technology/dtos/response/projection-technology-name.response";
 
 @Component({
   selector: 'app-screening-room',
@@ -26,7 +26,7 @@ export class ScreeningRoomComponent implements OnInit, OnChanges {
 
   createScreeningRoomFormGroup!: FormGroup;
   currentScreeningRoom: SeatResponse[][] = [];
-  currentSupportedTechnologies: ProjectionTechnologyResponse[] = [];
+  currentSupportedTechnologies: ProjectionTechnologyNameResponse[] = [];
   showCurrentScreeningRoom = false;
   currentEditedContactDetailIndex: number = -1;
 
@@ -41,10 +41,10 @@ export class ScreeningRoomComponent implements OnInit, OnChanges {
     this.createScreeningRoomFormGroup = this.createFormGroup();
   }
 
-  private getOnlyTechnologyNames(allProjectionTechnologies: Observable<ProjectionTechnologyResponse[]>) {
+  private getOnlyTechnologyNames(allProjectionTechnologies: Observable<ProjectionTechnologyNameResponse[]>) {
     return allProjectionTechnologies.pipe(
-      map((projectionTechnologies: ProjectionTechnologyResponse[]) => {
-        return projectionTechnologies.map((projectionTechnology: ProjectionTechnologyResponse) => {
+      map((projectionTechnologies: ProjectionTechnologyNameResponse[]) => {
+        return projectionTechnologies.map((projectionTechnology: ProjectionTechnologyNameResponse) => {
           return projectionTechnology.technology;
         });
       })
@@ -98,43 +98,37 @@ export class ScreeningRoomComponent implements OnInit, OnChanges {
   }
 
   private createFilledScreeningRoomGroup(): FormGroup {
-    console.log("11111111111111111")
-    console.log(this.supportedTechnolgiesControl.value)
-    console.log("11111111111111111")
-    console.log(this.supportedTechnolgiesControl.value as ProjectionTechnologyResponse[])
+    this.currentSupportedTechnologies = this.supportedTechnolgiesControl.value as ProjectionTechnologyNameResponse[];
 
-    this.currentSupportedTechnologies = this.supportedTechnolgiesControl.value as ProjectionTechnologyResponse[];
+    let a = this.supportedTechnolgiesControl.value as string[];
+    let b = a.map((technology: string) => ({technology}));
+    console.log(b);
+    console.log("bbbbbbbbbbbbbbbbbb")
 
-    let supportedT2echnologies = new FormArray(
-      this.currentSupportedTechnologies.map(
-        technology => new FormControl(technology),
-      )
-    );
-    console.log(supportedT2echnologies);
 
-    console.log(this.currentSupportedTechnologies)
+    console.log(this.currentSupportedTechnologies);
     return new FormGroup({
-      name: new FormControl(this.nameControl.value),
-      seats: new FormArray(
-        this.currentScreeningRoom.map(
-          row => new FormArray(
-            row.map(
-              seat => new FormGroup({
-                seatRow: new FormControl(seat.seatRow),
-                seatColumn: new FormControl(seat.seatColumn),
-                seatZone: new FormControl(seat.seatZone),
-                seatType: new FormControl(seat.seatType),
-              })
+        name: new FormControl(this.nameControl.value),
+        seats: new FormArray(
+          this.currentScreeningRoom.map(
+            row => new FormArray(
+              row.map(
+                seat => new FormGroup({
+                  seatRow: new FormControl(seat.seatRow),
+                  seatColumn: new FormControl(seat.seatColumn),
+                  seatZone: new FormControl(seat.seatZone),
+                  seatType: new FormControl(seat.seatType),
+                })
+              )
             )
           )
-        )
-      ),
-      supportedTechnologies: new FormArray(
-        this.currentSupportedTechnologies.map(
-          technology => new FormControl(technology),
-        )
-      )
-    });
+        ),
+        supportedTechnologies: new FormArray(
+          a.map((technology: string) => new FormGroup({
+            technology: new FormControl(technology),
+          })))
+      }
+    );
   }
 
 
@@ -154,7 +148,6 @@ export class ScreeningRoomComponent implements OnInit, OnChanges {
       supportedTechnologies: new FormArray([
         new FormGroup({
           technology: new FormControl('', Validators.required),
-          description: new FormControl(''),
         })
       ])
     });
