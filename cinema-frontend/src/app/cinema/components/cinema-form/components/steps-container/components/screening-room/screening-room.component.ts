@@ -2,6 +2,13 @@ import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core'
 import {FormArray, FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from "@angular/forms";
 import {ScreeningRoomResponse} from "../../../../../../../repertory/dtos/screening-room.response";
 import {SeatResponse} from "../../../../../../dtos/response/seat.response";
+import {map, Observable} from "rxjs";
+import {
+  ProjectionTechnologyService
+} from "../../../../../../../projection-technology/services/projection-technology.service";
+import {
+  ProjectionTechnologyResponse
+} from "../../../../../../../projection-technology/dtos/response/projection-technology.response";
 
 @Component({
   selector: 'app-screening-room',
@@ -13,17 +20,35 @@ export class ScreeningRoomComponent implements OnInit, OnChanges {
   @Input({required: true}) formArray!: FormArray;
   rowsNumberControl = new FormControl(1, Validators.required);
   columnsNumberControl = new FormControl(1, Validators.required);
+  supportedTechnolgiesControl = new FormControl([], Validators.required);
   protected allScreeningRooms: ScreeningRoomResponse[] = [];
+  projectionTechnologies!: Observable<string[]>;
 
   createScreeningRoomFormGroup!: FormGroup;
   currentScreeningRoom: SeatResponse[][] = [];
+  currentSupportedTechnologies: ProjectionTechnologyResponse[] = [];
   showCurrentScreeningRoom = false;
   currentEditedContactDetailIndex: number = -1;
 
+  constructor(
+    private readonly projectionTechnologyService: ProjectionTechnologyService,
+  ) {
+  }
 
   ngOnInit() {
+    this.projectionTechnologies = this.getOnlyTechnologyNames(this.projectionTechnologyService.getAllProjectionTechnologies());
     this.updateScreeningRooms();
     this.createScreeningRoomFormGroup = this.createFormGroup();
+  }
+
+  private getOnlyTechnologyNames(allProjectionTechnologies: Observable<ProjectionTechnologyResponse[]>) {
+    return allProjectionTechnologies.pipe(
+      map((projectionTechnologies: ProjectionTechnologyResponse[]) => {
+        return projectionTechnologies.map((projectionTechnology: ProjectionTechnologyResponse) => {
+          return projectionTechnology.technology;
+        });
+      })
+    );
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -40,6 +65,7 @@ export class ScreeningRoomComponent implements OnInit, OnChanges {
     this.currentEditedContactDetailIndex = i;
     this.showCurrentScreeningRoom = true;
     this.currentScreeningRoom = (this.formArray.at(i).get('seats') as FormArray).value;
+    this.currentSupportedTechnologies = (this.formArray.at(i).get('supportedTechnologies') as FormArray).value;
     this.updateRowsAndColumnsNumberControl();
   }
 
@@ -51,10 +77,9 @@ export class ScreeningRoomComponent implements OnInit, OnChanges {
 
   saveScreeningRoom() {
     const screeningRoom = this.createFilledScreeningRoomGroup();
-
-    console.log("-----------");
-    console.log(this.currentEditedContactDetailIndex);
-
+    console.log("*****************")
+    console.log(screeningRoom);
+    console.log("*****************")
     if (this.currentEditedContactDetailIndex === -1) {
       this.formArray.push(screeningRoom);
       this.createScreeningRoomFormGroup.reset();
@@ -73,6 +98,21 @@ export class ScreeningRoomComponent implements OnInit, OnChanges {
   }
 
   private createFilledScreeningRoomGroup(): FormGroup {
+    console.log("11111111111111111")
+    console.log(this.supportedTechnolgiesControl.value)
+    console.log("11111111111111111")
+    console.log(this.supportedTechnolgiesControl.value as ProjectionTechnologyResponse[])
+
+    this.currentSupportedTechnologies = this.supportedTechnolgiesControl.value as ProjectionTechnologyResponse[];
+
+    let supportedT2echnologies = new FormArray(
+      this.currentSupportedTechnologies.map(
+        technology => new FormControl(technology),
+      )
+    );
+    console.log(supportedT2echnologies);
+
+    console.log(this.currentSupportedTechnologies)
     return new FormGroup({
       name: new FormControl(this.nameControl.value),
       seats: new FormArray(
@@ -89,8 +129,14 @@ export class ScreeningRoomComponent implements OnInit, OnChanges {
           )
         )
       ),
+      supportedTechnologies: new FormArray(
+        this.currentSupportedTechnologies.map(
+          technology => new FormControl(technology),
+        )
+      )
     });
   }
+
 
   private createFormGroup(): FormGroup {
     return new FormGroup({
@@ -107,7 +153,7 @@ export class ScreeningRoomComponent implements OnInit, OnChanges {
       ]),
       supportedTechnologies: new FormArray([
         new FormGroup({
-          technology: new FormControl(''),
+          technology: new FormControl('', Validators.required),
           description: new FormControl(''),
         })
       ])
@@ -118,6 +164,10 @@ export class ScreeningRoomComponent implements OnInit, OnChanges {
     const seatsControl = this.seatsControl;
     this.rowsNumberControl.setValue(seatsControl.length);
     this.columnsNumberControl.setValue(seatsControl.at(0).value.length);
+    const projectionTechnologies = this.supportedTechnologiesControl;
+    console.log(projectionTechnologies.get('technology')?.value);
+    console.log(projectionTechnologies.value)
+    this.supportedTechnolgiesControl.setValue(projectionTechnologies.value.map((technology: any) => technology.technology));
   }
 
   get nameControl(): FormControl {
@@ -125,6 +175,13 @@ export class ScreeningRoomComponent implements OnInit, OnChanges {
       return this.formArray.at(this.currentEditedContactDetailIndex).get('name') as FormControl;
     }
     return this.createScreeningRoomFormGroup.get('name') as FormControl;
+  }
+
+  get supportedTechnologiesControl(): FormGroup {
+    if (this.currentEditedContactDetailIndex >= 0) {
+      return this.formArray.at(this.currentEditedContactDetailIndex).get('supportedTechnologies') as FormGroup;
+    }
+    return this.createScreeningRoomFormGroup.get('supportedTechnologies') as FormGroup;
   }
 
   get seatsControl(): FormArray {
