@@ -8,13 +8,16 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 export class PageContentContainerComponent {
   @Input() pageTitle!: string;
   @Input() isLoading = false;
-  @Input() hasCreateNewButton = false;
-  @Input() buttonMatToolTip = '';
   @Input() routerLink = '';
+
   @Input() hasDetailsActionButtons = false;
   @Input() hasGoBackActionButton = false;
+  @Input() hasCreateNewButton = false;
+
+  @Input() buttonMatToolTip = '';
   @Input() buttonEditMatToolTip = '';
   @Input() buttonDeleteMatToolTip = '';
+
   @Input() floatingButtonDeleteAriaLabel = '';
   @Input() floatingButtonEditAriaLabel = '';
 

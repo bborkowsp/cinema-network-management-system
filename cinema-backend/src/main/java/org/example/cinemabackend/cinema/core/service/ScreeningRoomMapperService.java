@@ -1,6 +1,5 @@
 package org.example.cinemabackend.cinema.core.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.application.dto.request.create.CreateScreeningRoomRequest;
 import org.example.cinemabackend.cinema.application.dto.request.update.UpdateScreeningRoomRequest;
@@ -22,7 +21,6 @@ class ScreeningRoomMapperService implements ScreeningRoomMapper {
     private final SeatMapper seatMapper;
     private final ProjectionTechnologyMapper projectionTechnologyMapper;
     private final ProjectionTechnologyRepository projectionTechnologyRepository;
-    private final ObjectMapper objectMapper;
 
     @Override
     public Set<ScreeningRoom> mapCreateScreeningRoomToScreeningRoom(Set<CreateScreeningRoomRequest> createScreeningRoomRequests) {

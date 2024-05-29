@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
+import org.example.cinemabackend.cinema.application.dto.request.create.CreateContactDetailsRequest;
+import org.example.cinemabackend.cinema.application.dto.request.create.CreateScreeningRoomRequest;
 import org.example.cinemabackend.user.application.dto.response.UserResponse;
 
 import java.util.Set;
@@ -15,8 +17,8 @@ public record UpdateCinemaRequest(
         @NotBlank @Size(max = 2000) String description,
         @NotNull @Valid UpdateAddressRequest address,
         @NotNull @Valid UpdateImageRequest image,
-        @NotNull Set<@Valid @NotNull UpdateScreeningRoomRequest> screeningRooms,
-        @NotNull Set<@Valid @NotNull UpdateContactDetailsRequest> contactDetails,
+        @NotNull Set<@Valid @NotNull CreateScreeningRoomRequest> screeningRooms,
+        @NotNull Set<@Valid @NotNull CreateContactDetailsRequest> contactDetails,
         @NotNull @Valid UserResponse cinemaManager
 ) {
 }

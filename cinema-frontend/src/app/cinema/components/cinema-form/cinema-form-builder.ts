@@ -157,6 +157,7 @@ export class CinemaFormBuilder {
   async getUpdateCinemaRequestFromForm(): Promise<UpdateCinemaRequest> {
     const imageRequest = await this.createImageRequest();
     const commonFields = this.getCommonRequestFields();
+    const cinemaManager = this.getCinemaManagerRequest();
 
     return new UpdateCinemaRequest(
       commonFields.name,
@@ -165,7 +166,7 @@ export class CinemaFormBuilder {
       imageRequest,
       commonFields.screeningRooms,
       commonFields.contactDetails,
-      commonFields.cinemaManager,
+      cinemaManager
     );
   }
 

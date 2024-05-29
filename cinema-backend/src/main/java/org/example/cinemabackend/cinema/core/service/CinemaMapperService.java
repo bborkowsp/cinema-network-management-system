@@ -11,6 +11,7 @@ import org.example.cinemabackend.cinema.core.domain.ScreeningRoom;
 import org.example.cinemabackend.cinema.core.domain.Seat;
 import org.example.cinemabackend.cinema.core.domain.SeatType;
 import org.example.cinemabackend.cinema.core.port.primary.*;
+import org.example.cinemabackend.user.application.dto.response.UserResponse;
 import org.example.cinemabackend.user.core.domain.User;
 import org.example.cinemabackend.user.core.port.primary.UserMapper;
 import org.example.cinemabackend.user.core.port.secondary.UserRepository;
@@ -47,6 +48,7 @@ class CinemaMapperService implements CinemaMapper {
 
     @Override
     public CinemaResponse mapCinemaToCinemaResponse(@NonNull Cinema cinema) {
+        final var cinemaManager = getCinemaManagerOrEmptyUser(cinema);
         return CinemaResponse.builder()
                 .name(cinema.getName())
                 .description(cinema.getDescription())
@@ -54,8 +56,15 @@ class CinemaMapperService implements CinemaMapper {
                 .image(imageMapper.mapImageToImageResponse(cinema.getImage()))
                 .screeningRooms(screeningRoomMapper.mapScreeningRoomToScreeningRoomResponses(cinema.getScreeningRooms()))
                 .contactDetails(contactDetailsMapper.mapContactDetailsToContactDetailsResponse(cinema.getContactDetails()))
-                .cinemaManager(userMapper.mapUserToUserResponse(cinema.getCinemaManager()))
+                .cinemaManager(cinemaManager)
                 .build();
+    }
+
+    private UserResponse getCinemaManagerOrEmptyUser(Cinema cinema) {
+        if (cinema.getCinemaManager() == null) {
+            return UserResponse.builder().build();
+        }
+        return userMapper.mapUserToUserResponse(cinema.getCinemaManager());
     }
 
     @Override
@@ -77,7 +86,7 @@ class CinemaMapperService implements CinemaMapper {
             @NonNull UpdateCinemaRequest updateCinemaRequest,
             @NonNull Cinema cinema
     ) {
-        final var cinemaManager = userRepository.findByEmail(updateCinemaRequest.cinemaManager().email()).orElseThrow();
+        final var cinemaManager = findCinemaManager(updateCinemaRequest.cinemaManager().email());
         cinema.setName(updateCinemaRequest.name());
         cinema.setDescription(updateCinemaRequest.description());
         cinema.setAddress(addressMapper.mapUpdateAddressRequestToAddress(updateCinemaRequest.address()));
@@ -87,14 +96,13 @@ class CinemaMapperService implements CinemaMapper {
                         cinema.getImage()
                 ));
         cinema.setScreeningRooms(
-                screeningRoomMapper.mapUpdateScreeningRoomToScreeningRoom(
-                        updateCinemaRequest.screeningRooms(),
-                        cinema.getScreeningRooms()
+                screeningRoomMapper.mapCreateScreeningRoomToScreeningRoom(
+                        updateCinemaRequest.screeningRooms()
                 ));
         cinema.setContactDetails(
-                contactDetailsMapper.mapUpdateContactDetailsToContactDetails(
-                        updateCinemaRequest.contactDetails(),
-                        cinema.getContactDetails()
+                contactDetailsMapper.mapCreateContactDetailsToContactDetails(
+                        updateCinemaRequest.contactDetails(
+                        )
                 ));
         cinema.setCinemaManager(cinemaManager);
     }

@@ -61,6 +61,7 @@ export class CinemaService {
 
   updateCinema(cinemaName: string, cinema: UpdateCinemaRequest) {
     const url = `${CinemaService.cinemasUrl}/${cinemaName}`;
+    console.log(cinema)
     return this.httpClient.patch<void>(url, cinema);
   }
 }
