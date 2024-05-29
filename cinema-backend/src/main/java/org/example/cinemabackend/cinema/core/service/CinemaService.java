@@ -34,7 +34,7 @@ class CinemaService implements CinemaUseCases {
 
     @Override
     public List<String> getScreeningRoomsNames(String email) {
-        final var cinema = cinemaRepository.findByUserEmail(email);
+        final var cinema = getCinemaByUserEmail(email);
         return cinema.getScreeningRooms().stream().map(ScreeningRoom::getName).toList();
     }
 
@@ -53,7 +53,6 @@ class CinemaService implements CinemaUseCases {
         cinemaRepository.save(cinema);
     }
 
-
     @Override
     public void updateCinema(String name, UpdateCinemaRequest updateCinemaRequest) {
         validateCinemaNameIsNotTakenWhenUpdate(name, updateCinemaRequest.name());
@@ -69,6 +68,10 @@ class CinemaService implements CinemaUseCases {
     public void deleteCinema(String name) {
         validateCinemaExists(name);
         cinemaRepository.deleteByName(name);
+    }
+
+    private Cinema getCinemaByUserEmail(String email) {
+        return cinemaRepository.findByUserEmail(email).orElseThrow();
     }
 
     private void validateCinemaExists(String name) {

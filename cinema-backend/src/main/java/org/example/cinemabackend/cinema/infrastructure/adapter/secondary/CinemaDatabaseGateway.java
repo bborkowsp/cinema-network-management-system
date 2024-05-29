@@ -19,16 +19,21 @@ class CinemaDatabaseGateway implements CinemaRepository {
     private final CinemaJpaRepository cinemaJpaRepository;
 
     @Override
-    @Transactional
-    public void save(Cinema cinema) {
-        final var cinemaSchema = CinemaSchema.fromCinema(cinema);
-        this.cinemaJpaRepository.save(cinemaSchema);
+    @Transactional(readOnly = true)
+    public Optional<Cinema> findByName(String name) {
+        return cinemaJpaRepository.findByName(name).map(CinemaSchema::toCinema);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Cinema> findByName(String name) {
-        return cinemaJpaRepository.findByName(name).map(CinemaSchema::toCinema);
+    public Optional<Cinema> findByUserEmail(String email) {
+        return cinemaJpaRepository.findByCinemaManagerEmail(email).map(CinemaSchema::toCinema);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<Cinema> findByCinemaManager(User user) {
+        return cinemaJpaRepository.findByCinemaManager(UserSchema.fromUser(user)).map(CinemaSchema::toCinema);
     }
 
     @Override
@@ -38,15 +43,15 @@ class CinemaDatabaseGateway implements CinemaRepository {
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public Cinema findByCinemaManager(User user) {
-        return cinemaJpaRepository.findByCinemaManager(UserSchema.fromUser(user)).map(CinemaSchema::toCinema).orElse(null);
+    @Transactional
+    public void save(Cinema cinema) {
+        final var cinemaSchema = CinemaSchema.fromCinema(cinema);
+        this.cinemaJpaRepository.save(cinemaSchema);
     }
 
     @Override
-    @Transactional
-    public boolean existsByName(String name) {
-        return cinemaJpaRepository.existsByName(name);
+    public void updateCinemaManager(Long cinemaId, Long cinemaManagerId) {
+        this.cinemaJpaRepository.updateCinemaManager(cinemaId, cinemaManagerId);
     }
 
     @Override
@@ -56,14 +61,9 @@ class CinemaDatabaseGateway implements CinemaRepository {
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public Cinema findByUserEmail(String email) {
-        return cinemaJpaRepository.findByCinemaManagerEmail(email).map(CinemaSchema::toCinema).orElse(null);
-    }
-
-    @Override
-    public void updateCinemaManager(Long cinemaId, Long cinemaManagerId) {
-        this.cinemaJpaRepository.updateCinemaManager(cinemaId, cinemaManagerId);
+    @Transactional
+    public boolean existsByName(String name) {
+        return cinemaJpaRepository.existsByName(name);
     }
 
     @Override

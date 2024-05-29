@@ -14,13 +14,15 @@ import java.util.Optional;
 public interface CinemaJpaRepository extends JpaRepository<CinemaSchema, Long> {
     Optional<CinemaSchema> findByName(String name);
 
-    boolean existsByName(String name);
-
-    void deleteByName(String name);
-
     Optional<CinemaSchema> findByCinemaManager(UserSchema user);
 
     Optional<CinemaSchema> findByCinemaManagerEmail(String email);
+
+    boolean existsByName(String name);
+
+    boolean existsByCinemaManagerEmail(String email);
+
+    void deleteByName(String name);
 
     @Modifying
     @Transactional
@@ -31,6 +33,4 @@ public interface CinemaJpaRepository extends JpaRepository<CinemaSchema, Long> {
     @Transactional
     @Query("update CinemaSchema c set c.cinemaManager = null where c.id = :cinemaId")
     void updateCinemaManagerToNull(Long cinemaId);
-
-    boolean existsByCinemaManagerEmail(String email);
 }

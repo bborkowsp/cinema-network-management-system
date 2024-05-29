@@ -7,12 +7,11 @@ import java.util.Optional;
 
 public interface ScreeningRepository {
 
+    Optional<Screening> findById(Long id);
+
     List<Screening> findAll();
 
     void deleteById(Long id);
-
-    Optional<Screening> findById(Long id);
-
 
     void save(Screening screeningToUpdate);
 }

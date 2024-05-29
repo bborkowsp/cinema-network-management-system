@@ -1,13 +1,9 @@
 package org.example.cinemabackend.user.core.service;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.core.domain.Cinema;
 import org.example.cinemabackend.cinema.core.port.primary.CinemaMapper;
 import org.example.cinemabackend.cinema.core.port.secondary.CinemaRepository;
-import org.example.cinemabackend.cinema.core.port.secondary.ScreeningRepository;
-import org.example.cinemabackend.cinema.core.port.secondary.ScreeningRoomRepository;
 import org.example.cinemabackend.cinema.infrastructure.adapter.secondary.CinemaJpaRepository;
 import org.example.cinemabackend.user.application.dto.response.CinemaManagerResponse;
 import org.example.cinemabackend.user.application.dto.response.CinemaManagerTableResponse;
@@ -28,12 +24,7 @@ class UserMapperService implements UserMapper {
     private final CinemaMapper cinemaMapper;
     private final CinemaRepository cinemaRepository;
     private final UserRepository userRepository;
-    private final ScreeningRepository screeningRepository;
-    private final ScreeningRoomRepository screeningRoomRepository;
     private final CinemaJpaRepository cinemaJpaRepository;
-
-    @PersistenceContext
-    private EntityManager entityManager;
 
     @Override
     public UserResponse mapUserToUserResponse(User cinemaManager) {
@@ -46,7 +37,7 @@ class UserMapperService implements UserMapper {
 
     @Override
     public CinemaManagerTableResponse mapUserToCinemaManagerTableResponse(User user) {
-        final var managedCinema = cinemaRepository.findByCinemaManager(user);
+        final var managedCinema = findByCinemaManager(user);
 
         return CinemaManagerTableResponse.builder()
                 .firstName(user.getFirstName())
@@ -58,7 +49,7 @@ class UserMapperService implements UserMapper {
 
     @Override
     public CinemaManagerResponse mapUserToCinemaManagerResponse(User user) {
-        final var managedCinema = cinemaRepository.findByCinemaManager(user);
+        final var managedCinema = findByCinemaManager(user);
 
         return CinemaManagerResponse.builder()
                 .firstName(user.getFirstName())
@@ -82,7 +73,7 @@ class UserMapperService implements UserMapper {
     }
 
     private void updateCinemaManagerIfUpdatedManagedCinemaIsNull(User cinemaManagerToUpdate, UpdateCinemaManagerRequest updateCinemaManagerRequest) {
-        final var oldManagedCinema = cinemaRepository.findByUserEmail(cinemaManagerToUpdate.getEmail());
+        final var oldManagedCinema = getCinemaByUserEmail(cinemaManagerToUpdate.getEmail());
 
         removeCinemaManagerFromOldManagedCinema(oldManagedCinema);
         cinemaManagerToUpdate.setEmail(updateCinemaManagerRequest.email());
@@ -90,8 +81,8 @@ class UserMapperService implements UserMapper {
     }
 
     private void updateCinemaManagerIfUpdatedManagedCinemaIsNotNull(User cinemaManagerToUpdate, UpdateCinemaManagerRequest updateCinemaManagerRequest) {
-        final var newManagedCinema = cinemaRepository.findByName(updateCinemaManagerRequest.managedCinemaName()).orElseThrow();
-        final var oldManagedCinema = cinemaRepository.findByUserEmail(cinemaManagerToUpdate.getEmail());
+        final var newManagedCinema = getCinemaByUserEmail(updateCinemaManagerRequest.managedCinemaName());
+        final var oldManagedCinema = getCinemaByUserEmail(cinemaManagerToUpdate.getEmail());
 
         removeCinemaManagerFromOldManagedCinema(oldManagedCinema);
 
@@ -104,6 +95,14 @@ class UserMapperService implements UserMapper {
         if (oldManagedCinema != null) {
             cinemaJpaRepository.updateCinemaManagerToNull(oldManagedCinema.getId());
         }
+    }
+
+    private Cinema getCinemaByUserEmail(String email) {
+        return cinemaRepository.findByUserEmail(email).orElseThrow();
+    }
+
+    private Cinema findByCinemaManager(User user) {
+        return cinemaRepository.findByCinemaManager(user).orElseThrow();
     }
 
 }

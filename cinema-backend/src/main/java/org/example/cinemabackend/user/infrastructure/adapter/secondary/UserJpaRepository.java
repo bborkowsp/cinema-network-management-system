@@ -16,9 +16,10 @@ public interface UserJpaRepository extends JpaRepository<UserSchema, Long> {
 
     Optional<UserSchema> findByEmail(String email);
 
-    boolean existsByEmail(String email);
+    Optional<UserSchema> findByFirstNameAndLastNameAndEmail(String firstName, String lastName, String email);
 
-    void deleteByEmail(String email);
+    @Query("SELECT u FROM UserSchema u WHERE u.email = :email AND u.role = 'CINEMA_MANAGER'")
+    Optional<UserSchema> findByEmailAndRoleCinemaManager(@Param("email") String email);
 
     @Query("SELECT u FROM UserSchema u WHERE u.role = 'CINEMA_MANAGER'")
     List<UserSchema> findAllByRoleCinemaManager();
@@ -26,9 +27,5 @@ public interface UserJpaRepository extends JpaRepository<UserSchema, Long> {
     @Query("SELECT u FROM UserSchema u WHERE u.role = 'CINEMA_MANAGER'")
     Page<UserSchema> findAllByRoleCinemaManager(Pageable pageable);
 
-    Optional<UserSchema> findByFirstNameAndLastNameAndEmail(String firstName, String lastName, String email);
-
-    @Query("SELECT u FROM UserSchema u WHERE u.email = :email AND u.role = 'CINEMA_MANAGER'")
-    Optional<UserSchema> findByEmailAndRoleCinemaManager(@Param("email") String email);
-
+    boolean existsByEmail(String email);
 }
