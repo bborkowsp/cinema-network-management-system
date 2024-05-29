@@ -17,7 +17,6 @@ export class RepertoryTableComponentComponent implements OnInit {
 
   ngOnInit() {
     this.groupScreeningsByScreeningRoom();
-    console.log(this.repertory);
   }
 
   private groupScreeningsByScreeningRoom() {

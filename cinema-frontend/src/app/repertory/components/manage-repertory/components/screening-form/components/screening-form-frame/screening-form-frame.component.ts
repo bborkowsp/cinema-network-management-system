@@ -35,7 +35,6 @@ export class ScreeningFormFrameComponent implements OnInit {
     this.cinemaService.getAllScreeningRoomNames().subscribe(
       screeningRooms => {
         this.screeningRoomsNames = screeningRooms;
-        console.log(this.screeningRoomsNames);
         this.setupFilteredScreeningRoomsObservable();
       }
     );

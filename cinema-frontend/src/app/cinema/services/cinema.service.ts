@@ -40,7 +40,6 @@ export class CinemaService {
   }
 
   createCinema(cinema: CreateCinemaRequest) {
-    console.log(cinema);
     return this.httpClient.post<void>(CinemaService.cinemasUrl, cinema);
   }
 
