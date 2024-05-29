@@ -6,6 +6,7 @@ import {CreateCinemaRequest} from "../../dtos/request/create-cinema.request";
 import {CreateAddressRequest} from "../../dtos/request/create-address.request";
 import {CreateImageRequest} from "../../../movie/dtos/request/create-image.request";
 import {UpdateCinemaRequest} from "../../dtos/request/update-cinema.request";
+import {UserResponse} from "../../../user/dtos/response/user.response";
 
 export class CinemaFormBuilder {
   form: FormGroup;
@@ -140,6 +141,7 @@ export class CinemaFormBuilder {
   async getCreateCinemaRequestFromForm(): Promise<CreateCinemaRequest> {
     const imageRequest = await this.createImageRequest();
     const commonFields = this.getCommonRequestFields();
+    const cinemaManager = this.getCinemaManagerRequest();
 
     return new CreateCinemaRequest(
       commonFields.name,
@@ -148,7 +150,7 @@ export class CinemaFormBuilder {
       imageRequest,
       commonFields.screeningRooms,
       commonFields.contactDetails,
-      commonFields.cinemaManager,
+      cinemaManager
     );
   }
 
@@ -208,6 +210,15 @@ export class CinemaFormBuilder {
       contactDetails: this.stepThreeFormGroup.get('contactDetails')?.value,
       cinemaManager: this.stepFourFormGroup.get('cinemaManager')?.value,
     };
+  }
+
+  private getCinemaManagerRequest() {
+    const cinemaManager = this.stepFourFormGroup.get('cinemaManager')?.value;
+    if (cinemaManager) {
+      return cinemaManager;
+    } else {
+      return new UserResponse('', '', '');
+    }
   }
 }
 

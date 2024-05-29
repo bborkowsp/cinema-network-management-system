@@ -47,14 +47,16 @@ class CinemaService implements CinemaUseCases {
     @Override
     public void createCinema(CreateCinemaRequest createCinemaRequest) {
         validateCinemaDoesntExist(createCinemaRequest.name());
+        validateCinemaManagerIsNotAssigned(createCinemaRequest.cinemaManager().email());
 
         final var cinema = cinemaMapper.mapCreateCinemaRequestToCinema(createCinemaRequest);
         cinemaRepository.save(cinema);
     }
 
+
     @Override
     public void updateCinema(String name, UpdateCinemaRequest updateCinemaRequest) {
-        validateCinemaNameIsNotTaken(name, updateCinemaRequest.name());
+        validateCinemaNameIsNotTakenWhenUpdate(name, updateCinemaRequest.name());
 
         final var cinema = cinemaRepository.findByName(name).orElseThrow();
         cinemaMapper.updateCinemaFromUpdateCinemaRequest(updateCinemaRequest, cinema);
@@ -80,9 +82,15 @@ class CinemaService implements CinemaUseCases {
         }
     }
 
-    private void validateCinemaNameIsNotTaken(String name, String newName) {
+    private void validateCinemaNameIsNotTakenWhenUpdate(String name, String newName) {
         if (!name.equals(newName) && cinemaRepository.existsByName(newName)) {
             throw new IllegalArgumentException("Cinema with name " + newName + " already exists.");
+        }
+    }
+
+    private void validateCinemaManagerIsNotAssigned(String email) {
+        if (cinemaRepository.existsByCinemaManagerEmail(email)) {
+            throw new IllegalArgumentException("Cinema manager with email " + email + " is already assigned to a cinema.");
         }
     }
 }

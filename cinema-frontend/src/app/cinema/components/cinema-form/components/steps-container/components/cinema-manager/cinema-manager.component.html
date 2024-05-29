@@ -2,10 +2,12 @@
   <mat-label>Choose manager</mat-label>
   <mat-select [formControl]="cinemaManagerControl">
     <mat-option [value]="0">None</mat-option>
-    <mat-option [value]="cinemaManagerControl.value">
-      {{ cinemaManagerControl.value.firstName }} {{ cinemaManagerControl.value.lastName }}
-      ({{ cinemaManagerControl.value.email }})
-    </mat-option>
+    <ng-container *ngIf="cinemaManagerControl.value">
+      <mat-option [value]="cinemaManagerControl.value">
+        {{ cinemaManagerControl.value.firstName }} {{ cinemaManagerControl.value.lastName }}
+        ({{ cinemaManagerControl.value.email }})
+      </mat-option>
+    </ng-container>
     <mat-option *ngFor="let cinemaManager of cinemaManagers | async"
                 [value]="cinemaManager">
       {{ cinemaManager.firstName + ' ' + cinemaManager.lastName + ' (' + cinemaManager.email + ')' }}

@@ -11,6 +11,7 @@ import org.example.cinemabackend.cinema.core.domain.ScreeningRoom;
 import org.example.cinemabackend.cinema.core.domain.Seat;
 import org.example.cinemabackend.cinema.core.domain.SeatType;
 import org.example.cinemabackend.cinema.core.port.primary.*;
+import org.example.cinemabackend.user.core.domain.User;
 import org.example.cinemabackend.user.core.port.primary.UserMapper;
 import org.example.cinemabackend.user.core.port.secondary.UserRepository;
 import org.springframework.lang.NonNull;
@@ -59,7 +60,7 @@ class CinemaMapperService implements CinemaMapper {
 
     @Override
     public Cinema mapCreateCinemaRequestToCinema(@NonNull CreateCinemaRequest createCinemaRequest) {
-        final var cinemaManager = userRepository.findByEmail(createCinemaRequest.cinemaManager().email()).orElseThrow();
+        final var cinemaManager = findCinemaManager(createCinemaRequest.cinemaManager().email());
         return new Cinema(
                 createCinemaRequest.name(),
                 createCinemaRequest.description(),
@@ -98,6 +99,14 @@ class CinemaMapperService implements CinemaMapper {
         cinema.setCinemaManager(cinemaManager);
     }
 
+    private User findCinemaManager(String email) {
+        if (!email.isEmpty()) {
+            return userRepository.findByEmail(email).orElseThrow();
+        } else {
+            return null;
+        }
+    }
+
     private int getNumberOfUnavailableSeats(Cinema cinema) {
         Set<Seat[][]> seatingPlans = cinema.getScreeningRooms().stream()
                 .map(ScreeningRoom::getSeatingPlan)
@@ -133,7 +142,6 @@ class CinemaMapperService implements CinemaMapper {
             }
         }
         return numberOfAvailableSeats;
-
     }
 
 

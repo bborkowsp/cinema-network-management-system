@@ -31,4 +31,6 @@ public interface CinemaJpaRepository extends JpaRepository<CinemaSchema, Long> {
     @Transactional
     @Query("update CinemaSchema c set c.cinemaManager = null where c.id = :cinemaId")
     void updateCinemaManagerToNull(Long cinemaId);
+
+    boolean existsByCinemaManagerEmail(String email);
 }

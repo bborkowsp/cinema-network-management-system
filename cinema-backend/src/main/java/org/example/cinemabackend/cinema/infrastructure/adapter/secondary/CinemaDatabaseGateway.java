@@ -65,4 +65,9 @@ class CinemaDatabaseGateway implements CinemaRepository {
     public void updateCinemaManager(Long cinemaId, Long cinemaManagerId) {
         this.cinemaJpaRepository.updateCinemaManager(cinemaId, cinemaManagerId);
     }
+
+    @Override
+    public boolean existsByCinemaManagerEmail(String email) {
+        return this.cinemaJpaRepository.existsByCinemaManagerEmail(email);
+    }
 }
