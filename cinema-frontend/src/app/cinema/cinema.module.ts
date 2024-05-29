@@ -46,6 +46,7 @@ import {
 import {
   CinemaManagerComponent
 } from "./components/cinema-form/components/steps-container/components/cinema-manager/cinema-manager.component";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 @NgModule({
   imports: [
@@ -70,6 +71,7 @@ import {
     MatListModule,
     MatExpansionModule,
     MatStepperModule,
+    MatProgressSpinnerModule,
   ],
   declarations: [
     CinemaListComponent,

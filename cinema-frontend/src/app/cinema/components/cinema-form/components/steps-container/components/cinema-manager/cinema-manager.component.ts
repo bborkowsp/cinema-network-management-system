@@ -27,4 +27,5 @@ export class CinemaManagerComponent implements OnInit {
   ngOnInit(): void {
     this.cinemaManagers = this.userService.getCinemaManagersList();
   }
+
 }
