@@ -77,9 +77,6 @@ export class ScreeningRoomComponent implements OnInit, OnChanges {
 
   saveScreeningRoom() {
     const screeningRoom = this.createFilledScreeningRoomGroup();
-    console.log("*****************")
-    console.log(screeningRoom);
-    console.log("*****************")
     if (this.currentEditedContactDetailIndex === -1) {
       this.formArray.push(screeningRoom);
       this.createScreeningRoomFormGroup.reset();

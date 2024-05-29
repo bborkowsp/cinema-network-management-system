@@ -54,7 +54,6 @@ export class CinemaService {
   getAllScreeningRoomNames() {
     const email = this.authService.getLoggedInUserEmail();
     const url = `${CinemaService.cinemasUrl}/screening-rooms/${email}`;
-    console.log(url);
     return this.httpClient.get<{ content: string[] }>(url).pipe(
       map((response) => response.content),
     );

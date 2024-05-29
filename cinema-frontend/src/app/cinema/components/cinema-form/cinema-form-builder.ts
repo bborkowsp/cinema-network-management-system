@@ -184,7 +184,8 @@ export class CinemaFormBuilder {
     const selectedImage: File = this.imageFormGroup?.value;
     const name = selectedImage.name;
     const type = selectedImage.type;
-    const data = await this.readFileData(selectedImage);
+    const file = new File([selectedImage], name, {type: type});
+    const data = await this.readFileData(file);
 
     return new CreateImageRequest(name, type, data);
   }
