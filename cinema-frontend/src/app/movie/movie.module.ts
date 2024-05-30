@@ -34,6 +34,7 @@ import {
   ProjectionDetailsFormFrameComponentComponent
 } from './components/create-movie/components/projection-details-form-frame-component/projection-details-form-frame-component.component';
 import {MatNativeDateModule} from "@angular/material/core";
+import { MovieFormComponent } from './components/movie-form/movie-form.component';
 
 
 @NgModule({
@@ -48,6 +49,7 @@ import {MatNativeDateModule} from "@angular/material/core";
     ImageAndTrailerFormFrameComponentComponent,
     AgeRestrictionAndGenresFormFrameComponentComponent,
     ProjectionDetailsFormFrameComponentComponent,
+    MovieFormComponent,
   ],
   imports: [
     CommonModule,

@@ -10,11 +10,9 @@ import {
 } from "./projection-technology/components/projection-technology-details/projection-technology-details.component";
 import {HomeComponent} from "./home/home.component";
 import {MovieListComponent} from "./movie/components/movie-list/movie-list.component";
-import {EditMovieFormComponent} from "./movie/components/edit-movie-form/edit-movie-form.component";
 import {MovieDetailsComponent} from "./movie/components/movie-details/movie-details.component";
 import {LoginFormComponent} from "./user/components/login-form/login-form.component";
 import {RegisterFormComponent} from "./user/components/register-form/register-form.component";
-import {CreateMovieComponent} from "./movie/components/create-movie/create-movie.component";
 import {CinemaManagerListComponent} from "./user/components/cinema-manager-list/cinema-manager-list.component";
 import {AuthGuard} from "./user/services/permission.service";
 import {ManageRepertoryComponent} from "./repertory/components/manage-repertory/manage-repertory.component";
@@ -26,6 +24,7 @@ import {
   ProjectionTechnologyFormComponent
 } from "./projection-technology/components/projection-technology-form/projection-technology-form.component";
 import {CinemaFormComponent} from "./cinema/components/cinema-form/cinema-form.component";
+import {MovieFormComponent} from "./movie/components/movie-form/movie-form.component";
 
 
 const routes: Routes = [
@@ -50,8 +49,8 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {path: 'movies', component: MovieListComponent, canActivate: [AuthGuard]},
-  {path: 'movies/create', component: CreateMovieComponent, canActivate: [AuthGuard]},
-  {path: 'movies/edit/:title', component: EditMovieFormComponent, canActivate: [AuthGuard]},
+  {path: 'movies/create', component: MovieFormComponent, canActivate: [AuthGuard]},
+  {path: 'movies/edit/:title', component: MovieFormComponent, canActivate: [AuthGuard]},
   {path: 'movies/details/:title', component: MovieDetailsComponent, canActivate: [AuthGuard]},
   {path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
   {path: 'cinema-managers', component: CinemaManagerListComponent, canActivate: [AuthGuard]},
