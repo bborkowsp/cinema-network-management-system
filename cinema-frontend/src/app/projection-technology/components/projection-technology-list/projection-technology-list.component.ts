@@ -6,6 +6,10 @@ import {ProjectionTechnologyService} from "../../services/projection-technology.
 import {Router} from "@angular/router";
 import {CreateProjectionTechnologyRequest} from "../../dtos/request/create-projection-technology.request";
 import {ProjectionTechnologyResponse} from "../../dtos/response/projection-technology.response";
+import {MatDialog} from "@angular/material/dialog";
+import {
+  ConfirmDeletionProjectionTechnologyDialogComponent
+} from "../confirm-deletion-projection-technology-dialog/confirm-deletion-projection-technology-dialog.component";
 
 @Component({
   selector: 'app-projection-technology-list',
@@ -23,6 +27,7 @@ export class ProjectionTechnologyListComponent {
   constructor(
     private readonly projectionTechnologyService: ProjectionTechnologyService,
     private readonly router: Router,
+    private readonly dialog: MatDialog,
   ) {
     this.projectionTechnologies$ = this.getProjectionTechnologyPage();
   }
@@ -54,8 +59,18 @@ export class ProjectionTechnologyListComponent {
   }
 
   handleDelete(projectionTechnology: CreateProjectionTechnologyRequest): void {
-    this.projectionTechnologyService.deleteProjectionTechnology(projectionTechnology.technology).subscribe({
-      next: () => (this.projectionTechnologies$ = this.getProjectionTechnologyPage()),
+    const matDialog = this.dialog.open(ConfirmDeletionProjectionTechnologyDialogComponent, {
+      data: projectionTechnology
+    })
+
+    matDialog.afterClosed().subscribe({
+      next: (result) => {
+        if (result) {
+          this.projectionTechnologyService.deleteProjectionTechnology(projectionTechnology.technology).subscribe({
+            next: () => (this.projectionTechnologies$ = this.getProjectionTechnologyPage()),
+          });
+        }
+      },
     });
   }
 
