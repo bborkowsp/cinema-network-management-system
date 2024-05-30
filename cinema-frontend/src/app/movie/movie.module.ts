@@ -33,6 +33,9 @@ import {
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatIconModule} from "@angular/material/icon";
 import {MatSelectModule} from "@angular/material/select";
+import {
+  ConfirmDeletionMovieDialog
+} from "./components/confirm-deletion-movie-dialog/confirm-deletion-movie-dialog.component";
 
 
 @NgModule({
@@ -46,6 +49,7 @@ import {MatSelectModule} from "@angular/material/select";
     AgeRestrictionAndGenresFormFrameComponentComponent,
     ProjectionDetailsFormFrameComponentComponent,
     MovieFormComponent,
+    ConfirmDeletionMovieDialog,
   ],
   imports: [
     CommonModule,

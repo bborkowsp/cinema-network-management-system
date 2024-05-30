@@ -1,16 +1,16 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ConfirmDeletionProjectionTechnologyDialogComponent } from './confirm-deletion-projection-technology-dialog.component';
+import {ConfirmDeletionProjectionTechnologyDialog} from './confirm-deletion-projection-technology-dialog.component';
 
 describe('ConfirmDeletionProjectionTechnologyDialogComponent', () => {
-  let component: ConfirmDeletionProjectionTechnologyDialogComponent;
-  let fixture: ComponentFixture<ConfirmDeletionProjectionTechnologyDialogComponent>;
+  let component: ConfirmDeletionProjectionTechnologyDialog;
+  let fixture: ComponentFixture<ConfirmDeletionProjectionTechnologyDialog>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ConfirmDeletionProjectionTechnologyDialogComponent]
+      declarations: [ConfirmDeletionProjectionTechnologyDialog]
     });
-    fixture = TestBed.createComponent(ConfirmDeletionProjectionTechnologyDialogComponent);
+    fixture = TestBed.createComponent(ConfirmDeletionProjectionTechnologyDialog);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

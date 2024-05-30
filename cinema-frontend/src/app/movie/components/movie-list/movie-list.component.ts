@@ -5,6 +5,8 @@ import {PaginatorRequestParams} from "../../../shared/dtos/paginator-request-par
 import {Router} from "@angular/router";
 import {MovieListResponse} from "../../dtos/response/movie-list.response";
 import {MovieService} from "../../services/movie.service";
+import {MatDialog} from "@angular/material/dialog";
+import {ConfirmDeletionMovieDialog} from "../confirm-deletion-movie-dialog/confirm-deletion-movie-dialog.component";
 
 @Component({
   selector: 'app-movie-list',
@@ -22,6 +24,7 @@ export class MovieListComponent {
   constructor(
     private readonly movieService: MovieService,
     private readonly router: Router,
+    private readonly dialog: MatDialog,
   ) {
     this.movies$ = this.getData();
   }
@@ -45,8 +48,18 @@ export class MovieListComponent {
   }
 
   handleDelete(movie: MovieListResponse): void {
-    this.movieService.deleteMovie(movie.title).subscribe({
-      next: () => (this.movies$ = this.getData()),
+    const matDialog = this.dialog.open(ConfirmDeletionMovieDialog, {
+      data: movie
+    })
+
+    matDialog.afterClosed().subscribe({
+      next: (result) => {
+        if (result) {
+          this.movieService.deleteMovie(movie.title).subscribe({
+            next: () => (this.movies$ = this.getData()),
+          });
+        }
+      },
     });
   }
 

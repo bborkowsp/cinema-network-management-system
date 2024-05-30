@@ -8,7 +8,7 @@ import {CreateProjectionTechnologyRequest} from "../../dtos/request/create-proje
 import {ProjectionTechnologyResponse} from "../../dtos/response/projection-technology.response";
 import {MatDialog} from "@angular/material/dialog";
 import {
-  ConfirmDeletionProjectionTechnologyDialogComponent
+  ConfirmDeletionProjectionTechnologyDialog
 } from "../confirm-deletion-projection-technology-dialog/confirm-deletion-projection-technology-dialog.component";
 
 @Component({
@@ -59,7 +59,7 @@ export class ProjectionTechnologyListComponent {
   }
 
   handleDelete(projectionTechnology: CreateProjectionTechnologyRequest): void {
-    const matDialog = this.dialog.open(ConfirmDeletionProjectionTechnologyDialogComponent, {
+    const matDialog = this.dialog.open(ConfirmDeletionProjectionTechnologyDialog, {
       data: projectionTechnology
     })
 

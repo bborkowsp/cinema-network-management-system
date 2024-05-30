@@ -47,6 +47,9 @@ import {
   CinemaManagerComponent
 } from "./components/cinema-form/components/steps-container/components/cinema-manager/cinema-manager.component";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {
+  ConfirmDeletionCinemaDialog
+} from "./components/confirm-deletion-cinema-dialog/confirm-deletion-cinema-dialog.component";
 
 @NgModule({
   imports: [
@@ -87,6 +90,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
     CinemaManagerComponent,
     CinemaFormComponent,
     StepsContainerComponent,
+    ConfirmDeletionCinemaDialog,
   ],
 })
 

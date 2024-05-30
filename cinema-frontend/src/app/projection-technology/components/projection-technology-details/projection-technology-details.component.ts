@@ -5,7 +5,7 @@ import {map, Observable, switchMap, tap} from "rxjs";
 import {ProjectionTechnologyResponse} from "../../dtos/response/projection-technology.response";
 import {MatDialog} from "@angular/material/dialog";
 import {
-  ConfirmDeletionProjectionTechnologyDialogComponent
+  ConfirmDeletionProjectionTechnologyDialog
 } from "../confirm-deletion-projection-technology-dialog/confirm-deletion-projection-technology-dialog.component";
 
 @Component({
@@ -38,7 +38,7 @@ export class ProjectionTechnologyDetailsComponent implements OnInit {
   }
 
   handleDeleteTechnology() {
-    const dialogRef = this.dialog.open(ConfirmDeletionProjectionTechnologyDialogComponent, {
+    const dialogRef = this.dialog.open(ConfirmDeletionProjectionTechnologyDialog, {
       data: this.technology,
     });
 

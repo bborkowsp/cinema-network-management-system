@@ -16,7 +16,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {
-  ConfirmDeletionProjectionTechnologyDialogComponent
+  ConfirmDeletionProjectionTechnologyDialog
 } from './components/confirm-deletion-projection-technology-dialog/confirm-deletion-projection-technology-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {
@@ -31,7 +31,7 @@ import {
   declarations: [
     ProjectionTechnologyListComponent,
     ProjectionTechnologyDetailsComponent,
-    ConfirmDeletionProjectionTechnologyDialogComponent,
+    ConfirmDeletionProjectionTechnologyDialog,
     ProjectionTechnologyFormComponent,
     ProjectionTechnologyFormFrameComponent,
   ],

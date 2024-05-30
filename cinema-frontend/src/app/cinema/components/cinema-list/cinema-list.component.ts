@@ -6,6 +6,8 @@ import {CinemaService} from "../../services/cinema.service";
 import {CinemaListResponse} from "../../dtos/response/cinema-list.response";
 import {Observable} from "rxjs";
 import {Router} from "@angular/router";
+import {MatDialog} from "@angular/material/dialog";
+import {ConfirmDeletionCinemaDialog} from "../confirm-deletion-cinema-dialog/confirm-deletion-cinema-dialog.component";
 
 @Component({
   selector: 'app-cinema-list',
@@ -21,7 +23,8 @@ export class CinemaListComponent implements AfterViewInit, OnInit {
 
   constructor(
     private cinemaService: CinemaService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly dialog: MatDialog,
   ) {
     this.cinemas$ = new MatTableDataSource<CinemaListResponse>([]);
   }
@@ -39,8 +42,18 @@ export class CinemaListComponent implements AfterViewInit, OnInit {
   }
 
   handleDelete(cinema: CinemaListResponse) {
-    this.cinemaService.deleteCinema(cinema.name).subscribe({
-      next: () => this.ngOnInit(),
+    const matDialog = this.dialog.open(ConfirmDeletionCinemaDialog, {
+      data: cinema
+    })
+
+    matDialog.afterClosed().subscribe({
+      next: (result) => {
+        if (result) {
+          this.cinemaService.deleteCinema(cinema.name).subscribe({
+            next: () => this.ngOnInit(),
+          });
+        }
+      },
     });
   }
 
