@@ -8,6 +8,7 @@ import org.example.cinemabackend.cinema.core.domain.ScreeningRoom;
 import org.example.cinemabackend.cinema.core.domain.Seat;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -80,6 +81,26 @@ public class ScreeningRoomSchema {
             }
         }
         return seats;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+
+        if (!(object instanceof ScreeningRoom screeningRoom)) {
+            return false;
+        }
+
+        return Objects.equals(id, screeningRoom.getId()) &&
+                Objects.equals(name, screeningRoom.getName())
+                ;
     }
 
 

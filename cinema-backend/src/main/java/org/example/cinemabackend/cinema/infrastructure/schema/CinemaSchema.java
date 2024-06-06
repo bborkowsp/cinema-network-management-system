@@ -42,7 +42,7 @@ public class CinemaSchema {
 
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ScreeningRoomSchema> screeningRooms = new ArrayList<>();
+    private Set<ScreeningRoomSchema> screeningRooms = new HashSet<>();
 
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -52,17 +52,6 @@ public class CinemaSchema {
     private UserSchema cinemaManager;
 
     public static CinemaSchema fromCinema(Cinema cinema) {
-//        return CinemaSchema.builder()
-//                .id(cinema.getId())
-//                .name(cinema.getName())
-//                .description(cinema.getDescription())
-//                .address(AddressSchema.fromAddress(cinema.getAddress()))
-//                .image(ImageSchema.fromImage(cinema.getImage()))
-//                .repertory(cinema.getRepertory() == null ? new ArrayList<>() : cinema.getRepertory().stream().map(ScreeningSchema::fromScreening).collect(Collectors.toList()))
-//                .screeningRooms(cinema.getScreeningRooms().stream().map(ScreeningRoomSchema::fromScreeningRoom).collect(Collectors.toSet()))
-//                .contactDetails(cinema.getContactDetails().stream().map(ContactDetailsSchema::fromContactDetails).collect(Collectors.toSet()))
-//                .cinemaManager(cinema.getCinemaManager() == null ? null : UserSchema.fromUser(cinema.getCinemaManager()))
-//                .build();
         return new CinemaSchema(
                 cinema.getId(),
                 cinema.getName(),
@@ -70,7 +59,7 @@ public class CinemaSchema {
                 AddressSchema.fromAddress(cinema.getAddress()),
                 ImageSchema.fromImage(cinema.getImage()),
                 cinema.getRepertory() == null ? new ArrayList<>() : cinema.getRepertory().stream().map(ScreeningSchema::fromScreening).collect(Collectors.toList()),
-                cinema.getScreeningRooms().stream().map(ScreeningRoomSchema::fromScreeningRoom).collect(Collectors.toList()),
+                cinema.getScreeningRooms().stream().map(ScreeningRoomSchema::fromScreeningRoom).collect(Collectors.toSet()),
                 cinema.getContactDetails().stream().map(ContactDetailsSchema::fromContactDetails).collect(Collectors.toSet()),
                 cinema.getCinemaManager() == null ? null : UserSchema.fromUser(cinema.getCinemaManager())
         );
