@@ -6,10 +6,10 @@ import java.time.LocalDateTime;
 
 @Builder
 public record ScreeningRequest(
-        String title,
+        String movieTitle,
         LocalDateTime startTime,
         LocalDateTime endTime,
-        String screeningRoomName,
+        String screeningRoom,
         String email
 ) {
 }

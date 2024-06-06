@@ -69,21 +69,31 @@ export class ScreeningFormComponent implements OnInit {
 
   onSubmit() {
     const screening = this.screeningFormHelper.screeningRequestFromForm();
-    const screening$ = this.isEditMode ?
-      this.screeningService.updateScreening(this.id, screening) :
-      this.screeningService.createScreening(screening);
-
     this.isLoading = true;
-    screening$.subscribe({
-      next: () => {
-        this.isLoading = false;
-        this.goBack();
-      },
-      error: () => {
-        this.isLoading = false;
-      }
-    });
+
+    if (this.isEditMode) {
+      this.screeningService.updateScreening(this.id, screening).subscribe({
+        next: () => {
+          this.isLoading = false;
+          this.goBack();
+        },
+        error: () => {
+          this.isLoading = false;
+        }
+      });
+    } else {
+      this.screeningService.createScreening(screening).subscribe({
+        next: () => {
+          this.isLoading = false;
+          this.goBack();
+        },
+        error: () => {
+          this.isLoading = false;
+        }
+      });
+    }
   }
+
 
   handleCancelClicked() {
     this.goBack();

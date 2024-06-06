@@ -41,6 +41,8 @@ export class ScreeningService {
   }
 
   createScreening(screening: ScreeningRequest) {
-    return this.httpClient.post(ScreeningService.screeningsUrl, screening);
+    console.log(screening);
+    console.log(ScreeningService.screeningsUrl);
+    return this.httpClient.post<void>(ScreeningService.screeningsUrl, screening);
   }
 }
