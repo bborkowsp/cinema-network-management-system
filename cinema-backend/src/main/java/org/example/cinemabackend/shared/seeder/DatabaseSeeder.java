@@ -19,6 +19,7 @@ class DatabaseSeeder implements CommandLineRunner {
     private final ProjectionTechnologySeeder projectionTechnologySeeder;
     private final UserSeeder userSeeder;
     private final MovieSeeder movieSeeder;
+    private final ScreeningSeeder screeningSeeder;
 
     private final Logger logger = LoggerFactory.getLogger(DatabaseSeeder.class);
 
@@ -36,6 +37,9 @@ class DatabaseSeeder implements CommandLineRunner {
 
             cinemaSeeder.seedDatabase(OBJECTS_TO_SEED);
             logger.info("Cinemas seeded");
+
+            screeningSeeder.seedDatabase(OBJECTS_TO_SEED);
+            logger.info("Screenings seeded");
         }
     }
 }

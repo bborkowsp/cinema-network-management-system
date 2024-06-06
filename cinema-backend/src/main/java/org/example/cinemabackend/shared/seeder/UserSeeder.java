@@ -16,6 +16,7 @@ import java.util.Set;
 @Order(2)
 public class UserSeeder implements Seeder {
 
+    private static final String PASSWORD = "password";
     private final UserRepository userRepository;
     private final Faker faker;
     private int increment = 0;
@@ -36,7 +37,7 @@ public class UserSeeder implements Seeder {
                 faker.name().firstName(),
                 faker.name().lastName(),
                 faker.internet().emailAddress() + increment,
-                faker.internet().password(),
+                PASSWORD,
                 Role.CINEMA_MANAGER
         );
     }

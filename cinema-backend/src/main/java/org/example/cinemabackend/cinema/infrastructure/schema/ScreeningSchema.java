@@ -27,7 +27,7 @@ public class ScreeningSchema {
     @Column(nullable = false)
     private LocalDateTime endTime;
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @ManyToOne
     private ScreeningRoomSchema screeningRoom;
 
     public static ScreeningSchema fromScreening(Screening screening) {

@@ -3,7 +3,9 @@ package org.example.cinemabackend.cinema.core.service;
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.application.dto.request.ScreeningRequest;
 import org.example.cinemabackend.cinema.application.dto.response.ScreeningResponse;
+import org.example.cinemabackend.cinema.core.domain.Cinema;
 import org.example.cinemabackend.cinema.core.domain.Screening;
+import org.example.cinemabackend.cinema.core.domain.ScreeningRoom;
 import org.example.cinemabackend.cinema.core.port.primary.ScreeningMapper;
 import org.example.cinemabackend.cinema.core.port.primary.ScreeningRoomMapper;
 import org.example.cinemabackend.cinema.core.port.secondary.ScreeningRoomRepository;
@@ -32,12 +34,20 @@ class ScreeningMapperService implements ScreeningMapper {
     }
 
     @Override
-    public Screening mapScreeningRequestToScreening(ScreeningRequest screening) {
+    public Screening mapScreeningRequestToScreening(ScreeningRequest screening, Cinema cinema) {
+        ScreeningRoom screeningRoom = findScreeningRoom(screening.screeningRoomName(), cinema);
         return new Screening(
                 movieRepository.findByTitle(screening.title()).orElseThrow(),
                 screening.startTime(),
                 screening.endTime(),
                 screeningRoomRepository.findByName(screening.screeningRoomName()).orElseThrow()
         );
+    }
+
+    private ScreeningRoom findScreeningRoom(String screeningRoomName, Cinema cinema) {
+        return cinema.getScreeningRooms().stream()
+                .filter(screeningRoom -> screeningRoom.getName().equals(screeningRoomName))
+                .findFirst()
+                .orElseThrow();
     }
 }

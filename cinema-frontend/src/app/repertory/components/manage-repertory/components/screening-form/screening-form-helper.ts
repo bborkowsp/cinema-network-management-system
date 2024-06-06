@@ -1,6 +1,7 @@
 import {ScreeningResponse} from "../../../../dtos/screening.response";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ScreeningRequest} from "../../../../dtos/screening.request";
+import {AuthService} from "../../../../../user/services/auth.service";
 
 export class ScreeningFormHelper {
   form: FormGroup;
@@ -9,7 +10,10 @@ export class ScreeningFormHelper {
     return this.form.get('main') as FormGroup;
   }
 
-  constructor(private readonly formBuilder: FormBuilder) {
+  constructor(
+    private readonly formBuilder: FormBuilder,
+    private readonly authService: AuthService
+  ) {
     this.form = this.createForm();
   }
 
@@ -36,11 +40,13 @@ export class ScreeningFormHelper {
   }
 
   screeningRequestFromForm(): ScreeningRequest {
+    const email = this.authService.getLoggedInUserEmail();
     return new ScreeningRequest(
       this.mainFormGroup.get('movieTitle')!.value,
       this.mainFormGroup.get('startTime')!.value,
       this.mainFormGroup.get('endTime')!.value,
-      this.mainFormGroup.get('screeningRoom')!.value
+      this.mainFormGroup.get('screeningRoom')!.value,
+      email
     )
   }
 

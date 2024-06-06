@@ -9,6 +9,7 @@ public record ScreeningRequest(
         String title,
         LocalDateTime startTime,
         LocalDateTime endTime,
-        String screeningRoomName
+        String screeningRoomName,
+        String email
 ) {
 }

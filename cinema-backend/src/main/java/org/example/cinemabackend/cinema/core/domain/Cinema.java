@@ -3,7 +3,7 @@ package org.example.cinemabackend.cinema.core.domain;
 import org.example.cinemabackend.movie.core.domain.Image;
 import org.example.cinemabackend.user.core.domain.User;
 
-import java.util.Set;
+import java.util.*;
 
 public class Cinema {
     private Long id;
@@ -11,12 +11,12 @@ public class Cinema {
     private String description;
     private Address address;
     private Image image;
-    private Set<Screening> repertory;
-    private Set<ScreeningRoom> screeningRooms;
-    private Set<ContactDetails> contactDetails;
+    private List<Screening> repertory = new ArrayList<>();
+    private Set<ScreeningRoom> screeningRooms = new HashSet<>();
+    private Set<ContactDetails> contactDetails = new HashSet<>();
     private User cinemaManager;
 
-    public Cinema(String name, String description, Address address, Image image, Set<Screening> repertory, Set<ScreeningRoom> screeningRooms, Set<ContactDetails> contactDetails, User cinemaManager) {
+    public Cinema(String name, String description, Address address, Image image, List<Screening> repertory, Set<ScreeningRoom> screeningRooms, Set<ContactDetails> contactDetails, User cinemaManager) {
         this.name = name;
         this.description = description;
         this.address = address;
@@ -37,7 +37,7 @@ public class Cinema {
         this.cinemaManager = cinemaManager;
     }
 
-    public Cinema(Long id, String name, String description, Address address, Image image, Set<Screening> repertory, Set<ScreeningRoom> screeningRooms, Set<ContactDetails> contactDetails, User cinemaManager) {
+    public Cinema(Long id, String name, String description, Address address, Image image, List<Screening> repertory, Set<ScreeningRoom> screeningRooms, Set<ContactDetails> contactDetails, User cinemaManager) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -46,6 +46,14 @@ public class Cinema {
         this.image = image;
         this.screeningRooms = screeningRooms;
         this.contactDetails = contactDetails;
+        this.cinemaManager = cinemaManager;
+    }
+
+    public Cinema(String name, String description, Address address, Image image, User cinemaManager) {
+        this.name = name;
+        this.description = description;
+        this.address = address;
+        this.image = image;
         this.cinemaManager = cinemaManager;
     }
 
@@ -81,11 +89,11 @@ public class Cinema {
         this.image = image;
     }
 
-    public Set<Screening> getRepertory() {
+    public List<Screening> getRepertory() {
         return repertory;
     }
 
-    public void setRepertory(Set<Screening> repertory) {
+    public void setRepertory(List<Screening> repertory) {
         this.repertory = repertory;
     }
 
@@ -122,4 +130,29 @@ public class Cinema {
     }
 
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+
+        if (!(object instanceof Cinema cinema)) {
+            return false;
+        }
+
+        return Objects.equals(name, cinema.name);
+    }
+
+    public void addScreeningRoom(ScreeningRoom screeningRoom) {
+        this.screeningRooms.add(screeningRoom);
+    }
+
+    public void addContactDetails(ContactDetails contactDetails) {
+        this.contactDetails.add(contactDetails);
+    }
 }

@@ -63,8 +63,10 @@ class ScreeningService implements ScreeningUseCases {
 
     @Override
     public void createScreening(ScreeningRequest screening) {
-        final var newScreening = screeningMapper.mapScreeningRequestToScreening(screening);
-        screeningRepository.save(newScreening);
+        final var cinema = cinemaRepository.findByUserEmail(screening.email()).orElseThrow();
+        final var newScreening = screeningMapper.mapScreeningRequestToScreening(screening, cinema);
+        cinema.getRepertory().add(newScreening);
+        cinemaRepository.save(cinema);
     }
 
     private Cinema getCinemaByUserEmail(String email) {

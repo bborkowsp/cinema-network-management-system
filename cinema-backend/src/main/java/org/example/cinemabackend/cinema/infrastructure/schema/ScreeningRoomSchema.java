@@ -42,6 +42,15 @@ public class ScreeningRoomSchema {
                 .build();
     }
 
+    private static String convertSeatToSeatSchema(Seat[][] seatingPlan) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            return objectMapper.writeValueAsString(seatingPlan);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public ScreeningRoom toScreeningRoom() {
         SeatSchema[][] seatingPlanSchema = getSeatingPlanFromJson();
         Seat[][] seatingPlan = convertSeatSchemaToSeat(seatingPlanSchema);
@@ -52,15 +61,6 @@ public class ScreeningRoomSchema {
                 seatingPlan,
                 this.supportedTechnologies.stream().map(ProjectionTechnologySchema::toProjectionTechnology).collect(Collectors.toSet())
         );
-    }
-
-    private static String convertSeatToSeatSchema(Seat[][] seatingPlan) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            return objectMapper.writeValueAsString(seatingPlan);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     private SeatSchema[][] getSeatingPlanFromJson() {
@@ -81,5 +81,6 @@ public class ScreeningRoomSchema {
         }
         return seats;
     }
+
 
 }

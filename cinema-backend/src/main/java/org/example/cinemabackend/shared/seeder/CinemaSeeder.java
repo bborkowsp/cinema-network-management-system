@@ -1,20 +1,16 @@
 package org.example.cinemabackend.shared.seeder;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.javafaker.Faker;
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.core.domain.*;
 import org.example.cinemabackend.cinema.core.port.secondary.CinemaRepository;
 import org.example.cinemabackend.cinema.core.port.secondary.ProjectionTechnologyRepository;
-import org.example.cinemabackend.movie.core.domain.Movie;
 import org.example.cinemabackend.movie.core.domain.ProjectionTechnology;
-import org.example.cinemabackend.movie.core.port.secondary.MovieRepository;
 import org.example.cinemabackend.user.core.domain.User;
 import org.example.cinemabackend.user.core.port.secondary.UserRepository;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -23,14 +19,12 @@ import java.util.Set;
 @RequiredArgsConstructor
 @Order(3)
 class CinemaSeeder implements Seeder {
-    private static final int NUMBER_OF_SCREENING_ROOMS = 4;
+    private static final int NUMBER_OF_SCREENING_ROOMS = 6;
     private final CinemaRepository cinemaRepository;
-    private final MovieRepository movieRepository;
     private final ProjectionTechnologyRepository projectionTechnologyRepository;
     private final UserRepository userRepository;
     private final ImageUtil imageUtil;
     private final Faker faker;
-    private final ObjectMapper objectMapper;
     private int increment = 0;
 
     @Override
@@ -39,9 +33,12 @@ class CinemaSeeder implements Seeder {
 
         while (cinemas.size() < objectsToSeed) {
             final var cinema = createCinema();
-            cinemaRepository.save(cinema);
-            cinemas.add(cinema);
-            increment++;
+
+            if (!cinemas.contains(cinema)) {
+                cinemas.add(cinema);
+                cinemaRepository.save(cinema);
+                increment++;
+            }
         }
     }
 
@@ -49,7 +46,6 @@ class CinemaSeeder implements Seeder {
         final var address = createAddress();
         final var image = imageUtil.createImage();
         final var screeningRooms = createScreeningRooms();
-        final var repertory = createRepertory(screeningRooms);
         final var contactDetails = createContactDetails();
         final User cinemaManager;
 
@@ -58,28 +54,14 @@ class CinemaSeeder implements Seeder {
         else
             cinemaManager = null;
 
-        return new Cinema(
+        final var cinema = new Cinema(
                 faker.company().name(),
                 faker.lorem().fixedString(100),
-                address, image, repertory, screeningRooms, contactDetails, cinemaManager
+                address, image, cinemaManager
         );
-    }
-
-    private Set<Screening> createRepertory(Set<ScreeningRoom> screeningRooms) {
-        Set<Screening> repertory = new HashSet<>();
-        for (int i = 0; i < 2; i++)
-            repertory.add(createScreening(screeningRooms));
-
-        return repertory;
-    }
-
-    private Screening createScreening(Set<ScreeningRoom> screeningRooms) {
-        final var movie = getMovie();
-        final var startTime = LocalDateTime.now().plusDays(1);
-        final var endTime = startTime.plusHours(2);
-        return new Screening(
-                movie, startTime, endTime, screeningRooms.stream().findAny().get()
-        );
+        screeningRooms.forEach(cinema::addScreeningRoom);
+        contactDetails.forEach(cinema::addContactDetails);
+        return cinema;
     }
 
     private Address createAddress() {
@@ -90,11 +72,6 @@ class CinemaSeeder implements Seeder {
                 faker.address().city(),
                 faker.address().country()
         );
-    }
-
-
-    private Movie getMovie() {
-        return movieRepository.findAll().get(increment);
     }
 
     private User getCinemaManager() {

@@ -6,7 +6,9 @@ import lombok.*;
 import org.example.cinemabackend.cinema.core.domain.Cinema;
 import org.example.cinemabackend.user.infrastructure.scheme.UserSchema;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -36,31 +38,42 @@ public class CinemaSchema {
     private ImageSchema image;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<ScreeningSchema> repertory = new HashSet<>();
+    private List<ScreeningSchema> repertory = new ArrayList<>();
 
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private Set<ScreeningRoomSchema> screeningRooms = new HashSet<>();
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ScreeningRoomSchema> screeningRooms = new ArrayList<>();
 
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ContactDetailsSchema> contactDetails = new HashSet<>();
 
     @OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     private UserSchema cinemaManager;
 
     public static CinemaSchema fromCinema(Cinema cinema) {
-        return CinemaSchema.builder()
-                .id(cinema.getId())
-                .name(cinema.getName())
-                .description(cinema.getDescription())
-                .address(AddressSchema.fromAddress(cinema.getAddress()))
-                .image(ImageSchema.fromImage(cinema.getImage()))
-                .repertory(cinema.getRepertory() == null ? new HashSet<>() : cinema.getRepertory().stream().map(ScreeningSchema::fromScreening).collect(Collectors.toSet()))
-                .screeningRooms(cinema.getScreeningRooms().stream().map(ScreeningRoomSchema::fromScreeningRoom).collect(Collectors.toSet()))
-                .contactDetails(cinema.getContactDetails().stream().map(ContactDetailsSchema::fromContactDetails).collect(Collectors.toSet()))
-                .cinemaManager(cinema.getCinemaManager() == null ? null : UserSchema.fromUser(cinema.getCinemaManager()))
-                .build();
+//        return CinemaSchema.builder()
+//                .id(cinema.getId())
+//                .name(cinema.getName())
+//                .description(cinema.getDescription())
+//                .address(AddressSchema.fromAddress(cinema.getAddress()))
+//                .image(ImageSchema.fromImage(cinema.getImage()))
+//                .repertory(cinema.getRepertory() == null ? new ArrayList<>() : cinema.getRepertory().stream().map(ScreeningSchema::fromScreening).collect(Collectors.toList()))
+//                .screeningRooms(cinema.getScreeningRooms().stream().map(ScreeningRoomSchema::fromScreeningRoom).collect(Collectors.toSet()))
+//                .contactDetails(cinema.getContactDetails().stream().map(ContactDetailsSchema::fromContactDetails).collect(Collectors.toSet()))
+//                .cinemaManager(cinema.getCinemaManager() == null ? null : UserSchema.fromUser(cinema.getCinemaManager()))
+//                .build();
+        return new CinemaSchema(
+                cinema.getId(),
+                cinema.getName(),
+                cinema.getDescription(),
+                AddressSchema.fromAddress(cinema.getAddress()),
+                ImageSchema.fromImage(cinema.getImage()),
+                cinema.getRepertory() == null ? new ArrayList<>() : cinema.getRepertory().stream().map(ScreeningSchema::fromScreening).collect(Collectors.toList()),
+                cinema.getScreeningRooms().stream().map(ScreeningRoomSchema::fromScreeningRoom).collect(Collectors.toList()),
+                cinema.getContactDetails().stream().map(ContactDetailsSchema::fromContactDetails).collect(Collectors.toSet()),
+                cinema.getCinemaManager() == null ? null : UserSchema.fromUser(cinema.getCinemaManager())
+        );
     }
 
     public Cinema toCinema() {
@@ -71,7 +84,7 @@ public class CinemaSchema {
                 this.description,
                 this.address.toAddress(),
                 this.image.toImage(),
-                this.repertory.stream().map(ScreeningSchema::toScreening).collect(Collectors.toSet()),
+                this.repertory.stream().map(ScreeningSchema::toScreening).collect(Collectors.toList()),
                 this.screeningRooms.stream().map(ScreeningRoomSchema::toScreeningRoom).collect(Collectors.toSet()),
                 this.contactDetails.stream().map(ContactDetailsSchema::toContactDetails).collect(Collectors.toSet()),
                 user

@@ -4,6 +4,7 @@ export class ScreeningRequest {
     readonly startTime: Date,
     readonly endTime: Date,
     readonly screeningRoom: string,
+    readonly email: string,
   ) {
   }
 }
