@@ -27,7 +27,6 @@ export class ScreeningService {
 
   deleteScreening(id: number) {
     const url = `${ScreeningService.screeningsUrl}/${id}`;
-    console.log(url)
     return this.httpClient.delete<void>(url);
   }
 

@@ -26,15 +26,16 @@ export class ManageRepertoryComponent implements OnInit {
     });
   }
 
-
   private getData() {
     return this.repertoryService.getRepertory();
   }
 
   onDeleteScreening(screening: ScreeningResponse) {
+    this.isLoading = true;
     this.repertoryService.deleteScreening(screening.id).subscribe(() => {
       this.getData().subscribe((repertory) => {
         this.repertory$ = repertory;
+        this.isLoading = false;
       });
     });
   }
