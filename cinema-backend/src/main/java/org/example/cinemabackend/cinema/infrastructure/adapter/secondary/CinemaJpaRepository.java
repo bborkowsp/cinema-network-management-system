@@ -1,6 +1,7 @@
 package org.example.cinemabackend.cinema.infrastructure.adapter.secondary;
 
 import org.example.cinemabackend.cinema.infrastructure.schema.CinemaSchema;
+import org.example.cinemabackend.cinema.infrastructure.schema.ScreeningSchema;
 import org.example.cinemabackend.user.infrastructure.scheme.UserSchema;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -18,6 +19,9 @@ public interface CinemaJpaRepository extends JpaRepository<CinemaSchema, Long> {
 
     Optional<CinemaSchema> findByCinemaManagerEmail(String email);
 
+    Optional<CinemaSchema> findByRepertoryContains(ScreeningSchema screeningSchema);
+
+
     boolean existsByName(String name);
 
     boolean existsByCinemaManagerEmail(String email);
@@ -33,4 +37,5 @@ public interface CinemaJpaRepository extends JpaRepository<CinemaSchema, Long> {
     @Transactional
     @Query("update CinemaSchema c set c.cinemaManager = null where c.id = :cinemaId")
     void updateCinemaManagerToNull(Long cinemaId);
+
 }

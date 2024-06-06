@@ -42,7 +42,10 @@ class ScreeningService implements ScreeningUseCases {
 
     @Override
     public void deleteScreening(Long id) {
-        screeningRepository.deleteById(id);
+        final var screening = screeningRepository.findById(id).orElseThrow();
+        final var cinema = cinemaRepository.findByRepertoryContains(screening).orElseThrow();
+        cinema.getRepertory().remove(screening);
+        cinemaRepository.save(cinema);
     }
 
     @Override

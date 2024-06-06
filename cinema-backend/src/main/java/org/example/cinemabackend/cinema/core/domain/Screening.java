@@ -3,6 +3,7 @@ package org.example.cinemabackend.cinema.core.domain;
 import org.example.cinemabackend.movie.core.domain.Movie;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class Screening {
     private Long id;
@@ -67,4 +68,21 @@ public class Screening {
     }
 
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+
+        if (!(object instanceof Screening screening)) {
+            return false;
+        }
+
+        return Objects.equals(id, screening.id);
+    }
 }
