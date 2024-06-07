@@ -26,6 +26,8 @@ export class AuthService {
 
   login(loginUserRequest: LoginUserRequest) {
     const url = `${AuthService.usersUrl}/login`;
+    localStorage.removeItem("token");
+    localStorage.removeItem("expires_at");
     return this.httpClient.post<any>(url, loginUserRequest).subscribe(
       (response) => {
         const token = response.token;

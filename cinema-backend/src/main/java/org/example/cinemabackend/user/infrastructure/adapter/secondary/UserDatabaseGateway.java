@@ -19,26 +19,31 @@ class UserDatabaseGateway implements UserRepository {
     private final UserJpaRepository userJpaRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<User> findByEmail(String email) {
         return this.userJpaRepository.findByEmail(email).map(UserSchema::toUser);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<User> findCinemaManagerByEmail(String email) {
         return this.userJpaRepository.findByEmailAndRoleCinemaManager(email).map(UserSchema::toUser);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<User> findAllCinemaManagers(Pageable pageable) {
         return this.userJpaRepository.findAllByRoleCinemaManager(pageable).map(UserSchema::toUser);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<User> findAllCinemaManagers() {
         return this.userJpaRepository.findAllByRoleCinemaManager().stream().map(UserSchema::toUser).toList();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public boolean existsByEmail(String email) {
         return this.userJpaRepository.existsByEmail(email);
     }

@@ -33,5 +33,4 @@ class CorsConfig {
         corsConfigurationSource.registerCorsConfiguration(MATCH_ALL_PATTERN, corsConfiguration);
         return corsConfigurationSource;
     }
-
 }

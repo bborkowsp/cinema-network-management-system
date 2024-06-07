@@ -18,6 +18,7 @@ import java.util.Set;
 public class UserSeeder implements Seeder {
 
     private static final String PASSWORD = "password";
+    private static final String EMAIL = "example@example.com";
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final Faker faker;
@@ -39,7 +40,7 @@ public class UserSeeder implements Seeder {
         return new User(
                 faker.name().firstName(),
                 faker.name().lastName(),
-                faker.internet().emailAddress() + increment,
+                EMAIL + increment,
                 encodedPassword,
                 Role.CINEMA_MANAGER
         );

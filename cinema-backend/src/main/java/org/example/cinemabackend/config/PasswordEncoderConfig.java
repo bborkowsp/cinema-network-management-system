@@ -10,10 +10,9 @@ class PasswordEncoderConfig {
 
     private static final int SALT_LENGTH = 16;
     private static final int HASH_LENGTH = 32;
-    private static final int ITERATIONS = 3;
-    private static final int MEMORY_COST = 65536;
     private static final int PARALLELISM = 4;
-
+    private static final int MEMORY_COST = 65536;
+    private static final int ITERATIONS = 3;
 
     @Bean
     public PasswordEncoder passwordEncoder() {

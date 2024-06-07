@@ -21,5 +21,4 @@ public class JwtConfig {
 
     @Value("${security.jwt.expiration:#{15*60*1000}}")
     private int expiration;
-
 }
