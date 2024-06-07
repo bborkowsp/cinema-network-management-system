@@ -31,6 +31,18 @@ class MovieDatabaseGateway implements MovieRepository {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public List<Movie> findAll() {
+        return this.movieJpaRepository.findAll().stream().map(MovieSchema::toMovie).toList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean findByProjectionTechnology(String technology) {
+        return this.movieJpaRepository.existsByProjectionTechnologyTechnology(technology);
+    }
+
+    @Override
     @Transactional
     public void save(Movie movie) {
         final var movieSchema = MovieSchema.fromMovie(movie);
@@ -42,17 +54,4 @@ class MovieDatabaseGateway implements MovieRepository {
     public void deleteByTitle(String title) {
         this.movieJpaRepository.deleteByTitle(title);
     }
-
-    @Override
-    @Transactional(readOnly = true)
-    public boolean findByProjectionTechnology(String technology) {
-        return this.movieJpaRepository.existsByProjectionTechnologyTechnology(technology);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<Movie> findAll() {
-        return this.movieJpaRepository.findAll().stream().map(MovieSchema::toMovie).toList();
-    }
-
 }

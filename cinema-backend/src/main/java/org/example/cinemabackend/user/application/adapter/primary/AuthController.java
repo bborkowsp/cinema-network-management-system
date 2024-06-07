@@ -31,5 +31,4 @@ class AuthController {
         authUseCases.register(registerUserRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
-
 }

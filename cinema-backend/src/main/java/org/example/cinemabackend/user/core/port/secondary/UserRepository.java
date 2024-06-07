@@ -11,15 +11,13 @@ public interface UserRepository {
 
     Optional<User> findByEmail(String email);
 
-    boolean existsByEmail(String email);
-
-    void save(User user);
+    Optional<User> findCinemaManagerByEmail(String email);
 
     Page<User> findAllCinemaManagers(Pageable pageable);
 
     List<User> findAllCinemaManagers();
 
-    Optional<User> findByFirstNameAndLastNameAndEmail(String firstName, String lastName, String email);
+    boolean existsByEmail(String email);
 
-    Optional<User> findCinemaManagerByEmail(String email);
+    void save(User user);
 }

@@ -46,7 +46,4 @@ class UserController {
         userUseCases.updateCinemaManager(email, updateCinemaManagerRequest);
         return ResponseEntity.noContent().build();
     }
-
-
 }
-

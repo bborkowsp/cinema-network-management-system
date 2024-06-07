@@ -18,14 +18,13 @@ public interface CinemaRepository {
 
     List<Cinema> findAll();
 
+    boolean existsByName(String name);
+
+    boolean existsByCinemaManagerEmail(String email);
+
     void save(Cinema cinema);
 
     void updateCinemaManager(Long cinemaId, Long cinemaManagerId);
 
     void deleteByName(String name);
-
-    boolean existsByName(String name);
-
-    boolean existsByCinemaManagerEmail(String email);
-
 }

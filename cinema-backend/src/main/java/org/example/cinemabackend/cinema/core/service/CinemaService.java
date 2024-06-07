@@ -1,6 +1,5 @@
 package org.example.cinemabackend.cinema.core.service;
 
-import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.application.dto.request.create.CreateCinemaRequest;
 import org.example.cinemabackend.cinema.application.dto.request.update.UpdateCinemaRequest;
@@ -16,7 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
+@RequiredArgsConstructor
 class CinemaService implements CinemaUseCases {
 
     private final CinemaRepository cinemaRepository;
@@ -75,7 +74,7 @@ class CinemaService implements CinemaUseCases {
     }
 
     private void validateCinemaExists(String name) {
-        if (cinemaRepository.findByName(name).isEmpty()) {
+        if (!cinemaRepository.existsByName(name)) {
             throw new IllegalArgumentException("Cinema with name " + name + " doesn't exist.");
         }
     }

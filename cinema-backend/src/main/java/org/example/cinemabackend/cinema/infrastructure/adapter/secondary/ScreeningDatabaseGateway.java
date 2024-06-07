@@ -17,21 +17,14 @@ class ScreeningDatabaseGateway implements ScreeningRepository {
     private final ScreeningJpaRepository screeningJpaRepository;
 
     @Override
-    @Transactional(readOnly = true)
-    public List<Screening> findAll() {
-        return screeningJpaRepository.findAll().stream().map(ScreeningSchema::toScreening).toList();
-    }
-
-
-    @Override
     public Optional<Screening> findById(Long id) {
         return screeningJpaRepository.findById(id).map(ScreeningSchema::toScreening);
     }
 
     @Override
-    @Transactional
-    public void deleteById(Long id) {
-        screeningJpaRepository.deleteById(id);
+    @Transactional(readOnly = true)
+    public List<Screening> findAll() {
+        return screeningJpaRepository.findAll().stream().map(ScreeningSchema::toScreening).toList();
     }
 
     @Override

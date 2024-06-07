@@ -35,7 +35,10 @@ class ScreeningController {
     }
 
     @PatchMapping("/{id}")
-    ResponseEntity<ScreeningResponse> updateScreening(@PathVariable("id") Long id, @RequestBody UpdateScreeningRequest screening) {
+    ResponseEntity<ScreeningResponse> updateScreening(
+            @PathVariable("id") Long id,
+            @RequestBody UpdateScreeningRequest screening
+    ) {
         screeningUseCases.updateScreening(id, screening);
         return ResponseEntity.noContent().build();
     }

@@ -11,7 +11,5 @@ public interface ScreeningRepository {
 
     List<Screening> findAll();
 
-    void deleteById(Long id);
-
     void save(Screening screeningToUpdate);
 }

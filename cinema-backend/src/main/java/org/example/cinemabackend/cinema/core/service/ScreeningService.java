@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.application.dto.request.ScreeningRequest;
 import org.example.cinemabackend.cinema.application.dto.request.update.UpdateScreeningRequest;
 import org.example.cinemabackend.cinema.application.dto.response.ScreeningResponse;
-import org.example.cinemabackend.cinema.core.domain.Cinema;
 import org.example.cinemabackend.cinema.core.port.primary.ScreeningMapper;
 import org.example.cinemabackend.cinema.core.port.primary.ScreeningUseCases;
 import org.example.cinemabackend.cinema.core.port.secondary.CinemaRepository;
@@ -20,10 +19,11 @@ import java.util.List;
 @RequiredArgsConstructor
 class ScreeningService implements ScreeningUseCases {
 
-    private final ScreeningRepository screeningRepository;
-    private final CinemaRepository cinemaRepository;
     private final ScreeningMapper screeningMapper;
+
     private final MovieRepository movieRepository;
+    private final CinemaRepository cinemaRepository;
+    private final ScreeningRepository screeningRepository;
     private final ScreeningRoomRepository screeningRoomRepository;
 
     @Override
@@ -33,7 +33,7 @@ class ScreeningService implements ScreeningUseCases {
 
     @Override
     public List<ScreeningResponse> getScreenings(String email) {
-        final var cinema = getCinemaByUserEmail(email);
+        final var cinema = cinemaRepository.findByUserEmail(email).orElse(null);
         if (cinema == null || cinema.getRepertory().isEmpty()) {
             return Collections.emptyList();
         }
@@ -70,9 +70,5 @@ class ScreeningService implements ScreeningUseCases {
         final var newScreening = screeningMapper.mapScreeningRequestToScreening(screening, cinema);
         cinema.getRepertory().add(newScreening);
         cinemaRepository.save(cinema);
-    }
-
-    private Cinema getCinemaByUserEmail(String email) {
-        return cinemaRepository.findByUserEmail(email).orElse(null);
     }
 }

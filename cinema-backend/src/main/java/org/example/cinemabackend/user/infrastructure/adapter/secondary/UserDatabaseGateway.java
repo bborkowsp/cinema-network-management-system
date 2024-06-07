@@ -18,24 +18,15 @@ class UserDatabaseGateway implements UserRepository {
 
     private final UserJpaRepository userJpaRepository;
 
-
     @Override
     public Optional<User> findByEmail(String email) {
         return this.userJpaRepository.findByEmail(email).map(UserSchema::toUser);
     }
 
     @Override
-    public boolean existsByEmail(String email) {
-        return this.userJpaRepository.existsByEmail(email);
+    public Optional<User> findCinemaManagerByEmail(String email) {
+        return this.userJpaRepository.findByEmailAndRoleCinemaManager(email).map(UserSchema::toUser);
     }
-
-    @Override
-    @Transactional
-    public void save(User user) {
-        final var userSchema = UserSchema.fromUser(user);
-        this.userJpaRepository.save(userSchema);
-    }
-
 
     @Override
     public Page<User> findAllCinemaManagers(Pageable pageable) {
@@ -48,12 +39,14 @@ class UserDatabaseGateway implements UserRepository {
     }
 
     @Override
-    public Optional<User> findByFirstNameAndLastNameAndEmail(String firstName, String lastName, String email) {
-        return this.userJpaRepository.findByFirstNameAndLastNameAndEmail(firstName, lastName, email).map(UserSchema::toUser);
+    public boolean existsByEmail(String email) {
+        return this.userJpaRepository.existsByEmail(email);
     }
 
     @Override
-    public Optional<User> findCinemaManagerByEmail(String email) {
-        return this.userJpaRepository.findByEmailAndRoleCinemaManager(email).map(UserSchema::toUser);
+    @Transactional
+    public void save(User user) {
+        final var userSchema = UserSchema.fromUser(user);
+        this.userJpaRepository.save(userSchema);
     }
 }

@@ -15,10 +15,9 @@ public interface MovieRepository {
 
     List<Movie> findAll();
 
+    boolean findByProjectionTechnology(String technology);
+
     void save(Movie movie);
 
     void deleteByTitle(String title);
-
-    boolean findByProjectionTechnology(String technology);
-
 }

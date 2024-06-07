@@ -8,6 +8,7 @@ import org.example.cinemabackend.cinema.infrastructure.schema.CinemaSchema;
 import org.example.cinemabackend.cinema.infrastructure.schema.ScreeningSchema;
 import org.example.cinemabackend.user.core.domain.User;
 import org.example.cinemabackend.user.infrastructure.scheme.UserSchema;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,12 +53,25 @@ class CinemaDatabaseGateway implements CinemaRepository {
 
     @Override
     @Transactional
+    public boolean existsByName(String name) {
+        return cinemaJpaRepository.existsByName(name);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean existsByCinemaManagerEmail(@NonNull String email) {
+        return this.cinemaJpaRepository.existsByCinemaManagerEmail(email);
+    }
+
+    @Override
+    @Transactional
     public void save(Cinema cinema) {
         final var cinemaSchema = CinemaSchema.fromCinema(cinema);
         this.cinemaJpaRepository.save(cinemaSchema);
     }
 
     @Override
+    @Transactional
     public void updateCinemaManager(Long cinemaId, Long cinemaManagerId) {
         this.cinemaJpaRepository.updateCinemaManager(cinemaId, cinemaManagerId);
     }
@@ -66,16 +80,5 @@ class CinemaDatabaseGateway implements CinemaRepository {
     @Transactional
     public void deleteByName(String name) {
         cinemaJpaRepository.deleteByName(name);
-    }
-
-    @Override
-    @Transactional
-    public boolean existsByName(String name) {
-        return cinemaJpaRepository.existsByName(name);
-    }
-
-    @Override
-    public boolean existsByCinemaManagerEmail(String email) {
-        return this.cinemaJpaRepository.existsByCinemaManagerEmail(email);
     }
 }

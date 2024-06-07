@@ -1,6 +1,5 @@
 package org.example.cinemabackend.cinema.core.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.application.dto.request.create.CreateCinemaRequest;
 import org.example.cinemabackend.cinema.application.dto.request.update.UpdateCinemaRequest;
@@ -25,13 +24,13 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 class CinemaMapperService implements CinemaMapper {
 
-    private final AddressMapper addressMapper;
+    private final UserMapper userMapper;
     private final ImageMapper imageMapper;
+    private final AddressMapper addressMapper;
     private final ScreeningRoomMapper screeningRoomMapper;
     private final ContactDetailsMapper contactDetailsMapper;
-    private final UserMapper userMapper;
+
     private final UserRepository userRepository;
-    private final ObjectMapper objectMapper;
 
     @Override
     public CinemaTableResponse mapCinemaToCinemaTableRow(Cinema cinema) {
@@ -58,13 +57,6 @@ class CinemaMapperService implements CinemaMapper {
                 .contactDetails(contactDetailsMapper.mapContactDetailsToContactDetailsResponse(cinema.getContactDetails()))
                 .cinemaManager(cinemaManager)
                 .build();
-    }
-
-    private UserResponse getCinemaManagerOrEmptyUser(Cinema cinema) {
-        if (cinema.getCinemaManager() == null) {
-            return UserResponse.builder().build();
-        }
-        return userMapper.mapUserToUserResponse(cinema.getCinemaManager());
     }
 
     @Override
@@ -105,6 +97,13 @@ class CinemaMapperService implements CinemaMapper {
                         )
                 ));
         cinema.setCinemaManager(cinemaManager);
+    }
+
+    private UserResponse getCinemaManagerOrEmptyUser(Cinema cinema) {
+        if (cinema.getCinemaManager() == null) {
+            return UserResponse.builder().build();
+        }
+        return userMapper.mapUserToUserResponse(cinema.getCinemaManager());
     }
 
     private User findCinemaManager(String email) {
@@ -151,6 +150,4 @@ class CinemaMapperService implements CinemaMapper {
         }
         return numberOfAvailableSeats;
     }
-
-
 }
