@@ -1,5 +1,7 @@
 package org.example.cinemabackend.cinema.testdata;
 
+import org.example.cinemabackend.cinema.application.dto.request.create.CreateAddressRequest;
+import org.example.cinemabackend.cinema.application.dto.request.update.UpdateAddressRequest;
 import org.example.cinemabackend.cinema.core.domain.Address;
 
 import java.util.ArrayList;
@@ -20,5 +22,23 @@ public class AddressTestDataProvider {
         }
 
         return addresses;
+    }
+
+    public static CreateAddressRequest generateCreateAddressRequest() {
+        return CreateAddressRequest.builder()
+                .streetAndBuildingNumber("Street")
+                .city("City")
+                .postalCode("Postal Code")
+                .country("Country")
+                .build();
+    }
+
+    public static UpdateAddressRequest generateUpdateAddressRequest() {
+        return UpdateAddressRequest.builder()
+                .streetAndBuildingNumber("Street")
+                .city("City")
+                .postalCode("Postal Code")
+                .country("Country")
+                .build();
     }
 }
