@@ -1,5 +1,6 @@
 <ng-container content
               *ngIf="screeningsGroupedByScreeningRoom  as groupedScreenings">
+  <hr>
   <div *ngFor="let roomName of Object.keys(groupedScreenings)">
     <div class="repertory-table-container">
       <div class="header-content">

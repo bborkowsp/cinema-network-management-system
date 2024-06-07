@@ -3,6 +3,7 @@ import {map, Observable, switchMap, tap} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
 import {CinemaService} from "../../services/cinema.service";
 import {CinemaResponse} from "../../dtos/response/cinema.response";
+import {ScreeningRoomResponse} from "../../../repertory/dtos/screening-room.response";
 
 @Component({
   selector: 'app-cinema-details',
@@ -11,7 +12,7 @@ import {CinemaResponse} from "../../dtos/response/cinema.response";
 })
 export class CinemaDetailsComponent implements OnInit {
 
-  cinemaDetails$!: Observable<CinemaResponse>;
+  cinema$!: Observable<CinemaResponse>;
   name: string = '';
   protected isLoading = true;
 
@@ -25,7 +26,6 @@ export class CinemaDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCinema();
-    this.isLoading = false;
   }
 
   handleDeleteButtonCinema() {
@@ -43,10 +43,19 @@ export class CinemaDetailsComponent implements OnInit {
   }
 
   private getCinema() {
-    this.cinemaDetails$ = this.activatedRoute.paramMap.pipe(
+    this.cinema$ = this.activatedRoute.paramMap.pipe(
       map((paramMap) => paramMap.get('name')!),
-      tap((name) => (this.name = name)),
+      tap((name) => {
+        this.name = name
+        this.isLoading = false;
+      }),
       switchMap((name) => this.cinemaService.getCinema(name)),
     );
+  }
+
+  getSupportedTechnologiesAsString(screeningRoom: ScreeningRoomResponse) {
+    return screeningRoom.supportedTechnologies
+      .map(supportedTechnology => supportedTechnology.technology)
+      .join(', ');
   }
 }

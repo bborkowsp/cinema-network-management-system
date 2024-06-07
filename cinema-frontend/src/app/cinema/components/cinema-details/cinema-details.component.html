@@ -5,9 +5,75 @@
   [hasDetailsActionButtons]="true"
   [hasGoBackActionButton]="true"
   [isLoading]="isLoading"
-  floatingButtonDeleteAriaLabel="Delete projection technology"
-  floatingButtonEditAriaLabel="Edit projection technology"
-  pageTitle="Projection Technology details"
+  floatingButtonDeleteAriaLabel="Delete cinema"
+  floatingButtonEditAriaLabel="Edit cinema"
+  pageTitle="Cinema details"
 >
-  <ng-container content></ng-container>
+  <ng-container content>
+    <div *ngIf="cinema$ | async as cinema">
+      <div class="movie-main-details-container">
+        <div class="movie-main-details-container__image-container">
+          <img [src]="'data:' + cinema.image.type + ';base64,' + cinema.image.data" alt="movie image"
+               class="movie-main-details-container__image-container__image"/>
+        </div>
+        <div class="movie-main-details-container__details">
+          <app-generic-details-field [content]="cinema.name" title="Cinema title"></app-generic-details-field>
+          <app-generic-details-field [content]="cinema.description" title="Descritpion"></app-generic-details-field>
+        </div>
+      </div>
+
+      <app-details-section-container sectionTitle="Address details">
+        <ng-container content>
+          <app-generic-details-field [content]="cinema.address.streetAndBuildingNumber"
+                                     title="Street and building number"></app-generic-details-field>
+          <app-generic-details-field [content]="cinema.address.city"
+                                     title="City"></app-generic-details-field>
+          <app-generic-details-field [content]="cinema.address.postalCode"
+                                     title="Postal code"></app-generic-details-field>
+          <app-generic-details-field [content]="cinema.address.country"
+                                     title="Country"></app-generic-details-field>
+        </ng-container>
+      </app-details-section-container>
+
+      <app-details-section-container sectionTitle="Contact details details">
+        <ng-container content>
+          <div *ngFor="let contactDetails of cinema.contactDetails"
+               class="projection-technology-container">
+            <app-generic-details-field [content]="contactDetails.department"
+                                       title="Department"></app-generic-details-field>
+            <app-generic-details-field [content]="contactDetails.contactType.phoneNumber"
+                                       title="Phone number"></app-generic-details-field>
+            <app-generic-details-field [content]="contactDetails.contactType.phoneNumber"
+                                       title="Email address"></app-generic-details-field>
+          </div>
+        </ng-container>
+      </app-details-section-container>
+
+      <app-details-section-container sectionTitle="Cinema manager">
+        <ng-container content>
+          <app-generic-details-field [content]="cinema.cinemaManager.firstName + ' ' + cinema.cinemaManager.lastName"
+                                     title="Cinema manager"></app-generic-details-field>
+          <app-generic-details-field [content]="cinema.cinemaManager.email"
+                                     title="Cinema manager email address"></app-generic-details-field>
+
+        </ng-container>
+      </app-details-section-container>
+
+      <app-details-section-container sectionTitle="Screening rooms">
+        <ng-container content>
+          <div *ngFor="let screeningRoom of cinema.screeningRooms"
+               class="projection-technology-container">
+            <app-generic-details-field [content]="screeningRoom.name"
+                                       title="Name"></app-generic-details-field>
+            <app-generic-details-field [content]="screeningRoom.seats.length * screeningRoom.seats[0].length"
+                                       title="Number of all seats"></app-generic-details-field>
+
+            <app-generic-details-field [content]="getSupportedTechnologiesAsString(screeningRoom)"
+                                       title="Supported technology"></app-generic-details-field>
+          </div>
+        </ng-container>
+      </app-details-section-container>
+
+    </div>
+  </ng-container>
 </app-page-content-container>

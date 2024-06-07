@@ -1,6 +1,8 @@
 <app-page-content-container
   [isLoading]="isLoading"
   pageTitle="Repertory"
+  [hasCreateNewButton]=true
+  routerLink="/repertory/create"
 >
   <ng-container content *ngIf="!isLoading">
     <app-repertory-table-component
