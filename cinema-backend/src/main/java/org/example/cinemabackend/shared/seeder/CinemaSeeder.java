@@ -23,7 +23,6 @@ class CinemaSeeder implements Seeder {
     private final CinemaRepository cinemaRepository;
     private final ProjectionTechnologyRepository projectionTechnologyRepository;
     private final UserRepository userRepository;
-    private final ImageUtil imageUtil;
     private final Faker faker;
     private int increment = 0;
 
@@ -44,7 +43,7 @@ class CinemaSeeder implements Seeder {
 
     private Cinema createCinema() {
         final var address = createAddress();
-        final var image = imageUtil.createImage();
+        final var image = ImageUtil.createImage();
         final var screeningRooms = createScreeningRooms();
         final var contactDetails = createContactDetails();
         final User cinemaManager;

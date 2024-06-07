@@ -19,7 +19,6 @@ import java.util.Set;
 class MovieSeeder implements Seeder {
     private final MovieRepository movieRepository;
     private final ProjectionTechnologyRepository projectionTechnologyRepository;
-    private final ImageUtil imageUtil;
     private final Faker faker;
     private int increment = 0;
 
@@ -38,7 +37,7 @@ class MovieSeeder implements Seeder {
         final var productionDetails = createProductionDetails();
         final var subtitleAndSoundOptions = createSubtitleAndSoundOptions();
         final var ageRestriction = createAgeRestriction();
-        final var image = imageUtil.createImage();
+        final var image = ImageUtil.createImage();
         final var movieFile = createMovieFile();
         final var genres = createGenres();
         final var projectionTechnologies = getProjectionTechnologies();

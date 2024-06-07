@@ -1,16 +1,14 @@
 package org.example.cinemabackend.shared.seeder;
 
 import org.example.cinemabackend.movie.core.domain.Image;
-import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
-@Component
-class ImageUtil {
+public class ImageUtil {
 
-    Image createImage() {
+    public static Image createImage() {
         try {
             File image = new File("src/main/java/org/example/cinemabackend/shared/seeder/images/poster.jpg");
             String name = image.getName();
