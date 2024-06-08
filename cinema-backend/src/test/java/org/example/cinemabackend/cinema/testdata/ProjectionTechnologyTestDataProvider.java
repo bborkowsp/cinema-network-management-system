@@ -1,15 +1,20 @@
 package org.example.cinemabackend.cinema.testdata;
 
+import org.example.cinemabackend.cinema.application.dto.request.create.CreateProjectionTechnologyRequest;
 import org.example.cinemabackend.movie.core.domain.ProjectionTechnology;
 
-import java.util.Set;
+import java.util.List;
 
 public class ProjectionTechnologyTestDataProvider {
 
     private static int projectionTechnologyCounter = 0;
 
-    public static Set<ProjectionTechnology> generateProjectionTechnologies() {
-        return Set.of(
+    public static CreateProjectionTechnologyRequest generateCreateProjectionTechnologyRequest() {
+        return new CreateProjectionTechnologyRequest(getTechnology(), "Description");
+    }
+
+    public static List<ProjectionTechnology> generateProjectionTechnologies() {
+        return List.of(
                 new ProjectionTechnology(getTechnology(), "Description 1"),
                 new ProjectionTechnology(getTechnology(), "Description 2"),
                 new ProjectionTechnology(getTechnology(), "Description 3")

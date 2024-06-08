@@ -11,6 +11,7 @@ import org.example.cinemabackend.movie.core.domain.ProjectionTechnology;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -19,9 +20,9 @@ import static org.example.cinemabackend.cinema.testdata.ProjectionTechnologyTest
 @Component
 @RequiredArgsConstructor
 public class ScreeningRoomTestDataProvider {
+
     private static final int NUMBER_OF_SCREENING_ROOMS = 6;
     private final ProjectionTechnologyRepository projectionTechnologyRepository;
-
 
     public Set<CreateScreeningRoomRequest> generateCreateScreeningRoomRequests() {
         saveProjectionTechnologiesToDatabase(generateProjectionTechnologies());
@@ -73,7 +74,7 @@ public class ScreeningRoomTestDataProvider {
     }
 
 
-    private void saveProjectionTechnologiesToDatabase(Set<ProjectionTechnology> projectionTechnologies) {
+    private void saveProjectionTechnologiesToDatabase(List<ProjectionTechnology> projectionTechnologies) {
         projectionTechnologies.forEach(projectionTechnologyRepository::save);
     }
 }
