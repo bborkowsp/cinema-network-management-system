@@ -2,7 +2,6 @@ package org.example.cinemabackend.cinema.core.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.application.dto.request.ScreeningRequest;
-import org.example.cinemabackend.cinema.application.dto.request.update.UpdateScreeningRequest;
 import org.example.cinemabackend.cinema.application.dto.response.ScreeningResponse;
 import org.example.cinemabackend.cinema.core.port.primary.ScreeningMapper;
 import org.example.cinemabackend.cinema.core.port.primary.ScreeningUseCases;
@@ -53,15 +52,18 @@ class ScreeningService implements ScreeningUseCases {
         cinema.getRepertory().add(newScreening);
         cinemaRepository.save(cinema);
     }
- 
+
     @Override
-    public void updateScreening(Long id, UpdateScreeningRequest screening) {
+    public void updateScreening(Long id, ScreeningRequest screening) {
+        final var cinema = cinemaRepository.findByUserEmail(screening.email()).orElseThrow();
         final var screeningToUpdate = screeningRepository.findById(id).orElseThrow();
+        cinema.getRepertory().remove(screeningToUpdate);
         screeningToUpdate.setMovie(movieRepository.findByTitle(screening.movieTitle()).orElseThrow());
         screeningToUpdate.setStartTime(screening.startTime());
         screeningToUpdate.setEndTime(screening.endTime());
         screeningToUpdate.setScreeningRoom(screeningRoomRepository.findByName(screening.screeningRoom()).orElseThrow());
-        screeningRepository.save(screeningToUpdate);
+        cinema.getRepertory().add(screeningToUpdate);
+        cinemaRepository.save(cinema);
     }
 
     @Override

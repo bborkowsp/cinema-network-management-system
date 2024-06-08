@@ -57,7 +57,7 @@ const routes: Routes = [
   {path: 'cinema-managers/edit/:email', component: CinemaManagerFormComponent, canActivate: [AuthGuard]},
   {path: 'repertory', component: ManageRepertoryComponent, canActivate: [AuthGuard]},
   {path: 'repertory/edit/:id', component: ScreeningFormComponent, canActivate: [AuthGuard]},
-  {path: 'repertory/create/:roomName', component: ScreeningFormComponent, canActivate: [AuthGuard]},
+  {path: 'repertory/create', component: ScreeningFormComponent, canActivate: [AuthGuard]},
   {path: 'register', component: RegisterFormComponent},
   {path: 'login', component: LoginFormComponent},
   {path: '', redirectTo: '/login', pathMatch: 'full'},

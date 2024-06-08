@@ -37,12 +37,11 @@ export class ScreeningService {
 
   updateScreening(id: number, screening: ScreeningRequest) {
     const url = `${ScreeningService.SCREENINGS_API_URL}/${id}`;
+    console.log(screening);
     return this.httpClient.patch(url, screening);
   }
 
   createScreening(screening: ScreeningRequest) {
-    console.log(screening);
-    console.log(ScreeningService.SCREENINGS_API_URL);
     return this.httpClient.post<void>(ScreeningService.SCREENINGS_API_URL, screening);
   }
 }

@@ -2,7 +2,6 @@ package org.example.cinemabackend.cinema.application.adapter.primary;
 
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.application.dto.request.ScreeningRequest;
-import org.example.cinemabackend.cinema.application.dto.request.update.UpdateScreeningRequest;
 import org.example.cinemabackend.cinema.application.dto.response.ScreeningResponse;
 import org.example.cinemabackend.cinema.core.port.primary.ScreeningUseCases;
 import org.example.cinemabackend.shared.dto.ResponseList;
@@ -43,7 +42,7 @@ class ScreeningController {
     @PatchMapping("/{id}")
     ResponseEntity<ScreeningResponse> updateScreening(
             @PathVariable("id") Long id,
-            @RequestBody UpdateScreeningRequest screening
+            @RequestBody ScreeningRequest screening
     ) {
         screeningUseCases.updateScreening(id, screening);
         return ResponseEntity.noContent().build();
