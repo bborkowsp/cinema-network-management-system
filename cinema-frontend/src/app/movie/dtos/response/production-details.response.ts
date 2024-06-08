@@ -9,5 +9,4 @@ export class ProductionDetailsResponse {
     readonly productionCountries: string[],
   ) {
   }
-
 }

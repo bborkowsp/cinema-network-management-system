@@ -5,5 +5,4 @@ export class CreateImageRequest {
     public data: string
   ) {
   }
-
 }

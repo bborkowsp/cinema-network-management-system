@@ -5,7 +5,6 @@ import {map, Observable} from "rxjs";
 import {ProjectionTechnologyPageResponse} from "../dtos/response/projection-technology-page.response";
 import {Injectable} from "@angular/core";
 import {UpdateProjectionTechnologyRequest} from "../dtos/request/update-projection-technology.request";
-import {ProjectionTechnologyNameResponse} from "../dtos/response/projection-technology-name.response";
 import {ProjectionTechnologyResponse} from "../dtos/response/projection-technology.response";
 import {CreateProjectionTechnologyRequest} from "../dtos/request/create-projection-technology.request";
 
@@ -13,7 +12,7 @@ import {CreateProjectionTechnologyRequest} from "../dtos/request/create-projecti
   providedIn: 'root',
 })
 export class ProjectionTechnologyService {
-  static readonly projectionTechnologiesUrl = `${environment.API_BASE_URL}/projection-technologies`;
+  static readonly PROJECTION_TECHNOLOGIES_API_URL = `${environment.API_BASE_URL}/projection-technologies`;
 
   constructor(
     private readonly httpClient: HttpClient
@@ -30,37 +29,32 @@ export class ProjectionTechnologyService {
     }
 
     return this.httpClient
-      .get<ProjectionTechnologyPageResponse>(ProjectionTechnologyService.projectionTechnologiesUrl, {params})
+      .get<ProjectionTechnologyPageResponse>(ProjectionTechnologyService.PROJECTION_TECHNOLOGIES_API_URL, {params})
       .pipe(map((response) => response));
   }
 
   getAllProjectionTechnologies(): Observable<ProjectionTechnologyResponse[]> {
-    const url = `${ProjectionTechnologyService.projectionTechnologiesUrl}/all`;
+    const url = `${ProjectionTechnologyService.PROJECTION_TECHNOLOGIES_API_URL}/all`;
     return this.httpClient.get<ProjectionTechnologyResponse[]>(url);
   }
 
-  getAllProjectionTechnologiesNames(): Observable<ProjectionTechnologyNameResponse[]> {
-    const url = `${ProjectionTechnologyService.projectionTechnologiesUrl}/names`;
-    return this.httpClient.get<ProjectionTechnologyNameResponse[]>(url);
-  }
-
   getProjectionTechnology(technology: string): Observable<ProjectionTechnologyResponse> {
-    const url = `${ProjectionTechnologyService.projectionTechnologiesUrl}/${technology}`;
+    const url = `${ProjectionTechnologyService.PROJECTION_TECHNOLOGIES_API_URL}/${technology}`;
     return this.httpClient.get<ProjectionTechnologyResponse>(url);
   }
 
   createProjectionTechnology(projectTechnology: CreateProjectionTechnologyRequest): Observable<void> {
-    const url = ProjectionTechnologyService.projectionTechnologiesUrl;
+    const url = ProjectionTechnologyService.PROJECTION_TECHNOLOGIES_API_URL;
     return this.httpClient.post<void>(url, projectTechnology);
   }
 
   updateProjectionTechnology(technology: string, projectionTechnology: UpdateProjectionTechnologyRequest) {
-    const url = `${ProjectionTechnologyService.projectionTechnologiesUrl}/${technology}`;
+    const url = `${ProjectionTechnologyService.PROJECTION_TECHNOLOGIES_API_URL}/${technology}`;
     return this.httpClient.patch<void>(url, projectionTechnology);
   }
 
   deleteProjectionTechnology(technology: string): Observable<void> {
-    const url = `${ProjectionTechnologyService.projectionTechnologiesUrl}/${technology}`;
+    const url = `${ProjectionTechnologyService.PROJECTION_TECHNOLOGIES_API_URL}/${technology}`;
     return this.httpClient.delete<void>(url);
   }
 }

@@ -13,7 +13,7 @@ import {UpdateMovieRequest} from "../dtos/request/update-movie.request";
 })
 
 export class MovieService {
-  static readonly moviesUrl = `${environment.API_BASE_URL}/movies`;
+  static readonly MOVIES_API_URL = `${environment.API_BASE_URL}/movies`;
 
   constructor(private readonly httpClient: HttpClient) {
   }
@@ -28,40 +28,40 @@ export class MovieService {
     }
 
     return this.httpClient
-      .get<MoviePageResponse>(MovieService.moviesUrl, {params})
+      .get<MoviePageResponse>(MovieService.MOVIES_API_URL, {params})
       .pipe(map((response) => response));
   }
 
   getMovie(title: string): Observable<MovieResponse> {
-    const url = `${MovieService.moviesUrl}/${title}`;
+    const url = `${MovieService.MOVIES_API_URL}/${title}`;
     return this.httpClient.get<MovieResponse>(url);
   }
 
 
   deleteMovie(title: string) {
-    const url = `${MovieService.moviesUrl}/${title}`;
+    const url = `${MovieService.MOVIES_API_URL}/${title}`;
     return this.httpClient.delete<void>(url);
   }
 
   createMovie(createMovieRequest: CreateMovieRequest) {
-    return this.httpClient.post<void>(MovieService.moviesUrl, createMovieRequest);
+    return this.httpClient.post<void>(MovieService.MOVIES_API_URL, createMovieRequest);
   }
 
   getGenres(): Observable<string[]> {
-    return this.httpClient.get<string[]>(`${MovieService.moviesUrl}/genres`);
+    return this.httpClient.get<string[]>(`${MovieService.MOVIES_API_URL}/genres`);
   }
 
   getAgeRestrictions() {
-    return this.httpClient.get<string[]>(`${MovieService.moviesUrl}/age-restrictions`);
+    return this.httpClient.get<string[]>(`${MovieService.MOVIES_API_URL}/age-restrictions`);
   }
 
   updateMovie(title: string, movie: null | UpdateMovieRequest) {
-    const url = `${MovieService.moviesUrl}/${title}`;
+    const url = `${MovieService.MOVIES_API_URL}/${title}`;
     return this.httpClient.patch<void>(url, movie);
   }
 
   getAllMovieTitles() {
-    const url = `${MovieService.moviesUrl}/titles`;
+    const url = `${MovieService.MOVIES_API_URL}/titles`;
     return this.httpClient.get<{ content: string[] }>(url).pipe(
       map((response) => response.content),
     );
