@@ -9,11 +9,11 @@ import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDeletionMovieDialog} from "../confirm-deletion-movie-dialog/confirm-deletion-movie-dialog.component";
 
 @Component({
-  selector: 'app-movie-list',
-  templateUrl: './movie-list.component.html',
-  styleUrls: ['./movie-list.component.scss']
+  selector: 'app-movie-table',
+  templateUrl: './movie-table.component.html',
+  styleUrls: ['./movie-table.component.scss']
 })
-export class MovieListComponent {
+export class MovieTableComponent {
   displayedColumns = ['options', 'poster', 'title', 'originalTitle', 'releaseDate', 'director'];
   movies$!: Observable<MovieListResponse[]>;
   dataLength = 0;

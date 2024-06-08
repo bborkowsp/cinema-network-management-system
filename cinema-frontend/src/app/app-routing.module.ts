@@ -1,19 +1,19 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {CinemaListComponent} from "./cinema/components/cinema-list/cinema-list.component";
+import {CinemaTableComponent} from "./cinema/components/cinema-table/cinema-table.component";
 import {CinemaDetailsComponent} from "./cinema/components/cinema-details/cinema-details.component";
 import {
-  ProjectionTechnologyListComponent
-} from "./projection-technology/components/projection-technology-list/projection-technology-list.component";
+  ProjectionTechnologyTableComponent
+} from "./projection-technology/components/projection-technology-table/projection-technology-table.component";
 import {
   ProjectionTechnologyDetailsComponent
 } from "./projection-technology/components/projection-technology-details/projection-technology-details.component";
 import {HomeComponent} from "./home/home.component";
-import {MovieListComponent} from "./movie/components/movie-list/movie-list.component";
+import {MovieTableComponent} from "./movie/components/movie-table/movie-table.component";
 import {MovieDetailsComponent} from "./movie/components/movie-details/movie-details.component";
 import {LoginFormComponent} from "./user/components/login-form/login-form.component";
 import {RegisterFormComponent} from "./user/components/register-form/register-form.component";
-import {CinemaManagerListComponent} from "./user/components/cinema-manager-list/cinema-manager-list.component";
+import {CinemaManagerTableComponent} from "./user/components/cinema-manager-table/cinema-manager-table.component";
 import {AuthGuard} from "./user/services/permission.service";
 import {ManageRepertoryComponent} from "./repertory/components/manage-repertory/manage-repertory.component";
 import {CinemaManagerFormComponent} from "./user/components/cinema-manager-form/cinema-manager-form.component";
@@ -27,11 +27,11 @@ import {CinemaFormComponent} from "./cinema/components/cinema-form/cinema-form.c
 import {MovieFormComponent} from "./movie/components/movie-form/movie-form.component";
 
 const routes: Routes = [
-  {path: 'cinemas', component: CinemaListComponent, canActivate: [AuthGuard]},
+  {path: 'cinemas', component: CinemaTableComponent, canActivate: [AuthGuard]},
   {path: 'cinemas/create', component: CinemaFormComponent, canActivate: [AuthGuard]},
   {path: 'cinemas/edit/:name', component: CinemaFormComponent, canActivate: [AuthGuard]},
   {path: 'cinemas/details/:name', component: CinemaDetailsComponent, canActivate: [AuthGuard]},
-  {path: 'projection-technologies', component: ProjectionTechnologyListComponent, canActivate: [AuthGuard]},
+  {path: 'projection-technologies', component: ProjectionTechnologyTableComponent, canActivate: [AuthGuard]},
   {
     path: 'projection-technologies/create',
     component: ProjectionTechnologyFormComponent,
@@ -47,12 +47,12 @@ const routes: Routes = [
     component: ProjectionTechnologyDetailsComponent,
     canActivate: [AuthGuard]
   },
-  {path: 'movies', component: MovieListComponent, canActivate: [AuthGuard]},
+  {path: 'movies', component: MovieTableComponent, canActivate: [AuthGuard]},
   {path: 'movies/create', component: MovieFormComponent, canActivate: [AuthGuard]},
   {path: 'movies/edit/:title', component: MovieFormComponent, canActivate: [AuthGuard]},
   {path: 'movies/details/:title', component: MovieDetailsComponent, canActivate: [AuthGuard]},
   {path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
-  {path: 'cinema-managers', component: CinemaManagerListComponent, canActivate: [AuthGuard]},
+  {path: 'cinema-managers', component: CinemaManagerTableComponent, canActivate: [AuthGuard]},
   {path: 'cinema-managers/create', component: CinemaManagerFormComponent, canActivate: [AuthGuard]},
   {path: 'cinema-managers/edit/:email', component: CinemaManagerFormComponent, canActivate: [AuthGuard]},
   {path: 'repertory', component: ManageRepertoryComponent, canActivate: [AuthGuard]},

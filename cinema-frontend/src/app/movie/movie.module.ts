@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MovieDetailsComponent} from "./components/movie-details/movie-details.component";
-import {MovieListComponent} from "./components/movie-list/movie-list.component";
+import {MovieTableComponent} from "./components/movie-table/movie-table.component";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatTableModule} from "@angular/material/table";
 import {SharedModule} from "../shared/shared.module";
@@ -41,7 +41,7 @@ import {
 @NgModule({
   declarations: [
     MovieDetailsComponent,
-    MovieListComponent,
+    MovieTableComponent,
     CreateTitleFormFrameComponentComponent,
     InformationFormFrameComponentComponent,
     ProductionDetailsFormFrameComponentComponent,

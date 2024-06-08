@@ -14,7 +14,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {
   RegisterMainFormFrameComponent
 } from './components/register-form/register-main-form-frame/register-main-form-frame.component';
-import {CinemaManagerListComponent} from './components/cinema-manager-list/cinema-manager-list.component';
+import {CinemaManagerTableComponent} from './components/cinema-manager-table/cinema-manager-table.component';
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatTableModule} from "@angular/material/table";
 import {MatIconModule} from "@angular/material/icon";
@@ -30,7 +30,7 @@ import {
     RegisterFormComponent,
     LoginMainFormFrameComponent,
     RegisterMainFormFrameComponent,
-    CinemaManagerListComponent,
+    CinemaManagerTableComponent,
     CinemaManagerFormComponent,
     CinemaManagerFormFrameComponent,
   ],

@@ -7,11 +7,11 @@ import {UserService} from "../../services/user.service";
 import {CinemaManagerTableResponse} from "../../dtos/response/cinema-manager-table.response";
 
 @Component({
-  selector: 'app-cinemaManager-manager-list',
-  templateUrl: './cinema-manager-list.component.html',
-  styleUrls: ['./cinema-manager-list.component.scss']
+  selector: 'app-cinemaManager-manager-table',
+  templateUrl: './cinema-manager-table.component.html',
+  styleUrls: ['./cinema-manager-table.component.scss']
 })
-export class CinemaManagerListComponent {
+export class CinemaManagerTableComponent {
   displayedColumns = ['options', 'firstName', 'lastName', 'email', 'managedCinema'];
   cinemaManagers$!: Observable<CinemaManagerTableResponse[]>;
   dataLength = 0;

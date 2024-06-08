@@ -10,11 +10,11 @@ import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDeletionCinemaDialog} from "../confirm-deletion-cinema-dialog/confirm-deletion-cinema-dialog.component";
 
 @Component({
-  selector: 'app-cinema-list',
-  templateUrl: './cinema-list.component.html',
-  styleUrls: ['./cinema-list.component.scss']
+  selector: 'app-cinema-table',
+  templateUrl: './cinema-table.component.html',
+  styleUrls: ['./cinema-table.component.scss']
 })
-export class CinemaListComponent implements AfterViewInit, OnInit {
+export class CinemaTableComponent implements AfterViewInit, OnInit {
   displayedColumns: string[] = ['options', 'name', 'cinemaManager', 'numberOfScreeningRooms', 'numberOfAvailableSeats', 'numberOfUnavailableSeats'];
   cinemas$: MatTableDataSource<CinemaListResponse>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;

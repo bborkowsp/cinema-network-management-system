@@ -12,11 +12,11 @@ import {
 } from "../confirm-deletion-projection-technology-dialog/confirm-deletion-projection-technology-dialog.component";
 
 @Component({
-  selector: 'app-projection-technology-list',
-  templateUrl: './projection-technology-list.component.html',
-  styleUrls: ['./projection-technology-list.component.scss']
+  selector: 'app-projection-technology-table',
+  templateUrl: './projection-technology-table.component.html',
+  styleUrls: ['./projection-technology-table.component.scss']
 })
-export class ProjectionTechnologyListComponent {
+export class ProjectionTechnologyTableComponent {
   dataLength = 0;
   protected isLoading = true;
   displayedColumns = ['options', 'technology', 'description'];

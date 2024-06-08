@@ -1,8 +1,8 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {
-  ProjectionTechnologyListComponent
-} from './components/projection-technology-list/projection-technology-list.component';
+  ProjectionTechnologyTableComponent
+} from './components/projection-technology-table/projection-technology-table.component';
 import {
   ProjectionTechnologyDetailsComponent
 } from './components/projection-technology-details/projection-technology-details.component';
@@ -29,7 +29,7 @@ import {
 
 @NgModule({
   declarations: [
-    ProjectionTechnologyListComponent,
+    ProjectionTechnologyTableComponent,
     ProjectionTechnologyDetailsComponent,
     ConfirmDeletionProjectionTechnologyDialog,
     ProjectionTechnologyFormComponent,

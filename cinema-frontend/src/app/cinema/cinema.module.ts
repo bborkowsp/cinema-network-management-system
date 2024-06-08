@@ -1,5 +1,5 @@
 import {NgModule} from "@angular/core";
-import {CinemaListComponent} from "./components/cinema-list/cinema-list.component";
+import {CinemaTableComponent} from "./components/cinema-table/cinema-table.component";
 import {CommonModule} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
@@ -77,7 +77,7 @@ import {
     MatProgressSpinnerModule,
   ],
   declarations: [
-    CinemaListComponent,
+    CinemaTableComponent,
     CinemaDetailsComponent,
     AboutCinemaComponent,
     AddressComponent,
