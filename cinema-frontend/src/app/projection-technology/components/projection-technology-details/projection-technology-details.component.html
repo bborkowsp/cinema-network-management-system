@@ -1,12 +1,12 @@
 <app-page-content-container
-  (floatingButtonDeleteAction)="handleDeleteTechnology()"
-  (floatingButtonEditAction)="handleEditTechnology()"
-  (goBackButtonAction)="handleGoBack()"
+  (deleteButtonEventEmitter)="handleDeleteTechnology()"
+  (editButtonEventEmitter)="handleEditTechnology()"
+  (goBackButtonEventEmitter)="handleGoBack()"
   [hasDetailsActionButtons]="true"
-  [hasGoBackActionButton]="true"
+  [hasGoBackButton]="true"
   [isLoading]="isLoading"
-  floatingButtonDeleteAriaLabel="Delete projection technology"
-  floatingButtonEditAriaLabel="Edit projection technology"
+  deleteButtonAriaLabel="Delete projection technology"
+  editButtonAriaLabel="Edit projection technology"
   pageTitle="Projection Technology details"
 >
   <ng-container content>

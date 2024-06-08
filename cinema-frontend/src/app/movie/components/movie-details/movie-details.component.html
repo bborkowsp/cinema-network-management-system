@@ -1,12 +1,12 @@
 <app-page-content-container
-  (floatingButtonDeleteAction)="handleDeleteMovie()"
-  (floatingButtonEditAction)="handleEditMovie()"
-  (goBackButtonAction)="handleGoBack()"
+  (deleteButtonEventEmitter)="handleDeleteMovie()"
+  (editButtonEventEmitter)="handleEditMovie()"
+  (goBackButtonEventEmitter)="handleGoBack()"
   [hasDetailsActionButtons]="true"
-  [hasGoBackActionButton]="true"
+  [hasGoBackButton]="true"
   [isLoading]="isLoading"
-  floatingButtonDeleteAriaLabel="Delete movie"
-  floatingButtonEditAriaLabel="Edit movie"
+  deleteButtonAriaLabel="Delete movie"
+  editButtonAriaLabel="Edit movie"
   pageTitle="Movie details"
 >
   <ng-container content>

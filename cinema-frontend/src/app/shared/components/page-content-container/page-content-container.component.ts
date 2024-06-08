@@ -11,17 +11,17 @@ export class PageContentContainerComponent {
   @Input() routerLink = '';
 
   @Input() hasDetailsActionButtons = false;
-  @Input() hasGoBackActionButton = false;
+  @Input() hasGoBackButton = false;
   @Input() hasCreateNewButton = false;
 
   @Input() buttonMatToolTip = '';
-  @Input() buttonEditMatToolTip = '';
-  @Input() buttonDeleteMatToolTip = '';
+  @Input() editButtonMatToolTip = '';
+  @Input() deleteButtonMatToolTip = '';
 
-  @Input() floatingButtonDeleteAriaLabel = '';
-  @Input() floatingButtonEditAriaLabel = '';
+  @Input() deleteButtonAriaLabel = '';
+  @Input() editButtonAriaLabel = '';
 
-  @Output() floatingButtonDeleteAction: EventEmitter<void> = new EventEmitter();
-  @Output() floatingButtonEditAction: EventEmitter<void> = new EventEmitter();
-  @Output() goBackButtonAction: EventEmitter<void> = new EventEmitter();
+  @Output() deleteButtonEventEmitter: EventEmitter<void> = new EventEmitter();
+  @Output() editButtonEventEmitter: EventEmitter<void> = new EventEmitter();
+  @Output() goBackButtonEventEmitter: EventEmitter<void> = new EventEmitter();
 }

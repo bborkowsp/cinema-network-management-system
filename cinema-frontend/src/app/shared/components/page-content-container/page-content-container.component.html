@@ -4,23 +4,12 @@
     <div
       class="page-content-container__action-buttons-container page-content-container__action-buttons-container__align-right">
       <ng-container *ngIf="hasDetailsActionButtons">
-        <div class="page-content-container__floating-button-spacer"></div>
-        <button
-          (click)="floatingButtonDeleteAction.emit()"
-          [attr.aria-label]="floatingButtonDeleteAriaLabel"
-          class="page-content-container__floating-button"
-          color="warn"
-          mat-fab
-        >
+        <button color="warn" mat-fab [attr.aria-label]="deleteButtonAriaLabel"
+                (click)="deleteButtonEventEmitter.emit()">
           <mat-icon>delete</mat-icon>
         </button>
-        <button
-          (click)="floatingButtonEditAction.emit()"
-          [attr.aria-label]="floatingButtonEditAriaLabel"
-          class="page-content-container__floating-button"
-          color="accent"
-          mat-fab
-        >
+        <button color="accent" mat-fab [attr.aria-label]="editButtonAriaLabel"
+                (click)="editButtonEventEmitter.emit()">
           <mat-icon>edit</mat-icon>
         </button>
       </ng-container>
@@ -31,13 +20,13 @@
       </a>
     </ng-container>
   </div>
+
   <ng-container *ngIf="!isLoading; else spinner">
     <div class="page-content-container__content-container">
       <ng-content select="[content]"></ng-content>
       <div class="buttons">
-        <button (click)="goBackButtonAction.emit()" *ngIf="hasGoBackActionButton" color="primary"
-                mat-flat-button>Go
-          back
+        <button *ngIf="hasGoBackButton" (click)="goBackButtonEventEmitter.emit()" color="primary" mat-flat-button>
+          Go back
         </button>
       </div>
     </div>
