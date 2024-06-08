@@ -13,7 +13,7 @@ import {UpdateCinemaRequest} from "../dtos/request/update-cinema.request";
 })
 
 export class CinemaService {
-  static readonly cinemasUrl = `${environment.apiBaseUrl}/cinemas`;
+  static readonly cinemasUrl = `${environment.API_BASE_URL}/cinemas`;
 
   constructor(
     private readonly httpClient: HttpClient,

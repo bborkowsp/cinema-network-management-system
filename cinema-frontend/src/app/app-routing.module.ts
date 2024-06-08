@@ -26,7 +26,6 @@ import {
 import {CinemaFormComponent} from "./cinema/components/cinema-form/cinema-form.component";
 import {MovieFormComponent} from "./movie/components/movie-form/movie-form.component";
 
-
 const routes: Routes = [
   {path: 'cinemas', component: CinemaListComponent, canActivate: [AuthGuard]},
   {path: 'cinemas/create', component: CinemaFormComponent, canActivate: [AuthGuard]},
@@ -56,15 +55,14 @@ const routes: Routes = [
   {path: 'cinema-managers', component: CinemaManagerListComponent, canActivate: [AuthGuard]},
   {path: 'cinema-managers/create', component: CinemaManagerFormComponent, canActivate: [AuthGuard]},
   {path: 'cinema-managers/edit/:email', component: CinemaManagerFormComponent, canActivate: [AuthGuard]},
-  {path: 'repertory', component: ManageRepertoryComponent},
-  {path: 'repertory/edit/:id', component: ScreeningFormComponent},
-  {path: 'repertory/create/:roomName', component: ScreeningFormComponent},
+  {path: 'repertory', component: ManageRepertoryComponent, canActivate: [AuthGuard]},
+  {path: 'repertory/edit/:id', component: ScreeningFormComponent, canActivate: [AuthGuard]},
+  {path: 'repertory/create/:roomName', component: ScreeningFormComponent, canActivate: [AuthGuard]},
   {path: 'register', component: RegisterFormComponent},
   {path: 'login', component: LoginFormComponent},
   {path: '', redirectTo: '/login', pathMatch: 'full'},
   {path: '**', redirectTo: '/login', pathMatch: 'full'},
 ];
-
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

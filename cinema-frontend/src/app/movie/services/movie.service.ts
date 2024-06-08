@@ -13,7 +13,7 @@ import {UpdateMovieRequest} from "../dtos/request/update-movie.request";
 })
 
 export class MovieService {
-  static readonly moviesUrl = `${environment.apiBaseUrl}/movies`;
+  static readonly moviesUrl = `${environment.API_BASE_URL}/movies`;
 
   constructor(private readonly httpClient: HttpClient) {
   }

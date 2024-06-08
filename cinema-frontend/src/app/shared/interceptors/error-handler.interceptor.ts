@@ -13,7 +13,6 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
   private static readonly UNAUTHORIZED_MESSAGE = 'Authentication error';
   private static readonly FORBIDDEN_MESSAGE = 'Forbidden access error';
 
-
   constructor(
     private readonly errorNotificationService: ErrorNotificationService,
     private readonly router: Router,

@@ -17,7 +17,7 @@ interface AuthResult {
   providedIn: 'root'
 })
 export class AuthService {
-  static readonly usersUrl = `${environment.apiBaseUrl}/auth`;
+  static readonly usersUrl = `${environment.API_BASE_URL}/auth`;
   public loggedInUserSubject: BehaviorSubject<string> = new BehaviorSubject<string>('');
   private loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 

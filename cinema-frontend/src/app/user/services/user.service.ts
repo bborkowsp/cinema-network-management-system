@@ -11,7 +11,7 @@ import {CinemaManagerRequest} from "../dtos/request/cinema-manager.request";
   providedIn: 'root',
 })
 export class UserService {
-  static readonly usersUrl = `${environment.apiBaseUrl}/users`;
+  static readonly usersUrl = `${environment.API_BASE_URL}/users`;
   static readonly cinemaManagersUrl = `${UserService.usersUrl}/cinema-managers`;
 
   constructor(private httpClient: HttpClient) {

@@ -13,7 +13,7 @@ import {CreateProjectionTechnologyRequest} from "../dtos/request/create-projecti
   providedIn: 'root',
 })
 export class ProjectionTechnologyService {
-  static readonly projectionTechnologiesUrl = `${environment.apiBaseUrl}/projection-technologies`;
+  static readonly projectionTechnologiesUrl = `${environment.API_BASE_URL}/projection-technologies`;
 
   constructor(
     private readonly httpClient: HttpClient

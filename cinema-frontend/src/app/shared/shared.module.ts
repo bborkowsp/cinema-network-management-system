@@ -44,7 +44,15 @@ const declarations = [
 ];
 
 @NgModule({
-  declarations: [declarations, OptionsTableButtonComponent, GenericFormFrameComponent, ErrorDialogComponent, GenericDetailsFieldComponent, ConfirmDeletionDialogComponent, DetailsSectionContainerComponent],
+  declarations: [
+    declarations,
+    OptionsTableButtonComponent,
+    GenericFormFrameComponent,
+    ErrorDialogComponent,
+    GenericDetailsFieldComponent,
+    ConfirmDeletionDialogComponent,
+    DetailsSectionContainerComponent
+  ],
   imports: [
     ...sharedModules,
     MatMenuModule,
@@ -57,7 +65,14 @@ const declarations = [
     MatDialogModule,
     MatListModule,
   ],
-  exports: [declarations, OptionsTableButtonComponent, GenericFormFrameComponent, GenericDetailsFieldComponent, ConfirmDeletionDialogComponent, DetailsSectionContainerComponent],
+  exports: [
+    declarations,
+    OptionsTableButtonComponent,
+    GenericFormFrameComponent,
+    GenericDetailsFieldComponent,
+    ConfirmDeletionDialogComponent,
+    DetailsSectionContainerComponent
+  ],
 })
 export class SharedModule {
 }

@@ -10,7 +10,7 @@ import {AuthService} from "../../user/services/auth.service";
   providedIn: 'root',
 })
 export class ScreeningService {
-  static readonly screeningsUrl = `${environment.apiBaseUrl}/screenings`;
+  static readonly screeningsUrl = `${environment.API_BASE_URL}/screenings`;
 
   constructor(
     private readonly httpClient: HttpClient,
