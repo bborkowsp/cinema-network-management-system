@@ -15,4 +15,5 @@ export interface NavigationLink {
 export class DrawerComponent {
   @Input({required: true}) navigationLinks!: NavigationLink[];
   @Input({required: true}) drawerOpened!: boolean;
+  @Input({required: true}) isOnLoginOrRegisterPage!: boolean;
 }

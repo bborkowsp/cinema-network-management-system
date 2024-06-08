@@ -17,6 +17,13 @@ $toolbar-height: 64px;
     min-height: calc(100vh - $toolbar-height);
     margin-top: $toolbar-height;
   }
+
+  &.background-image {
+    background-image: url('/assets/img/black-white.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
 }
 
 .main {

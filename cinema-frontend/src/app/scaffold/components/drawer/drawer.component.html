@@ -1,4 +1,5 @@
-<mat-drawer-container [hasBackdrop]="true" class="drawer-container">
+<mat-drawer-container [hasBackdrop]="true" class="drawer-container"
+                      [ngClass]="{'background-image': isOnLoginOrRegisterPage}">
   <mat-drawer [opened]="drawerOpened" class="drawer-container__drawer" mode="side">
     <app-nav-list [navigationLinks]="navigationLinks"></app-nav-list>
   </mat-drawer>
