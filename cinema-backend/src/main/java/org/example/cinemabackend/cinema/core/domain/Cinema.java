@@ -155,4 +155,12 @@ public class Cinema {
     public void addContactDetails(ContactDetails contactDetails) {
         this.contactDetails.add(contactDetails);
     }
+
+    public void addScreening(Screening screening) {
+        this.repertory.add(screening);
+    }
+
+    public void removeScreening(Screening screening) {
+        this.repertory.remove(screening);
+    }
 }
