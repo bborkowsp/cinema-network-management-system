@@ -1,8 +1,12 @@
+@import "../../styles/_colors.scss";
+
 .confirm-deletion-dialog {
   width: 400px;
 
   &__title {
     font-size: 1.25rem;
+    background-color: $app-deletion-dialog-title-bg;
+    color: $app-deletion-dialog-title-color;
   }
 }
 

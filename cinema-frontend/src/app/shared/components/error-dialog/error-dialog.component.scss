@@ -1,22 +1,19 @@
 @import "../../../shared/styles/_colors.scss";
 
-.dialog-header {
+.error-dialog-header {
   display: flex;
   align-items: center;
-  background-color: $app-warn
-}
+  background-color: $app-warn;
 
-.mat-dialog-title {
-  color: $app-white;
-}
+  &__error-icon {
+    color: $app-white;
+    transform: scale(1.5);
+    padding-left: 0.625rem;
+    margin-bottom: 0.5rem;
+  }
 
-.mat-icon {
-  color: $app-white;
-  transform: scale(1.5);
+  &__title {
+    color: $app-error-dialog-title-color;
+    font-size: 1.25rem;
+  }
 }
-
-.mat-icon {
-  padding-left: 0.625rem;
-  margin-bottom: 0.5rem;
-}
-

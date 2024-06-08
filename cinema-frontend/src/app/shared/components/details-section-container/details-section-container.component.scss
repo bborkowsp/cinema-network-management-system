@@ -1,26 +1,24 @@
 @import "../../../shared/styles/_colors.scss";
 
 .details-section {
-
   margin-top: 2rem;
 
   &__header {
     display: flex;
     align-items: center;
-  }
 
-  &__divider {
-    background-color: $app-details-header;
-    border-width: 2px;
-    flex: 1;
-    margin-bottom: 1rem;
-  }
+    &__title {
+      font-size: 1.5rem;
+      color: $app-details-header;
+      font-weight: 450;
+      padding-right: 2rem;
+    }
 
-  &__title {
-    font-size: 1.5rem;
-    color: $app-details-header;
-    font-weight: 450;
-    margin-bottom: 1rem;
-    padding-right: 2rem;
+    &__divider {
+      background-color: $app-details-header;
+      border-width: 2px;
+      flex: 1;
+      margin-bottom: 1rem;
+    }
   }
 }
