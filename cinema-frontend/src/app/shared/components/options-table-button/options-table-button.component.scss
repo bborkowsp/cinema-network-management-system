@@ -1,20 +1,18 @@
-.custom-button:hover {
-  background-color: #cfcfcf;
+@import "../../../shared/styles/_colors.scss";
+
+.options-button:hover {
+  background-color: $app-options-button-hover;
 }
 
-.mat-menu-item {
-  color: black;
-}
+.options-menu-item {
+  color: $app-semi-transparent-black;
 
-.mat-menu-item:hover {
-  background-color: #f0f0f0;
-}
+  &:hover {
+    background-color: $app-options-item-hover;
+  }
 
-.mat-menu-item {
-  font-size: 1rem;
-}
-
-.mat-menu-item span {
-  font-size: 1rem;
-  font-weight: 400;
+  span {
+    font-size: 1rem;
+    font-weight: normal;
+  }
 }

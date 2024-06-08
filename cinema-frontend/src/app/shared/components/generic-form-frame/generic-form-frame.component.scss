@@ -1,19 +1,19 @@
 @import "../../../shared/styles/_colors.scss";
 
 .generic-form-container {
-  padding: 1.3rem;
+  background: $app-white;
+  box-shadow: 0 2px 2px 0 $app-semi-transparent-black;
+  border-radius: 0.75rem;
   display: flex;
   flex-direction: column;
   gap: 0.875rem;
-  border-radius: 0.75rem;
-  background: $app-white;
-  box-shadow: 0 3px 3px 0 $app-semi-transparent-black;
-  margin-bottom: 2rem;
+  padding: 1.2rem;
+  margin-bottom: 1.5rem;
 
   &__header {
-    margin: 0;
     font-size: 1.5rem;
     font-weight: normal;
+    margin: 0;
     text-align: left;
   }
 }
