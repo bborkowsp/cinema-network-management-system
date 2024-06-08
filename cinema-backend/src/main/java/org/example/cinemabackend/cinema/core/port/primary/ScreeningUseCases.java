@@ -11,11 +11,11 @@ public interface ScreeningUseCases {
 
     List<ScreeningResponse> getScreenings(String email);
 
-    void deleteScreening(Long id);
-
-    void updateScreening(Long id, UpdateScreeningRequest screening);
-
     ScreeningResponse getScreening(Long id);
 
     void createScreening(ScreeningRequest screening);
+
+    void updateScreening(Long id, UpdateScreeningRequest screening);
+
+    void deleteScreening(Long id);
 }

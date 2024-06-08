@@ -34,18 +34,18 @@ class ScreeningController {
         return ResponseEntity.ok(screening);
     }
 
+    @PostMapping
+    ResponseEntity<Void> createScreening(@RequestBody ScreeningRequest screening) {
+        screeningUseCases.createScreening(screening);
+        return ResponseEntity.noContent().build();
+    }
+
     @PatchMapping("/{id}")
     ResponseEntity<ScreeningResponse> updateScreening(
             @PathVariable("id") Long id,
             @RequestBody UpdateScreeningRequest screening
     ) {
         screeningUseCases.updateScreening(id, screening);
-        return ResponseEntity.noContent().build();
-    }
-
-    @PostMapping
-    ResponseEntity<Void> createScreening(@RequestBody ScreeningRequest screening) {
-        screeningUseCases.createScreening(screening);
         return ResponseEntity.noContent().build();
     }
 

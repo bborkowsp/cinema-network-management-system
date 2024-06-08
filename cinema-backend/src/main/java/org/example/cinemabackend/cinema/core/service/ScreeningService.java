@@ -41,13 +41,19 @@ class ScreeningService implements ScreeningUseCases {
     }
 
     @Override
-    public void deleteScreening(Long id) {
+    public ScreeningResponse getScreening(Long id) {
         final var screening = screeningRepository.findById(id).orElseThrow();
-        final var cinema = cinemaRepository.findByRepertoryContains(screening).orElseThrow();
-        cinema.getRepertory().remove(screening);
-        cinemaRepository.save(cinema);
+        return screeningMapper.mapScreeningToScreeningResponse(screening);
     }
 
+    @Override
+    public void createScreening(ScreeningRequest screening) {
+        final var cinema = cinemaRepository.findByUserEmail(screening.email()).orElseThrow();
+        final var newScreening = screeningMapper.mapScreeningRequestToScreening(screening, cinema);
+        cinema.getRepertory().add(newScreening);
+        cinemaRepository.save(cinema);
+    }
+ 
     @Override
     public void updateScreening(Long id, UpdateScreeningRequest screening) {
         final var screeningToUpdate = screeningRepository.findById(id).orElseThrow();
@@ -59,16 +65,10 @@ class ScreeningService implements ScreeningUseCases {
     }
 
     @Override
-    public ScreeningResponse getScreening(Long id) {
+    public void deleteScreening(Long id) {
         final var screening = screeningRepository.findById(id).orElseThrow();
-        return screeningMapper.mapScreeningToScreeningResponse(screening);
-    }
-
-    @Override
-    public void createScreening(ScreeningRequest screening) {
-        final var cinema = cinemaRepository.findByUserEmail(screening.email()).orElseThrow();
-        final var newScreening = screeningMapper.mapScreeningRequestToScreening(screening, cinema);
-        cinema.getRepertory().add(newScreening);
+        final var cinema = cinemaRepository.findByRepertoryContains(screening).orElseThrow();
+        cinema.getRepertory().remove(screening);
         cinemaRepository.save(cinema);
     }
 }
