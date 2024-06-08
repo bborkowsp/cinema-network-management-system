@@ -16,7 +16,11 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -85,5 +89,38 @@ public class MovieControllerTest {
                 );
     }
 
-    
+    @Test
+    @Order(3)
+    @DirtiesContext
+    public void givenMoviesInDatabase_whenUpdateMovie_thenStatusIsNoContentAndMovieIsUpdated() throws Exception {
+        //Given
+        final var movies = movieTestDataProvider.generateMovies();
+        movies.forEach(movieRepository::save);
+
+        final var movieToUpdate = movies.getFirst();
+        final var updatedMovie = movieTestDataProvider.generateUpdateMovieRequest();
+
+        //When
+        final var url = MOVIES_ENDPOINT_PATH + "/" + movieToUpdate.getTitle();
+        mockMvc.perform(patch(url)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(updatedMovie)))
+                .andExpect(status().isNoContent());
+
+        //Then
+        final var updatedMovieFromDatabase = movieRepository.findByTitle(updatedMovie.title());
+        assertAll(
+                () -> assertThat(updatedMovieFromDatabase).isPresent(),
+                () -> assertEquals(updatedMovie.title(), updatedMovieFromDatabase.get().getTitle()),
+                () -> assertEquals(updatedMovie.originalTitle(), updatedMovieFromDatabase.get().getOriginalTitle()),
+                () -> assertEquals(updatedMovie.duration(), updatedMovieFromDatabase.get().getDuration()),
+                () -> assertEquals(updatedMovie.releaseDate(), updatedMovieFromDatabase.get().getReleaseDate()),
+                () -> assertEquals(updatedMovie.description(), updatedMovieFromDatabase.get().getDescription()),
+                () -> assertEquals(updatedMovie.ageRestriction(), updatedMovieFromDatabase.get().getAgeRestriction()),
+                () -> assertEquals(updatedMovie.productionDetails().director().firstName(),
+                        updatedMovieFromDatabase.get().getProductionDetails().getDirector().getFirstName()),
+                () -> assertEquals(updatedMovie.productionDetails().director().lastName(),
+                        updatedMovieFromDatabase.get().getProductionDetails().getDirector().getLastName())
+        );
+    }
 }

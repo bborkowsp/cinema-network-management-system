@@ -3,6 +3,7 @@ package org.example.cinemabackend.movie.testdata;
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.core.port.secondary.ProjectionTechnologyRepository;
 import org.example.cinemabackend.cinema.testdata.ProjectionTechnologyTestDataProvider;
+import org.example.cinemabackend.movie.application.dto.request.UpdateMovieRequest;
 import org.example.cinemabackend.movie.core.domain.AgeRestriction;
 import org.example.cinemabackend.movie.core.domain.Genre;
 import org.example.cinemabackend.movie.core.domain.Movie;
@@ -14,10 +15,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static org.example.cinemabackend.cinema.testdata.ImageTestDataProvider.generateUpdateImageRequest;
 import static org.example.cinemabackend.cinema.testdata.ProjectionTechnologyTestDataProvider.generateProjectionTechnologies;
 import static org.example.cinemabackend.movie.testdata.ProductionDetailsTestDataProvider.generateProductionDetails;
+import static org.example.cinemabackend.movie.testdata.ProductionDetailsTestDataProvider.generateProductionDetailsRequest;
 import static org.example.cinemabackend.movie.testdata.SubtitleAndSoundOptionTestDataProvider.generateSubtitleAndSoundOptions;
+import static org.example.cinemabackend.movie.testdata.SubtitleAndSoundOptionTestDataProvider.generateSubtitleAndSoundOptionsRequest;
 import static org.example.cinemabackend.movie.testdata.VideoFileTestDataProvider.generateVideoFile;
+import static org.example.cinemabackend.movie.testdata.VideoFileTestDataProvider.generateVideoFileRequest;
 import static org.example.cinemabackend.shared.seeder.ImageUtil.createImage;
 
 @Component
@@ -27,6 +32,23 @@ public class MovieTestDataProvider {
     private static int moviesCounter = -1;
     private final ProjectionTechnologyTestDataProvider productionDetailsTestDataProvider;
     private final ProjectionTechnologyRepository projectionTechnologyRepository;
+
+    public UpdateMovieRequest generateUpdateMovieRequest() {
+        return new UpdateMovieRequest(
+                "Updated Title",
+                "Updated Original Title",
+                1.0,
+                LocalDate.now(),
+                "Updated Description",
+                generateProductionDetailsRequest(),
+                generateSubtitleAndSoundOptionsRequest(),
+                AgeRestriction.PLUS12,
+                generateUpdateImageRequest(),
+                generateVideoFileRequest(),
+                Set.of(Genre.ADVENTURE),
+                productionDetailsTestDataProvider.generateProjectionTechnologiesResponse()
+        );
+    }
 
     public List<Movie> generateMovies() {
         List<Movie> movies = new ArrayList<>();
