@@ -4,8 +4,8 @@ import {SharedModule} from "../shared/shared.module";
 import {MatTableModule} from "@angular/material/table";
 import {AsyncPipe, DatePipe, KeyValuePipe, NgForOf, NgIf} from "@angular/common";
 import {
-  RepertoryTableComponentComponent
-} from "./components/manage-repertory/components/repertory-table-component/repertory-table-component.component";
+  RepertoryListComponentComponent
+} from "./components/manage-repertory/components/repertory-list-component/repertory-list-component.component";
 import {MatButtonModule} from "@angular/material/button";
 import {ScreeningFormComponent} from './components/manage-repertory/components/screening-form/screening-form.component';
 import {MatIconModule} from "@angular/material/icon";
@@ -20,7 +20,7 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
 @NgModule({
   declarations: [
     ManageRepertoryComponent,
-    RepertoryTableComponentComponent,
+    RepertoryListComponentComponent,
     ScreeningFormComponent,
     ScreeningFormFrameComponent
   ],

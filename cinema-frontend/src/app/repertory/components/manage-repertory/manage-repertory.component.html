@@ -5,13 +5,13 @@
   routerLink="/repertory/create"
 >
   <ng-container content *ngIf="!isLoading">
-    <app-repertory-table-component
+    <app-repertory-list-component
       [repertory]="repertory$"
       (handleDelete)="onDeleteScreening($event)"
       (handleEdit)="onEditScreening($event)"
       (handleAdd)="onAddScreening($event)"
     >
-    </app-repertory-table-component>
+    </app-repertory-list-component>
   </ng-container>
 </app-page-content-container>
 

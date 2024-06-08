@@ -10,7 +10,7 @@ import {AuthService} from "../../user/services/auth.service";
   providedIn: 'root',
 })
 export class ScreeningService {
-  static readonly screeningsUrl = `${environment.API_BASE_URL}/screenings`;
+  static readonly SCREENINGS_API_URL = `${environment.API_BASE_URL}/screenings`;
 
   constructor(
     private readonly httpClient: HttpClient,
@@ -20,29 +20,29 @@ export class ScreeningService {
 
   getRepertory() {
     const email = this.authService.getLoggedInUserEmail();
-    const url = `${ScreeningService.screeningsUrl}/${email}`;
+    const url = `${ScreeningService.SCREENINGS_API_URL}/${email}`;
     return this.httpClient.get<{ content: ScreeningResponse[] }>(url)
       .pipe(map((response) => response.content));
   }
 
   deleteScreening(id: number) {
-    const url = `${ScreeningService.screeningsUrl}/${id}`;
+    const url = `${ScreeningService.SCREENINGS_API_URL}/${id}`;
     return this.httpClient.delete<void>(url);
   }
 
   getScreening(id: number) {
-    const url = `${ScreeningService.screeningsUrl}/id/${id}`;
+    const url = `${ScreeningService.SCREENINGS_API_URL}/id/${id}`;
     return this.httpClient.get<ScreeningResponse>(url);
   }
 
   updateScreening(id: number, screening: ScreeningRequest) {
-    const url = `${ScreeningService.screeningsUrl}/${id}`;
+    const url = `${ScreeningService.SCREENINGS_API_URL}/${id}`;
     return this.httpClient.patch(url, screening);
   }
 
   createScreening(screening: ScreeningRequest) {
     console.log(screening);
-    console.log(ScreeningService.screeningsUrl);
-    return this.httpClient.post<void>(ScreeningService.screeningsUrl, screening);
+    console.log(ScreeningService.SCREENINGS_API_URL);
+    return this.httpClient.post<void>(ScreeningService.SCREENINGS_API_URL, screening);
   }
 }

@@ -17,12 +17,12 @@ import {
   styleUrls: ['./projection-technology-table.component.scss']
 })
 export class ProjectionTechnologyTableComponent {
-  dataLength = 0;
-  protected isLoading = true;
   displayedColumns = ['options', 'technology', 'description'];
-  @ViewChild(MatPaginator) readonly paginator!: MatPaginator;
   projectionTechnologies$!: Observable<ProjectionTechnologyResponse[]>;
+  dataLength = 0;
+  @ViewChild(MatPaginator) readonly paginator!: MatPaginator;
   paginatorRequestParams = new PaginatorRequestParams(0, 10);
+  protected isLoading = true;
 
   constructor(
     private readonly projectionTechnologyService: ProjectionTechnologyService,

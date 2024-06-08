@@ -2,11 +2,11 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ScreeningResponse} from "../../../../dtos/screening.response";
 
 @Component({
-  selector: 'app-repertory-table-component',
-  templateUrl: './repertory-table-component.component.html',
-  styleUrls: ['./repertory-table-component.component.scss'],
+  selector: 'app-repertory-list-component',
+  templateUrl: './repertory-list-component.component.html',
+  styleUrls: ['./repertory-list-component.component.scss'],
 })
-export class RepertoryTableComponentComponent implements OnInit {
+export class RepertoryListComponentComponent implements OnInit {
   @Input() repertory!: ScreeningResponse[];
   @Output() handleDelete = new EventEmitter<ScreeningResponse>();
   @Output() handleEdit = new EventEmitter<ScreeningResponse>();
