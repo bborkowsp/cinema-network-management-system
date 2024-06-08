@@ -13,7 +13,7 @@ import {UpdateCinemaRequest} from "../dtos/request/update-cinema.request";
 })
 
 export class CinemaService {
-  static readonly cinemasUrl = `${environment.API_BASE_URL}/cinemas`;
+  static readonly CINEMAS_API_URL = `${environment.API_BASE_URL}/cinemas`;
 
   constructor(
     private readonly httpClient: HttpClient,
@@ -23,29 +23,28 @@ export class CinemaService {
 
   getCinemas(): Observable<CinemaListResponse[]> {
     return this.httpClient
-      .get<{ content: CinemaListResponse[] }>(CinemaService.cinemasUrl)
+      .get<{ content: CinemaListResponse[] }>(CinemaService.CINEMAS_API_URL)
       .pipe(
         map((response) => response.content),
       );
   }
 
   getCinema(name: string): Observable<CinemaResponse> {
-    const url = `${CinemaService.cinemasUrl}/${name}`;
+    const url = `${CinemaService.CINEMAS_API_URL}/${name}`;
     return this.httpClient.get<CinemaResponse>(url);
   }
 
   deleteCinema(name: string) {
-    const url = `${CinemaService.cinemasUrl}/${name}`;
+    const url = `${CinemaService.CINEMAS_API_URL}/${name}`;
     return this.httpClient.delete<void>(url);
   }
 
   createCinema(cinema: CreateCinemaRequest) {
-    console.log(cinema);
-    return this.httpClient.post<void>(CinemaService.cinemasUrl, cinema);
+    return this.httpClient.post<void>(CinemaService.CINEMAS_API_URL, cinema);
   }
 
   getAllCinemaNames() {
-    const url = `${CinemaService.cinemasUrl}/names`;
+    const url = `${CinemaService.CINEMAS_API_URL}/names`;
     return this.httpClient.get<{ content: string[] }>(url).pipe(
       map((response) => response.content),
     );
@@ -53,15 +52,14 @@ export class CinemaService {
 
   getAllScreeningRoomNames() {
     const email = this.authService.getLoggedInUserEmail();
-    const url = `${CinemaService.cinemasUrl}/screening-rooms/${email}`;
+    const url = `${CinemaService.CINEMAS_API_URL}/screening-rooms/${email}`;
     return this.httpClient.get<{ content: string[] }>(url).pipe(
       map((response) => response.content),
     );
   }
 
   updateCinema(cinemaName: string, cinema: UpdateCinemaRequest) {
-    const url = `${CinemaService.cinemasUrl}/${cinemaName}`;
-    console.log(cinema)
+    const url = `${CinemaService.CINEMAS_API_URL}/${cinemaName}`;
     return this.httpClient.patch<void>(url, cinema);
   }
 }

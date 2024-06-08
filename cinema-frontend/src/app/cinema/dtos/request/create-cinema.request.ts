@@ -5,7 +5,6 @@ import {CreateAddressRequest} from "./create-address.request";
 import {UserResponse} from "../../../user/dtos/response/user.response";
 
 export class CreateCinemaRequest {
-
   constructor(
     readonly name: string,
     readonly description: string,
@@ -15,7 +14,5 @@ export class CreateCinemaRequest {
     readonly contactDetails: CreateContactDetailsRequest[],
     readonly cinemaManager: UserResponse
   ) {
-
   }
-
 }

@@ -14,6 +14,5 @@ export class UpdateCinemaRequest {
     readonly contactDetails: CreateContactDetailsRequest[],
     readonly cinemaManager: CinemaManagerResponse
   ) {
-
   }
 }
