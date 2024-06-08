@@ -1,8 +1,8 @@
-<mat-drawer-container [hasBackdrop]="true" class="container">
-  <mat-drawer [opened]="drawerOpened" class="drawer" mode="side">
+<mat-drawer-container [hasBackdrop]="true" class="drawer-container">
+  <mat-drawer [opened]="drawerOpened" class="drawer-container__drawer" mode="side">
     <app-nav-list [navigationLinks]="navigationLinks"></app-nav-list>
   </mat-drawer>
-  <mat-drawer-content class="content">
+  <mat-drawer-content class="drawer-container__content">
     <main class="main">
       <ng-content></ng-content>
     </main>
