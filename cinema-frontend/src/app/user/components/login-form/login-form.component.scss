@@ -22,8 +22,7 @@
 
 .image {
   display: block;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto;
 }
 
 .text-container {
@@ -35,14 +34,13 @@
   font-weight: bold;
   color: $app-button-primary;
   text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
-.create-account-link:hover {
-  text-decoration: underline;
-}
-
-.form-buttons-container {
+.button-container {
   display: flex;
   justify-content: center;
 }
-
