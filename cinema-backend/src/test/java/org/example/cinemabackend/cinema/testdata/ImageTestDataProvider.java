@@ -15,9 +15,10 @@ public class ImageTestDataProvider {
 
     public static UpdateImageRequest generateUpdateImageRequest() {
         return UpdateImageRequest.builder()
-                .name("Name")
+                .name("Update name")
                 .type("jpeg/png")
                 .data(new byte[]{1, 0, 1, 0})
                 .build();
     }
+
 }

@@ -19,8 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -59,7 +58,6 @@ public class MovieControllerTest {
 
     @Test
     @Order(2)
-    @DirtiesContext
     void givenMoviesInDatabase_whenGetMoviesPage_thenStatusIsOkAndPageWithMoviesIsReturned() throws Exception {
         //Given
         final var movies = movieTestDataProvider.generateMovies();
@@ -91,6 +89,22 @@ public class MovieControllerTest {
 
     @Test
     @Order(3)
+    public void givenMoviesInDatabase_whenCreateMovie_thenStatusIsCreatedAndMovieIsInDatabase() throws Exception {
+        // Given
+        final var createMovieRequest = movieTestDataProvider.generateCreateMovieRequest();
+
+        //When
+        mockMvc.perform(post(MOVIES_ENDPOINT_PATH)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(createMovieRequest)))
+                .andExpect(status().isCreated());
+
+        //Then
+        assertThat(movieRepository.findByTitle(createMovieRequest.title())).isPresent();
+    }
+
+    @Test
+    @Order(4)
     @DirtiesContext
     public void givenMoviesInDatabase_whenUpdateMovie_thenStatusIsNoContentAndMovieIsUpdated() throws Exception {
         //Given
