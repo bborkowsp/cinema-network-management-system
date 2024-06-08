@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 class ProjectionTechnologyMapperService implements ProjectionTechnologyMapper {
 
-
     @Override
     public ProjectionTechnologyResponse mapProjectionTechnologyToProjectionTechnologyResponse(
             @NonNull ProjectionTechnology projectionTechnology
@@ -48,20 +47,20 @@ class ProjectionTechnologyMapperService implements ProjectionTechnologyMapper {
     }
 
     @Override
-    public void updateProjectionTechnologyFromUpdateProjectionTechnologyRequest(
-            @NonNull UpdateProjectionTechnologyRequest updateProjectionTechnologyRequest,
-            @NonNull ProjectionTechnology projectionTechnology
-    ) {
-        projectionTechnology.setDescription(updateProjectionTechnologyRequest.description());
-        projectionTechnology.setTechnology(updateProjectionTechnologyRequest.technology());
-    }
-
-    @Override
     public Set<ProjectionTechnologyResponse> mapProjectionTechnologiesToProjectionTechnologyResponses(
             @NonNull Set<ProjectionTechnology> projectionTechnologies
     ) {
         return projectionTechnologies.stream()
                 .map(this::mapProjectionTechnologyToProjectionTechnologyResponse)
                 .collect(Collectors.toSet());
+    }
+
+    @Override
+    public void updateProjectionTechnologyFromUpdateProjectionTechnologyRequest(
+            @NonNull UpdateProjectionTechnologyRequest updateProjectionTechnologyRequest,
+            @NonNull ProjectionTechnology projectionTechnology
+    ) {
+        projectionTechnology.setDescription(updateProjectionTechnologyRequest.description());
+        projectionTechnology.setTechnology(updateProjectionTechnologyRequest.technology());
     }
 }

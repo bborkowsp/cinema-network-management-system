@@ -10,7 +10,6 @@ import javax.crypto.SecretKey;
 @Getter
 @Configuration
 public class JwtConfig {
-
     private final SecretKey secretKey = Jwts.SIG.HS256.key().build();
 
     @Value("${security.jwt.header:Authorization}")

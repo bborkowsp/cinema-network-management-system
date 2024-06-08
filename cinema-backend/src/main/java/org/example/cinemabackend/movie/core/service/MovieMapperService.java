@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 class MovieMapperService implements MovieMapper {
-
     private final ImageMapper imageMapper;
     private final VideoFileMapper videoFileMapper;
     private final FilmMemberMapper filmMemberMapper;

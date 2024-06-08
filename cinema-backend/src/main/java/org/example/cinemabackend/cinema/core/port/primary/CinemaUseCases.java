@@ -17,7 +17,6 @@ public interface CinemaUseCases {
 
     CinemaResponse getCinema(String name);
 
-
     void createCinema(CreateCinemaRequest createCinemaRequest);
 
     void updateCinema(String name, UpdateCinemaRequest updateCinemaRequest);

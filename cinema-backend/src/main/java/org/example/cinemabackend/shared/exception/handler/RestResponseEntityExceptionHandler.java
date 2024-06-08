@@ -12,7 +12,6 @@ import java.util.NoSuchElementException;
 
 @RestControllerAdvice
 class RestResponseEntityExceptionHandler {
-
     private static final String RESPONSE_ERRORS_KEY = "errors";
 
     @ExceptionHandler(IllegalStateException.class)

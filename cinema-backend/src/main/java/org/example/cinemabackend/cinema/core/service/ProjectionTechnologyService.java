@@ -20,7 +20,6 @@ import java.util.NoSuchElementException;
 @Service
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 class ProjectionTechnologyService implements ProjectionTechnologyUseCases {
-
     private final ProjectionTechnologyRepository projectionTechnologyRepository;
     private final ProjectionTechnologyMapper projectionTechnologyMapper;
     private final MovieRepository movieRepository;
@@ -61,6 +60,14 @@ class ProjectionTechnologyService implements ProjectionTechnologyUseCases {
     }
 
     @Override
+    public void deleteProjectionTechnology(String technology) {
+        validateProjectionTechnologyExists(technology);
+        validateProjectionTechnologyIsNotUsedInAnyMovie(technology);
+
+        projectionTechnologyRepository.deleteByTechnology(technology);
+    }
+
+    @Override
     public void updateProjectionTechnology(
             String technology, UpdateProjectionTechnologyRequest updateProjectionTechnologyRequest
     ) {
@@ -70,14 +77,6 @@ class ProjectionTechnologyService implements ProjectionTechnologyUseCases {
         projectionTechnologyMapper.updateProjectionTechnologyFromUpdateProjectionTechnologyRequest(
                 updateProjectionTechnologyRequest, projectionTechnology);
         projectionTechnologyRepository.save(projectionTechnology);
-    }
-
-    @Override
-    public void deleteProjectionTechnology(String technology) {
-        validateProjectionTechnologyExists(technology);
-        validateProjectionTechnologyIsNotUsedInAnyMovie(technology);
-
-        projectionTechnologyRepository.deleteByTechnology(technology);
     }
 
     private void validateProjectionTechnologyDoesntExist(String technology) {
@@ -99,7 +98,7 @@ class ProjectionTechnologyService implements ProjectionTechnologyUseCases {
     }
 
     private void validateProjectionTechnologyIsNotUsedInAnyMovie(String technology) {
-        if (movieRepository.findByProjectionTechnology(technology)) {
+        if (movieRepository.existsByProjectionTechnology(technology)) {
             throw new IllegalArgumentException("Cannot delete projection technology '" + technology + "' because it is used in some movies");
         }
     }

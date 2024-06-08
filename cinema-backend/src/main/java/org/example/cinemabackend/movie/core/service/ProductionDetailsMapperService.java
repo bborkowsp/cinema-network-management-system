@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 class ProductionDetailsMapperService implements ProductionDetailsMapper {
-
     private final FilmMemberMapper filmMemberMapper;
 
     @Override

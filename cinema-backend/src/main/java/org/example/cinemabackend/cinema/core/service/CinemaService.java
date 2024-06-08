@@ -17,7 +17,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 class CinemaService implements CinemaUseCases {
-
     private final CinemaRepository cinemaRepository;
     private final CinemaMapper cinemaMapper;
 

@@ -7,7 +7,7 @@ import org.example.cinemabackend.user.core.domain.User;
 
 import java.util.Set;
 
-public class Ticket extends AbstractEntity<Long> {
+public class Ticket {
     private String ticketNumber;
     private QrCode qrCode;
     private User client;

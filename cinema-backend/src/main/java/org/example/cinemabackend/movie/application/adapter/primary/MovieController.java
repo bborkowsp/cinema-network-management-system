@@ -1,7 +1,6 @@
 package org.example.cinemabackend.movie.application.adapter.primary;
 
 import jakarta.validation.Valid;
-import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.movie.application.dto.request.CreateMovieRequest;
 import org.example.cinemabackend.movie.application.dto.request.UpdateMovieRequest;
@@ -21,9 +20,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/v1/movies")
-@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
+@RequiredArgsConstructor
 class MovieController {
-
     private final MovieUseCases movieUseCases;
 
     @GetMapping

@@ -17,6 +17,4 @@ public interface ScreeningRoomMapper {
     Set<ScreeningRoomResponse> mapScreeningRoomToScreeningRoomResponses(Set<ScreeningRoom> screeningRooms);
 
     ScreeningRoom mapUpdateScreeningRoomToScreeningRoom(UpdateScreeningRoomRequest updateScreeningRoomRequest, ScreeningRoom screeningRoom);
-
-    Set<ScreeningRoom> mapUpdateScreeningRoomToScreeningRoom(Set<UpdateScreeningRoomRequest> updateScreeningRoomRequests, Set<ScreeningRoom> screeningRooms);
 }

@@ -16,7 +16,6 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 class ProjectionTechnologyDatabaseGateway implements ProjectionTechnologyRepository {
-
     private final ProjectionTechnologyJpaRepository projectionTechnologyJpaRepository;
 
     @Override
@@ -41,6 +40,12 @@ class ProjectionTechnologyDatabaseGateway implements ProjectionTechnologyReposit
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public boolean existsByTechnology(@NonNull String technology) {
+        return this.projectionTechnologyJpaRepository.existsByTechnology(technology);
+    }
+
+    @Override
     @Transactional
     public void save(@NonNull ProjectionTechnology projectionTechnology) {
         final var projectionTechnologySchema = ProjectionTechnologySchema.fromProjectionTechnology(projectionTechnology);
@@ -51,11 +56,5 @@ class ProjectionTechnologyDatabaseGateway implements ProjectionTechnologyReposit
     @Transactional
     public void deleteByTechnology(@NonNull String technology) {
         this.projectionTechnologyJpaRepository.deleteByTechnology(technology);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public boolean existsByTechnology(@NonNull String technology) {
-        return this.projectionTechnologyJpaRepository.existsByTechnology(technology);
     }
 }

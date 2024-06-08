@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CinemaRepository {
+
+    List<Cinema> findAll();
+
     Optional<Cinema> findByName(String name);
 
     Optional<Cinema> findByUserEmail(String email);
@@ -15,8 +18,6 @@ public interface CinemaRepository {
     Optional<Cinema> findByCinemaManager(User user);
 
     Optional<Cinema> findByRepertoryContains(Screening screening);
-
-    List<Cinema> findAll();
 
     boolean existsByName(String name);
 

@@ -15,9 +15,9 @@ public interface ProjectionTechnologyRepository {
 
     Optional<ProjectionTechnology> findByTechnology(String technology);
 
+    boolean existsByTechnology(String technology);
+
     void save(ProjectionTechnology projectionTechnology);
 
     void deleteByTechnology(String technology);
-
-    boolean existsByTechnology(String technology);
 }

@@ -13,9 +13,4 @@ public enum AgeRestriction {
         this.ageRestriction = ageRestriction;
     }
 
-    public String getAgeRestriction() {
-        return ageRestriction;
-    }
 }
-
-

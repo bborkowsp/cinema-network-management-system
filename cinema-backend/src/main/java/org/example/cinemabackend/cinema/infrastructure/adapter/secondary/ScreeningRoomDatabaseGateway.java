@@ -11,7 +11,6 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 class ScreeningRoomDatabaseGateway implements ScreeningRoomRepository {
-
     private final ScreeningRoomJpaRepository screeningRoomJpaRepository;
 
     @Override

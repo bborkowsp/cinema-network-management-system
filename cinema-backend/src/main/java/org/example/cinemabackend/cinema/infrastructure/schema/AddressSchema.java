@@ -6,8 +6,8 @@ import org.example.cinemabackend.cinema.core.domain.Address;
 
 @Getter
 @Value
-@Embeddable
 @Builder
+@Embeddable
 @AllArgsConstructor
 @NoArgsConstructor(force = true)
 public class AddressSchema {

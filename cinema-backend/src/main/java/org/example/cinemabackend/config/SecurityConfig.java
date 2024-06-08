@@ -22,7 +22,6 @@ import org.springframework.web.cors.CorsConfigurationSource;
 @RequiredArgsConstructor
 @EnableMethodSecurity()
 class SecurityConfig {
-
     private final CorsConfigurationSource corsConfigurationSource;
     private final PasswordEncoder passwordEncoder;
     private final UserDetailsService userDetailsService;

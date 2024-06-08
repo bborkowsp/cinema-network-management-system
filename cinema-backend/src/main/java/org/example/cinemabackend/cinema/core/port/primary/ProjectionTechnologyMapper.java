@@ -16,8 +16,7 @@ public interface ProjectionTechnologyMapper {
 
     ProjectionTechnology mapCreateProjectionTechnologyRequestToProjectionTechnology(@NonNull CreateProjectionTechnologyRequest createProjectionTechnologyRequest);
 
-    void updateProjectionTechnologyFromUpdateProjectionTechnologyRequest(@NonNull UpdateProjectionTechnologyRequest updateProjectionTechnologyRequest, @NonNull ProjectionTechnology projectionTechnology);
-
     Set<ProjectionTechnologyResponse> mapProjectionTechnologiesToProjectionTechnologyResponses(@NonNull Set<ProjectionTechnology> projectionTechnologies);
 
+    void updateProjectionTechnologyFromUpdateProjectionTechnologyRequest(@NonNull UpdateProjectionTechnologyRequest updateProjectionTechnologyRequest, @NonNull ProjectionTechnology projectionTechnology);
 }

@@ -10,11 +10,14 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface ProjectionTechnologyUseCases {
-    ProjectionTechnologyResponse getProjectionTechnology(String name);
 
     Page<ProjectionTechnologyResponse> getProjectionTechnologies(Pageable pageable);
 
     List<ProjectionTechnologyResponse> getProjectionTechnologies();
+
+    List<ProjectionTechnologyNameResponse> getProjectionTechnologiesNames();
+
+    ProjectionTechnologyResponse getProjectionTechnology(String name);
 
     void createProjectionTechnology(CreateProjectionTechnologyRequest createProjectionTechnologyRequest);
 
@@ -22,5 +25,4 @@ public interface ProjectionTechnologyUseCases {
 
     void updateProjectionTechnology(String technology, UpdateProjectionTechnologyRequest createCinemaRequest);
 
-    List<ProjectionTechnologyNameResponse> getProjectionTechnologiesNames();
 }

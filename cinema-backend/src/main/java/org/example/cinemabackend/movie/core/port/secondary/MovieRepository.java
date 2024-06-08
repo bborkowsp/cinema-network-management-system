@@ -15,7 +15,7 @@ public interface MovieRepository {
 
     List<Movie> findAll();
 
-    boolean findByProjectionTechnology(String technology);
+    boolean existsByProjectionTechnology(String technology);
 
     void save(Movie movie);
 

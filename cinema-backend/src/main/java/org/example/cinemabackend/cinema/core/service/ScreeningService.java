@@ -19,9 +19,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 class ScreeningService implements ScreeningUseCases {
-
     private final ScreeningMapper screeningMapper;
-
     private final MovieRepository movieRepository;
     private final CinemaRepository cinemaRepository;
     private final ScreeningRepository screeningRepository;

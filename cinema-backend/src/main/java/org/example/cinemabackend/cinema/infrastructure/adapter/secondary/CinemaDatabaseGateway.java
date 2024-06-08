@@ -18,8 +18,13 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 class CinemaDatabaseGateway implements CinemaRepository {
-
     private final CinemaJpaRepository cinemaJpaRepository;
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Cinema> findAll() {
+        return cinemaJpaRepository.findAll().stream().map(CinemaSchema::toCinema).toList();
+    }
 
     @Override
     @Transactional(readOnly = true)
@@ -43,12 +48,6 @@ class CinemaDatabaseGateway implements CinemaRepository {
     @Transactional(readOnly = true)
     public Optional<Cinema> findByRepertoryContains(Screening screening) {
         return cinemaJpaRepository.findByRepertoryContains(ScreeningSchema.fromScreening(screening)).map(CinemaSchema::toCinema);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<Cinema> findAll() {
-        return cinemaJpaRepository.findAll().stream().map(CinemaSchema::toCinema).toList();
     }
 
     @Override

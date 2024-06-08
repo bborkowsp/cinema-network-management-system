@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 class ContactDetailsMapperService implements ContactDetailsMapper {
-
     private final ContactTypeMapper contactTypeMapper;
 
     @Override
@@ -48,16 +47,5 @@ class ContactDetailsMapperService implements ContactDetailsMapper {
     public ContactDetails mapUpdateContactDetailsToContactDetails(UpdateContactDetailsRequest updateContactDetailsRequest, ContactDetails contactDetails) {
         contactDetails.setContactType(contactTypeMapper.mapUpdateContactTypeRequestToContactType(updateContactDetailsRequest.contactType()));
         return contactDetails;
-    }
-
-    @Override
-    public Set<ContactDetails> mapUpdateContactDetailsToContactDetails(Set<UpdateContactDetailsRequest> updateContactDetailsRequests, Set<ContactDetails> contactDetails) {
-        return contactDetails.stream().map(contactDetail -> {
-            final var updateContactDetailsRequest = updateContactDetailsRequests.stream()
-                    .filter(request -> request.department().equals(contactDetail.getDepartment()))
-                    .findFirst()
-                    .orElseThrow();
-            return mapUpdateContactDetailsToContactDetails(updateContactDetailsRequest, contactDetail);
-        }).collect(Collectors.toSet());
     }
 }

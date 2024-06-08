@@ -17,6 +17,4 @@ public interface ContactDetailsMapper {
     ContactDetailsResponse mapContactDetailsToContactDetailsResponse(ContactDetails contactDetails);
 
     ContactDetails mapUpdateContactDetailsToContactDetails(UpdateContactDetailsRequest updateContactDetailsRequest, ContactDetails contactDetails);
-
-    Set<ContactDetails> mapUpdateContactDetailsToContactDetails(Set<UpdateContactDetailsRequest> updateContactDetailsRequests, Set<ContactDetails> contactDetails);
 }

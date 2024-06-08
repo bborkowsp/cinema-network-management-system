@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 class ScreeningRoomMapperService implements ScreeningRoomMapper {
-
     private final SeatMapper seatMapper;
     private final ProjectionTechnologyMapper projectionTechnologyMapper;
     private final ProjectionTechnologyRepository projectionTechnologyRepository;
@@ -64,15 +63,5 @@ class ScreeningRoomMapperService implements ScreeningRoomMapper {
         screeningRoom.setSupportedTechnologies(supportedTechnologies);
 
         return screeningRoom;
-    }
-
-    @Override
-    public Set<ScreeningRoom> mapUpdateScreeningRoomToScreeningRoom(Set<UpdateScreeningRoomRequest> updateScreeningRoomRequests, Set<ScreeningRoom> screeningRooms) {
-        return updateScreeningRoomRequests.stream()
-                .map(updateScreeningRoomRequest -> mapUpdateScreeningRoomToScreeningRoom(updateScreeningRoomRequest, screeningRooms.stream()
-                        .filter(screeningRoom -> screeningRoom.getName().equals(updateScreeningRoomRequest.name()))
-                        .findFirst()
-                        .orElseThrow()))
-                .collect(Collectors.toSet());
     }
 }

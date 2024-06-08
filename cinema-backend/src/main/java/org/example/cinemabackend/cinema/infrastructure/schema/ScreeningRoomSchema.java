@@ -32,7 +32,6 @@ public class ScreeningRoomSchema {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<ProjectionTechnologySchema> supportedTechnologies = new HashSet<>();
 
-
     public static ScreeningRoomSchema fromScreeningRoom(ScreeningRoom screeningRoom) {
         String seatingPlanAsJson = convertSeatToSeatSchema(screeningRoom.getSeatingPlan());
         return ScreeningRoomSchema.builder()
@@ -99,9 +98,6 @@ public class ScreeningRoomSchema {
         }
 
         return Objects.equals(id, screeningRoom.getId()) &&
-                Objects.equals(name, screeningRoom.getName())
-                ;
+                Objects.equals(name, screeningRoom.getName());
     }
-
-
 }

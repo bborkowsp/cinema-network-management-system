@@ -7,7 +7,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 class PasswordEncoderConfig {
-
     private static final int SALT_LENGTH = 16;
     private static final int HASH_LENGTH = 32;
     private static final int PARALLELISM = 4;

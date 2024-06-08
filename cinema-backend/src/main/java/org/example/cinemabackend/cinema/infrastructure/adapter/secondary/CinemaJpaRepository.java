@@ -26,8 +26,6 @@ public interface CinemaJpaRepository extends JpaRepository<CinemaSchema, Long> {
 
     boolean existsByCinemaManagerEmail(String email);
 
-    void deleteByName(String name);
-
     @Modifying
     @Transactional
     @Query("update CinemaSchema c set c.cinemaManager.id = :cinemaManagerId where c.id = :cinemaId")
@@ -38,4 +36,5 @@ public interface CinemaJpaRepository extends JpaRepository<CinemaSchema, Long> {
     @Query("update CinemaSchema c set c.cinemaManager = null where c.id = :cinemaId")
     void updateCinemaManagerToNull(Long cinemaId);
 
+    void deleteByName(String name);
 }

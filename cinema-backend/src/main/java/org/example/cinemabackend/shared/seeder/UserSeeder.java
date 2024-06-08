@@ -16,7 +16,6 @@ import java.util.Set;
 @RequiredArgsConstructor
 @Order(2)
 public class UserSeeder implements Seeder {
-
     private static final String PASSWORD = "password";
     private static final String EMAIL = "example@example.com";
     private final UserRepository userRepository;

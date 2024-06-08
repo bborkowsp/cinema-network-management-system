@@ -17,5 +17,4 @@ public interface MovieJpaRepository extends JpaRepository<MovieSchema, Long> {
 
     @Query("SELECT COUNT(m) > 0 FROM MovieSchema m JOIN m.projectionTechnologies pt WHERE pt.technology = :technology")
     boolean existsByProjectionTechnologyTechnology(@Param("technology") String technology);
-
 }

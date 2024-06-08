@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 class ScreeningMapperService implements ScreeningMapper {
-
     private final MovieMapper movieMapper;
     private final ScreeningRoomMapper screeningRoomMapper;
     private final MovieRepository movieRepository;

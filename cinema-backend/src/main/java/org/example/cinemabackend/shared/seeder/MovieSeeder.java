@@ -55,11 +55,19 @@ class MovieSeeder implements Seeder {
     private ProductionDetails createProductionDetails() {
         final var director = createFilmMember();
         final var actors = createFilmMembers();
-        return new ProductionDetails(faker.date().birthday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), director, actors, createOriginalLanguages(), createProductionCountries());
+        return new ProductionDetails(
+                faker.date().birthday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+                director, actors, createOriginalLanguages(), createProductionCountries()
+        );
     }
 
     private SubtitleAndSoundOptions createSubtitleAndSoundOptions() {
-        return new SubtitleAndSoundOptions(faker.bool().bool(), faker.bool().bool(), faker.bool().bool(), faker.bool().bool());
+        return new SubtitleAndSoundOptions(
+                faker.bool().bool(),
+                faker.bool().bool(),
+                faker.bool().bool(),
+                faker.bool().bool()
+        );
     }
 
     private AgeRestriction createAgeRestriction() {

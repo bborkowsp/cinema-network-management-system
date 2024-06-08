@@ -14,17 +14,17 @@ import java.util.List;
 public interface MovieUseCases {
     Page<MovieListResponse> getMovies(Pageable pageable);
 
-    MovieResponse getMovie(String title);
-
-    void createMovie(CreateMovieRequest createMovieRequest);
-
-    void deleteMovie(String title);
-
     List<Genre> getGenres();
 
     List<AgeRestriction> getAgeRestrictions();
 
+    List<String> getMovieTitles();
+
+    MovieResponse getMovie(String title);
+
+    void createMovie(CreateMovieRequest createMovieRequest);
+
     void updateMovie(String title, UpdateMovieRequest updateMovieRequest);
 
-    List<String> getMovieTitles();
+    void deleteMovie(String title);
 }

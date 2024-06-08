@@ -14,7 +14,6 @@ import java.util.Set;
 @RequiredArgsConstructor
 @Order(0)
 class ProjectionTechnologySeeder implements Seeder {
-
     private final ProjectionTechnologyRepository projectionTechnologyRepository;
     private final Faker faker;
     private int increment = 0;

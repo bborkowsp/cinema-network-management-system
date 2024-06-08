@@ -15,7 +15,6 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 class MovieDatabaseGateway implements MovieRepository {
-
     private final MovieJpaRepository movieJpaRepository;
 
     @Override
@@ -38,7 +37,7 @@ class MovieDatabaseGateway implements MovieRepository {
 
     @Override
     @Transactional(readOnly = true)
-    public boolean findByProjectionTechnology(String technology) {
+    public boolean existsByProjectionTechnology(String technology) {
         return this.movieJpaRepository.existsByProjectionTechnologyTechnology(technology);
     }
 

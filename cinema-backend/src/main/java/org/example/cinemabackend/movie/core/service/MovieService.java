@@ -23,13 +23,28 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 class MovieService implements MovieUseCases {
-
     private final MovieRepository movieRepository;
     private final MovieMapper movieMapper;
 
     @Override
     public Page<MovieListResponse> getMovies(Pageable pageable) {
         return movieRepository.findAll(pageable).map(movieMapper::mapMovieToMovieListResponse);
+    }
+
+    @Override
+    public List<Genre> getGenres() {
+        return List.of(Genre.values());
+    }
+
+    @Override
+    public List<AgeRestriction> getAgeRestrictions() {
+        return List.of(AgeRestriction.values());
+    }
+
+    @Override
+    public List<String> getMovieTitles() {
+        final var movies = movieRepository.findAll();
+        return movies.stream().map(Movie::getTitle).collect(Collectors.toList());
     }
 
     @Override
@@ -53,12 +68,6 @@ class MovieService implements MovieUseCases {
         movieRepository.save(movie);
     }
 
-    private void validateMovieTitleIsNotTaken(String oldTitle, String newTitle) {
-        if (!oldTitle.equals(newTitle) && movieRepository.findByTitle(newTitle).isPresent()) {
-            throw new IllegalArgumentException("Movie with title " + newTitle + " already exists");
-        }
-    }
-
     @Override
     @Transactional
     public void deleteMovie(String title) {
@@ -66,20 +75,10 @@ class MovieService implements MovieUseCases {
         movieRepository.deleteByTitle(title);
     }
 
-    @Override
-    public List<String> getMovieTitles() {
-        final var movies = movieRepository.findAll();
-        return movies.stream().map(Movie::getTitle).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<Genre> getGenres() {
-        return List.of(Genre.values());
-    }
-
-    @Override
-    public List<AgeRestriction> getAgeRestrictions() {
-        return List.of(AgeRestriction.values());
+    private void validateMovieTitleIsNotTaken(String oldTitle, String newTitle) {
+        if (!oldTitle.equals(newTitle) && movieRepository.findByTitle(newTitle).isPresent()) {
+            throw new IllegalArgumentException("Movie with title " + newTitle + " already exists");
+        }
     }
 
     private void validateMovieExists(String title) {
@@ -93,5 +92,4 @@ class MovieService implements MovieUseCases {
             throw new IllegalArgumentException("Movie with title " + title + " already exists");
         }
     }
-
 }

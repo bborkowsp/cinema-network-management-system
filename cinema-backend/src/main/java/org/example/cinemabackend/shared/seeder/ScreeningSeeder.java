@@ -19,36 +19,41 @@ import java.util.Set;
 @RequiredArgsConstructor
 @Order(4)
 class ScreeningSeeder implements Seeder {
+    private static final int SCREENINGS_PER_CINEMA = 2;
     private final CinemaRepository cinemaRepository;
     private final MovieRepository movieRepository;
 
     @Override
     public void seedDatabase(int objectsToSeed) {
-        final var cinemas = cinemaRepository.findAll();
-        cinemas.forEach(cinema -> {
-            createRepertory(cinema);
-            cinemaRepository.save(cinema);
-        });
+        cinemaRepository.findAll().forEach(this::createAndSaveRepertory);
     }
 
-    private void createRepertory(Cinema cinema) {
+    private void createAndSaveRepertory(Cinema cinema) {
+        cinema.setRepertory(createRepertory(cinema));
+        cinemaRepository.save(cinema);
+    }
+
+    private List<Screening> createRepertory(Cinema cinema) {
         List<Screening> repertory = new ArrayList<>();
-        for (int i = 0; i < 2; i++)
-            repertory.add(createScreening(cinema.getScreeningRooms()));
-
-        cinema.setRepertory(repertory);
+        for (int i = 0; i < SCREENINGS_PER_CINEMA; i++) {
+            repertory.add(createScreening(cinema));
+        }
+        return repertory;
     }
 
-    private Screening createScreening(Set<ScreeningRoom> screeningRooms) {
+    private Screening createScreening(Cinema cinema) {
+        final var screeningRoom = getRandomScreeningRoom(cinema.getScreeningRooms());
         final var movie = getMovie();
         final var startTime = LocalDateTime.now().plusDays(1);
         final var endTime = startTime.plusHours(2);
-        return new Screening(
-                movie, startTime, endTime, screeningRooms.stream().findAny().get()
-        );
+        return new Screening(movie, startTime, endTime, screeningRoom);
+    }
+
+    private ScreeningRoom getRandomScreeningRoom(Set<ScreeningRoom> screeningRooms) {
+        return screeningRooms.stream().findAny().orElseThrow();
     }
 
     private Movie getMovie() {
-        return movieRepository.findAll().stream().findAny().get();
+        return movieRepository.findAll().stream().findAny().orElseThrow();
     }
 }

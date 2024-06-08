@@ -23,7 +23,6 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 class CinemaMapperService implements CinemaMapper {
-
     private final UserMapper userMapper;
     private final ImageMapper imageMapper;
     private final AddressMapper addressMapper;
