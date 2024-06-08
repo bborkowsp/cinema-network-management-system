@@ -1,19 +1,19 @@
 <form #contactForm="ngForm" (ngSubmit)="saveContactDetail()">
-  <mat-form-field class="example-full-width">
+  <mat-form-field class="input-form-field">
     <mat-label>Department</mat-label>
     <input matInput [formControl]="departmentControl" required type="text" maxlength="100">
   </mat-form-field>
-  <table class="example-full-width">
+  <table class="input-form-field">
     <tr>
       <td>
-        <mat-form-field class="example-full-width">
+        <mat-form-field class="input-form-field">
           <mat-label>Email</mat-label>
           <input matInput [formControl]="emailControl" required type="email">
           <mat-icon matSuffix>alternate_email</mat-icon>
         </mat-form-field>
       </td>
       <td>
-        <mat-form-field class="example-full-width">
+        <mat-form-field class="input-form-field">
           <mat-label>Phone number</mat-label>
           <input matInput [formControl]="phoneNumberControl" required type="tel">
           <mat-icon matSuffix>phone</mat-icon>

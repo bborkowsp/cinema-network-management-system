@@ -59,8 +59,8 @@ export class MovieFormBuilder {
         worldPremiereDate: ['', [Validators.required]],
         director: ['', [Validators.required, Validators.pattern('^[A-Za-z]+\\s[A-Za-z]+(?:,\\s[A-Za-z]+\\s[A-Za-z]+)*$')]],
         actors: ['', [Validators.required, Validators.pattern('^[A-Za-z]+\\s[A-Za-z]+(?:,\\s[A-Za-z]+\\s[A-Za-z]+)*$')]],
-        originalLanguages: ['', [Validators.required, Validators.pattern('^[A-Za-z]+\\s[A-Za-z]+(?:,\\s[A-Za-z]+\\s[A-Za-z]+)*$')]],
-        productionCountries: ['', [Validators.required, Validators.pattern('^[A-Za-z]+\\s[A-Za-z]+(?:,\\s[A-Za-z]+\\s[A-Za-z]+)*$')]],
+        originalLanguages: ['', [Validators.required]],
+        productionCountries: ['', [Validators.required]],
       }),
       imageAndTrailer: this.formBuilder.group({
         image: ['', [Validators.required]],

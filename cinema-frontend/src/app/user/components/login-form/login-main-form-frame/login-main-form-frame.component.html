@@ -1,10 +1,10 @@
-<div class="register-form-container">
-  <mat-form-field class="example-full-width">
+<div class="inputs-form-container">
+  <mat-form-field class="input-form-field">
     <mat-label>Email</mat-label>
     <input [formControl]="emailControl" matInput maxlength="255" required>
   </mat-form-field>
 
-  <mat-form-field class="example-full-width">
+  <mat-form-field class="input-form-field">
     <mat-label>Password</mat-label>
     <div class="password-input-container">
       <input [formControl]="passwordControl" [type]="hidePassword ? 'password' : 'text'" matInput maxlength="255"
@@ -15,7 +15,7 @@
     </div>
   </mat-form-field>
 
-  <mat-form-field class="example-full-width">
+  <mat-form-field class="input-form-field">
     <mat-label>Role</mat-label>
     <mat-select [formControl]="roleControl">
       <mat-option value="CINEMA_MANAGER">Cinema Manager</mat-option>

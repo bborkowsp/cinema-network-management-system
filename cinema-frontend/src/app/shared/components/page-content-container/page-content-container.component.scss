@@ -17,6 +17,7 @@ $mat-fab-size: 56px;
 
   &__content-container {
     width: 100%;
+    flex-grow: 1;
   }
 
   &__action-buttons-container {
@@ -36,6 +37,7 @@ $mat-fab-size: 56px;
   &__spinner-container {
     display: flex;
     justify-content: center;
+    height: 100%;
   }
 }
 

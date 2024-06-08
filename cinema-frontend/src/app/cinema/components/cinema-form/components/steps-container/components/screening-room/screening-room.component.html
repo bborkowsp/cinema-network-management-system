@@ -1,20 +1,20 @@
 <form #contactForm="ngForm" (ngSubmit)="createGridOfSeats()">
-  <mat-form-field class="example-full-width">
+  <mat-form-field class="input-form-field">
     <mat-label>Screening room name</mat-label>
     <input matInput [formControl]="nameControl" required type="text" maxlength="100">
   </mat-form-field>
 
-  <table class="example-full-width">
+  <table class="input-form-field">
     <tr>
       <td>
-        <mat-form-field class="example-full-width">
+        <mat-form-field class="input-form-field">
           <mat-label>Number of rows</mat-label>
           <input [formControl]="rowsNumberControl" matInput required type="number" [max]="20" [min]="1">
           <mat-hint align="end">{{ rowsNumberControl.value }} / 20</mat-hint>
         </mat-form-field>
       </td>
       <td>
-        <mat-form-field class="example-full-width">
+        <mat-form-field class="input-form-field">
           <mat-label>Number columns</mat-label>
           <input [formControl]="columnsNumberControl" matInput required type="number" [max]="30" [min]="1">
           <mat-hint align="end">{{ columnsNumberControl.value }} / 30</mat-hint>
@@ -31,7 +31,7 @@
   </button>
 </form>
 
-<mat-form-field class="example-full-width">
+<mat-form-field class="input-form-field">
   <mat-label>Projection technologies</mat-label>
   <mat-select [formControl]="supportedTechnolgiesControl" multiple>
     <mat-option *ngFor="let projectionTechnology of projectionTechnologies | async"

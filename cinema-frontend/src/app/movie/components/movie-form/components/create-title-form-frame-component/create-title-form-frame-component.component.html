@@ -1,13 +1,13 @@
 <app-generic-form-frame title="Titles">
   <ng-container content>
-    <div class="register-form-container">
-      <mat-form-field class="example-full-width">
+    <div class="inputs-form-container">
+      <mat-form-field class="input-form-field">
         <mat-label>Title name</mat-label>
         <input [formControl]="titleControl" matInput maxlength="100" required>
         <mat-hint align="end">{{ titleControl.value.length }} / 100</mat-hint>
       </mat-form-field>
 
-      <mat-form-field class="example-full-width">
+      <mat-form-field class="input-form-field">
         <mat-label>Original title</mat-label>
         <input [formControl]="originalTitleControl" matInput maxlength="100" required>
         <mat-hint align="end">{{ originalTitleControl.value.length }} / 100</mat-hint>

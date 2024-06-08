@@ -1,13 +1,13 @@
 <app-generic-form-frame title="About">
   <ng-container content>
-    <div class="register-form-container">
-      <mat-form-field class="example-full-width">
+    <div class="inputs-form-container">
+      <mat-form-field class="input-form-field">
         <mat-label>Technology name</mat-label>
         <input [formControl]="technologyControl" matInput maxlength="50" required>
         <mat-hint align="end">{{ technologyControl.value.length }} / 50</mat-hint>
       </mat-form-field>
 
-      <mat-form-field class="example-full-width">
+      <mat-form-field class="input-form-field">
         <mat-label>Description</mat-label>
         <input [formControl]="descriptionControl" matInput maxlength="200" required>
         <mat-hint align="end">{{ descriptionControl.value.length }} / 200</mat-hint>

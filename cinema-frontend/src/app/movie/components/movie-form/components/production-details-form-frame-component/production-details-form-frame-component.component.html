@@ -1,21 +1,20 @@
 <app-generic-form-frame title="Production details">
   <ng-container content>
-    <div class="register-form-container">
-
-      <mat-form-field class="example-full-width">
+    <div class="inputs-form-container">
+      <mat-form-field class="input-form-field">
         <mat-label>Director</mat-label>
         <input [formControl]="directorControl" matInput maxlength="100" placeholder="Ex. Steven Spielberg" required>
         <mat-hint align="end">{{ directorControl.value.length }} / 100</mat-hint>
       </mat-form-field>
 
-      <mat-form-field class="example-full-width">
+      <mat-form-field class="input-form-field">
         <mat-label>Cast</mat-label>
         <input [formControl]="actorsControl" matInput maxlength="2000" placeholder="Ex. Tom Hanks, Sandra Bullock, ..."
                required>
         <mat-hint align="end">{{ actorsControl.value.length }} / 2000</mat-hint>
       </mat-form-field>
 
-      <mat-form-field class="example-full-width">
+      <mat-form-field class="input-form-field">
         <mat-label>Choose a date</mat-label>
         <input [formControl]="worldPremierDateControl" [matDatepicker]="picker" matInput>
         <mat-hint>MM/DD/YYYY</mat-hint>
@@ -23,21 +22,19 @@
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
 
-      <mat-form-field class="example-full-width">
+      <mat-form-field class="input-form-field">
         <mat-label>Original languages</mat-label>
         <input [formControl]="originalLanguagesControl" matInput maxlength="2000" placeholder="Ex. EN, POL, ..."
                required>
         <mat-hint align="end">{{ originalLanguagesControl.value.length }} / 2000</mat-hint>
       </mat-form-field>
 
-      <mat-form-field class="example-full-width">
+      <mat-form-field class="input-form-field">
         <mat-label>Production countries languages</mat-label>
         <input [formControl]="productionCountriesControl" matInput maxlength="2000" placeholder="Ex. Poland, USA, ..."
                required>
         <mat-hint align="end">{{ productionCountriesControl.value.length }} / 2000</mat-hint>
       </mat-form-field>
-
-
     </div>
   </ng-container>
 </app-generic-form-frame>

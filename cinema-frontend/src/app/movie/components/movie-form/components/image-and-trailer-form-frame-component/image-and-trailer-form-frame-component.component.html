@@ -1,12 +1,12 @@
 <app-generic-form-frame title="Poster and trailer">
   <ng-container content>
-    <div class="register-form-container">
+    <div class="inputs-form-container">
       <div class="custom-file-input">
         <input #fileInput (change)="onFileSelected($event)" accept="image/*" type="file">
         <button (click)="fileInput.click()" mat-raised-button type="button">Choose Image</button>
         <span *ngIf="selectedFileName" class="selected-file-name">{{ selectedFileName }}</span>
       </div>
-      <mat-form-field class="example-full-width">
+      <mat-form-field class="input-form-field">
         <mat-label>Trailer</mat-label>
         <input [formControl]="trailerControl" matInput placeholder="Paste link here..." required>
       </mat-form-field>

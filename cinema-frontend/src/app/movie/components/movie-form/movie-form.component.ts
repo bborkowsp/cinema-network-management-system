@@ -12,7 +12,6 @@ import {UpdateMovieRequest} from "../../dtos/request/update-movie.request";
   styleUrls: ['./movie-form.component.scss']
 })
 export class MovieFormComponent implements OnInit {
-
   protected isEditMode = false;
   protected isLoading = true;
   protected pageTitle !: string;
@@ -98,7 +97,6 @@ export class MovieFormComponent implements OnInit {
       this.isLoading = false;
     });
   }
-
 
   private goBack() {
     this.router.navigate([MovieFormComponent.GO_BACK_NAVIGATION_PATH]);

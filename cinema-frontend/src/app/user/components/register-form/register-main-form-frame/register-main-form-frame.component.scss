@@ -1,8 +1,13 @@
 @import "../../../../shared/styles/_colors.scss";
 
-.example-full-width {
+.input-form-field {
   width: 100%;
-  margin-top: 1rem;
+}
+
+.register-form-container {
+  display: flex;
+  flex-direction: column;
+  width: 60rem;
 }
 
 .password-input-container {
@@ -10,7 +15,7 @@
   align-items: center;
 }
 
-.register-form-container {
+.inputs-form-container {
   display: flex;
   flex-direction: column;
   width: 60rem;
