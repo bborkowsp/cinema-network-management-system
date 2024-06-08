@@ -11,15 +11,15 @@ import {RouterLink} from '@angular/router';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatMenuModule} from '@angular/material/menu';
 import {SharedModule} from "../shared/shared.module";
-import { NavListComponent } from './components/nav-list/nav-list.component';
-import { AccountComponent } from './components/account/account.component';
+import {NavigationListComponent} from './components/navigation-list/navigation-list.component';
+import {AccountComponent} from './components/account/account.component';
 
 @NgModule({
   declarations: [
     ScaffoldComponent,
     ToolbarComponent,
     DrawerComponent,
-    NavListComponent,
+    NavigationListComponent,
     AccountComponent,
   ],
   imports: [

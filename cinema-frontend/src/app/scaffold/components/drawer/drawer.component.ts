@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 
 
-export interface NavLink {
+export interface NavigationLink {
   label: string;
   path: string;
   icon: string;
@@ -14,7 +14,6 @@ export interface NavLink {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DrawerComponent {
-  @Input({required: true}) navLinks!: NavLink[];
-  @Input({required: true}) opened!: boolean;
-
+  @Input({required: true}) navigationLinks!: NavigationLink[];
+  @Input({required: true}) drawerOpened!: boolean;
 }

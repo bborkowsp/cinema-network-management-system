@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {Router} from "@angular/router";
-import {NavLink} from "./components/drawer/drawer.component";
+import {NavigationLink} from "./components/drawer/drawer.component";
 import {AuthService} from "../user/services/auth.service";
 
 @Component({
@@ -9,8 +9,7 @@ import {AuthService} from "../user/services/auth.service";
   styleUrls: ['./scaffold.component.scss']
 })
 export class ScaffoldComponent {
-  protected navLinks: NavLink[] = [];
-
+  protected navigationLinks: NavigationLink[] = [];
   protected isDrawerOpened = false;
 
   constructor(
@@ -37,10 +36,9 @@ export class ScaffoldComponent {
     this.authService.logout();
   }
 
-
   private setUpNavLinks() {
     const userRole = this.authService.getUserRole();
-    this.navLinks = [
+    this.navigationLinks = [
       {
         label: 'Home',
         path: '/home',
@@ -51,14 +49,10 @@ export class ScaffoldComponent {
         path: '/movies',
         icon: 'movie'
       },
-      {
-        label: 'Cinemas',
-        path: '/cinemas',
-        icon: 'business'
-      },
     ];
+
     if (userRole === 'CINEMA_MANAGER') {
-      this.navLinks.push(
+      this.navigationLinks.push(
         {
           label: 'Repertory',
           path: '/repertory',
@@ -68,7 +62,7 @@ export class ScaffoldComponent {
     }
 
     if (userRole === 'CINEMA_NETWORK_MANAGER') {
-      this.navLinks.push(
+      this.navigationLinks.push(
         {
           label: 'Cinema managers',
           path: '/cinema-managers',
@@ -78,7 +72,12 @@ export class ScaffoldComponent {
           label: 'Projection technologies',
           path: '/projection-technologies',
           icon: 'settings'
-        }
+        },
+        {
+          label: 'Cinemas',
+          path: '/cinemas',
+          icon: 'business'
+        },
       );
     }
   }
