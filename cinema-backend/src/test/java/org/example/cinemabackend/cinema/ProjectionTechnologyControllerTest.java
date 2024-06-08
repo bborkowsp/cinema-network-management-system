@@ -17,7 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.example.cinemabackend.cinema.testdata.ProjectionTechnologyTestDataProvider.generateCreateProjectionTechnologyRequest;
-import static org.example.cinemabackend.cinema.testdata.ProjectionTechnologyTestDataProvider.generateProjectionTechnologies;
+import static org.example.cinemabackend.cinema.testdata.ProjectionTechnologyTestDataProvider.generateProjectionTechnologiesList;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ProjectionTechnologyControllerTest {
 
-    private static final String PROJECTION_TECHNOLOGY_ENDPOINT_PATH = "/v1/projection-technologies";
+    private static final String PROJECTION_TECHNOLOGIES_ENDPOINT_PATH = "/v1/projection-technologies";
 
     @Autowired
     private ProjectionTechnologyRepository projectionTechnologyRepository;
@@ -43,7 +43,7 @@ public class ProjectionTechnologyControllerTest {
     @Order(1)
     void givenNoProjectionTechnologiesInDatabase_whenGetProjectionTechnologies_thenReturnEmptyList() throws Exception {
         //When, Then
-        mockMvc.perform(get(PROJECTION_TECHNOLOGY_ENDPOINT_PATH))
+        mockMvc.perform(get(PROJECTION_TECHNOLOGIES_ENDPOINT_PATH))
                 .andExpectAll(
                         status().isOk(),
                         content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON),
@@ -56,11 +56,11 @@ public class ProjectionTechnologyControllerTest {
     @Order(2)
     void givenProjectionTechnologiesInDatabase_whenGetProjectionTechnologies_thenReturnProjectionTechnologiesPage() throws Exception {
         //Given
-        final var projectionTechnologies = generateProjectionTechnologies();
+        final var projectionTechnologies = generateProjectionTechnologiesList();
         projectionTechnologies.forEach(projectionTechnologyRepository::save);
 
         //When, Then
-        mockMvc.perform(get(PROJECTION_TECHNOLOGY_ENDPOINT_PATH))
+        mockMvc.perform(get(PROJECTION_TECHNOLOGIES_ENDPOINT_PATH))
                 .andExpectAll(
                         status().isOk(),
                         content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON),
@@ -76,14 +76,14 @@ public class ProjectionTechnologyControllerTest {
     @Order(3)
     void givenProjectionTechnologiesInDatabase_whenGetProjectionTechnologiesWithPageNumberAndSize_thenReturnProjectionTechnologiesPage() throws Exception {
         //Given
-        final var projectionTechnologies = generateProjectionTechnologies();
+        final var projectionTechnologies = generateProjectionTechnologiesList();
         projectionTechnologies.forEach(projectionTechnologyRepository::save);
 
         final var pageNumber = "1";
         final var pageSize = "3";
 
         //When, Then
-        mockMvc.perform(get(PROJECTION_TECHNOLOGY_ENDPOINT_PATH)
+        mockMvc.perform(get(PROJECTION_TECHNOLOGIES_ENDPOINT_PATH)
                         .param("page", pageNumber)
                         .param("size", pageSize))
                 .andExpectAll(
@@ -105,7 +105,7 @@ public class ProjectionTechnologyControllerTest {
         final var technology = projectionTechnologyRepository.findAll().getFirst();
 
         //When, Then
-        mockMvc.perform(get(PROJECTION_TECHNOLOGY_ENDPOINT_PATH + "/" + technology.getTechnology()))
+        mockMvc.perform(get(PROJECTION_TECHNOLOGIES_ENDPOINT_PATH + "/" + technology.getTechnology()))
                 .andExpectAll(
                         status().isOk(),
                         content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON),
@@ -121,7 +121,7 @@ public class ProjectionTechnologyControllerTest {
         final var createProjectionTechnologyRequest = generateCreateProjectionTechnologyRequest();
 
         //When
-        mockMvc.perform(post(PROJECTION_TECHNOLOGY_ENDPOINT_PATH)
+        mockMvc.perform(post(PROJECTION_TECHNOLOGIES_ENDPOINT_PATH)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createProjectionTechnologyRequest)))
                 .andExpectAll(
@@ -141,7 +141,7 @@ public class ProjectionTechnologyControllerTest {
                 projectionTechnology.getTechnology(), "Description");
 
         //When, Then
-        mockMvc.perform(post(PROJECTION_TECHNOLOGY_ENDPOINT_PATH)
+        mockMvc.perform(post(PROJECTION_TECHNOLOGIES_ENDPOINT_PATH)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createProjectionTechnologyRequest)))
                 .andExpect(status().isBadRequest());
@@ -155,7 +155,7 @@ public class ProjectionTechnologyControllerTest {
         final var updateProjectionTechnologyRequest = new CreateProjectionTechnologyRequest(technology.getTechnology(), "New description");
 
         //When
-        mockMvc.perform(patch(PROJECTION_TECHNOLOGY_ENDPOINT_PATH + "/" + technology.getTechnology())
+        mockMvc.perform(patch(PROJECTION_TECHNOLOGIES_ENDPOINT_PATH + "/" + technology.getTechnology())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(updateProjectionTechnologyRequest)))
                 .andExpect(status().isNoContent());
@@ -173,12 +173,12 @@ public class ProjectionTechnologyControllerTest {
         final var technology = projectionTechnologyRepository.findAll().getFirst();
 
         //When
-        mockMvc.perform(delete(PROJECTION_TECHNOLOGY_ENDPOINT_PATH + "/" + technology.getTechnology()))
-                .andExpect(status().isOk());
+        mockMvc.perform(delete(PROJECTION_TECHNOLOGIES_ENDPOINT_PATH + "/" + technology.getTechnology()))
+                .andExpect(status().isNoContent());
 
         //Then
-        mockMvc.perform(get(PROJECTION_TECHNOLOGY_ENDPOINT_PATH + "/" + technology.getTechnology()))
-                .andExpect(status().isBadRequest());
+        mockMvc.perform(get(PROJECTION_TECHNOLOGIES_ENDPOINT_PATH + "/" + technology.getTechnology()))
+                .andExpect(status().isNotFound());
     }
 
 

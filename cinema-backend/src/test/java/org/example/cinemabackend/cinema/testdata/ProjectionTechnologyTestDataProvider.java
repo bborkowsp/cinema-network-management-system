@@ -1,19 +1,34 @@
 package org.example.cinemabackend.cinema.testdata;
 
+import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.application.dto.request.create.CreateProjectionTechnologyRequest;
+import org.example.cinemabackend.cinema.core.port.secondary.ProjectionTechnologyRepository;
 import org.example.cinemabackend.movie.core.domain.ProjectionTechnology;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
 
+@Component
+@RequiredArgsConstructor
 public class ProjectionTechnologyTestDataProvider {
 
     private static int projectionTechnologyCounter = 0;
+    private final ProjectionTechnologyRepository projectionTechnologyRepository;
 
     public static CreateProjectionTechnologyRequest generateCreateProjectionTechnologyRequest() {
         return new CreateProjectionTechnologyRequest(getTechnology(), "Description");
     }
 
-    public static List<ProjectionTechnology> generateProjectionTechnologies() {
+    public static Set<ProjectionTechnology> generateProjectionTechnologies() {
+        return Set.of(
+                new ProjectionTechnology(getTechnology(), "Description 1"),
+                new ProjectionTechnology(getTechnology(), "Description 2"),
+                new ProjectionTechnology(getTechnology(), "Description 3")
+        );
+    }
+
+    public static List<ProjectionTechnology> generateProjectionTechnologiesList() {
         return List.of(
                 new ProjectionTechnology(getTechnology(), "Description 1"),
                 new ProjectionTechnology(getTechnology(), "Description 2"),
@@ -23,5 +38,9 @@ public class ProjectionTechnologyTestDataProvider {
 
     private static String getTechnology() {
         return "Projection technology No. " + projectionTechnologyCounter++;
+    }
+
+    public void saveProjectionTechnologiesToDatabase(Set<ProjectionTechnology> projectionTechnologies) {
+        projectionTechnologies.forEach(projectionTechnologyRepository::save);
     }
 }

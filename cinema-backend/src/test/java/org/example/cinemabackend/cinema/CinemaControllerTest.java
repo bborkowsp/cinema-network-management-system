@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class CinemaControllerTest {
 
-    private static final String CINEMA_ENDPOINT_PATH = "/v1/cinemas";
+    private static final String CINEMAS_ENDPOINT_PATH = "/v1/cinemas";
 
     @Autowired
     private MockMvc mockMvc;
@@ -54,7 +54,7 @@ class CinemaControllerTest {
         cinemas.forEach(cinemaRepository::save);
 
         //When, Then
-        mockMvc.perform(get(CINEMA_ENDPOINT_PATH))
+        mockMvc.perform(get(CINEMAS_ENDPOINT_PATH))
                 .andExpectAll(
                         status().isOk(),
                         content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON),
@@ -73,7 +73,7 @@ class CinemaControllerTest {
 
         // When, Then
         final Cinema cinema = cinemaRepository.findAll().getFirst();
-        final var url = CINEMA_ENDPOINT_PATH + "/" + cinema.getName();
+        final var url = CINEMAS_ENDPOINT_PATH + "/" + cinema.getName();
         mockMvc.perform(get(url))
                 .andExpectAll(
                         status().isOk(),
@@ -89,7 +89,7 @@ class CinemaControllerTest {
         final var createCinemaRequest = cinemaTestDataProvider.generateCreateCinemaRequest();
 
         // When
-        mockMvc.perform(post(CINEMA_ENDPOINT_PATH)
+        mockMvc.perform(post(CINEMAS_ENDPOINT_PATH)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createCinemaRequest)))
                 .andExpect(status().isCreated());
@@ -106,7 +106,7 @@ class CinemaControllerTest {
         final var updateCinemaRequest = cinemaTestDataProvider.generateUpdateCinemaRequest(cinema.getName());
 
         // When
-        final var url = CINEMA_ENDPOINT_PATH + "/" + cinema.getName();
+        final var url = CINEMAS_ENDPOINT_PATH + "/" + cinema.getName();
         mockMvc.perform(patch(url)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(updateCinemaRequest)))
@@ -127,7 +127,7 @@ class CinemaControllerTest {
         final var cinema = cinemaRepository.findAll().getFirst();
 
         // When
-        final var url = CINEMA_ENDPOINT_PATH + "/" + cinema.getName();
+        final var url = CINEMAS_ENDPOINT_PATH + "/" + cinema.getName();
         mockMvc.perform(delete(url))
                 .andExpect(status().isNoContent());
 

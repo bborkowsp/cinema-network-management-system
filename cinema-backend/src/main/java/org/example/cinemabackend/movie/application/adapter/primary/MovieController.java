@@ -38,6 +38,18 @@ class MovieController {
         return ResponseEntity.ok(new ResponseList<>(movieTitles));
     }
 
+    @GetMapping("/genres")
+    ResponseEntity<List<Genre>> getGenres() {
+        final var genres = movieUseCases.getGenres();
+        return ResponseEntity.ok(genres);
+    }
+
+    @GetMapping("/age-restrictions")
+    ResponseEntity<List<AgeRestriction>> getAgeRestrictions() {
+        final var ageRestrictions = movieUseCases.getAgeRestrictions();
+        return ResponseEntity.ok(ageRestrictions);
+    }
+
     @GetMapping("/{title}")
     ResponseEntity<MovieResponse> getMovie(@PathVariable String title) {
         final var cinema = movieUseCases.getMovie(title);
@@ -60,17 +72,5 @@ class MovieController {
     ResponseEntity<Void> deleteMovie(@PathVariable String title) {
         movieUseCases.deleteMovie(title);
         return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping("/genres")
-    ResponseEntity<List<Genre>> getGenres() {
-        final var genres = movieUseCases.getGenres();
-        return ResponseEntity.ok(genres);
-    }
-
-    @GetMapping("/age-restrictions")
-    ResponseEntity<List<AgeRestriction>> getAgeRestrictions() {
-        final var ageRestrictions = movieUseCases.getAgeRestrictions();
-        return ResponseEntity.ok(ageRestrictions);
     }
 }

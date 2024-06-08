@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static org.example.cinemabackend.cinema.testdata.ProjectionTechnologyTestDataProvider.generateProjectionTechnologies;
+import static org.example.cinemabackend.cinema.testdata.ProjectionTechnologyTestDataProvider.generateProjectionTechnologiesList;
 
 @Component
 @RequiredArgsConstructor
@@ -25,7 +25,7 @@ public class ScreeningRoomTestDataProvider {
     private final ProjectionTechnologyRepository projectionTechnologyRepository;
 
     public Set<CreateScreeningRoomRequest> generateCreateScreeningRoomRequests() {
-        saveProjectionTechnologiesToDatabase(generateProjectionTechnologies());
+        saveProjectionTechnologiesToDatabase(generateProjectionTechnologiesList());
 
         Set<CreateScreeningRoomRequest> screeningRooms = new HashSet<>();
         while (screeningRooms.size() < NUMBER_OF_SCREENING_ROOMS) {

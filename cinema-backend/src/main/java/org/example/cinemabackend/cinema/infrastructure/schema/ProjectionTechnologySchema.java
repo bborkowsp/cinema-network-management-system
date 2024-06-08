@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.example.cinemabackend.movie.core.domain.ProjectionTechnology;
 
+import java.util.Objects;
+
 @Data
 @Entity
 @Builder
@@ -37,4 +39,21 @@ public class ProjectionTechnologySchema {
         );
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(technology);
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+
+        if (!(object instanceof ProjectionTechnologySchema projectionTechnologySchema)) {
+            return false;
+        }
+
+        return Objects.equals(technology, projectionTechnologySchema.technology);
+    }
 }

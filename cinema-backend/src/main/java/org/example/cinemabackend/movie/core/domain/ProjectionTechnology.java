@@ -1,5 +1,7 @@
 package org.example.cinemabackend.movie.core.domain;
 
+import java.util.Objects;
+
 public class ProjectionTechnology {
     private Long id;
     private String technology;
@@ -36,4 +38,21 @@ public class ProjectionTechnology {
         return id;
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(technology);
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+
+        if (!(object instanceof ProjectionTechnology projectionTechnology)) {
+            return false;
+        }
+
+        return Objects.equals(technology, projectionTechnology.technology);
+    }
 }
