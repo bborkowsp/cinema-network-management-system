@@ -10,11 +10,13 @@ import org.example.cinemabackend.user.core.port.primary.UserUseCases;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/v1/users")
 @RequiredArgsConstructor
+@PreAuthorize("hasAuthority('CINEMA_NETWORK_MANAGER')")
 class UserController {
 
     private final UserUseCases userUseCases;

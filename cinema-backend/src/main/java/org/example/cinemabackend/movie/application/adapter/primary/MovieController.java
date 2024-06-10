@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,48 +26,56 @@ class MovieController {
     private final MovieUseCases movieUseCases;
 
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('CINEMA_NETWORK_MANAGER','CINEMA_MANAGER')")
     ResponseEntity<Page<MovieListResponse>> getMovies(Pageable pageable) {
         final var movies = movieUseCases.getMovies(pageable);
         return ResponseEntity.ok(movies);
     }
 
     @GetMapping({"/titles"})
+    @PreAuthorize("hasAnyAuthority('CINEMA_NETWORK_MANAGER','CINEMA_MANAGER')")
     ResponseEntity<ResponseList<String>> getMovieTitles() {
         final var movieTitles = movieUseCases.getMovieTitles();
         return ResponseEntity.ok(new ResponseList<>(movieTitles));
     }
 
     @GetMapping("/genres")
+    @PreAuthorize("hasAnyAuthority('CINEMA_NETWORK_MANAGER','CINEMA_MANAGER')")
     ResponseEntity<List<Genre>> getGenres() {
         final var genres = movieUseCases.getGenres();
         return ResponseEntity.ok(genres);
     }
 
     @GetMapping("/age-restrictions")
+    @PreAuthorize("hasAnyAuthority('CINEMA_NETWORK_MANAGER','CINEMA_MANAGER')")
     ResponseEntity<List<AgeRestriction>> getAgeRestrictions() {
         final var ageRestrictions = movieUseCases.getAgeRestrictions();
         return ResponseEntity.ok(ageRestrictions);
     }
 
     @GetMapping("/{title}")
+    @PreAuthorize("hasAnyAuthority('CINEMA_NETWORK_MANAGER','CINEMA_MANAGER')")
     ResponseEntity<MovieResponse> getMovie(@PathVariable String title) {
         final var cinema = movieUseCases.getMovie(title);
         return ResponseEntity.ok(cinema);
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('CINEMA_NETWORK_MANAGER')")
     ResponseEntity<Void> createMovie(@RequestBody @Valid CreateMovieRequest createMovieRequest) {
         movieUseCases.createMovie(createMovieRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PatchMapping("/{title}")
+    @PreAuthorize("hasAuthority('CINEMA_NETWORK_MANAGER')")
     ResponseEntity<Void> updateMovie(@PathVariable String title, @RequestBody @Valid UpdateMovieRequest updateMovieRequest) {
         movieUseCases.updateMovie(title, updateMovieRequest);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{title}")
+    @PreAuthorize("hasAuthority('CINEMA_NETWORK_MANAGER')")
     ResponseEntity<Void> deleteMovie(@PathVariable String title) {
         movieUseCases.deleteMovie(title);
         return ResponseEntity.noContent().build();

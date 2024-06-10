@@ -79,7 +79,6 @@ export class MovieFormBuilder {
   }
 
   fillFormWithMovie(movie: MovieResponse) {
-    console.log(movie);
     const image = new CreateImageRequest(movie.poster.name, movie.poster.type, movie.poster.data);
 
     this.form.setValue({
@@ -190,20 +189,17 @@ export class MovieFormBuilder {
     const type = selectedImage.type;
     const file = new File([selectedImage], name, {type: type});
     const data = await this.readFileData(file);
-    console.log("createImageRequest", data)
 
     return new CreateImageRequest(name, type, data);
   }
 
   private readFileData(file: File): Promise<string> {
-    console.log("readFileData", file)
     return new Promise<string>((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
         const dataUrl = reader.result as string;
         const imageData = dataUrl.split(',')[1];
-        console.log("readFileData", imageData)
         resolve(imageData);
       };
       reader.onerror = error => reject(error);

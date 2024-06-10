@@ -44,7 +44,6 @@ export class MovieService {
   }
 
   createMovie(createMovieRequest: CreateMovieRequest) {
-    console.log(createMovieRequest)
     return this.httpClient.post<void>(MovieService.MOVIES_API_URL, createMovieRequest);
   }
 
@@ -58,7 +57,6 @@ export class MovieService {
 
   updateMovie(title: string, movie: null | UpdateMovieRequest) {
     const url = `${MovieService.MOVIES_API_URL}/${title}`;
-    console.log(movie)
     return this.httpClient.patch<void>(url, movie);
   }
 
