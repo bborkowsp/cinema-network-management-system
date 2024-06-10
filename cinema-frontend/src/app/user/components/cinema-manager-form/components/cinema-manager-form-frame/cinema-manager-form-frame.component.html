@@ -1,22 +1,22 @@
 <app-generic-form-frame title="Cinema manager info">
   <ng-container content>
     <div class="inputs-form-container">
-      <mat-form-field class="example-full-width">
+      <mat-form-field class="input-form-field">
         <mat-label>First name</mat-label>
         <input [formControl]="firstNameControl" matInput maxlength="255" required>
         <mat-hint align="end">{{ emailControl.value.length }} / 255</mat-hint>
       </mat-form-field>
-      <mat-form-field class="example-full-width">
+      <mat-form-field class="input-form-field">
         <mat-label>Last name</mat-label>
         <input [formControl]="lastNameControl" matInput maxlength="255" required>
         <mat-hint align="end">{{ lastNameControl.value.length }} / 255</mat-hint>
       </mat-form-field>
-      <mat-form-field class="example-full-width">
+      <mat-form-field class="input-form-field">
         <mat-label>Email</mat-label>
         <input [formControl]="emailControl" matInput maxlength="255" required>
         <mat-hint align="end">{{ emailControl.value.length }} / 255</mat-hint>
       </mat-form-field>
-      <mat-form-field class="example-full-width">
+      <mat-form-field class="input-form-field">
         <mat-label>Managed Cinema</mat-label>
         <mat-select [formControl]="managedCinemaNameControl">
           <mat-option [value]="0">None</mat-option>

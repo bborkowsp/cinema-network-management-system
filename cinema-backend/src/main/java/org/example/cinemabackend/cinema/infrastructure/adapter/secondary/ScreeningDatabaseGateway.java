@@ -22,11 +22,19 @@ class ScreeningDatabaseGateway implements ScreeningRepository {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public List<Screening> findByScreeningRoomId(Long id) {
+        return screeningJpaRepository.findByScreeningRoomId(id).stream().map(ScreeningSchema::toScreening).toList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public Optional<Screening> findById(Long id) {
         return screeningJpaRepository.findById(id).map(ScreeningSchema::toScreening);
     }
 
     @Override
+    @Transactional
     public void save(Screening screeningToUpdate) {
         screeningJpaRepository.save(ScreeningSchema.fromScreening(screeningToUpdate));
     }

@@ -29,7 +29,10 @@ class ScreeningRoomMapperService implements ScreeningRoomMapper {
     @Override
     public ScreeningRoom mapCreateScreeningRoomToScreeningRoom(CreateScreeningRoomRequest createScreeningRoomRequest) {
         final var supportedTechnologies = createScreeningRoomRequest.supportedTechnologies().stream()
-                .map(projectionTechnologyResponse -> projectionTechnologyRepository.findByTechnology(projectionTechnologyResponse.technology()).orElseThrow())
+                .map(projectionTechnologyResponse ->
+                        projectionTechnologyRepository.findByTechnology(
+                                projectionTechnologyResponse.technology()).orElseThrow()
+                )
                 .collect(Collectors.toSet());
 
         return new ScreeningRoom(

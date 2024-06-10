@@ -7,4 +7,6 @@ import java.util.Optional;
 public interface ScreeningRoomRepository {
 
     Optional<ScreeningRoom> findByName(String screeningRoomName);
+
+    void save(ScreeningRoom screeningRoom);
 }

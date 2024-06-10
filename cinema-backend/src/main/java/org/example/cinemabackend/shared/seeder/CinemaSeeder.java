@@ -29,10 +29,8 @@ class CinemaSeeder implements Seeder {
     @Override
     public void seedDatabase(int objectsToSeed) {
         Set<Cinema> cinemas = new HashSet<>();
-
         while (cinemas.size() < objectsToSeed) {
             final var cinema = createCinema();
-
             if (!cinemas.contains(cinema)) {
                 cinemas.add(cinema);
                 cinemaRepository.save(cinema);
@@ -67,8 +65,8 @@ class CinemaSeeder implements Seeder {
         return new Address(
                 faker.address().streetAddress() + " " +
                         faker.address().buildingNumber(),
-                faker.address().zipCode(),
                 faker.address().city(),
+                "00-000",
                 faker.address().country()
         );
     }

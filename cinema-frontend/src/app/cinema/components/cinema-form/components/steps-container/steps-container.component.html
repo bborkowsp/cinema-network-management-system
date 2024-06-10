@@ -37,10 +37,9 @@
       [createCinemaForm]="stepFourFormGroup"
       [stepFourFormGroup]="cinemaForm"
     ></app-step-four>
-    <p>Click submit to finish creating new cinema!</p>
     <div>
       <button mat-button matStepperPrevious>Back</button>
-      <button (click)="stepper.reset()" mat-button>Reset</button>
+      <button type="button" color="primary" (click)="stepper.reset()" mat-flat-button>Go to first step</button>
     </div>
   </mat-step>
 </mat-stepper>

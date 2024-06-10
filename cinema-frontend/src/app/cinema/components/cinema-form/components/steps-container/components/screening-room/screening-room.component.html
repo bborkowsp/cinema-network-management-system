@@ -1,4 +1,7 @@
-<form #contactForm="ngForm" (ngSubmit)="createGridOfSeats()">
+<form
+  #contactForm="ngForm"
+  (ngSubmit)="createGridOfSeats()"
+>
   <mat-form-field class="input-form-field">
     <mat-label>Screening room name</mat-label>
     <input matInput [formControl]="nameControl" required type="text" maxlength="100">
@@ -22,18 +25,19 @@
     </tr>
   </table>
 
-
-  <button
-    [disabled]="contactForm.invalid || rowsNumberControl.invalid || columnsNumberControl.invalid || nameControl.invalid"
-    color="primary"
-    mat-flat-button type="submit">
-    Create a grid of seats
-  </button>
+  <div class="create-grid-button">
+    <button
+      [disabled]="contactForm.invalid || rowsNumberControl.invalid || columnsNumberControl.invalid || nameControl.invalid"
+      color="primary"
+      mat-flat-button type="submit">
+      Create a grid of seats
+    </button>
+  </div>
 </form>
 
 <mat-form-field class="input-form-field">
   <mat-label>Projection technologies</mat-label>
-  <mat-select [formControl]="supportedTechnolgiesControl" multiple>
+  <mat-select [formControl]="supportedTechnologiesFormControl" multiple>
     <mat-option *ngFor="let projectionTechnology of projectionTechnologies | async"
                 [value]="projectionTechnology">{{ projectionTechnology }}
     </mat-option>
@@ -84,21 +88,10 @@
   </div>
 </div>
 
-<!--<mat-form-field style="width: 50%;">-->
-<!--  <mat-label>Projection technologies</mat-label>-->
-<!--  <mat-select [formControl]="supportedTechnologies" multiple>-->
-<!--    <mat-option [value]="0">None</mat-option>-->
-<!--    <mat-option *ngFor="let projectionTechnology of projectionTechnologies | async"-->
-<!--                [value]="projectionTechnology">{{ projectionTechnology.technology }}-->
-<!--    </mat-option>-->
-<!--  </mat-select>-->
-<!--</mat-form-field>-->
-
 <button (click)="saveScreeningRoom()" color="primary" mat-flat-button
         type="button">
   Save screening room
 </button>
-
 
 <div mat-subheader>Saved screening rooms:</div>
 <mat-list role="list">

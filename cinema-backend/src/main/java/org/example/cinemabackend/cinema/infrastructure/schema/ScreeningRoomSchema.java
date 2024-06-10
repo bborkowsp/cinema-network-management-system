@@ -93,11 +93,11 @@ public class ScreeningRoomSchema {
             return true;
         }
 
-        if (!(object instanceof ScreeningRoom screeningRoom)) {
+        if (!(object instanceof ScreeningRoomSchema screeningRoomSchema)) {
             return false;
         }
 
-        return Objects.equals(id, screeningRoom.getId()) &&
-                Objects.equals(name, screeningRoom.getName());
+        return Objects.equals(id, screeningRoomSchema.getId()) &&
+                Objects.equals(name, screeningRoomSchema.getName());
     }
 }

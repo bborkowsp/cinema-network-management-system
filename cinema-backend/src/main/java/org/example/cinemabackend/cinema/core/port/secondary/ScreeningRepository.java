@@ -9,7 +9,11 @@ public interface ScreeningRepository {
 
     List<Screening> findAll();
 
+    List<Screening> findByScreeningRoomId(Long id);
+
+
     Optional<Screening> findById(Long id);
 
     void save(Screening screeningToUpdate);
+
 }

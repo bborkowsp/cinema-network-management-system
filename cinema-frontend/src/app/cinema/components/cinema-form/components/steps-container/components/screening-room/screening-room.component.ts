@@ -20,7 +20,7 @@ export class ScreeningRoomComponent implements OnInit, OnChanges {
   @Input({required: true}) formArray!: FormArray;
   rowsNumberControl = new FormControl(1, Validators.required);
   columnsNumberControl = new FormControl(1, Validators.required);
-  supportedTechnolgiesControl = new FormControl([], Validators.required);
+  supportedTechnologiesFormControl = new FormControl([], Validators.required);
   protected allScreeningRooms: ScreeningRoomResponse[] = [];
   projectionTechnologies!: Observable<string[]>;
 
@@ -95,8 +95,8 @@ export class ScreeningRoomComponent implements OnInit, OnChanges {
   }
 
   private createFilledScreeningRoomGroup(): FormGroup {
-    this.currentSupportedTechnologies = this.supportedTechnolgiesControl.value as ProjectionTechnologyNameResponse[];
-    let supportedTechnologiesAsStrings = this.supportedTechnolgiesControl.value as string[];
+    this.currentSupportedTechnologies = this.supportedTechnologiesFormControl.value as ProjectionTechnologyNameResponse[];
+    let supportedTechnologiesAsStrings = this.supportedTechnologiesFormControl.value as string[];
 
     return new FormGroup({
         name: new FormControl(this.nameControl.value),
@@ -149,7 +149,7 @@ export class ScreeningRoomComponent implements OnInit, OnChanges {
     this.rowsNumberControl.setValue(seatsControl.length);
     this.columnsNumberControl.setValue(seatsControl.at(0).value.length);
     const projectionTechnologies = this.supportedTechnologiesControl;
-    this.supportedTechnolgiesControl.setValue(projectionTechnologies.value.map((technology: any) => technology.technology));
+    this.supportedTechnologiesFormControl.setValue(projectionTechnologies.value.map((technology: any) => technology.technology));
   }
 
   get nameControl(): FormControl {

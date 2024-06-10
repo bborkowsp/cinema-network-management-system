@@ -8,18 +8,17 @@
     [pageTitle]="pageTitle"
   >
     <ng-container content>
-
       <app-cinema-manager-form-frame
         [formGroup]="cinemaManagerFormHelper.mainFormGroup"
         [form]="cinemaManagerForm"
       ></app-cinema-manager-form-frame>
     </ng-container>
   </app-page-content-container>
-  <div class="button-container">
+
+  <div class="form-buttons-container">
     <button (click)=handleCancelClicked() color="warn" mat-flat-button>Cancel</button>
     <button [disabled]="cinemaManagerForm.form.invalid" color="primary" mat-flat-button type="submit">
       Save
     </button>
   </div>
-
 </form>
