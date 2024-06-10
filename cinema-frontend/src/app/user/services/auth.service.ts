@@ -7,6 +7,7 @@ import {RegisterUserRequest} from "../dtos/request/register-user.request";
 import {LoginUserRequest} from "../dtos/request/login-user.request";
 import {Router} from "@angular/router";
 import {jwtDecode} from 'jwt-decode';
+import {Role} from "./roles";
 
 interface AuthResult {
   expiresIn: number;
@@ -81,6 +82,14 @@ export class AuthService {
       }
     }
     return '';
+  }
+
+  getUserRoleAsEnum(): Role {
+    const role = this.getUserRole();
+    if (role === 'CINEMA_MANAGER') {
+      return Role.CINEMA_MANAGER;
+    }
+    return Role.CINEMA_NETWORK_MANAGER;
   }
 
   checkIfLoggedInUserIsCinemaManager(): boolean {

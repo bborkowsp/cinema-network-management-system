@@ -1,0 +1,4 @@
+export enum Role {
+  CINEMA_MANAGER,
+  CINEMA_NETWORK_MANAGER,
+}
