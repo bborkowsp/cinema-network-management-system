@@ -7,6 +7,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {
   ConfirmDeletionProjectionTechnologyDialog
 } from "../confirm-deletion-projection-technology-dialog/confirm-deletion-projection-technology-dialog.component";
+import {AuthService} from "../../../user/services/auth.service";
 
 @Component({
   selector: 'app-projection-technology-details',
@@ -18,6 +19,7 @@ export class ProjectionTechnologyDetailsComponent implements OnInit {
   projectionTechnology$!: Observable<ProjectionTechnologyResponse>;
   technology: string = '';
   protected isLoading = true;
+  protected isUserRoleCinemaManager = true;
 
 
   constructor(
@@ -25,10 +27,12 @@ export class ProjectionTechnologyDetailsComponent implements OnInit {
     private readonly activatedRoute: ActivatedRoute,
     private router: Router,
     private readonly dialog: MatDialog,
+    private readonly authService: AuthService
   ) {
   }
 
   ngOnInit(): void {
+    this.isUserRoleCinemaManager = this.authService.checkIfLoggedInUserIsCinemaManager()
     this.getProjectTechnology();
     this.isLoading = false;
   }

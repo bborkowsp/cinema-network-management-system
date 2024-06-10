@@ -8,6 +8,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 export class PageContentContainerComponent {
   @Input() pageTitle!: string;
   @Input() isLoading = false;
+  @Input() isUserRoleCinemaManager = false;
   @Input() routerLink = '';
 
   @Input() hasDetailsActionButtons = false;

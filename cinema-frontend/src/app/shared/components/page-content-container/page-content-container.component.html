@@ -3,7 +3,7 @@
     <h1 class="page-content-container__header">{{ pageTitle }}</h1>
     <div
       class="page-content-container__action-buttons-container page-content-container__action-buttons-container__align-right">
-      <ng-container *ngIf="hasDetailsActionButtons">
+      <ng-container *ngIf="hasDetailsActionButtons && !isUserRoleCinemaManager">
         <button color="warn" mat-fab [attr.aria-label]="deleteButtonAriaLabel"
                 (click)="deleteButtonEventEmitter.emit()">
           <mat-icon>delete</mat-icon>
@@ -14,7 +14,7 @@
         </button>
       </ng-container>
     </div>
-    <ng-container *ngIf="hasCreateNewButton">
+    <ng-container *ngIf="hasCreateNewButton  && !isUserRoleCinemaManager">
       <a [matTooltip]="buttonMatToolTip" [routerLink]="routerLink" mat-fab>
         <mat-icon>add</mat-icon>
       </a>

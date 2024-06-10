@@ -12,6 +12,7 @@ export class OptionsTableButtonComponent {
   @Output() delete = new EventEmitter<any>();
   @Output() showDetails = new EventEmitter<any>();
   @Input() hasShowDetailsButton = true;
+  @Input() isUserRoleCinemaManager = false;
 
   handleEdit(): void {
     this.edit.emit(this.row);

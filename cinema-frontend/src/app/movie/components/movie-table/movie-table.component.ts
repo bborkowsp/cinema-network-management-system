@@ -1,4 +1,4 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {map, Observable, tap} from "rxjs";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {PaginatorRequestParams} from "../../../shared/dtos/paginator-request-params";
@@ -7,26 +7,33 @@ import {MovieListResponse} from "../../dtos/response/movie-list.response";
 import {MovieService} from "../../services/movie.service";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDeletionMovieDialog} from "../confirm-deletion-movie-dialog/confirm-deletion-movie-dialog.component";
+import {AuthService} from "../../../user/services/auth.service";
 
 @Component({
   selector: 'app-movie-table',
   templateUrl: './movie-table.component.html',
   styleUrls: ['./movie-table.component.scss']
 })
-export class MovieTableComponent {
+export class MovieTableComponent implements OnInit {
   displayedColumns = ['options', 'poster', 'title', 'originalTitle', 'releaseDate', 'director'];
   movies$!: Observable<MovieListResponse[]>;
   dataLength = 0;
   @ViewChild(MatPaginator) readonly paginator!: MatPaginator;
   paginatorRequestParams = new PaginatorRequestParams(0, 10);
   protected isLoading = true;
+  protected isUserRoleCinemaManager = true;
 
   constructor(
     private readonly movieService: MovieService,
     private readonly router: Router,
     private readonly dialog: MatDialog,
+    private readonly authService: AuthService
   ) {
     this.movies$ = this.getData();
+  }
+
+  ngOnInit() {
+    this.isUserRoleCinemaManager = this.authService.checkIfLoggedInUserIsCinemaManager()
   }
 
   handlePageEvent(event: PageEvent): void {

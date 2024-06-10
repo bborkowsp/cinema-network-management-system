@@ -1,6 +1,10 @@
-<app-page-content-container [hasCreateNewButton]="true" [isLoading]="isLoading"
-                            buttonMatToolTip="Add new projection technology" pageTitle="Projection technologies"
-                            routerLink="/projection-technologies/create">
+<app-page-content-container
+  [hasCreateNewButton]="true"
+  [isLoading]="isLoading"
+  [isUserRoleCinemaManager]="isUserRoleCinemaManager"
+  buttonMatToolTip="Add new projection technology"
+  pageTitle="Projection technologies"
+  routerLink="/projection-technologies/create">
   <ng-container content>
     <div class="mat-elevation-z8 table-container">
       <table [dataSource]="projectionTechnologies$" class="table" mat-table>
@@ -9,8 +13,13 @@
             Options
           </th>
           <td *matCellDef="let row" class="options-cell" mat-cell>
-            <app-options-table-button (delete)="handleDelete($event)" (edit)="handleEdit($event)"
-                                      (showDetails)="handleShowDetails($event)" [row]="row"></app-options-table-button>
+            <app-options-table-button
+              [isUserRoleCinemaManager]="isUserRoleCinemaManager"
+              (delete)="handleDelete($event)"
+              (edit)="handleEdit($event)"
+              (showDetails)="handleShowDetails($event)"
+              [row]="row"
+            ></app-options-table-button>
           </td>
         </ng-container>
 

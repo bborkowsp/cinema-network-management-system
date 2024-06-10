@@ -4,6 +4,7 @@ import {MovieService} from "../../services/movie.service";
 import {map, Observable, switchMap, tap} from "rxjs";
 import {MovieResponse} from "../../dtos/response/movie.response";
 import {DomSanitizer} from '@angular/platform-browser';
+import {AuthService} from "../../../user/services/auth.service";
 
 
 @Component({
@@ -15,17 +16,20 @@ export class MovieDetailsComponent implements OnInit {
   movie$!: Observable<MovieResponse>;
   title: string = '';
   protected isLoading = true;
+  protected isUserRoleCinemaManager = true;
 
   constructor(
     private readonly movieService: MovieService,
     private readonly activatedRoute: ActivatedRoute,
     private readonly router: Router,
     private readonly changeDetectorRef: ChangeDetectorRef,
-    private readonly sanitizer: DomSanitizer
+    private readonly sanitizer: DomSanitizer,
+    private readonly authService: AuthService
   ) {
   }
 
   ngOnInit(): void {
+    this.isUserRoleCinemaManager = this.authService.checkIfLoggedInUserIsCinemaManager()
     this.getMovie();
   }
 
@@ -46,12 +50,6 @@ export class MovieDetailsComponent implements OnInit {
   getActorNames(movie: MovieResponse): string {
     return movie.productionDetails.actors
       .map(actor => actor.firstName + ' ' + actor.lastName)
-      .join(', ');
-  }
-
-  getProjectionTechnologies(movie: MovieResponse) {
-    return movie.projectionTechnologies
-      .map(projectionTechnology => projectionTechnology.technology)
       .join(', ');
   }
 

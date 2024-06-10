@@ -49,6 +49,11 @@ export class ScaffoldComponent {
         path: '/movies',
         icon: 'movie'
       },
+      {
+        label: 'Projection technologies',
+        path: '/projection-technologies',
+        icon: 'settings'
+      },
     ];
 
     if (userRole === 'CINEMA_MANAGER') {
@@ -57,7 +62,7 @@ export class ScaffoldComponent {
           label: 'Repertory',
           path: '/repertory',
           icon: 'event'
-        }
+        },
       );
     }
 
@@ -67,11 +72,6 @@ export class ScaffoldComponent {
           label: 'Cinema managers',
           path: '/cinema-managers',
           icon: 'people'
-        },
-        {
-          label: 'Projection technologies',
-          path: '/projection-technologies',
-          icon: 'settings'
         },
         {
           label: 'Cinemas',

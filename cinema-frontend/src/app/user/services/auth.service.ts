@@ -83,6 +83,10 @@ export class AuthService {
     return '';
   }
 
+  checkIfLoggedInUserIsCinemaManager(): boolean {
+    return this.getUserRole() === 'CINEMA_MANAGER';
+  }
+
   getDecodedAccessToken(token: string): any {
     try {
       return jwtDecode(token);

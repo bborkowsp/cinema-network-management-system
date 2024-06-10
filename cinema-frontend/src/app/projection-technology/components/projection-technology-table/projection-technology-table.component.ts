@@ -1,4 +1,4 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {map, Observable, tap} from "rxjs";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {PaginatorRequestParams} from '../../../shared/dtos/paginator-request-params';
@@ -10,26 +10,33 @@ import {MatDialog} from "@angular/material/dialog";
 import {
   ConfirmDeletionProjectionTechnologyDialog
 } from "../confirm-deletion-projection-technology-dialog/confirm-deletion-projection-technology-dialog.component";
+import {AuthService} from "../../../user/services/auth.service";
 
 @Component({
   selector: 'app-projection-technology-table',
   templateUrl: './projection-technology-table.component.html',
   styleUrls: ['./projection-technology-table.component.scss']
 })
-export class ProjectionTechnologyTableComponent {
+export class ProjectionTechnologyTableComponent implements OnInit {
   displayedColumns = ['options', 'technology', 'description'];
   projectionTechnologies$!: Observable<ProjectionTechnologyResponse[]>;
   dataLength = 0;
   @ViewChild(MatPaginator) readonly paginator!: MatPaginator;
   paginatorRequestParams = new PaginatorRequestParams(0, 10);
   protected isLoading = true;
+  protected isUserRoleCinemaManager = true;
 
   constructor(
     private readonly projectionTechnologyService: ProjectionTechnologyService,
     private readonly router: Router,
     private readonly dialog: MatDialog,
+    private readonly authService: AuthService
   ) {
     this.projectionTechnologies$ = this.getProjectionTechnologyPage();
+  }
+
+  ngOnInit(): void {
+    this.isUserRoleCinemaManager = this.authService.checkIfLoggedInUserIsCinemaManager()
   }
 
   private getProjectionTechnologyPage(): Observable<ProjectionTechnologyResponse[]> {
