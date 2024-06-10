@@ -78,6 +78,7 @@ export class MovieFormBuilder {
   }
 
   fillFormWithMovie(movie: MovieResponse) {
+    console.log(movie);
     const image = new CreateImageRequest(movie.poster.name, movie.poster.type, movie.poster.data);
 
     this.form.setValue({
@@ -179,27 +180,31 @@ export class MovieFormBuilder {
 
   }
 
+  private async createImageRequest(): Promise<CreateImageRequest> {
+    const selectedImage: File = this.imageFormGroup?.value;
+    console.log("createImageRequest", selectedImage)
+    const name = selectedImage.name;
+    const type = selectedImage.type;
+    const file = new File([selectedImage], name, {type: type});
+    const data = await this.readFileData(file);
+    console.log("createImageRequest", data)
+
+    return new CreateImageRequest(name, type, data);
+  }
+
   private readFileData(file: File): Promise<string> {
+    console.log("readFileData", file)
     return new Promise<string>((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
         const dataUrl = reader.result as string;
         const imageData = dataUrl.split(',')[1];
+        console.log("readFileData", imageData)
         resolve(imageData);
       };
       reader.onerror = error => reject(error);
     });
-  }
-
-  private async createImageRequest(): Promise<CreateImageRequest> {
-    const selectedImage: File = this.imageFormGroup?.value;
-    const name = selectedImage.name;
-    const type = selectedImage.type;
-    const file = new File([selectedImage], name, {type: type});
-    const data = await this.readFileData(file);
-
-    return new CreateImageRequest(name, type, data);
   }
 
   public get imageFormGroup() {
