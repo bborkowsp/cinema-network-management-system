@@ -10,6 +10,7 @@ import {
   ProjectionTechnologyResponse
 } from "../../../projection-technology/dtos/response/projection-technology.response";
 import {CreateMovieRequest} from "../../dtos/request/create-movie.request";
+import FormValidatorPatterns from "../../../shared/consts/form-validators-patterns";
 
 export class MovieFormBuilder {
   form: FormGroup;
@@ -57,14 +58,14 @@ export class MovieFormBuilder {
       }),
       productionDetails: this.formBuilder.group({
         worldPremiereDate: ['', [Validators.required]],
-        director: ['', [Validators.required, Validators.pattern('^[A-Za-z]+\\s[A-Za-z]+(?:,\\s[A-Za-z]+\\s[A-Za-z]+)*$')]],
-        actors: ['', [Validators.required, Validators.pattern('^[A-Za-z]+\\s[A-Za-z]+(?:,\\s[A-Za-z]+\\s[A-Za-z]+)*$')]],
+        director: ['', [Validators.required, Validators.pattern(FormValidatorPatterns.DIRECTOR_AND_ACTORS_PATTERN)]],
+        actors: ['', [Validators.required, Validators.pattern(FormValidatorPatterns.DIRECTOR_AND_ACTORS_PATTERN)]],
         originalLanguages: ['', [Validators.required]],
         productionCountries: ['', [Validators.required]],
       }),
       imageAndTrailer: this.formBuilder.group({
         image: ['', [Validators.required]],
-        trailer: ['', [Validators.required]],
+        trailer: ['', [Validators.required, Validators.pattern(FormValidatorPatterns.TRAILER_URL_PATTERN)]],
       }),
       ageRestrictionAndGenres: this.formBuilder.group({
         ageRestriction: ['', [Validators.required]],
@@ -181,8 +182,10 @@ export class MovieFormBuilder {
   }
 
   private async createImageRequest(): Promise<CreateImageRequest> {
-    const selectedImage: File = this.imageFormGroup?.value;
-    console.log("createImageRequest", selectedImage)
+    const selectedImage = this.imageFormGroup?.value;
+    if (selectedImage instanceof CreateImageRequest)
+      return selectedImage;
+
     const name = selectedImage.name;
     const type = selectedImage.type;
     const file = new File([selectedImage], name, {type: type});

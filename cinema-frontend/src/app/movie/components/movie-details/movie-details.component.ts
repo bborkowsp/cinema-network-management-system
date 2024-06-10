@@ -56,6 +56,7 @@ export class MovieDetailsComponent implements OnInit {
   }
 
   getTrailerUrl(movie: MovieResponse) {
+    console.log(movie)
     return this.sanitizer.bypassSecurityTrustResourceUrl(movie.trailer.url);
   }
 

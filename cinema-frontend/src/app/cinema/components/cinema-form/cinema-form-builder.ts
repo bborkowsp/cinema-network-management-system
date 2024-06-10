@@ -28,7 +28,7 @@ export class CinemaFormBuilder {
             [
               Validators.required,
               Validators.maxLength(FormValidatorLengths.DEFAULT_MAX_INPUT_LENGTH),
-              Validators.pattern(FormValidatorPatterns.POSTAL_CODE),
+              Validators.pattern(FormValidatorPatterns.POSTAL_CODE_PATTERN),
             ],
           ],
           streetAndBuildingNumber: [
@@ -36,7 +36,7 @@ export class CinemaFormBuilder {
             [
               Validators.required,
               Validators.maxLength(FormValidatorLengths.DEFAULT_MAX_INPUT_LENGTH),
-              Validators.pattern(FormValidatorPatterns.STREET_AND_BUILDING_NUMBER),
+              Validators.pattern(FormValidatorPatterns.STREET_AND_BUILDING_NUMBER_PATTERN),
             ],
           ],
         }),
