@@ -59,6 +59,7 @@ export class CinemaService {
   }
 
   updateCinema(cinemaName: string, cinema: UpdateCinemaRequest) {
+    console.log(cinema);
     const url = `${CinemaService.CINEMAS_API_URL}/${cinemaName}`;
     return this.httpClient.patch<void>(url, cinema);
   }

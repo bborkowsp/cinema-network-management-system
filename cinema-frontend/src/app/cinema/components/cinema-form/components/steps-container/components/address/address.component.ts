@@ -10,7 +10,6 @@ export class AddressComponent {
   @Input({required: true}) form!: FormGroupDirective | NgForm;
   @Input({required: true}) formGroup!: FormGroup;
 
-
   get streetAndBuildingNumberControl(): FormControl {
     return this.formGroup.get('address')?.get('streetAndBuildingNumber') as FormControl;
   }

@@ -21,16 +21,6 @@ export class CinemaFormBuilder {
     return this.formBuilder.group({
       stepOne: this.formBuilder.group({
         address: this.formBuilder.group({
-          city: ['', [Validators.required, Validators.maxLength(FormValidatorLengths.DEFAULT_MAX_INPUT_LENGTH),],],
-          country: ['', [Validators.required, Validators.maxLength(FormValidatorLengths.DEFAULT_MAX_INPUT_LENGTH),],],
-          postalCode: [
-            '',
-            [
-              Validators.required,
-              Validators.maxLength(FormValidatorLengths.DEFAULT_MAX_INPUT_LENGTH),
-              Validators.pattern(FormValidatorPatterns.POSTAL_CODE_PATTERN),
-            ],
-          ],
           streetAndBuildingNumber: [
             '',
             [
@@ -39,6 +29,16 @@ export class CinemaFormBuilder {
               Validators.pattern(FormValidatorPatterns.STREET_AND_BUILDING_NUMBER_PATTERN),
             ],
           ],
+          city: ['', [Validators.required, Validators.maxLength(FormValidatorLengths.DEFAULT_MAX_INPUT_LENGTH),]],
+          postalCode: [
+            '',
+            [
+              Validators.required,
+              Validators.maxLength(FormValidatorLengths.DEFAULT_MAX_INPUT_LENGTH),
+              Validators.pattern(FormValidatorPatterns.POSTAL_CODE_PATTERN),
+            ],
+          ],
+          country: ['', [Validators.required, Validators.maxLength(FormValidatorLengths.DEFAULT_MAX_INPUT_LENGTH),],],
         }),
         aboutCinema: this.formBuilder.group({
           name: ['', [Validators.required, Validators.maxLength(FormValidatorLengths.DEFAULT_MAX_INPUT_LENGTH),]],
@@ -199,10 +199,10 @@ export class CinemaFormBuilder {
 
   private createAddressRequest(): CreateAddressRequest {
     return new CreateAddressRequest(
-      this.stepOneFormGroup.get('address')?.get('city')?.value,
-      this.stepOneFormGroup.get('address')?.get('country')?.value,
-      this.stepOneFormGroup.get('address')?.get('postalCode')?.value,
       this.stepOneFormGroup.get('address')?.get('streetAndBuildingNumber')?.value,
+      this.stepOneFormGroup.get('address')?.get('city')?.value,
+      this.stepOneFormGroup.get('address')?.get('postalCode')?.value,
+      this.stepOneFormGroup.get('address')?.get('country')?.value,
     );
   }
 

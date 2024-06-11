@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {map, Observable, switchMap, tap} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
 import {CinemaService} from "../../services/cinema.service";
@@ -11,15 +11,14 @@ import {ScreeningRoomResponse} from "../../../repertory/dtos/screening-room.resp
   styleUrls: ['./cinema-details.component.scss']
 })
 export class CinemaDetailsComponent implements OnInit {
-
   cinema$!: Observable<CinemaResponse>;
   name: string = '';
   protected isLoading = true;
 
-
   constructor(
     private readonly cinemaService: CinemaService,
     private readonly activatedRoute: ActivatedRoute,
+    private readonly changeDetectorRef: ChangeDetectorRef,
     private router: Router,
   ) {
   }
@@ -48,6 +47,7 @@ export class CinemaDetailsComponent implements OnInit {
       tap((name) => {
         this.name = name
         this.isLoading = false;
+        this.changeDetectorRef.detectChanges();
       }),
       switchMap((name) => this.cinemaService.getCinema(name)),
     );
