@@ -25,10 +25,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
-@WithMockUser
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@WithMockUser(authorities = "CINEMA_NETWORK_MANAGER")
 class CinemaControllerTest {
 
     private static final String CINEMAS_ENDPOINT_PATH = "/v1/cinemas";

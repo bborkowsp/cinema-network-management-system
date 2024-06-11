@@ -12,10 +12,10 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 @SpringBootTest
-@WithMockUser
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@WithMockUser(authorities = "CINEMA_MANAGER")
 public class ScreeningControllerTest {
     private static final String SCREENINGS_ENDPOINT_PATH = "/v1/screenings";
 

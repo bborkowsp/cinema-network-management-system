@@ -22,10 +22,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
-@WithMockUser
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@WithMockUser(authorities = "CINEMA_NETWORK_MANAGER")
 public class ProjectionTechnologyControllerTest {
 
     private static final String PROJECTION_TECHNOLOGIES_ENDPOINT_PATH = "/v1/projection-technologies";
@@ -177,8 +177,7 @@ public class ProjectionTechnologyControllerTest {
                 .andExpect(status().isNoContent());
 
         //Then
-        mockMvc.perform(get(PROJECTION_TECHNOLOGIES_ENDPOINT_PATH + "/" + technology.getTechnology()))
-                .andExpect(status().isNotFound());
+        assertThat(projectionTechnologyRepository.findByTechnology(technology.getTechnology())).isEmpty();
     }
 
 
