@@ -1,7 +1,6 @@
 package org.example.cinemabackend.cinema.infrastructure.adapter.secondary;
 
 import org.example.cinemabackend.cinema.infrastructure.schema.CinemaSchema;
-import org.example.cinemabackend.cinema.infrastructure.schema.ScreeningSchema;
 import org.example.cinemabackend.user.infrastructure.scheme.UserSchema;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -19,7 +18,7 @@ public interface CinemaJpaRepository extends JpaRepository<CinemaSchema, Long> {
 
     Optional<CinemaSchema> findByCinemaManagerEmail(String email);
 
-    Optional<CinemaSchema> findByRepertoryContains(ScreeningSchema screeningSchema);
+    //   Optional<CinemaSchema> findByRepertoryContains(ScreeningSchema screeningSchema);
 
 
     boolean existsByName(String name);

@@ -3,7 +3,9 @@ package org.example.cinemabackend.cinema.core.domain;
 import org.example.cinemabackend.movie.core.domain.Image;
 import org.example.cinemabackend.user.core.domain.User;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 public class Cinema {
     private Long id;
@@ -11,21 +13,9 @@ public class Cinema {
     private String description;
     private Address address;
     private Image image;
-    private List<Screening> repertory = new ArrayList<>();
     private Set<ScreeningRoom> screeningRooms = new HashSet<>();
     private Set<ContactDetails> contactDetails = new HashSet<>();
     private User cinemaManager;
-
-    public Cinema(String name, String description, Address address, Image image, List<Screening> repertory, Set<ScreeningRoom> screeningRooms, Set<ContactDetails> contactDetails, User cinemaManager) {
-        this.name = name;
-        this.description = description;
-        this.address = address;
-        this.repertory = repertory;
-        this.image = image;
-        this.screeningRooms = screeningRooms;
-        this.contactDetails = contactDetails;
-        this.cinemaManager = cinemaManager;
-    }
 
     public Cinema(String name, String description, Address address, Image image, Set<ScreeningRoom> screeningRooms, Set<ContactDetails> contactDetails, User cinemaManager) {
         this.name = name;
@@ -37,12 +27,11 @@ public class Cinema {
         this.cinemaManager = cinemaManager;
     }
 
-    public Cinema(Long id, String name, String description, Address address, Image image, List<Screening> repertory, Set<ScreeningRoom> screeningRooms, Set<ContactDetails> contactDetails, User cinemaManager) {
+    public Cinema(Long id, String name, String description, Address address, Image image, Set<ScreeningRoom> screeningRooms, Set<ContactDetails> contactDetails, User cinemaManager) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.address = address;
-        this.repertory = repertory;
         this.image = image;
         this.screeningRooms = screeningRooms;
         this.contactDetails = contactDetails;
@@ -89,13 +78,6 @@ public class Cinema {
         this.image = image;
     }
 
-    public List<Screening> getRepertory() {
-        return repertory;
-    }
-
-    public void setRepertory(List<Screening> repertory) {
-        this.repertory = repertory;
-    }
 
     public Set<ScreeningRoom> getScreeningRooms() {
         return screeningRooms;
@@ -156,11 +138,4 @@ public class Cinema {
         this.contactDetails.add(contactDetails);
     }
 
-    public void addScreening(Screening screening) {
-        this.repertory.add(screening);
-    }
-
-    public void removeScreening(Screening screening) {
-        this.repertory.remove(screening);
-    }
 }

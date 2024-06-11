@@ -5,6 +5,7 @@ import org.example.cinemabackend.cinema.application.dto.request.ScreeningRequest
 import org.example.cinemabackend.cinema.application.dto.response.ScreeningResponse;
 import org.example.cinemabackend.cinema.core.domain.Cinema;
 import org.example.cinemabackend.cinema.core.domain.Screening;
+import org.example.cinemabackend.cinema.core.domain.ScreeningRoom;
 import org.example.cinemabackend.cinema.core.port.primary.ScreeningMapper;
 import org.example.cinemabackend.cinema.core.port.primary.ScreeningUseCases;
 import org.example.cinemabackend.cinema.core.port.secondary.CinemaRepository;
@@ -13,6 +14,7 @@ import org.example.cinemabackend.cinema.core.port.secondary.ScreeningRoomReposit
 import org.example.cinemabackend.movie.core.port.secondary.MovieRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -27,54 +29,67 @@ class ScreeningService implements ScreeningUseCases {
 
     @Override
     public List<ScreeningResponse> getScreenings() {
-        return screeningRepository.findAll().stream().map(screeningMapper::mapScreeningToScreeningResponse).toList();
+        //  return screeningRepository.findAll().stream().map(screeningMapper::mapScreeningToScreeningResponse).toList();
+        return null;
     }
 
     @Override
     public List<ScreeningResponse> getScreenings(String email) {
         final var cinema = cinemaRepository.findByUserEmail(email).orElse(null);
-        if (cinema == null || cinema.getRepertory().isEmpty()) {
+        if (cinema == null) {
             return Collections.emptyList();
         }
-        return cinema.getRepertory().stream().map(screeningMapper::mapScreeningToScreeningResponse).toList();
+        List<ScreeningResponse> screeningResponses = new ArrayList<>();
+        cinema.getScreeningRooms().forEach(screeningRoom -> {
+            screeningResponses.addAll(screeningRoom.getRepertory().stream()
+                    .map(screening -> screeningMapper.mapScreeningToScreeningResponse(screening, screeningRoom))
+                    .toList());
+        });
+        if (screeningResponses.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return screeningResponses;
     }
 
     @Override
     public ScreeningResponse getScreening(Long id) {
         final var screening = getScreeningById(id);
-        return screeningMapper.mapScreeningToScreeningResponse(screening);
+        final var screeningRoom = getScreeningRoomWhichContainsScreening(screening);
+        return screeningMapper.mapScreeningToScreeningResponse(screening, screeningRoom);
     }
 
     @Override
     public void createScreening(ScreeningRequest screening) {
         validateCinemaManagerIsManagingACinema(screening.email());
-        final var cinema = getCinemaByUserEmail(screening.email());
-        final var newScreening = screeningMapper.mapScreeningRequestToScreening(screening, cinema);
-        cinema.getRepertory().add(newScreening);
-        cinemaRepository.save(cinema);
+        final var newScreening = screeningMapper.mapScreeningRequestToScreening(screening);
+        final var screeningRoom = screeningRoomRepository.findByName(screening.screeningRoom()).orElseThrow();
+        screeningRoom.addScreening(newScreening);
+        screeningRoomRepository.save(screeningRoom);
     }
 
     @Override
     public void updateScreening(Long id, ScreeningRequest screening) {
         validateCinemaManagerIsManagingACinema(screening.email());
-        final var cinema = getCinemaByUserEmail(screening.email());
+        final var screeningRoom = screeningRoomRepository.findByName(screening.screeningRoom()).orElseThrow();
         final var screeningToUpdate = getScreeningById(id);
-        cinema.removeScreening(screeningToUpdate);
+        final var oldScreeningRoom = getScreeningRoomWhichContainsScreening(screeningToUpdate);
+        oldScreeningRoom.getRepertory().remove(screeningToUpdate);
+        screeningRoomRepository.save(oldScreeningRoom);
         updateScreeningDetails(screeningToUpdate, screening);
-        cinema.addScreening(screeningToUpdate);
-        cinemaRepository.save(cinema);
+        screeningRoom.getRepertory().add(screeningToUpdate);
+        screeningRoomRepository.save(screeningRoom);
     }
 
     @Override
     public void deleteScreening(Long id) {
         final var screening = getScreeningById(id);
-        final var cinema = getCinemaWhichContainsScreening(screening);
-        cinema.getRepertory().remove(screening);
-        cinemaRepository.save(cinema);
+        final var screeningRoom = getScreeningRoomWhichContainsScreening(screening);
+        screeningRoom.getRepertory().remove(screening);
+        screeningRoomRepository.save(screeningRoom);
     }
 
-    private Cinema getCinemaWhichContainsScreening(Screening screening) {
-        return cinemaRepository.findByRepertoryContains(screening).orElseThrow();
+    private ScreeningRoom getScreeningRoomWhichContainsScreening(Screening screening) {
+        return screeningRoomRepository.findByRepertoryContains(screening).orElseThrow();
     }
 
     private Screening getScreeningById(Long id) {
@@ -95,6 +110,5 @@ class ScreeningService implements ScreeningUseCases {
         screeningToUpdate.setMovie(movieRepository.findByTitle(screeningRequest.movieTitle()).orElseThrow());
         screeningToUpdate.setStartTime(screeningRequest.startTime());
         screeningToUpdate.setEndTime(screeningRequest.endTime());
-        screeningToUpdate.setScreeningRoom(screeningRoomRepository.findByName(screeningRequest.screeningRoom()).orElseThrow());
     }
 }

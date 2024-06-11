@@ -27,16 +27,12 @@ public class ScreeningSchema {
     @Column(nullable = false)
     private LocalDateTime endTime;
 
-    @ManyToOne
-    private ScreeningRoomSchema screeningRoom;
-
     public static ScreeningSchema fromScreening(Screening screening) {
         return ScreeningSchema.builder()
                 .id(screening.getId())
                 .movie(MovieSchema.fromMovie(screening.getMovie()))
                 .startTime(screening.getStartTime())
                 .endTime(screening.getEndTime())
-                .screeningRoom(ScreeningRoomSchema.fromScreeningRoom(screening.getScreeningRoom()))
                 .build();
     }
 
@@ -45,8 +41,7 @@ public class ScreeningSchema {
                 this.id,
                 movie.toMovie(),
                 startTime,
-                endTime,
-                screeningRoom.toScreeningRoom()
+                endTime
         );
     }
 }

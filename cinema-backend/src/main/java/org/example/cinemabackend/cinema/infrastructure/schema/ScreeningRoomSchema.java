@@ -7,9 +7,7 @@ import lombok.*;
 import org.example.cinemabackend.cinema.core.domain.ScreeningRoom;
 import org.example.cinemabackend.cinema.core.domain.Seat;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Data
@@ -32,6 +30,9 @@ public class ScreeningRoomSchema {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<ProjectionTechnologySchema> supportedTechnologies = new HashSet<>();
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<ScreeningSchema> repertory;
+
     public static ScreeningRoomSchema fromScreeningRoom(ScreeningRoom screeningRoom) {
         String seatingPlanAsJson = convertSeatToSeatSchema(screeningRoom.getSeatingPlan());
         return ScreeningRoomSchema.builder()
@@ -39,6 +40,7 @@ public class ScreeningRoomSchema {
                 .name(screeningRoom.getName())
                 .seatingPlan(seatingPlanAsJson)
                 .supportedTechnologies(screeningRoom.getSupportedTechnologies().stream().map(ProjectionTechnologySchema::fromProjectionTechnology).collect(Collectors.toSet()))
+                .repertory(screeningRoom.getRepertory() == null ? new ArrayList<>() : screeningRoom.getRepertory().stream().map(ScreeningSchema::fromScreening).collect(Collectors.toList()))
                 .build();
     }
 
@@ -59,7 +61,8 @@ public class ScreeningRoomSchema {
                 this.id,
                 this.name,
                 seatingPlan,
-                this.supportedTechnologies.stream().map(ProjectionTechnologySchema::toProjectionTechnology).collect(Collectors.toSet())
+                this.supportedTechnologies.stream().map(ProjectionTechnologySchema::toProjectionTechnology).collect(Collectors.toSet()),
+                this.repertory.stream().map(ScreeningSchema::toScreening).collect(Collectors.toList())
         );
     }
 

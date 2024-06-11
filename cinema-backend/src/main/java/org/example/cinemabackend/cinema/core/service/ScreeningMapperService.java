@@ -22,24 +22,23 @@ class ScreeningMapperService implements ScreeningMapper {
     private final ScreeningRoomRepository screeningRoomRepository;
 
     @Override
-    public ScreeningResponse mapScreeningToScreeningResponse(Screening screening) {
+    public ScreeningResponse mapScreeningToScreeningResponse(Screening screening, ScreeningRoom screeningRoom) {
         return ScreeningResponse.builder()
                 .id(screening.getId())
                 .movie(movieMapper.mapMovieToMovieResponse(screening.getMovie()))
                 .startTime(screening.getStartTime())
                 .endTime(screening.getEndTime())
-                .screeningRoom(screeningRoomMapper.mapScreeningRoomToScreeningRoomResponse(screening.getScreeningRoom()))
+                .screeningRoom(screeningRoomMapper.mapScreeningRoomToScreeningRoomResponse(screeningRoom))
                 .build();
     }
 
     @Override
-    public Screening mapScreeningRequestToScreening(ScreeningRequest screening, Cinema cinema) {
-        ScreeningRoom screeningRoom = findScreeningRoom(screening.screeningRoom(), cinema);
+    public Screening mapScreeningRequestToScreening(ScreeningRequest screening) {
+//        ScreeningRoom screeningRoom = findScreeningRoom(screening.screeningRoom(), cinema);
         return new Screening(
                 movieRepository.findByTitle(screening.movieTitle()).orElseThrow(),
                 screening.startTime(),
-                screening.endTime(),
-                screeningRoomRepository.findByName(screening.screeningRoom()).orElseThrow()
+                screening.endTime()
         );
     }
 

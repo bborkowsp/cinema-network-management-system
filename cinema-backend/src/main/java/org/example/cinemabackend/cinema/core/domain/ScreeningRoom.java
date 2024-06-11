@@ -3,6 +3,7 @@ package org.example.cinemabackend.cinema.core.domain;
 import org.example.cinemabackend.movie.core.domain.ProjectionTechnology;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -11,6 +12,14 @@ public class ScreeningRoom {
     private String name;
     private Seat[][] seatingPlan;
     private Set<ProjectionTechnology> supportedTechnologies;
+    private List<Screening> repertory;
+
+    public ScreeningRoom(String name, Seat[][] seatingPlan, Set<ProjectionTechnology> supportedTechnologies, List<Screening> repertory) {
+        this.name = name;
+        this.seatingPlan = seatingPlan;
+        this.supportedTechnologies = supportedTechnologies;
+        this.repertory = repertory;
+    }
 
     public ScreeningRoom(String name, Seat[][] seatingPlan, Set<ProjectionTechnology> supportedTechnologies) {
         this.name = name;
@@ -18,11 +27,12 @@ public class ScreeningRoom {
         this.supportedTechnologies = supportedTechnologies;
     }
 
-    public ScreeningRoom(Long id, String name, Seat[][] seatingPlan, Set<ProjectionTechnology> supportedTechnologies) {
+    public ScreeningRoom(Long id, String name, Seat[][] seatingPlan, Set<ProjectionTechnology> supportedTechnologies, List<Screening> repertory) {
         this.id = id;
         this.name = name;
         this.seatingPlan = seatingPlan;
         this.supportedTechnologies = supportedTechnologies;
+        this.repertory = repertory;
     }
 
     public String getName() {
@@ -53,6 +63,14 @@ public class ScreeningRoom {
         return seatingPlan;
     }
 
+    public List<Screening> getRepertory() {
+        return repertory;
+    }
+
+    public void setRepertory(List<Screening> repertory) {
+        this.repertory = repertory;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(name);
@@ -75,4 +93,7 @@ public class ScreeningRoom {
     }
 
 
+    public void addScreening(Screening newScreening) {
+        this.repertory.add(newScreening);
+    }
 }

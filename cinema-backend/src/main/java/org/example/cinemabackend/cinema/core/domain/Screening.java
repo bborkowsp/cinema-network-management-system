@@ -10,21 +10,18 @@ public class Screening {
     private Movie movie;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
-    private ScreeningRoom screeningRoom;
 
-    public Screening(Long id, Movie movie, LocalDateTime startTime, LocalDateTime endTime, ScreeningRoom screeningRoom) {
+    public Screening(Long id, Movie movie, LocalDateTime startTime, LocalDateTime endTime) {
         this.id = id;
         this.movie = movie;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.screeningRoom = screeningRoom;
     }
 
-    public Screening(Movie movie, LocalDateTime startTime, LocalDateTime endTime, ScreeningRoom screeningRoom) {
+    public Screening(Movie movie, LocalDateTime startTime, LocalDateTime endTime) {
         this.movie = movie;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.screeningRoom = screeningRoom;
     }
 
     public Long getId() {
@@ -57,14 +54,6 @@ public class Screening {
 
     public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
-    }
-
-    public ScreeningRoom getScreeningRoom() {
-        return screeningRoom;
-    }
-
-    public void setScreeningRoom(ScreeningRoom screeningRoom) {
-        this.screeningRoom = screeningRoom;
     }
 
 

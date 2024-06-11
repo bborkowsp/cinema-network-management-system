@@ -45,6 +45,7 @@ class ScreeningRoomMapperService implements ScreeningRoomMapper {
     @Override
     public ScreeningRoomResponse mapScreeningRoomToScreeningRoomResponse(ScreeningRoom screeningRoom) {
         return ScreeningRoomResponse.builder()
+                .id(screeningRoom.getId())
                 .name(screeningRoom.getName())
                 .seats(seatMapper.mapSeatToSeatResponses(screeningRoom.getSeatingPlan()))
                 .supportedTechnologies(projectionTechnologyMapper.mapProjectionTechnologiesToProjectionTechnologyResponses(screeningRoom.getSupportedTechnologies()))
@@ -66,5 +67,10 @@ class ScreeningRoomMapperService implements ScreeningRoomMapper {
         screeningRoom.setSupportedTechnologies(supportedTechnologies);
 
         return screeningRoom;
+    }
+
+    @Override
+    public Set<ScreeningRoom> mapUpdateScreeningRoomToScreeningRoom(Set<UpdateScreeningRoomRequest> updateScreeningRoomRequests) {
+        return null;
     }
 }

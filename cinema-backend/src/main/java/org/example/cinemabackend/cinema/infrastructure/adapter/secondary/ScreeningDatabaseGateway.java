@@ -24,7 +24,8 @@ class ScreeningDatabaseGateway implements ScreeningRepository {
     @Override
     @Transactional(readOnly = true)
     public List<Screening> findByScreeningRoomId(Long id) {
-        return screeningJpaRepository.findByScreeningRoomId(id).stream().map(ScreeningSchema::toScreening).toList();
+        //      return screeningJpaRepository.findByScreeningRoomId(id).stream().map(ScreeningSchema::toScreening).toList();
+        return null;
     }
 
     @Override

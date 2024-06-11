@@ -76,6 +76,7 @@ class CinemaMapperService implements CinemaMapper {
         );
     }
 
+    //  WYSYLAJ ID NA FRONT W SCREENING RESPONSE
     @Override
     public void updateCinemaFromUpdateCinemaRequest(
             @NonNull UpdateCinemaRequest updateCinemaRequest,
@@ -92,8 +93,8 @@ class CinemaMapperService implements CinemaMapper {
                 ));
         cinema.setScreeningRooms(
                 screeningRoomMapper.mapCreateScreeningRoomToScreeningRoom(
-                        updateCinemaRequest.screeningRooms())
-        );
+                        updateCinemaRequest.screeningRooms()
+                ));
         cinema.setContactDetails(
                 contactDetailsMapper.mapCreateContactDetailsToContactDetails(
                         updateCinemaRequest.contactDetails()

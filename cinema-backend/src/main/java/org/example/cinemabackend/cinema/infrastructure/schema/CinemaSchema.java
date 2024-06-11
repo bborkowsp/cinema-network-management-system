@@ -6,9 +6,7 @@ import lombok.*;
 import org.example.cinemabackend.cinema.core.domain.Cinema;
 import org.example.cinemabackend.user.infrastructure.scheme.UserSchema;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -38,9 +36,6 @@ public class CinemaSchema {
     private ImageSchema image;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ScreeningSchema> repertory = new ArrayList<>();
-
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ScreeningRoomSchema> screeningRooms = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -56,7 +51,6 @@ public class CinemaSchema {
                 cinema.getDescription(),
                 AddressSchema.fromAddress(cinema.getAddress()),
                 ImageSchema.fromImage(cinema.getImage()),
-                cinema.getRepertory() == null ? new ArrayList<>() : cinema.getRepertory().stream().map(ScreeningSchema::fromScreening).collect(Collectors.toList()),
                 cinema.getScreeningRooms().stream().map(ScreeningRoomSchema::fromScreeningRoom).collect(Collectors.toSet()),
                 cinema.getContactDetails().stream().map(ContactDetailsSchema::fromContactDetails).collect(Collectors.toSet()),
                 cinema.getCinemaManager() == null ? null : UserSchema.fromUser(cinema.getCinemaManager())
@@ -71,7 +65,6 @@ public class CinemaSchema {
                 this.description,
                 this.address.toAddress(),
                 this.image.toImage(),
-                this.repertory.stream().map(ScreeningSchema::toScreening).collect(Collectors.toList()),
                 this.screeningRooms.stream().map(ScreeningRoomSchema::toScreeningRoom).collect(Collectors.toSet()),
                 this.contactDetails.stream().map(ContactDetailsSchema::toContactDetails).collect(Collectors.toSet()),
                 user
