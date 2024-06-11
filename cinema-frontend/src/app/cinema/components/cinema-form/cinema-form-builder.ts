@@ -79,6 +79,7 @@ export class CinemaFormBuilder {
   }
 
   fillFormWithCinema(cinema: CinemaResponse) {
+    const image = new CreateImageRequest(cinema.image.name, cinema.image.type, cinema.image.data);
     this.form.setValue({
       stepOne: {
         address: {
@@ -90,7 +91,7 @@ export class CinemaFormBuilder {
         aboutCinema: {
           name: cinema.name,
           description: cinema.description,
-          image: cinema.image,
+          image: image,
         }
       },
       stepTwo: {
@@ -170,6 +171,19 @@ export class CinemaFormBuilder {
     );
   }
 
+  private async createImageRequest(): Promise<CreateImageRequest> {
+    const selectedImage = this.imageFormGroup?.value;
+    if (selectedImage instanceof CreateImageRequest)
+      return selectedImage;
+
+    const name = selectedImage.name;
+    const type = selectedImage.type;
+    const file = new File([selectedImage], name, {type: type});
+    const data = await this.readFileData(file);
+
+    return new CreateImageRequest(name, type, data);
+  }
+
   private readFileData(file: File): Promise<string> {
     return new Promise<string>((resolve, reject) => {
       const reader = new FileReader();
@@ -181,16 +195,6 @@ export class CinemaFormBuilder {
       };
       reader.onerror = error => reject(error);
     });
-  }
-
-  private async createImageRequest(): Promise<CreateImageRequest> {
-    const selectedImage: File = this.imageFormGroup?.value;
-    const name = selectedImage.name;
-    const type = selectedImage.type;
-    const file = new File([selectedImage], name, {type: type});
-    const data = await this.readFileData(file);
-
-    return new CreateImageRequest(name, type, data);
   }
 
   private createAddressRequest(): CreateAddressRequest {

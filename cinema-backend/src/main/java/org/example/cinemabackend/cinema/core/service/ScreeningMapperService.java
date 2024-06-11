@@ -34,7 +34,6 @@ class ScreeningMapperService implements ScreeningMapper {
 
     @Override
     public Screening mapScreeningRequestToScreening(ScreeningRequest screening) {
-//        ScreeningRoom screeningRoom = findScreeningRoom(screening.screeningRoom(), cinema);
         return new Screening(
                 movieRepository.findByTitle(screening.movieTitle()).orElseThrow(),
                 screening.startTime(),

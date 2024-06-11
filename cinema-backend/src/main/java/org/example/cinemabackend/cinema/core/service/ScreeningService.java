@@ -3,7 +3,6 @@ package org.example.cinemabackend.cinema.core.service;
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.application.dto.request.ScreeningRequest;
 import org.example.cinemabackend.cinema.application.dto.response.ScreeningResponse;
-import org.example.cinemabackend.cinema.core.domain.Cinema;
 import org.example.cinemabackend.cinema.core.domain.Screening;
 import org.example.cinemabackend.cinema.core.domain.ScreeningRoom;
 import org.example.cinemabackend.cinema.core.port.primary.ScreeningMapper;
@@ -14,9 +13,9 @@ import org.example.cinemabackend.cinema.core.port.secondary.ScreeningRoomReposit
 import org.example.cinemabackend.movie.core.port.secondary.MovieRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -28,27 +27,14 @@ class ScreeningService implements ScreeningUseCases {
     private final ScreeningRoomRepository screeningRoomRepository;
 
     @Override
-    public List<ScreeningResponse> getScreenings() {
-        //  return screeningRepository.findAll().stream().map(screeningMapper::mapScreeningToScreeningResponse).toList();
-        return null;
-    }
-
-    @Override
     public List<ScreeningResponse> getScreenings(String email) {
-        final var cinema = cinemaRepository.findByUserEmail(email).orElse(null);
-        if (cinema == null) {
-            return Collections.emptyList();
-        }
-        List<ScreeningResponse> screeningResponses = new ArrayList<>();
-        cinema.getScreeningRooms().forEach(screeningRoom -> {
-            screeningResponses.addAll(screeningRoom.getRepertory().stream()
-                    .map(screening -> screeningMapper.mapScreeningToScreeningResponse(screening, screeningRoom))
-                    .toList());
-        });
-        if (screeningResponses.isEmpty()) {
-            return Collections.emptyList();
-        }
-        return screeningResponses;
+        validateCinemaManagerIsManagingACinema(email);
+        return cinemaRepository.findByUserEmail(email)
+                .map(cinema -> cinema.getScreeningRooms().stream()
+                        .flatMap(screeningRoom -> screeningRoom.getRepertory().stream()
+                                .map(screening -> screeningMapper.mapScreeningToScreeningResponse(screening, screeningRoom)))
+                        .collect(Collectors.toList()))
+                .orElse(Collections.emptyList());
     }
 
     @Override
@@ -94,10 +80,6 @@ class ScreeningService implements ScreeningUseCases {
 
     private Screening getScreeningById(Long id) {
         return screeningRepository.findById(id).orElseThrow();
-    }
-
-    private Cinema getCinemaByUserEmail(String email) {
-        return cinemaRepository.findByUserEmail(email).orElseThrow();
     }
 
     private void validateCinemaManagerIsManagingACinema(String email) {

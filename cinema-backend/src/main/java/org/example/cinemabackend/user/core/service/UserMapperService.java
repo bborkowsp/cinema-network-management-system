@@ -102,7 +102,7 @@ class UserMapperService implements UserMapper {
     }
 
     private Cinema findByCinemaManager(User user) {
-        return cinemaRepository.findByCinemaManager(user).orElseThrow();
+        return cinemaRepository.findByCinemaManager(user).orElse(null);
     }
 
 }

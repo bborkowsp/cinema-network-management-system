@@ -10,8 +10,6 @@ import org.example.cinemabackend.cinema.core.domain.ScreeningRoom;
 import org.example.cinemabackend.cinema.core.domain.Seat;
 import org.example.cinemabackend.cinema.core.domain.SeatType;
 import org.example.cinemabackend.cinema.core.port.primary.*;
-import org.example.cinemabackend.cinema.core.port.secondary.ScreeningRepository;
-import org.example.cinemabackend.cinema.core.port.secondary.ScreeningRoomRepository;
 import org.example.cinemabackend.user.application.dto.response.UserResponse;
 import org.example.cinemabackend.user.core.domain.User;
 import org.example.cinemabackend.user.core.port.primary.UserMapper;
@@ -32,8 +30,6 @@ class CinemaMapperService implements CinemaMapper {
     private final ContactDetailsMapper contactDetailsMapper;
 
     private final UserRepository userRepository;
-    private final ScreeningRoomRepository screeningRoomRepository;
-    private final ScreeningRepository screeningRepository;
 
     @Override
     public CinemaTableResponse mapCinemaToCinemaTableRow(Cinema cinema) {
@@ -76,7 +72,6 @@ class CinemaMapperService implements CinemaMapper {
         );
     }
 
-    //  WYSYLAJ ID NA FRONT W SCREENING RESPONSE
     @Override
     public void updateCinemaFromUpdateCinemaRequest(
             @NonNull UpdateCinemaRequest updateCinemaRequest,

@@ -6,8 +6,6 @@ import org.example.cinemabackend.cinema.application.dto.response.ScreeningRespon
 import java.util.List;
 
 public interface ScreeningUseCases {
-    List<ScreeningResponse> getScreenings();
-
     List<ScreeningResponse> getScreenings(String email);
 
     ScreeningResponse getScreening(Long id);

@@ -9,5 +9,4 @@ import {FormGroup, FormGroupDirective, NgForm} from "@angular/forms";
 export class StepOneComponent {
   @Input({required: true}) stepOneFormGroup!: FormGroupDirective | NgForm;
   @Input({required: true}) createCinemaForm!: FormGroup;
-
 }

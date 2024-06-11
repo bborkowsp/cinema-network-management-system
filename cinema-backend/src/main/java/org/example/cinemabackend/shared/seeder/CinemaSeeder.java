@@ -63,8 +63,7 @@ class CinemaSeeder implements Seeder {
 
     private Address createAddress() {
         return new Address(
-                faker.address().streetAddress() + " " +
-                        faker.address().buildingNumber(),
+                faker.address().streetAddress() + " " + faker.address().buildingNumber(),
                 faker.address().city(),
                 "00-000",
                 faker.address().country()
