@@ -5,6 +5,12 @@
         <mat-label>Director</mat-label>
         <input [formControl]="directorControl" matInput maxlength="100" placeholder="Ex. Steven Spielberg" required>
         <mat-hint align="end">{{ directorControl.value.length }} / 100</mat-hint>
+        <mat-error *ngIf="directorControl.hasError('required')">
+          Director is <strong>required!</strong>
+        </mat-error>
+        <mat-error *ngIf="directorControl.hasError('pattern')">
+          Director is <strong>invalid!</strong> Remember to name and surname with a space between.
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field class="input-form-field">
@@ -12,14 +18,23 @@
         <input [formControl]="actorsControl" matInput maxlength="2000" placeholder="Ex. Tom Hanks, Sandra Bullock, ..."
                required>
         <mat-hint align="end">{{ actorsControl.value.length }} / 2000</mat-hint>
+        <mat-error *ngIf="actorsControl.hasError('required')">
+          Actors are <strong>required!</strong>
+        </mat-error>
+        <mat-error *ngIf="actorsControl.hasError('pattern')">
+          Actors are <strong>invalid!</strong> Remember to separate them with commas.
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field class="input-form-field">
-        <mat-label>Choose a date</mat-label>
+        <mat-label>World premiere date</mat-label>
         <input [formControl]="worldPremierDateControl" [matDatepicker]="picker" matInput>
         <mat-hint>MM/DD/YYYY</mat-hint>
         <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
+        <mat-error *ngIf="worldPremierDateControl.hasError('required')">
+          World premiere date is <strong>required!</strong>
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field class="input-form-field">
@@ -27,6 +42,9 @@
         <input [formControl]="originalLanguagesControl" matInput maxlength="2000" placeholder="Ex. EN, POL, ..."
                required>
         <mat-hint align="end">{{ originalLanguagesControl.value.length }} / 2000</mat-hint>
+        <mat-error *ngIf="originalLanguagesControl.hasError('required')">
+          Movie languages are is <strong>required!</strong> Remember to separate them with commas.
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field class="input-form-field">
@@ -34,6 +52,9 @@
         <input [formControl]="productionCountriesControl" matInput maxlength="2000" placeholder="Ex. Poland, USA, ..."
                required>
         <mat-hint align="end">{{ productionCountriesControl.value.length }} / 2000</mat-hint>
+        <mat-error *ngIf="productionCountriesControl.hasError('required')">
+          Production countries are is <strong>required!</strong> Remember to separate them with commas.
+        </mat-error>
       </mat-form-field>
     </div>
   </ng-container>

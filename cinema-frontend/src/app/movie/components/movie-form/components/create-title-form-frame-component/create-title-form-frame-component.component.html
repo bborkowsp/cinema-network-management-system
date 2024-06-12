@@ -5,12 +5,18 @@
         <mat-label>Title name</mat-label>
         <input [formControl]="titleControl" matInput maxlength="100" required>
         <mat-hint align="end">{{ titleControl.value.length }} / 100</mat-hint>
+        <mat-error *ngIf="titleControl.hasError('required')">
+          Title is <strong>required!</strong>
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field class="input-form-field">
         <mat-label>Original title</mat-label>
         <input [formControl]="originalTitleControl" matInput maxlength="100" required>
         <mat-hint align="end">{{ originalTitleControl.value.length }} / 100</mat-hint>
+        <mat-error *ngIf="originalTitleControl.hasError('required')">
+          Original title is <strong>required!</strong>
+        </mat-error>
       </mat-form-field>
     </div>
   </ng-container>

@@ -2,6 +2,7 @@ package org.example.cinemabackend.movie.core.service;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import org.example.cinemabackend.cinema.core.port.secondary.ScreeningRepository;
 import org.example.cinemabackend.movie.application.dto.request.CreateMovieRequest;
 import org.example.cinemabackend.movie.application.dto.request.UpdateMovieRequest;
 import org.example.cinemabackend.movie.application.dto.response.MovieListResponse;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 class MovieService implements MovieUseCases {
     private final MovieRepository movieRepository;
     private final MovieMapper movieMapper;
+    private final ScreeningRepository screeningRepository;
 
     @Override
     public Page<MovieListResponse> getMovies(Pageable pageable) {
@@ -72,7 +74,14 @@ class MovieService implements MovieUseCases {
     @Transactional
     public void deleteMovie(String title) {
         validateMovieExists(title);
+        validateMovieIsNotUsedInScreenings(title);
         movieRepository.deleteByTitle(title);
+    }
+
+    private void validateMovieIsNotUsedInScreenings(String title) {
+        if (screeningRepository.existsByMovieTitle(title)) {
+            throw new IllegalArgumentException("Movie is used in screenings and cannot be yet deleted");
+        }
     }
 
     private void validateMovieTitleIsNotTaken(String oldTitle, String newTitle) {

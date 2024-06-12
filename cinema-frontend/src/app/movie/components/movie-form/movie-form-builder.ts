@@ -52,7 +52,7 @@ export class MovieFormBuilder {
         originalTitle: ['', [Validators.required, Validators.maxLength(255)]]
       }),
       information: this.formBuilder.group({
-        duration: ['', [Validators.required]],
+        duration: ['', [Validators.required, Validators.pattern(FormValidatorPatterns.ONLY_NUMBER_PATTERN)]],
         releaseDate: ['', [Validators.required]],
         description: ['', [Validators.required]],
       }),

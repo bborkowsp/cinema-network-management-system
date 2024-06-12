@@ -9,6 +9,9 @@
             {{ subtitlesAndSoundOption }}
           </mat-option>
         </mat-select>
+        <mat-error *ngIf="subtitlesAndSoundOptionsControl.hasError('required')">
+          Subtitle and sound options are <strong>required!</strong>
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field class="input-form-field">
@@ -18,6 +21,9 @@
                       [value]="projectionTechnology">{{ projectionTechnology }}
           </mat-option>
         </mat-select>
+        <mat-error *ngIf="projectionTechnologiesControl.hasError('required')">
+          Projection technologies are <strong>required!</strong>
+        </mat-error>
       </mat-form-field>
     </div>
   </ng-container>

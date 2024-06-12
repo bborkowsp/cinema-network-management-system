@@ -39,4 +39,9 @@ class ScreeningDatabaseGateway implements ScreeningRepository {
     public void save(Screening screeningToUpdate) {
         screeningJpaRepository.save(ScreeningSchema.fromScreening(screeningToUpdate));
     }
+
+    @Override
+    public boolean existsByMovieTitle(String title) {
+        return screeningJpaRepository.existsByMovieTitle(title);
+    }
 }

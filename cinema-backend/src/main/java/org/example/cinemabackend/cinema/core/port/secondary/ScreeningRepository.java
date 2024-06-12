@@ -16,4 +16,5 @@ public interface ScreeningRepository {
 
     void save(Screening screeningToUpdate);
 
+    boolean existsByMovieTitle(String title);
 }

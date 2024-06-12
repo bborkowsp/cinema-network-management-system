@@ -10,6 +10,9 @@
             {{ ageRestriction }}
           </mat-option>
         </mat-select>
+        <mat-error *ngIf="ageRestrictionControl.hasError('required')">
+          Age restriction is <strong>required!</strong>
+        </mat-error>
       </mat-form-field>
 
 
@@ -18,6 +21,9 @@
         <mat-select [formControl]="genresControl" multiple>
           <mat-option *ngFor="let genre of genres | async" [value]="genre">{{ genre }}</mat-option>
         </mat-select>
+        <mat-error *ngIf="genresControl.hasError('required')">
+          Genres are <strong>required!</strong>
+        </mat-error>
       </mat-form-field>
     </div>
   </ng-container>
