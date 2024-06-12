@@ -1,13 +1,8 @@
-<ng-container content
-              *ngIf="screeningsGroupedByScreeningRoom  as groupedScreenings">
-  <hr>
+<ng-container content *ngIf="screeningsGroupedByScreeningRoom  as groupedScreenings">
   <div *ngFor="let roomName of Object.keys(groupedScreenings)">
     <div class="repertory-table-container">
       <div class="header-content">
         <h2 class="room-name">{{ roomName }}</h2>
-        <a mat-mini-fab class="add-button" (click)="handleAddScreening(roomName)">
-          <mat-icon>add</mat-icon>
-        </a>
       </div>
       <section class="example-container mat-elevation-z8" tabindex="0">
         <table mat-table [dataSource]="groupedScreenings[roomName]">

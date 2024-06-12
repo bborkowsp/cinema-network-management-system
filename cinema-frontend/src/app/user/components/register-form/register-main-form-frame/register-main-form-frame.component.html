@@ -4,12 +4,27 @@
       <mat-form-field class="input-form-field">
         <mat-label>Email</mat-label>
         <input [formControl]="emailControl" matInput maxlength="255" required>
+        <mat-error *ngIf="repeatEmailControl.hasError('required')">
+          Email is <strong>required!</strong>
+        </mat-error>
+        <mat-error *ngIf="emailControl.hasError('email')">
+          Email is <strong>invalid!</strong>
+        </mat-error>
       </mat-form-field>
     </div>
     <div class="input-field">
       <mat-form-field class="input-form-field">
         <mat-label>Repeat email</mat-label>
         <input [formControl]="repeatEmailControl" matInput maxlength="255" required>
+        <mat-error *ngIf="repeatEmailControl.hasError('required')">
+          Repeat your <strong>email!</strong>
+        </mat-error>
+        <mat-error *ngIf="repeatEmailControl.hasError('email')">
+          Email is <strong>invalid!</strong>
+        </mat-error>
+        <mat-error *ngIf="repeatEmailControl.hasError('emailMismatch')">
+          Email is <strong>invalid!</strong>
+        </mat-error>
       </mat-form-field>
     </div>
   </div>
@@ -22,18 +37,30 @@
         <mat-icon matSuffix>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
       </button>
     </div>
+    <mat-error *ngIf="passwordControl.hasError('required')">
+      Password is <strong>required!</strong>
+    </mat-error>
+    <mat-error *ngIf="passwordControl.hasError('passwordStrength')">
+      Password is too <strong>weak!</strong>
+    </mat-error>
   </mat-form-field>
   <div class="input-container">
     <div class="input-field">
       <mat-form-field class="input-form-field">
         <mat-label>First name</mat-label>
         <input [formControl]="firstNameControl" matInput maxlength="255" required>
+        <mat-error *ngIf="firstNameControl.hasError('required')">
+          First name is <strong>required!</strong>
+        </mat-error>
       </mat-form-field>
     </div>
     <div class="input-field">
       <mat-form-field class="input-form-field">
         <mat-label>Last name</mat-label>
         <input [formControl]="lastNameControl" matInput maxlength="255" required>
+        <mat-error *ngIf="lastNameControl.hasError('required')">
+          Last name is <strong>required!</strong>
+        </mat-error>
       </mat-form-field>
     </div>
   </div>
@@ -43,7 +70,9 @@
       <mat-option value="CINEMA_MANAGER">Cinema Manager</mat-option>
       <mat-option value="CINEMA_NETWORK_MANAGER">Cinema Network Manager</mat-option>
     </mat-select>
+    <mat-error *ngIf="roleControl.hasError('required')">
+      Role is <strong>required!</strong>
+    </mat-error>
   </mat-form-field>
 </div>
-
 

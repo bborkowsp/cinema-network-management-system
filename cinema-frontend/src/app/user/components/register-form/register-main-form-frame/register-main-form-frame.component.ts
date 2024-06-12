@@ -20,5 +20,4 @@ export class RegisterMainFormFrameComponent {
   togglePasswordVisibility() {
     this.hidePassword = !this.hidePassword;
   }
-
 }

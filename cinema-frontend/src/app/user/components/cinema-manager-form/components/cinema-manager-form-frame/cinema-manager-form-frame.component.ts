@@ -38,5 +38,4 @@ export class CinemaManagerFormFrameComponent implements OnInit {
   get managedCinemaNameControl(): FormControl {
     return this.formGroup.get('managedCinemaName') as FormControl;
   }
-
 }

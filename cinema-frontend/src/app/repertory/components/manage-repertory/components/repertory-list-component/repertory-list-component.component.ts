@@ -39,8 +39,4 @@ export class RepertoryListComponentComponent implements OnInit {
   handleEditScreening(screening: ScreeningResponse) {
     this.handleEdit.emit(screening);
   }
-
-  handleAddScreening(roomName: string) {
-    this.handleAdd.emit(roomName);
-  }
 }

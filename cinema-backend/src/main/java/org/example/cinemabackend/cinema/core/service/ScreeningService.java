@@ -58,9 +58,7 @@ class ScreeningService implements ScreeningUseCases {
         validateCinemaManagerIsManagingACinema(screening.email());
         final var screeningRoom = screeningRoomRepository.findByName(screening.screeningRoom()).orElseThrow();
         final var screeningToUpdate = getScreeningById(id);
-        final var oldScreeningRoom = getScreeningRoomWhichContainsScreening(screeningToUpdate);
-        oldScreeningRoom.getRepertory().remove(screeningToUpdate);
-        screeningRoomRepository.save(oldScreeningRoom);
+        screeningRoom.getRepertory().remove(screeningToUpdate);
         updateScreeningDetails(screeningToUpdate, screening);
         screeningRoom.getRepertory().add(screeningToUpdate);
         screeningRoomRepository.save(screeningRoom);
