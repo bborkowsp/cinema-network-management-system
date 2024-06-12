@@ -11,7 +11,7 @@ import {Observable} from "rxjs";
 export class CinemaManagerFormFrameComponent implements OnInit {
   @Input({required: true}) form!: FormGroupDirective | NgForm;
   @Input({required: true}) formGroup!: FormGroup;
-  cinemaNames!: Observable<string[]>;
+  @Input({required: true}) cinemaNames!: Observable<string[]>;
 
   constructor(
     private readonly cinemaService: CinemaService,
@@ -19,7 +19,7 @@ export class CinemaManagerFormFrameComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.cinemaNames = this.cinemaService.getAllCinemaNames();
+    //this.cinemaNames = this.cinemaService.getAllCinemaNames();
   }
 
 

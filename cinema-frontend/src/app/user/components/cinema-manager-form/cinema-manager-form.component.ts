@@ -4,6 +4,8 @@ import {UserService} from "../../services/user.service";
 import {FormBuilder} from "@angular/forms";
 import {CinemaManagerFormHelper} from "./cinema-manager-form-helper";
 import {CinemaManagerResponse} from "../../dtos/response/cinema-manager.response";
+import {CinemaService} from "../../../cinema/services/cinema.service";
+import {Observable, tap} from "rxjs";
 
 @Component({
   selector: 'app-cinema-manager-form',
@@ -15,6 +17,7 @@ export class CinemaManagerFormComponent implements OnInit {
   protected isLoading = true;
   protected cinemaManagerFormHelper !: CinemaManagerFormHelper;
   protected pageTitle !: string;
+  protected cinemaNames!: Observable<string[]>
   private cinemaManagerEmail !: string;
 
   constructor(
@@ -22,11 +25,13 @@ export class CinemaManagerFormComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
     private userService: UserService,
+    private readonly cinemaService: CinemaService,
   ) {
   }
 
   ngOnInit() {
     const params = this.activatedRoute.snapshot.params;
+    this.cinemaNames = this.loadCinemaNames();
     if (params['email']) {
       this.isEditMode = true;
       this.cinemaManagerEmail = params['email'];
@@ -53,7 +58,6 @@ export class CinemaManagerFormComponent implements OnInit {
     cinemaManager$.subscribe({
       next: (cinemaManager: CinemaManagerResponse) => {
         this.cinemaManagerFormHelper.fillFormWithCinemaManager(cinemaManager);
-        this.isLoading = false;
       },
       error: () => {
         this.goBack();
@@ -87,5 +91,12 @@ export class CinemaManagerFormComponent implements OnInit {
 
   handleCancelClicked() {
     this.goBack();
+  }
+
+  private loadCinemaNames(): Observable<string[]> {
+    this.isLoading = true;
+    return this.cinemaService.getAllCinemaNames().pipe(
+      tap(() => this.isLoading = false)
+    );
   }
 }

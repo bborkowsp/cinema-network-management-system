@@ -24,7 +24,7 @@ public interface CinemaRepository {
 
     void save(Cinema cinema);
 
-    void updateCinemaManager(Long cinemaId, Long cinemaManagerId);
+    void updateCinemaManager(Cinema cinemaId, Long cinemaManagerId);
 
     void deleteByName(String name);
 }

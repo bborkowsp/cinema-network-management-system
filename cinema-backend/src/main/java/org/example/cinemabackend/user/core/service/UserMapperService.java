@@ -81,14 +81,14 @@ class UserMapperService implements UserMapper {
     }
 
     private void updateCinemaManagerIfUpdatedManagedCinemaIsNotNull(User cinemaManagerToUpdate, UpdateCinemaManagerRequest updateCinemaManagerRequest) {
-        final var newManagedCinema = getCinemaByUserEmail(updateCinemaManagerRequest.managedCinemaName());
+        final var newManagedCinema = cinemaRepository.findByName(updateCinemaManagerRequest.managedCinemaName()).orElseThrow();
         final var oldManagedCinema = getCinemaByUserEmail(cinemaManagerToUpdate.getEmail());
 
         removeCinemaManagerFromOldManagedCinema(oldManagedCinema);
 
         cinemaManagerToUpdate.setEmail(updateCinemaManagerRequest.email());
         userRepository.save(cinemaManagerToUpdate);
-        cinemaRepository.updateCinemaManager(newManagedCinema.getId(), cinemaManagerToUpdate.getId());
+        cinemaRepository.updateCinemaManager(newManagedCinema, cinemaManagerToUpdate.getId());
     }
 
     private void removeCinemaManagerFromOldManagedCinema(Cinema oldManagedCinema) {
@@ -98,7 +98,7 @@ class UserMapperService implements UserMapper {
     }
 
     private Cinema getCinemaByUserEmail(String email) {
-        return cinemaRepository.findByUserEmail(email).orElseThrow();
+        return cinemaRepository.findByUserEmail(email).orElse(null);
     }
 
     private Cinema findByCinemaManager(User user) {
