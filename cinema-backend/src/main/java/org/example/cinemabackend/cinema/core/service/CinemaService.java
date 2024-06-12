@@ -13,6 +13,7 @@ import org.example.cinemabackend.cinema.core.port.secondary.CinemaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -97,15 +98,18 @@ class CinemaService implements CinemaUseCases {
     }
 
     private void validateCinemaManagerIsNotAssignedWhenUpdate(Cinema cinema, String email) {
-        if (cinema.getCinemaManager() == null &&
-                cinemaRepository.existsByCinemaManagerEmail(email)) {
+        if (cinemaRepository.existsByCinemaManagerEmail(email) && email != null && !Objects.equals(cinema.getCinemaManager().getEmail(), email)) {
             throw new IllegalArgumentException("Cinema manager with email " + email + " is already assigned to a cinema.");
         }
-
-        if (!email.isEmpty() && cinema.getCinemaManager() != null &&
-                !cinema.getCinemaManager().getEmail().equals(email) &&
-                cinemaRepository.existsByCinemaManagerEmail(email)) {
-            throw new IllegalArgumentException("Cinema manager with email " + email + " is already assigned to a cinema.");
-        }
+//        if (cinema.getCinemaManager() == null &&
+//                cinemaRepository.existsByCinemaManagerEmail(email)) {
+//            throw new IllegalArgumentException("Cinema manager with email " + email + " is already assigned to a cinema.");
+//        }
+//
+//        if (!email.isEmpty() && cinema.getCinemaManager() != null &&
+//                !cinema.getCinemaManager().getEmail().equals(email) &&
+//                cinemaRepository.existsByCinemaManagerEmail(email)) {
+//            throw new IllegalArgumentException("Cinema manager with email " + email + " is already assigned to a cinema.");
+//        }
     }
 }

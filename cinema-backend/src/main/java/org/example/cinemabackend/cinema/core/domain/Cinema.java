@@ -46,6 +46,13 @@ public class Cinema {
         this.cinemaManager = cinemaManager;
     }
 
+    public Cinema(String name, String description, Address address, Image image) {
+        this.name = name;
+        this.description = description;
+        this.address = address;
+        this.image = image;
+    }
+
     public String getName() {
         return this.name;
     }

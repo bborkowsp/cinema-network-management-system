@@ -94,7 +94,8 @@ class CinemaMapperService implements CinemaMapper {
                 contactDetailsMapper.mapCreateContactDetailsToContactDetails(
                         updateCinemaRequest.contactDetails()
                 ));
-        cinema.setCinemaManager(cinemaManager);
+        if (cinemaManager != null)
+            cinema.setCinemaManager(cinemaManager);
     }
 
     private UserResponse getCinemaManagerOrEmptyUser(Cinema cinema) {
@@ -105,7 +106,7 @@ class CinemaMapperService implements CinemaMapper {
     }
 
     private User findCinemaManager(String email) {
-        if (!email.isEmpty()) {
+        if (email != null && !email.isEmpty()) {
             return userRepository.findByEmail(email).orElseThrow();
         } else {
             return null;

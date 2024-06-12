@@ -16,4 +16,5 @@ public interface UserUseCases {
     CinemaManagerResponse getCinemaManager(String email);
 
     void updateCinemaManager(String email, UpdateCinemaManagerRequest updateCinemaManagerRequest);
+
 }

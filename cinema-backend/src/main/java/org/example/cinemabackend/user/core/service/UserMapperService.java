@@ -59,6 +59,7 @@ class UserMapperService implements UserMapper {
                 .build();
     }
 
+
     @Override
     @Transactional
     public void updateCinemaManager(User cinemaManagerToUpdate, UpdateCinemaManagerRequest updateCinemaManagerRequest) {

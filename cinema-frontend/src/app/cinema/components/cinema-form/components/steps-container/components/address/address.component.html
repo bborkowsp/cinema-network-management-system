@@ -9,6 +9,9 @@
         <mat-error *ngIf="streetAndBuildingNumberControl.hasError('pattern')">
           Street or building number is <strong>invalid</strong>
         </mat-error>
+        <mat-error *ngIf="streetAndBuildingNumberControl.hasError('required')">
+          Street and building number is <strong>required!</strong>
+        </mat-error>
       </mat-form-field>
     </td>
     <td>
@@ -18,6 +21,9 @@
         <mat-hint align="end">{{ postalCodeControl.value.length }} / 255</mat-hint>
         <mat-error *ngIf="postalCodeControl.hasError('pattern')">
           Postal code is <strong>invalid</strong>
+        </mat-error>
+        <mat-error *ngIf="postalCodeControl.hasError('required')">
+          Postal code is <strong>required!</strong>
         </mat-error>
       </mat-form-field>
     </td>
@@ -31,6 +37,9 @@
         <mat-label>City</mat-label>
         <input [formControl]="cityControl" matInput required>
         <mat-hint align="end">{{ cityControl.value.length }} / 255</mat-hint>
+        <mat-error *ngIf="cityControl.hasError('required')">
+          City is <strong>required!</strong>
+        </mat-error>
       </mat-form-field>
     </td>
     <td>
@@ -38,6 +47,9 @@
         <mat-label>Country</mat-label>
         <input [formControl]="countryControl" matInput required>
         <mat-hint align="end">{{ countryControl.value.length }} / 255</mat-hint>
+        <mat-error *ngIf="countryControl.hasError('required')">
+          Country is <strong>required!</strong>
+        </mat-error>
       </mat-form-field>
     </td>
   </tr>

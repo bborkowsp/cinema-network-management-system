@@ -2,6 +2,9 @@
   <mat-form-field class="input-form-field">
     <mat-label>Department</mat-label>
     <input matInput [formControl]="departmentControl" required type="text" maxlength="100">
+    <mat-error *ngIf="departmentControl.hasError('required')">
+      Department name is <strong>required!</strong>
+    </mat-error>
   </mat-form-field>
   <table class="input-form-field">
     <tr>
@@ -10,6 +13,9 @@
           <mat-label>Email</mat-label>
           <input matInput [formControl]="emailControl" required type="email">
           <mat-icon matSuffix>alternate_email</mat-icon>
+          <mat-error *ngIf="emailControl.hasError('required')">
+            Email is <strong>required!</strong>
+          </mat-error>
         </mat-form-field>
       </td>
       <td>
@@ -17,6 +23,9 @@
           <mat-label>Phone number</mat-label>
           <input matInput [formControl]="phoneNumberControl" required type="tel">
           <mat-icon matSuffix>phone</mat-icon>
+          <mat-error *ngIf="phoneNumberControl.hasError('required')">
+            Phone is <strong>required!</strong>
+          </mat-error>
         </mat-form-field>
       </td>
     </tr>

@@ -5,6 +5,9 @@
   <mat-form-field class="input-form-field">
     <mat-label>Screening room name</mat-label>
     <input matInput [formControl]="nameControl" required type="text" maxlength="100">
+    <mat-error *ngIf="nameControl.hasError('required')">
+      Screening room name is <strong>required!</strong>
+    </mat-error>
   </mat-form-field>
 
   <table class="input-form-field">
