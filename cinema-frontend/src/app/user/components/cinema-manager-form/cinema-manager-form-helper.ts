@@ -29,7 +29,7 @@ export class CinemaManagerFormHelper {
       main: this.formBuilder.group({
         firstName: ['', [Validators.required]],
         lastName: ['', [Validators.required]],
-        email: ['', [Validators.required]],
+        email: ['', [Validators.required, Validators.email]],
         managedCinemaName: ['', [Validators.required]]
       })
     });
