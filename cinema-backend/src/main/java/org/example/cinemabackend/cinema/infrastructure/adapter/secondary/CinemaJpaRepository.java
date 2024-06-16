@@ -18,9 +18,6 @@ public interface CinemaJpaRepository extends JpaRepository<CinemaSchema, Long> {
 
     Optional<CinemaSchema> findByCinemaManagerEmail(String email);
 
-    //   Optional<CinemaSchema> findByRepertoryContains(ScreeningSchema screeningSchema);
-
-
     boolean existsByName(String name);
 
     boolean existsByCinemaManagerEmail(String email);

@@ -21,21 +21,21 @@ class UserController {
     private final UserUseCases userUseCases;
 
     @GetMapping
-    @PreAuthorize("hasAuthority('CINEMA_NETWORK_MANAGER')")
+    @PreAuthorize("hasAnyAuthority('CINEMA_NETWORK_MANAGER','ADMIN')")
     ResponseEntity<Page<CinemaManagerTableResponse>> getCinemaManagers(Pageable pageable) {
         final var cinemaManagers = userUseCases.getCinemaManagers(pageable);
         return ResponseEntity.ok(cinemaManagers);
     }
 
     @GetMapping("/cinema-managers")
-    @PreAuthorize("hasAuthority('CINEMA_NETWORK_MANAGER')")
+    @PreAuthorize("hasAnyAuthority('CINEMA_NETWORK_MANAGER','ADMIN')")
     ResponseEntity<ResponseList<CinemaManagerResponse>> getCinemaManagers() {
         final var cinemaManagers = userUseCases.getCinemaManagers();
         return ResponseEntity.ok(new ResponseList<>(cinemaManagers));
     }
 
     @GetMapping("/cinema-managers/{email}")
-    @PreAuthorize("hasAuthority('CINEMA_NETWORK_MANAGER')")
+    @PreAuthorize("hasAnyAuthority('CINEMA_NETWORK_MANAGER','ADMIN')")
     ResponseEntity<CinemaManagerResponse> getCinema(@PathVariable String email) {
         final var cinemaManager = userUseCases.getCinemaManager(email);
         return ResponseEntity.ok(cinemaManager);
@@ -43,7 +43,7 @@ class UserController {
 
 
     @PatchMapping("/cinema-managers/{email}")
-    @PreAuthorize("hasAuthority('CINEMA_NETWORK_MANAGER')")
+    @PreAuthorize("hasAnyAuthority('CINEMA_NETWORK_MANAGER','ADMIN')")
     ResponseEntity<Void> updateProjectionTechnology(
             @PathVariable String email,
             @RequestBody @Valid UpdateCinemaManagerRequest updateCinemaManagerRequest

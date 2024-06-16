@@ -42,12 +42,6 @@ class CinemaDatabaseGateway implements CinemaRepository {
         return cinemaJpaRepository.findByCinemaManager(UserSchema.fromUser(user)).map(CinemaSchema::toCinema);
     }
 
-//    @Override
-//    @Transactional(readOnly = true)
-//    public Optional<Cinema> findByRepertoryContains(Screening screening) {
-//        return cinemaJpaRepository.findByRepertoryContains(ScreeningSchema.fromScreening(screening)).map(CinemaSchema::toCinema);
-//    }
-
     @Override
     @Transactional
     public boolean existsByName(String name) {

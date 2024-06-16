@@ -11,14 +11,10 @@
           [emailControl]="loginFormGroup.controls.email"
           [form]="loginForm"
           [passwordControl]="loginFormGroup.controls.password"
-          [roleControl]="loginFormGroup.controls.role"
         ></app-login-main-form-frame>
         <div class="button-container">
           <button [disabled]="loginFormGroup.invalid" color="primary" mat-flat-button type="submit">Sign in
           </button>
-        </div>
-        <div class="text-container">
-          <p>No account? <a class="create-account-link" href="/register">Create one here</a></p>
         </div>
       </div>
     </div>

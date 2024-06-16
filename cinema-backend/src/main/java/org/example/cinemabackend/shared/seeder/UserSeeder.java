@@ -17,7 +17,6 @@ import java.util.Set;
 @Order(2)
 public class UserSeeder implements Seeder {
     private static final String PASSWORD = "password";
-    private static final String EMAIL = "example@example.com";
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final Faker faker;
@@ -25,23 +24,36 @@ public class UserSeeder implements Seeder {
 
     @Override
     public void seedDatabase(int objectsToSeed) {
+        createUsers(objectsToSeed, Role.CINEMA_MANAGER, "cinemaMgr");
+        increment = 0;
+        createUsers(objectsToSeed, Role.CINEMA_NETWORK_MANAGER, "cinemaNetMgr");
+        createAdmin();
+    }
+
+    private void createAdmin() {
+        final var user = createUser(Role.ADMIN, "admin@admin.com");
+        userRepository.save(user);
+    }
+
+    private void createUsers(int objectsToSeed, Role role, String emailPrefix) {
         Set<User> users = new HashSet<>();
         while (users.size() < objectsToSeed) {
-            final var user = createUser();
+            final var email = emailPrefix + increment + "@email.com";
+            final var user = createUser(role, email);
             userRepository.save(user);
             users.add(user);
             increment++;
         }
     }
 
-    private User createUser() {
+    private User createUser(Role role, String email) {
         final var encodedPassword = passwordEncoder.encode(PASSWORD);
         return new User(
                 faker.name().firstName(),
                 faker.name().lastName(),
-                EMAIL + increment,
+                email,
                 encodedPassword,
-                Role.CINEMA_MANAGER
+                role
         );
     }
 }

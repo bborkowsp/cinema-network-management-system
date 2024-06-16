@@ -27,10 +27,10 @@ public class ScreeningRoomSchema {
     @Column(columnDefinition = "TEXT")
     private String seatingPlan;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     private Set<ProjectionTechnologySchema> supportedTechnologies = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ScreeningSchema> repertory;
 
     public static ScreeningRoomSchema fromScreeningRoom(ScreeningRoom screeningRoom) {
@@ -66,6 +66,25 @@ public class ScreeningRoomSchema {
         );
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+
+        if (!(object instanceof ScreeningRoomSchema screeningRoomSchema)) {
+            return false;
+        }
+
+        return Objects.equals(id, screeningRoomSchema.getId()) &&
+                Objects.equals(name, screeningRoomSchema.getName());
+    }
+
     private SeatSchema[][] getSeatingPlanFromJson() {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
@@ -85,22 +104,4 @@ public class ScreeningRoomSchema {
         return seats;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(name);
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) {
-            return true;
-        }
-
-        if (!(object instanceof ScreeningRoomSchema screeningRoomSchema)) {
-            return false;
-        }
-
-        return Objects.equals(id, screeningRoomSchema.getId()) &&
-                Objects.equals(name, screeningRoomSchema.getName());
-    }
 }

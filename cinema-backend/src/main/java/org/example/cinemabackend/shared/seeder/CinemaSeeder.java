@@ -19,7 +19,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 @Order(3)
 class CinemaSeeder implements Seeder {
-    private static final int NUMBER_OF_SCREENING_ROOMS = 6;
+    private static final int NUMBER_OF_SCREENING_ROOMS = 3;
     private final CinemaRepository cinemaRepository;
     private final ProjectionTechnologyRepository projectionTechnologyRepository;
     private final UserRepository userRepository;

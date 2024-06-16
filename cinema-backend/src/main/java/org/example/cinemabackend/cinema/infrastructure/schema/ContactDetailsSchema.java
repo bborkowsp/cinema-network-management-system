@@ -18,7 +18,7 @@ public class ContactDetailsSchema {
     @Column(nullable = false, length = 100)
     private String department;
 
-    @OneToOne(cascade = CascadeType.ALL, optional = false, orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.ALL, optional = false, orphanRemoval = true, fetch = FetchType.LAZY)
     private ContactTypeSchema contactType;
 
     public static ContactDetailsSchema fromContactDetails(ContactDetails contactDetails) {

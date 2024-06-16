@@ -101,15 +101,5 @@ class CinemaService implements CinemaUseCases {
         if (cinemaRepository.existsByCinemaManagerEmail(email) && email != null && !Objects.equals(cinema.getCinemaManager().getEmail(), email)) {
             throw new IllegalArgumentException("Cinema manager with email " + email + " is already assigned to a cinema.");
         }
-//        if (cinema.getCinemaManager() == null &&
-//                cinemaRepository.existsByCinemaManagerEmail(email)) {
-//            throw new IllegalArgumentException("Cinema manager with email " + email + " is already assigned to a cinema.");
-//        }
-//
-//        if (!email.isEmpty() && cinema.getCinemaManager() != null &&
-//                !cinema.getCinemaManager().getEmail().equals(email) &&
-//                cinemaRepository.existsByCinemaManagerEmail(email)) {
-//            throw new IllegalArgumentException("Cinema manager with email " + email + " is already assigned to a cinema.");
-//        }
     }
 }

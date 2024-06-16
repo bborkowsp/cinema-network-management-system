@@ -11,7 +11,6 @@ import java.util.Set;
 
 @Builder
 public record UpdateScreeningRoomRequest(
-        //       @NotNull Long id,
         @NotBlank @Size(max = 50) String name,
         @NotNull @Valid UpdateSeatRequest[][] seats,
         @NotNull Set<@NotNull @Valid ProjectionTechnologyNameResponse> supportedTechnologies

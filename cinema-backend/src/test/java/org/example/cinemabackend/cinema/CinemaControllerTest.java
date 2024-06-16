@@ -78,7 +78,10 @@ class CinemaControllerTest {
                 .andExpectAll(
                         status().isOk(),
                         content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON),
-                        jsonPath("$.name").value(cinema.getName())
+                        jsonPath("$.name").value(cinema.getName()),
+                        jsonPath("$.description").value(cinema.getDescription()),
+                        jsonPath("$.address.streetAndBuildingNumber").value(cinema.getAddress().getStreetAndBuildingNumber()),
+                        jsonPath("$.cinemaManager.email").value(cinema.getCinemaManager().getEmail())
                 );
     }
 
@@ -100,6 +103,19 @@ class CinemaControllerTest {
 
     @Test
     @Order(4)
+    void givenCinemasInDatabase_whenCreateCinemaWithExistingName_thenBadRequest() throws Exception {
+        // Given
+        final var createCinemaRequest = cinemaTestDataProvider.generateCreateCinemaRequest();
+
+        // When
+        mockMvc.perform(post(CINEMAS_ENDPOINT_PATH)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(createCinemaRequest)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @Order(5)
     void givenCinemasInDatabase_whenUpdateCinema_thenCinemaIsUpdatedInDatabase() throws Exception {
         // Given
         final var cinema = cinemaRepository.findAll().getFirst();
@@ -121,7 +137,7 @@ class CinemaControllerTest {
     }
 
     @Test
-    @Order(5)
+    @Order(6)
     void givenCinemasInDatabase_whenDeleteCinema_thenCinemaIsNotPresentInDatabase() throws Exception {
         // Given
         final var cinema = cinemaRepository.findAll().getFirst();

@@ -16,10 +16,11 @@ public class ContactTypeSchema {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 15)
+    @Column(nullable = false, length = 15)
     private String phoneNumber;
 
     @Email
+    @Column(nullable = false)
     private String email;
 
     public static ContactTypeSchema fromContactType(ContactType contactType) {

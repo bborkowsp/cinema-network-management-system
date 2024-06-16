@@ -5,5 +5,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ScreeningJpaRepository extends JpaRepository<ScreeningSchema, Long> {
     boolean existsByMovieTitle(String title);
-    //   List<ScreeningSchema> findByScreeningRoomId(Long screeningRoomId);
 }

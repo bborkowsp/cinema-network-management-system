@@ -25,49 +25,49 @@ class ProjectionTechnologyController {
     private final ProjectionTechnologyUseCases projectionTechnologyUseCases;
 
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('CINEMA_NETWORK_MANAGER','CINEMA_MANAGER')")
+    @PreAuthorize("hasAnyAuthority('CINEMA_NETWORK_MANAGER','CINEMA_MANAGER','ADMIN')")
     ResponseEntity<Page<ProjectionTechnologyResponse>> getProjectionTechnologies(Pageable pageable) {
         final var projectionTechnologies = projectionTechnologyUseCases.getProjectionTechnologies(pageable);
         return ResponseEntity.ok(projectionTechnologies);
     }
 
     @GetMapping("/all")
-    @PreAuthorize("hasAnyAuthority('CINEMA_NETWORK_MANAGER','CINEMA_MANAGER')")
+    @PreAuthorize("hasAnyAuthority('CINEMA_NETWORK_MANAGER','CINEMA_MANAGER','ADMIN')")
     ResponseEntity<List<ProjectionTechnologyResponse>> getProjectionTechnologies() {
         final var projectionTechnologies = projectionTechnologyUseCases.getProjectionTechnologies();
         return ResponseEntity.ok(projectionTechnologies);
     }
 
     @GetMapping("/names")
-    @PreAuthorize("hasAnyAuthority('CINEMA_NETWORK_MANAGER','CINEMA_MANAGER')")
+    @PreAuthorize("hasAnyAuthority('CINEMA_NETWORK_MANAGER','CINEMA_MANAGER','ADMIN')")
     ResponseEntity<List<ProjectionTechnologyNameResponse>> getProjectionTechnologiesNames() {
         final var projectionTechnologies = projectionTechnologyUseCases.getProjectionTechnologiesNames();
         return ResponseEntity.ok(projectionTechnologies);
     }
 
     @GetMapping("/{technology}")
-    @PreAuthorize("hasAnyAuthority('CINEMA_NETWORK_MANAGER','CINEMA_MANAGER')")
+    @PreAuthorize("hasAnyAuthority('CINEMA_NETWORK_MANAGER','CINEMA_MANAGER','ADMIN')")
     ResponseEntity<ProjectionTechnologyResponse> getProjectionTechnology(@PathVariable String technology) {
         final var cinema = projectionTechnologyUseCases.getProjectionTechnology(technology);
         return ResponseEntity.ok(cinema);
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority('CINEMA_NETWORK_MANAGER')")
+    @PreAuthorize("hasAnyAuthority('CINEMA_NETWORK_MANAGER','ADMIN')")
     ResponseEntity<Void> createProjectionTechnology(@RequestBody @Valid CreateProjectionTechnologyRequest createCinemaRequest) {
         projectionTechnologyUseCases.createProjectionTechnology(createCinemaRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PatchMapping("/{technology}")
-    @PreAuthorize("hasAuthority('CINEMA_NETWORK_MANAGER')")
+    @PreAuthorize("hasAnyAuthority('CINEMA_NETWORK_MANAGER','ADMIN')")
     ResponseEntity<Void> updateProjectionTechnology(@PathVariable String technology, @RequestBody @Valid UpdateProjectionTechnologyRequest updateProjectionTechnology) {
         projectionTechnologyUseCases.updateProjectionTechnology(technology, updateProjectionTechnology);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{technology}")
-    @PreAuthorize("hasAuthority('CINEMA_NETWORK_MANAGER')")
+    @PreAuthorize("hasAnyAuthority('CINEMA_NETWORK_MANAGER','ADMIN')")
     ResponseEntity<Void> deleteProjectionTechnology(@PathVariable String technology) {
         projectionTechnologyUseCases.deleteProjectionTechnology(technology);
         return ResponseEntity.noContent().build();

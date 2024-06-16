@@ -41,7 +41,7 @@ public class CinemaSchema {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ContactDetailsSchema> contactDetails = new HashSet<>();
 
-    @OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     private UserSchema cinemaManager;
 
     public static CinemaSchema fromCinema(Cinema cinema) {

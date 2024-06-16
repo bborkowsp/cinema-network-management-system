@@ -16,8 +16,6 @@ public interface CinemaRepository {
 
     Optional<Cinema> findByCinemaManager(User user);
 
-    //  Optional<Cinema> findByRepertoryContains(Screening screening);
-
     boolean existsByName(String name);
 
     boolean existsByCinemaManagerEmail(String email);

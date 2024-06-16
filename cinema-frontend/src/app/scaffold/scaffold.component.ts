@@ -80,5 +80,20 @@ export class ScaffoldComponent {
         },
       );
     }
+
+    if (userRole === 'ADMIN') {
+      this.navigationLinks.push(
+        {
+          label: 'Cinema managers',
+          path: '/cinema-managers',
+          icon: 'people'
+        },
+        {
+          label: 'Cinemas',
+          path: '/cinemas',
+          icon: 'business'
+        },
+      );
+    }
   }
 }
