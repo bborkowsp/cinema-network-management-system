@@ -2,7 +2,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {CinemaManagerResponse} from "../../dtos/response/cinema-manager.response";
 import {CinemaManagerRequest} from "../../dtos/request/cinema-manager.request";
 
-export class CinemaManagerFormHelper {
+export class CinemaManagerFormBuilder {
   form: FormGroup;
 
   constructor(private readonly formBuilder: FormBuilder) {

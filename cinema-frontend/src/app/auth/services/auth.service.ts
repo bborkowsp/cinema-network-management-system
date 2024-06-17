@@ -84,12 +84,18 @@ export class AuthService {
     return '';
   }
 
-  getUserRoleAsEnum(): Role {
+  getUserRoleAsEnum(): Role | null {
     const role = this.getUserRole();
+    if (role === 'ADMIN') {
+      return Role.ADMIN;
+    }
+    if (role === 'CINEMA_NETWORK_MANAGER') {
+      return Role.CINEMA_NETWORK_MANAGER;
+    }
     if (role === 'CINEMA_MANAGER') {
       return Role.CINEMA_MANAGER;
     }
-    return Role.CINEMA_NETWORK_MANAGER;
+    return null;
   }
 
   checkIfLoggedInUserIsCinemaManager(): boolean {

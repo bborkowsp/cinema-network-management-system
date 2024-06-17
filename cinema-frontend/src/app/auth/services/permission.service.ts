@@ -15,7 +15,13 @@ class PermissionService {
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     const userRole = this.authService.getUserRoleAsEnum();
+    if (userRole === null) {
+      this.router.navigate(['/login']);
+      return false;
+    }
     const expectedRoles: Role[] = next.data['roles'];
+    console.log("expected ", expectedRoles);
+    console.log("userRole ", userRole);
     const hasRole: boolean = expectedRoles.some((role) => userRole === role);
     if (!this.authService.isLoggedIn || !hasRole) {
       this.router.navigate(['/login']);

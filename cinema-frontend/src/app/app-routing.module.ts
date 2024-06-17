@@ -14,7 +14,6 @@ import {MovieDetailsComponent} from "./movie/components/movie-details/movie-deta
 import {RegisterFormComponent} from "./user/components/register-form/register-form.component";
 import {CinemaManagerTableComponent} from "./user/components/cinema-manager-table/cinema-manager-table.component";
 import {ManageRepertoryComponent} from "./repertory/components/manage-repertory/manage-repertory.component";
-import {CinemaManagerFormComponent} from "./user/components/cinema-manager-form/cinema-manager-form.component";
 import {
   ScreeningFormComponent
 } from "./repertory/components/manage-repertory/components/screening-form/screening-form.component";
@@ -26,6 +25,9 @@ import {MovieFormComponent} from "./movie/components/movie-form/movie-form.compo
 import {LoginFormComponent} from "./auth/components/login-form/login-form.component";
 import {AuthGuard} from "./auth/services/permission.service";
 import {Role} from "./auth/services/roles";
+import {CinemaManagerFormComponent} from "./user/components/cinema-manager-form/cinema-manager-form.component";
+import {UserTableComponent} from "./user/components/user-table/user-table.component";
+import {UserFormComponent} from "./user/components/user-form/user-form.component";
 
 const routes: Routes = [
   {
@@ -121,6 +123,24 @@ const routes: Routes = [
     component: CinemaManagerFormComponent,
     canActivate: [AuthGuard],
     data: {roles: [Role.CINEMA_NETWORK_MANAGER, Role.ADMIN]}
+  },
+  {
+    path: 'users',
+    component: UserTableComponent,
+    canActivate: [AuthGuard],
+    data: {roles: [Role.ADMIN]}
+  },
+  {
+    path: 'users/create',
+    component: UserFormComponent,
+    canActivate: [AuthGuard],
+    data: {roles: [Role.ADMIN]}
+  },
+  {
+    path: 'users/edit/:email',
+    component: UserFormComponent,
+    canActivate: [AuthGuard],
+    data: {roles: [Role.ADMIN]}
   },
   {
     path: 'repertory',

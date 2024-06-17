@@ -1,21 +1,21 @@
 import {Component, OnInit} from '@angular/core';
-import {Observable, tap} from "rxjs";
-import {CinemaManagerFormBuilder} from "./cinema-manager-form-builder";
 import {ActivatedRoute, Router} from "@angular/router";
-import {FormBuilder} from "@angular/forms";
 import {UserService} from "../../services/user.service";
-import {CinemaService} from "../../../cinema/services/cinema.service";
+import {FormBuilder} from "@angular/forms";
+import {UserFormBuilder} from "./user-form-builder";
 import {CinemaManagerResponse} from "../../dtos/response/cinema-manager.response";
+import {CinemaService} from "../../../cinema/services/cinema.service";
+import {Observable, tap} from "rxjs";
 
 @Component({
-  selector: 'app-cinema-manager-form',
-  templateUrl: './cinema-manager-form.component.html',
-  styleUrls: ['./cinema-manager-form.component.scss']
+  selector: 'app-user-form',
+  templateUrl: './user-form.component.html',
+  styleUrls: ['./user-form.component.scss']
 })
-export class CinemaManagerFormComponent implements OnInit {
+export class UserFormComponent implements OnInit {
   protected isEditMode = false;
   protected isLoading = true;
-  protected cinemaManagerFormHelper !: CinemaManagerFormBuilder;
+  protected cinemaManagerFormHelper !: UserFormBuilder;
   protected pageTitle !: string;
   protected cinemaNames!: Observable<string[]>
   private cinemaManagerEmail !: string;
@@ -44,12 +44,12 @@ export class CinemaManagerFormComponent implements OnInit {
   }
 
   private setUpEditCinemaManagerForm() {
-    this.cinemaManagerFormHelper = new CinemaManagerFormBuilder(this.formBuilder);
+    this.cinemaManagerFormHelper = new UserFormBuilder(this.formBuilder);
     this.loadCinemaManager();
   }
 
   private setUpCinemaManagerForm() {
-    this.cinemaManagerFormHelper = new CinemaManagerFormBuilder(this.formBuilder);
+    this.cinemaManagerFormHelper = new UserFormBuilder(this.formBuilder);
     this.isLoading = false;
   }
 
