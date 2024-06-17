@@ -10,7 +10,7 @@ import {
   ProjectionTechnologyResponse
 } from "../../../projection-technology/dtos/response/projection-technology.response";
 import {CreateMovieRequest} from "../../dtos/request/create-movie.request";
-import FormValidatorPatterns from "../../../shared/validators/form-validators-patterns";
+import FormValidatorPatterns from "../../../_shared/validators/form-validators-patterns";
 
 export class MovieFormBuilder {
   form: FormGroup;

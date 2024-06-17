@@ -2,7 +2,7 @@ import {environment} from "../../../assets/environment";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {map, Observable} from "rxjs";
 import {Injectable} from "@angular/core";
-import {PaginatorRequestParams} from "../../shared/dtos/paginator-request-params";
+import {PaginatorRequestParams} from "../../_shared/dtos/paginator-request-params";
 import {MoviePageResponse} from "../dtos/response/movie-page.response";
 import {MovieResponse} from "../dtos/response/movie.response";
 import {CreateMovieRequest} from "../dtos/request/create-movie.request";

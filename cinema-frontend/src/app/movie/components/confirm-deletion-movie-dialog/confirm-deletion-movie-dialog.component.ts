@@ -1,6 +1,6 @@
 import {Component, inject} from '@angular/core';
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
-import {ConfirmDialogData} from "../../../shared/components/confirm-deletion-dialog/confirm-deletion-dialog.component";
+import {ConfirmDialogData} from "../../../_shared/components/confirm-deletion-dialog/confirm-deletion-dialog.component";
 
 @Component({
   selector: 'app-confirm-deletion-movie-dialog',

@@ -17,13 +17,12 @@ import {MatInputModule} from "@angular/material/input";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatIconModule} from "@angular/material/icon";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
-import {SharedModule} from "./shared/shared.module";
-import {ScaffoldModule} from "./scaffold/scaffold.module";
+import {SharedModule} from "./_shared/shared.module";
 import {ProjectionTechnologyModule} from "./projection-technology/projection-technology.module";
 import {HomeModule} from "./home/home.module";
-import {ErrorHandlerInterceptor} from "./shared/interceptors/error-handler.interceptor";
+import {ErrorHandlerInterceptor} from "./_shared/interceptors/error-handler.interceptor";
 import {MovieModule} from "./movie/movie.module";
-import {JwtInterceptor} from "./shared/interceptors/jwt.interceptor";
+import {JwtInterceptor} from "./_shared/interceptors/jwt.interceptor";
 import {UserModule} from "./user/user.module";
 import {AuthService} from "./user/services/auth.service";
 import {RepertoryModule} from "./repertory/repertory.module";
@@ -55,7 +54,6 @@ import {RepertoryModule} from "./repertory/repertory.module";
     SharedModule,
     CinemaModule,
     ProjectionTechnologyModule,
-    ScaffoldModule,
     HomeModule,
     MovieModule,
     UserModule,

@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {map, Observable, tap} from "rxjs";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
-import {PaginatorRequestParams} from "../../../shared/dtos/paginator-request-params";
+import {PaginatorRequestParams} from "../../../_shared/dtos/paginator-request-params";
 import {Router} from "@angular/router";
 import {MovieListResponse} from "../../dtos/response/movie-list.response";
 import {MovieService} from "../../services/movie.service";

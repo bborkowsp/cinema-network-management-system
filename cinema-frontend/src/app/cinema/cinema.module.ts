@@ -6,7 +6,6 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {HttpClientModule} from "@angular/common/http";
 import {MatTableModule} from "@angular/material/table";
 import {MatPaginatorModule} from "@angular/material/paginator";
-import {SharedModule} from "../shared/shared.module";
 import {MatButtonModule} from "@angular/material/button";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
@@ -50,6 +49,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {
   ConfirmDeletionCinemaDialog
 } from "./components/confirm-deletion-cinema-dialog/confirm-deletion-cinema-dialog.component";
+import {SharedModule} from "../_shared/shared.module";
 
 @NgModule({
   imports: [
@@ -75,6 +75,7 @@ import {
     MatExpansionModule,
     MatStepperModule,
     MatProgressSpinnerModule,
+    SharedModule,
   ],
   declarations: [
     CinemaTableComponent,

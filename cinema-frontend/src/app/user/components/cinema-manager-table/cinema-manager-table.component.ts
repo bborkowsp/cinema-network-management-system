@@ -1,7 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
 import {map, Observable, tap} from "rxjs";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
-import {PaginatorRequestParams} from "../../../shared/dtos/paginator-request-params";
+import {PaginatorRequestParams} from "../../../_shared/dtos/paginator-request-params";
 import {Router} from "@angular/router";
 import {UserService} from "../../services/user.service";
 import {CinemaManagerTableResponse} from "../../dtos/response/cinema-manager-table.response";

@@ -1,7 +1,7 @@
 import {map, Observable} from "rxjs";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {environment} from "../../../assets/environment";
-import {PaginatorRequestParams} from "../../shared/dtos/paginator-request-params";
+import {PaginatorRequestParams} from "../../_shared/dtos/paginator-request-params";
 import {CinemaManagerPageResponse} from "../dtos/response/cinema-manager-page.response";
 import {Injectable} from "@angular/core";
 import {CinemaManagerResponse} from "../dtos/response/cinema-manager.response";

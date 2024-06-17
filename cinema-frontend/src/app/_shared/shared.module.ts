@@ -25,6 +25,12 @@ import {
   DetailsSectionContainerComponent
 } from './components/details-section-container/details-section-container.component';
 import {MatListModule} from "@angular/material/list";
+import {ScaffoldComponent} from "./components/scaffold/scaffold.component";
+import {AccountComponent} from "./components/scaffold/components/account/account.component";
+import {DrawerComponent} from "./components/scaffold/components/drawer/drawer.component";
+import {NavigationListComponent} from "./components/scaffold/components/navigation-list/navigation-list.component";
+import {ToolbarComponent} from "./components/scaffold/components/toolbar/toolbar.component";
+import {MatSidenavModule} from "@angular/material/sidenav";
 
 const sharedModules = [
   CommonModule,
@@ -51,7 +57,12 @@ const declarations = [
     ErrorDialogComponent,
     GenericDetailsFieldComponent,
     ConfirmDeletionDialogComponent,
-    DetailsSectionContainerComponent
+    DetailsSectionContainerComponent,
+    ScaffoldComponent,
+    AccountComponent,
+    DrawerComponent,
+    NavigationListComponent,
+    ToolbarComponent,
   ],
   imports: [
     ...sharedModules,
@@ -64,6 +75,7 @@ const declarations = [
     MatTooltipModule,
     MatDialogModule,
     MatListModule,
+    MatSidenavModule,
   ],
   exports: [
     declarations,
@@ -71,7 +83,8 @@ const declarations = [
     GenericFormFrameComponent,
     GenericDetailsFieldComponent,
     ConfirmDeletionDialogComponent,
-    DetailsSectionContainerComponent
+    DetailsSectionContainerComponent,
+    ScaffoldComponent
   ],
 })
 export class SharedModule {

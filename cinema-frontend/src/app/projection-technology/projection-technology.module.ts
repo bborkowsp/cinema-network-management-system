@@ -7,7 +7,6 @@ import {
   ProjectionTechnologyDetailsComponent
 } from './components/projection-technology-details/projection-technology-details.component';
 
-import {SharedModule} from "../shared/shared.module";
 import {MatTableModule} from "@angular/material/table";
 import {MatPaginatorModule} from "@angular/material/paginator";
 
@@ -25,6 +24,7 @@ import {
 import {
   ProjectionTechnologyFormFrameComponent
 } from './components/projection-technology-form/components/projection-technology-form-frame/projection-technology-form-frame.component';
+import {SharedModule} from "../_shared/shared.module";
 
 
 @NgModule({
@@ -44,7 +44,8 @@ import {
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatDialogModule
+    MatDialogModule,
+    SharedModule
   ]
 })
 export class ProjectionTechnologyModule {

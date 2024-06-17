@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {map, Observable, tap} from "rxjs";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
-import {PaginatorRequestParams} from '../../../shared/dtos/paginator-request-params';
+import {PaginatorRequestParams} from '../../../_shared/dtos/paginator-request-params';
 import {ProjectionTechnologyService} from "../../services/projection-technology.service";
 import {Router} from "@angular/router";
 import {CreateProjectionTechnologyRequest} from "../../dtos/request/create-projection-technology.request";

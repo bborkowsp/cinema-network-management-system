@@ -3,7 +3,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../services/auth.service";
 import {Router} from "@angular/router";
 import {RegisterUserRequest} from "../../dtos/request/register-user.request";
-import {createPasswordStrengthValidator} from "../../../shared/validators/password-strength-validator";
+import {createPasswordStrengthValidator} from "../../../_shared/validators/password-strength-validator";
 
 
 @Component({

@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {Router} from "@angular/router";
 import {NavigationLink} from "./components/drawer/drawer.component";
-import {AuthService} from "../user/services/auth.service";
+import {AuthService} from "../../../user/services/auth.service";
 
 @Component({
   selector: 'app-scaffold',

@@ -4,7 +4,6 @@ import {MovieDetailsComponent} from "./components/movie-details/movie-details.co
 import {MovieTableComponent} from "./components/movie-table/movie-table.component";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatTableModule} from "@angular/material/table";
-import {SharedModule} from "../shared/shared.module";
 import {MatDividerModule} from "@angular/material/divider";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatButtonModule} from "@angular/material/button";
@@ -36,6 +35,7 @@ import {MatSelectModule} from "@angular/material/select";
 import {
   ConfirmDeletionMovieDialog
 } from "./components/confirm-deletion-movie-dialog/confirm-deletion-movie-dialog.component";
+import {SharedModule} from "../_shared/shared.module";
 
 
 @NgModule({
@@ -64,7 +64,8 @@ import {
     MatDatepickerModule,
     MatIconModule,
     MatSelectModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    SharedModule
   ]
 })
 export class MovieModule {
