@@ -3,7 +3,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {FormBuilder} from "@angular/forms";
 import {ScreeningService} from "../../../../services/screening.service";
 import {ScreeningFormHelper} from "./screening-form-helper";
-import {AuthService} from "../../../../../user/services/auth.service";
+import {AuthService} from "../../../../../auth/services/auth.service";
 
 @Component({
   selector: 'app-screening-form',

@@ -1,15 +1,11 @@
 import {NgModule} from '@angular/core';
 import {CommonModule, NgOptimizedImage} from '@angular/common';
-import {LoginFormComponent} from './components/login-form/login-form.component';
 import {RegisterFormComponent} from './components/register-form/register-form.component';
 import {SharedModule} from "../_shared/shared.module";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatCardModule} from "@angular/material/card";
 import {MatInputModule} from "@angular/material/input";
 import {MatSelectModule} from "@angular/material/select";
-import {
-  LoginMainFormFrameComponent
-} from './components/login-form/login-main-form-frame/login-main-form-frame.component';
 import {MatButtonModule} from "@angular/material/button";
 import {
   RegisterMainFormFrameComponent
@@ -26,9 +22,7 @@ import {
 
 @NgModule({
   declarations: [
-    LoginFormComponent,
     RegisterFormComponent,
-    LoginMainFormFrameComponent,
     RegisterMainFormFrameComponent,
     CinemaManagerTableComponent,
     CinemaManagerFormComponent,

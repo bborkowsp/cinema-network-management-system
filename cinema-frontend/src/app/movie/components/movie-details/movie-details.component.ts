@@ -4,7 +4,7 @@ import {MovieService} from "../../services/movie.service";
 import {map, Observable, switchMap, tap} from "rxjs";
 import {MovieResponse} from "../../dtos/response/movie.response";
 import {DomSanitizer} from '@angular/platform-browser';
-import {AuthService} from "../../../user/services/auth.service";
+import {AuthService} from "../../../auth/services/auth.service";
 
 
 @Component({

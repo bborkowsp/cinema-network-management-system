@@ -1,7 +1,7 @@
 import {ScreeningResponse} from "../../../../dtos/screening.response";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ScreeningRequest} from "../../../../dtos/screening.request";
-import {AuthService} from "../../../../../user/services/auth.service";
+import {AuthService} from "../../../../../auth/services/auth.service";
 
 export class ScreeningFormHelper {
   form: FormGroup;

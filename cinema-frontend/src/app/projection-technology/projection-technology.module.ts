@@ -45,7 +45,6 @@ import {SharedModule} from "../_shared/shared.module";
     MatInputModule,
     MatButtonModule,
     MatDialogModule,
-    SharedModule
   ]
 })
 export class ProjectionTechnologyModule {

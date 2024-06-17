@@ -4,7 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {map} from "rxjs";
 import {ScreeningRequest} from "../dtos/screening.request";
-import {AuthService} from "../../user/services/auth.service";
+import {AuthService} from "../../auth/services/auth.service";
 
 @Injectable({
   providedIn: 'root',

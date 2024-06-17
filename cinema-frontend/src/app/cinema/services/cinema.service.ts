@@ -4,9 +4,9 @@ import {CinemaListResponse} from "../dtos/response/cinema-list.response";
 import {map, Observable} from "rxjs";
 import {Injectable} from "@angular/core";
 import {CreateCinemaRequest} from "../dtos/request/create-cinema.request";
-import {AuthService} from "src/app/user/services/auth.service";
 import {CinemaResponse} from "../dtos/response/cinema.response";
 import {UpdateCinemaRequest} from "../dtos/request/update-cinema.request";
+import {AuthService} from "../../auth/services/auth.service";
 
 @Injectable({
   providedIn: 'root',

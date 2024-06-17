@@ -10,7 +10,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {
   ConfirmDeletionProjectionTechnologyDialog
 } from "../confirm-deletion-projection-technology-dialog/confirm-deletion-projection-technology-dialog.component";
-import {AuthService} from "../../../user/services/auth.service";
+import {AuthService} from "../../../auth/services/auth.service";
 
 @Component({
   selector: 'app-projection-technology-table',

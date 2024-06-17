@@ -3,11 +3,11 @@ import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, Observable} from "rxjs";
 import {environment} from "../../../assets/environment";
 import * as moment from "moment";
-import {RegisterUserRequest} from "../dtos/request/register-user.request";
-import {LoginUserRequest} from "../dtos/request/login-user.request";
 import {Router} from "@angular/router";
 import {jwtDecode} from 'jwt-decode';
 import {Role} from "./roles";
+import {LoginUserRequest} from "../../user/dtos/request/login-user.request";
+import {RegisterUserRequest} from "../../user/dtos/request/register-user.request";
 
 interface AuthResult {
   expiresIn: number;

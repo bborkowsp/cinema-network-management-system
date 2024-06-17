@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {AuthService} from "../../services/auth.service";
 import {Router} from "@angular/router";
 import {RegisterUserRequest} from "../../dtos/request/register-user.request";
 import {createPasswordStrengthValidator} from "../../../_shared/validators/password-strength-validator";
+import {AuthService} from "../../../auth/services/auth.service";
 
 
 @Component({

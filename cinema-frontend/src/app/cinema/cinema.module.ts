@@ -75,7 +75,6 @@ import {SharedModule} from "../_shared/shared.module";
     MatExpansionModule,
     MatStepperModule,
     MatProgressSpinnerModule,
-    SharedModule,
   ],
   declarations: [
     CinemaTableComponent,

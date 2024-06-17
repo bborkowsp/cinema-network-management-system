@@ -7,7 +7,7 @@ import {MovieListResponse} from "../../dtos/response/movie-list.response";
 import {MovieService} from "../../services/movie.service";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDeletionMovieDialog} from "../confirm-deletion-movie-dialog/confirm-deletion-movie-dialog.component";
-import {AuthService} from "../../../user/services/auth.service";
+import {AuthService} from "../../../auth/services/auth.service";
 
 @Component({
   selector: 'app-movie-table',

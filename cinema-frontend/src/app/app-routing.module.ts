@@ -11,10 +11,8 @@ import {
 import {HomeComponent} from "./home/home.component";
 import {MovieTableComponent} from "./movie/components/movie-table/movie-table.component";
 import {MovieDetailsComponent} from "./movie/components/movie-details/movie-details.component";
-import {LoginFormComponent} from "./user/components/login-form/login-form.component";
 import {RegisterFormComponent} from "./user/components/register-form/register-form.component";
 import {CinemaManagerTableComponent} from "./user/components/cinema-manager-table/cinema-manager-table.component";
-import {AuthGuard} from "./user/services/permission.service";
 import {ManageRepertoryComponent} from "./repertory/components/manage-repertory/manage-repertory.component";
 import {CinemaManagerFormComponent} from "./user/components/cinema-manager-form/cinema-manager-form.component";
 import {
@@ -25,7 +23,9 @@ import {
 } from "./projection-technology/components/projection-technology-form/projection-technology-form.component";
 import {CinemaFormComponent} from "./cinema/components/cinema-form/cinema-form.component";
 import {MovieFormComponent} from "./movie/components/movie-form/movie-form.component";
-import {Role} from "./user/services/roles";
+import {LoginFormComponent} from "./auth/components/login-form/login-form.component";
+import {AuthGuard} from "./auth/services/permission.service";
+import {Role} from "./auth/services/roles";
 
 const routes: Routes = [
   {

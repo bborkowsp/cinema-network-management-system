@@ -24,8 +24,9 @@ import {ErrorHandlerInterceptor} from "./_shared/interceptors/error-handler.inte
 import {MovieModule} from "./movie/movie.module";
 import {JwtInterceptor} from "./_shared/interceptors/jwt.interceptor";
 import {UserModule} from "./user/user.module";
-import {AuthService} from "./user/services/auth.service";
 import {RepertoryModule} from "./repertory/repertory.module";
+import {AuthService} from "./auth/services/auth.service";
+import {AuthModule} from "./auth/auth.module";
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import {RepertoryModule} from "./repertory/repertory.module";
     MovieModule,
     UserModule,
     RepertoryModule,
+    AuthModule,
   ],
   providers: [
     {
