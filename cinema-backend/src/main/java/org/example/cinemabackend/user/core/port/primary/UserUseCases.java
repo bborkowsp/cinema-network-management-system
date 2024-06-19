@@ -23,4 +23,6 @@ public interface UserUseCases {
 
 
     void deleteCinemaManager(String email);
+
+    void deleteUser(String email);
 }

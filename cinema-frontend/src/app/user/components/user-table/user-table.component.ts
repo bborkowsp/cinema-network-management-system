@@ -4,10 +4,7 @@ import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {PaginatorRequestParams} from "../../../_shared/dtos/paginator-request-params";
 import {UserService} from "../../services/user.service";
 import {Router} from "@angular/router";
-import {AuthService} from "../../../auth/services/auth.service";
 import {UserResponse} from "../../dtos/response/user.response";
-import {CinemaManagerTableResponse} from "../../dtos/response/cinema-manager-table.response";
-import {CinemaManagerResponse} from "../../dtos/response/cinema-manager.response";
 
 @Component({
   selector: 'app-user-table',
@@ -15,34 +12,19 @@ import {CinemaManagerResponse} from "../../dtos/response/cinema-manager.response
   styleUrls: ['./user-table.component.scss']
 })
 export class UserTableComponent {
-  displayedColumns = ['options', 'firstName', 'lastName', 'email'];
+  displayedColumns = ['options', 'firstName', 'lastName', 'email', 'role'];
   users$!: Observable<UserResponse[]>;
-  cinemaManagers$!: Observable<CinemaManagerTableResponse[]>;
-  datasource !: any;
   dataLength = 0;
+  isLoading = true;
+
   @ViewChild(MatPaginator) readonly paginator!: MatPaginator;
   paginatorRequestParams = new PaginatorRequestParams(0, 10);
-  protected isLoading = true;
-  protected pageTitle = '';
 
   constructor(
     private readonly userService: UserService,
     private readonly router: Router,
-    authService: AuthService,
   ) {
-    const userRole = authService.getUserRole();
-    console.log(userRole);
-    if (userRole === 'ADMIN') {
-      this.users$ = this.getAllUsers();
-      this.datasource = this.users$;
-      this.pageTitle = 'All users'
-      this.displayedColumns.push('role')
-    } else {
-      this.cinemaManagers$ = this.getCinemaManagers();
-      this.datasource = this.cinemaManagers$;
-      this.pageTitle = 'Cinema managers'
-      this.displayedColumns.push('managedCinema')
-    }
+    this.users$ = this.getAllUsers();
   }
 
   handlePageEvent(event: PageEvent): void {
@@ -50,39 +32,22 @@ export class UserTableComponent {
       event.pageIndex,
       event.pageSize,
     );
-    if (this.users$) {
+    this.users$ = this.getAllUsers();
+  }
+
+  handleEdit(userResponse: UserResponse): void {
+    const url = `users/edit/${userResponse.email}`;
+    this.router.navigateByUrl(url);
+  }
+
+  handleDelete(userResponse: UserResponse): void {
+    this.userService.deleteUser(userResponse.email).subscribe(() => {
       this.users$ = this.getAllUsers();
-    } else {
-      this.cinemaManagers$ = this.getCinemaManagers();
-    }
+    });
   }
 
-  handleEdit(cinemaNetworkManager: CinemaManagerResponse): void {
-    const url = `users/edit/${cinemaNetworkManager.email}`;
-    this.router.navigateByUrl(url);
-  }
-
-  handleDelete(cinemaNetworkManager: any): void {
-
-  }
-
-  handleShowDetails(cinemaNetworkManager: CinemaManagerResponse): void {
-    const url = `cinema-managers/details/${cinemaNetworkManager.email}`;
-    this.router.navigateByUrl(url);
-  }
-
-  private getCinemaManagers(): Observable<CinemaManagerTableResponse[]> {
-    return this.userService.getCinemaManagers(this.paginatorRequestParams).pipe(
-      tap({
-        next: (cinemaManagerPage) => {
-          console.log("AA");
-          this.dataLength = cinemaManagerPage.totalElements;
-          this.isLoading = false;
-        },
-        error: (err) => console.log(err),
-      }),
-      map((cinemaManagerPage) => cinemaManagerPage.content),
-    );
+  handleShowDetails(userResponse: UserResponse): void {
+    console.log("Not implemented yet")
   }
 
   private getAllUsers(): Observable<UserResponse[]> {

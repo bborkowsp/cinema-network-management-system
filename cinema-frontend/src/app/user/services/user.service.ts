@@ -90,4 +90,9 @@ export class UserService {
     const url = `${UserService.CINEMA_MANAGERS_ENDPOINT_PREFIX}/${email}`;
     return this.httpClient.delete<void>(url);
   }
+
+  deleteUser(email: string) {
+    const url = `${UserService.USERS_API_URL}/${email}`;
+    return this.httpClient.delete<void>(url);
+  }
 }

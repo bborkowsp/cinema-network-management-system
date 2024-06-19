@@ -9,8 +9,12 @@
             Options
           </th>
           <td *matCellDef="let row" class="options-cell" mat-cell>
-            <app-options-table-button (delete)="handleDelete($event)" (edit)="handleEdit($event)"
-                                      (showDetails)="handleShowDetails($event)" [row]="row"></app-options-table-button>
+            <app-options-table-button
+              (delete)="handleDelete($event)"
+              (edit)="handleEdit($event)"
+              (showDetails)="handleShowDetails($event)"
+              [row]="row"
+            ></app-options-table-button>
           </td>
         </ng-container>
 

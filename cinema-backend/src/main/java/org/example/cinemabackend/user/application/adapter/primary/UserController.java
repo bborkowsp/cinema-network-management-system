@@ -78,4 +78,11 @@ class UserController {
         userUseCases.deleteCinemaManager(email);
         return ResponseEntity.noContent().build();
     }
+
+    @DeleteMapping("/{email}")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    ResponseEntity<Void> deleteUser(@PathVariable String email) {
+        userUseCases.deleteUser(email);
+        return ResponseEntity.noContent().build();
+    }
 }

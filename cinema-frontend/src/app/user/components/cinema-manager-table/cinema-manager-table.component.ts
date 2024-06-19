@@ -34,11 +34,6 @@ export class CinemaManagerTableComponent {
     this.cinemaManagers$ = this.getData();
   }
 
-  goToCreate(): void {
-    const url = 'cinema-managers/create';
-    this.router.navigateByUrl(url);
-  }
-
   handleEdit(cinemaManager: CinemaManagerTableResponse): void {
     const url = `cinema-managers/edit/${cinemaManager.email}`;
     this.router.navigateByUrl(url);
@@ -51,8 +46,7 @@ export class CinemaManagerTableComponent {
   }
 
   handleShowDetails(cinemaManager: CinemaManagerTableResponse): void {
-    const url = `cinema-managers/details/${cinemaManager.email}`;
-    this.router.navigateByUrl(url);
+    console.log("Not implemented yet")
   }
 
   private getData(): Observable<CinemaManagerTableResponse[]> {

@@ -38,7 +38,24 @@ export class ScaffoldComponent {
 
   private setUpNavLinks() {
     const userRole = this.authService.getUserRole();
-    this.navigationLinks = [
+    this.navigationLinks = this.getCommonLinks();
+    switch (userRole) {
+      case 'CINEMA_MANAGER':
+        this.navigationLinks.push(...this.getCinemaManagerLinks());
+        break;
+      case 'CINEMA_NETWORK_MANAGER':
+        this.navigationLinks.push(...this.getCinemaNetworkManagerLinks());
+        break;
+      case 'ADMIN':
+        this.navigationLinks.push(...this.getAdminLinks());
+        break;
+      default:
+        break;
+    }
+  }
+
+  private getCommonLinks(): NavigationLink[] {
+    return [
       {
         label: 'Home',
         path: '/home',
@@ -53,47 +70,52 @@ export class ScaffoldComponent {
         label: 'Projection technologies',
         path: '/projection-technologies',
         icon: 'settings'
-      },
+      }
     ];
+  }
 
-    if (userRole === 'CINEMA_MANAGER') {
-      this.navigationLinks.push(
-        {
-          label: 'Repertory',
-          path: '/repertory',
-          icon: 'event'
-        },
-      );
-    }
+  private getCinemaManagerLinks(): NavigationLink[] {
+    return [
+      {
+        label: 'Repertory',
+        path: '/repertory',
+        icon: 'event'
+      },
+      {
+        label: 'Cinema managers',
+        path: '/cinema-managers',
+        icon: 'people'
+      }
+    ];
+  }
 
-    if (userRole === 'CINEMA_NETWORK_MANAGER') {
-      this.navigationLinks.push(
-        {
-          label: 'Cinema managers',
-          path: '/cinema-managers',
-          icon: 'people'
-        },
-        {
-          label: 'Cinemas',
-          path: '/cinemas',
-          icon: 'business'
-        },
-      );
-    }
+  private getCinemaNetworkManagerLinks(): NavigationLink[] {
+    return [
+      {
+        label: 'Cinema managers',
+        path: '/users',
+        icon: 'people'
+      },
+      {
+        label: 'Cinemas',
+        path: '/cinemas',
+        icon: 'business'
+      }
+    ];
+  }
 
-    if (userRole === 'ADMIN') {
-      this.navigationLinks.push(
-        {
-          label: 'Cinemas',
-          path: '/cinemas',
-          icon: 'business'
-        },
-        {
-          label: 'Users',
-          path: '/users',
-          icon: 'people'
-        },
-      );
-    }
+  private getAdminLinks(): NavigationLink[] {
+    return [
+      {
+        label: 'Cinemas',
+        path: '/cinemas',
+        icon: 'business'
+      },
+      {
+        label: 'Users',
+        path: '/users',
+        icon: 'people'
+      }
+    ];
   }
 }

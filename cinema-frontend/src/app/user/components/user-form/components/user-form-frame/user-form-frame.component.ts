@@ -34,7 +34,6 @@ export class UserFormFrameComponent implements OnInit {
     });
   }
 
-
   get emailControl(): FormControl {
     return this.formGroup.get('email') as FormControl;
   }

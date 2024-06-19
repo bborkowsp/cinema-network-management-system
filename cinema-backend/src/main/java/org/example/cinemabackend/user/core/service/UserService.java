@@ -7,6 +7,7 @@ import org.example.cinemabackend.user.application.dto.request.UpdateCinemaManage
 import org.example.cinemabackend.user.application.dto.response.CinemaManagerResponse;
 import org.example.cinemabackend.user.application.dto.response.CinemaManagerTableResponse;
 import org.example.cinemabackend.user.application.dto.response.UserResponse;
+import org.example.cinemabackend.user.core.domain.User;
 import org.example.cinemabackend.user.core.port.primary.UserMapper;
 import org.example.cinemabackend.user.core.port.primary.UserUseCases;
 import org.example.cinemabackend.user.core.port.secondary.UserRepository;
@@ -62,7 +63,20 @@ class UserService implements UserUseCases {
 
     @Override
     public void deleteCinemaManager(String email) {
+        throw new IllegalArgumentException("Not implemented");
+    }
 
+    @Override
+    public void deleteUser(String email) {
+        final var user = userRepository.findByEmail(email).orElseThrow();
+        validateUserIsNotCinemaManager(user);
+        userRepository.deleteUser(user);
+    }
+
+    private void validateUserIsNotCinemaManager(User user) {
+        if (cinemaRepository.existsByCinemaManagerEmail(user.getEmail())) {
+            throw new IllegalArgumentException("User is a cinema manager");
+        }
     }
 
     private void validateEmailIsNotTaken(String email) {
