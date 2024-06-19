@@ -4,7 +4,7 @@ import lombok.Builder;
 import org.example.cinemabackend.user.core.domain.Role;
 
 @Builder
-public record UserResponse(
+public record CinemaNetworkManagerResponse(
         String firstName,
         String lastName,
         String email,

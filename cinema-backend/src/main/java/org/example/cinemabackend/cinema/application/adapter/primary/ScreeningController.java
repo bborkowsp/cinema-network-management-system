@@ -1,10 +1,10 @@
 package org.example.cinemabackend.cinema.application.adapter.primary;
 
 import lombok.RequiredArgsConstructor;
+import org.example.cinemabackend._shared.dto.ResponseList;
 import org.example.cinemabackend.cinema.application.dto.request.ScreeningRequest;
 import org.example.cinemabackend.cinema.application.dto.response.ScreeningResponse;
 import org.example.cinemabackend.cinema.core.port.primary.ScreeningUseCases;
-import org.example.cinemabackend.shared.dto.ResponseList;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

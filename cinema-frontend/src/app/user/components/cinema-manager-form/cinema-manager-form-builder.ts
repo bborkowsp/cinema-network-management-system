@@ -45,6 +45,7 @@ export class CinemaManagerFormBuilder {
       this.mainFormGroup.get('firstName')!.value,
       this.mainFormGroup.get('lastName')!.value,
       this.mainFormGroup.get('email')!.value,
+      "a",
       managedCinemaName
     );
   }

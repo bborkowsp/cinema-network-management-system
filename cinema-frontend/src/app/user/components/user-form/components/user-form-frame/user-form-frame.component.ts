@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FormControl, FormGroup, FormGroupDirective, NgForm} from "@angular/forms";
-import {CinemaService} from "../../../../../cinema/services/cinema.service";
+import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from "@angular/forms";
 import {Observable} from "rxjs";
 
 @Component({
@@ -12,15 +11,27 @@ export class UserFormFrameComponent implements OnInit {
   @Input({required: true}) form!: FormGroupDirective | NgForm;
   @Input({required: true}) formGroup!: FormGroup;
   @Input({required: true}) cinemaNames!: Observable<string[]>;
+  @Input({required: true}) isEditMode!: boolean;
+
   protected hidePassword: boolean = true;
 
-  constructor(
-    private readonly cinemaService: CinemaService,
-  ) {
+  constructor() {
   }
 
   ngOnInit() {
-    //this.cinemaNames = this.cinemaService.getAllCinemaNames();
+    if (!this.isEditMode) {
+      this.formGroup.addControl('password', new FormControl('', [Validators.required]));
+    } else {
+      this.formGroup.removeControl('password');
+    }
+
+    this.roleControl.valueChanges.subscribe(value => {
+      if (value === 'CINEMA_NETWORK_MANAGER') {
+        this.managedCinemaNameControl.setValue(-1);
+      } else if (value === 'CINEMA_MANAGER') {
+        this.managedCinemaNameControl.setValue(0);
+      }
+    });
   }
 
 

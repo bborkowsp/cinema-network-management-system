@@ -20,6 +20,23 @@ class UserDatabaseGateway implements UserRepository {
 
     @Override
     @Transactional(readOnly = true)
+    public Page<User> findAllCinemaManagers(Pageable pageable) {
+        return this.userJpaRepository.findAllByRoleCinemaManager(pageable).map(UserSchema::toUser);
+    }
+
+    @Override
+    public Page<User> findAllCinemaNetworkManagers(Pageable pageable) {
+        return this.userJpaRepository.findAllByRoleCinemaNetworkManager(pageable).map(UserSchema::toUser);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<User> findAllCinemaManagers() {
+        return this.userJpaRepository.findAllByRoleCinemaManager().stream().map(UserSchema::toUser).toList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public Optional<User> findByEmail(String email) {
         return this.userJpaRepository.findByEmail(email).map(UserSchema::toUser);
     }
@@ -28,18 +45,6 @@ class UserDatabaseGateway implements UserRepository {
     @Transactional(readOnly = true)
     public Optional<User> findCinemaManagerByEmail(String email) {
         return this.userJpaRepository.findByEmailAndRoleCinemaManager(email).map(UserSchema::toUser);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Page<User> findAllCinemaManagers(Pageable pageable) {
-        return this.userJpaRepository.findAllByRoleCinemaManager(pageable).map(UserSchema::toUser);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<User> findAllCinemaManagers() {
-        return this.userJpaRepository.findAllByRoleCinemaManager().stream().map(UserSchema::toUser).toList();
     }
 
     @Override
@@ -53,5 +58,15 @@ class UserDatabaseGateway implements UserRepository {
     public void save(User user) {
         final var userSchema = UserSchema.fromUser(user);
         this.userJpaRepository.save(userSchema);
+    }
+
+    @Override
+    public void deleteUser(User user) {
+        this.userJpaRepository.delete(UserSchema.fromUser(user));
+    }
+
+    @Override
+    public Page<User> findAll(Pageable pageable) {
+        return this.userJpaRepository.findAll(pageable).map(UserSchema::toUser);
     }
 }

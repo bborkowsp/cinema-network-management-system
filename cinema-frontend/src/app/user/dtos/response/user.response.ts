@@ -3,6 +3,7 @@ export class UserResponse {
     readonly firstName: string,
     readonly lastName: string,
     readonly email: string,
+    readonly role: string,
   ) {
   }
 }

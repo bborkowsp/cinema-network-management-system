@@ -2,12 +2,12 @@ package org.example.cinemabackend.cinema.application.adapter.primary;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.example.cinemabackend._shared.dto.ResponseList;
 import org.example.cinemabackend.cinema.application.dto.request.create.CreateCinemaRequest;
 import org.example.cinemabackend.cinema.application.dto.request.update.UpdateCinemaRequest;
 import org.example.cinemabackend.cinema.application.dto.response.CinemaResponse;
 import org.example.cinemabackend.cinema.application.dto.response.CinemaTableResponse;
 import org.example.cinemabackend.cinema.core.port.primary.CinemaUseCases;
-import org.example.cinemabackend.shared.dto.ResponseList;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

@@ -1,4 +1,4 @@
-package org.example.cinemabackend.shared.seeder;
+package org.example.cinemabackend._shared.seeder;
 
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.core.domain.Cinema;

@@ -1,8 +1,8 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {CinemaManagerTableComponent} from './cinema-manager-table.component';
+import { CinemaManagerTableComponent } from './cinema-manager-table.component';
 
-describe('CinemaManagerListComponent', () => {
+describe('CinemaManagerTableComponent', () => {
   let component: CinemaManagerTableComponent;
   let fixture: ComponentFixture<CinemaManagerTableComponent>;
 

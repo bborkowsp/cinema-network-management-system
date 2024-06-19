@@ -4,6 +4,7 @@ export class CinemaManagerResponse {
     readonly lastName: string,
     readonly email: string,
     readonly managedCinemaName: string,
+    readonly role: string
   ) {
   }
 }

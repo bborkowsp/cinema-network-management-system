@@ -1,6 +1,7 @@
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {CinemaManagerResponse} from "../../dtos/response/cinema-manager.response";
 import {CinemaManagerRequest} from "../../dtos/request/cinema-manager.request";
+import {CinemaNetworkManagerRequest} from "../../dtos/request/cinema-network-manager.request";
 
 export class UserFormBuilder {
   form: FormGroup;
@@ -30,7 +31,6 @@ export class UserFormBuilder {
         firstName: ['', [Validators.required]],
         lastName: ['', [Validators.required]],
         email: ['', [Validators.required, Validators.email]],
-        password: ['', [Validators.required]],
         role: ['', [Validators.required]],
         managedCinemaName: ['', [Validators.required]]
       })
@@ -42,11 +42,20 @@ export class UserFormBuilder {
     if (managedCinemaName == "0") {
       managedCinemaName = null;
     }
+    if (managedCinemaName == "-1") {
+      return new CinemaNetworkManagerRequest(
+        this.mainFormGroup.get('firstName')!.value,
+        this.mainFormGroup.get('lastName')!.value,
+        this.mainFormGroup.get('email')!.value,
+        this.mainFormGroup.get('password')!.value
+      )
+    }
 
     return new CinemaManagerRequest(
       this.mainFormGroup.get('firstName')!.value,
       this.mainFormGroup.get('lastName')!.value,
       this.mainFormGroup.get('email')!.value,
+      this.mainFormGroup.get('password')!.value,
       managedCinemaName
     );
   }

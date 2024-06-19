@@ -11,8 +11,6 @@ import {
 import {HomeComponent} from "./home/home.component";
 import {MovieTableComponent} from "./movie/components/movie-table/movie-table.component";
 import {MovieDetailsComponent} from "./movie/components/movie-details/movie-details.component";
-import {RegisterFormComponent} from "./user/components/register-form/register-form.component";
-import {CinemaManagerTableComponent} from "./user/components/cinema-manager-table/cinema-manager-table.component";
 import {ManageRepertoryComponent} from "./repertory/components/manage-repertory/manage-repertory.component";
 import {
   ScreeningFormComponent
@@ -25,9 +23,10 @@ import {MovieFormComponent} from "./movie/components/movie-form/movie-form.compo
 import {LoginFormComponent} from "./auth/components/login-form/login-form.component";
 import {AuthGuard} from "./auth/services/permission.service";
 import {Role} from "./auth/services/roles";
-import {CinemaManagerFormComponent} from "./user/components/cinema-manager-form/cinema-manager-form.component";
-import {UserTableComponent} from "./user/components/user-table/user-table.component";
 import {UserFormComponent} from "./user/components/user-form/user-form.component";
+import {UserTableComponent} from "./user/components/user-table/user-table.component";
+import {CinemaManagerTableComponent} from "./user/components/cinema-manager-table/cinema-manager-table.component";
+import {CinemaManagerFormComponent} from "./user/components/cinema-manager-form/cinema-manager-form.component";
 
 const routes: Routes = [
   {
@@ -103,10 +102,6 @@ const routes: Routes = [
     data: {roles: [Role.CINEMA_NETWORK_MANAGER, Role.CINEMA_MANAGER, Role.ADMIN]}
   },
   {
-    path: 'home', component: HomeComponent, canActivate: [AuthGuard],
-    data: {roles: [Role.CINEMA_MANAGER, Role.CINEMA_NETWORK_MANAGER, Role.ADMIN]}
-  },
-  {
     path: 'cinema-managers',
     component: CinemaManagerTableComponent,
     canActivate: [AuthGuard],
@@ -160,7 +155,10 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: {roles: [Role.CINEMA_MANAGER]}
   },
-  {path: 'register', component: RegisterFormComponent},
+  {
+    path: 'home', component: HomeComponent, canActivate: [AuthGuard],
+    data: {roles: [Role.CINEMA_MANAGER, Role.CINEMA_NETWORK_MANAGER, Role.ADMIN]}
+  },
   {path: 'login', component: LoginFormComponent},
   {path: '', redirectTo: '/login', pathMatch: 'full'},
   {path: '**', redirectTo: '/login', pathMatch: 'full'},

@@ -222,7 +222,7 @@ export class CinemaFormBuilder {
     if (cinemaManager) {
       return cinemaManager;
     } else {
-      return new UserResponse('', '', '');
+      return new UserResponse('', '', '', '');
     }
   }
 }

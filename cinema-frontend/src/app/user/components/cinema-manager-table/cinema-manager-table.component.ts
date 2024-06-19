@@ -7,7 +7,7 @@ import {UserService} from "../../services/user.service";
 import {CinemaManagerTableResponse} from "../../dtos/response/cinema-manager-table.response";
 
 @Component({
-  selector: 'app-cinemaManager-manager-table',
+  selector: 'app-cinema-manager-table',
   templateUrl: './cinema-manager-table.component.html',
   styleUrls: ['./cinema-manager-table.component.scss']
 })
@@ -67,5 +67,4 @@ export class CinemaManagerTableComponent {
       map((cinemaManagerPage) => cinemaManagerPage.content),
     );
   }
-
 }

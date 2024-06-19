@@ -32,19 +32,11 @@ export class MovieService {
       .pipe(map((response) => response));
   }
 
-  getMovie(title: string): Observable<MovieResponse> {
-    const url = `${MovieService.MOVIES_API_URL}/${title}`;
-    return this.httpClient.get<MovieResponse>(url);
-  }
-
-
-  deleteMovie(title: string) {
-    const url = `${MovieService.MOVIES_API_URL}/${title}`;
-    return this.httpClient.delete<void>(url);
-  }
-
-  createMovie(createMovieRequest: CreateMovieRequest) {
-    return this.httpClient.post<void>(MovieService.MOVIES_API_URL, createMovieRequest);
+  getAllMovieTitles() {
+    const url = `${MovieService.MOVIES_API_URL}/titles`;
+    return this.httpClient.get<{ content: string[] }>(url).pipe(
+      map((response) => response.content),
+    );
   }
 
   getGenres(): Observable<string[]> {
@@ -55,15 +47,23 @@ export class MovieService {
     return this.httpClient.get<string[]>(`${MovieService.MOVIES_API_URL}/age-restrictions`);
   }
 
+  getMovie(title: string): Observable<MovieResponse> {
+    const url = `${MovieService.MOVIES_API_URL}/${title}`;
+    return this.httpClient.get<MovieResponse>(url);
+  }
+
+
+  createMovie(createMovieRequest: CreateMovieRequest) {
+    return this.httpClient.post<void>(MovieService.MOVIES_API_URL, createMovieRequest);
+  }
+
   updateMovie(title: string, movie: null | UpdateMovieRequest) {
     const url = `${MovieService.MOVIES_API_URL}/${title}`;
     return this.httpClient.patch<void>(url, movie);
   }
 
-  getAllMovieTitles() {
-    const url = `${MovieService.MOVIES_API_URL}/titles`;
-    return this.httpClient.get<{ content: string[] }>(url).pipe(
-      map((response) => response.content),
-    );
+  deleteMovie(title: string) {
+    const url = `${MovieService.MOVIES_API_URL}/${title}`;
+    return this.httpClient.delete<void>(url);
   }
 }

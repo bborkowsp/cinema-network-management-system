@@ -29,20 +29,6 @@ export class CinemaService {
       );
   }
 
-  getCinema(name: string): Observable<CinemaResponse> {
-    const url = `${CinemaService.CINEMAS_API_URL}/${name}`;
-    return this.httpClient.get<CinemaResponse>(url);
-  }
-
-  deleteCinema(name: string) {
-    const url = `${CinemaService.CINEMAS_API_URL}/${name}`;
-    return this.httpClient.delete<void>(url);
-  }
-
-  createCinema(cinema: CreateCinemaRequest) {
-    return this.httpClient.post<void>(CinemaService.CINEMAS_API_URL, cinema);
-  }
-
   getAllCinemaNames() {
     const url = `${CinemaService.CINEMAS_API_URL}/names`;
     return this.httpClient.get<{ content: string[] }>(url).pipe(
@@ -58,9 +44,23 @@ export class CinemaService {
     );
   }
 
+  getCinema(name: string): Observable<CinemaResponse> {
+    const url = `${CinemaService.CINEMAS_API_URL}/${name}`;
+    return this.httpClient.get<CinemaResponse>(url);
+  }
+
+  createCinema(cinema: CreateCinemaRequest) {
+    return this.httpClient.post<void>(CinemaService.CINEMAS_API_URL, cinema);
+  }
+
   updateCinema(cinemaName: string, cinema: UpdateCinemaRequest) {
     console.log(cinema);
     const url = `${CinemaService.CINEMAS_API_URL}/${cinemaName}`;
     return this.httpClient.patch<void>(url, cinema);
+  }
+
+  deleteCinema(name: string) {
+    const url = `${CinemaService.CINEMAS_API_URL}/${name}`;
+    return this.httpClient.delete<void>(url);
   }
 }

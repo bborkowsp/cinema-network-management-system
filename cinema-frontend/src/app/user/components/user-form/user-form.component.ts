@@ -6,6 +6,7 @@ import {UserFormBuilder} from "./user-form-builder";
 import {CinemaManagerResponse} from "../../dtos/response/cinema-manager.response";
 import {CinemaService} from "../../../cinema/services/cinema.service";
 import {Observable, tap} from "rxjs";
+import {CinemaManagerRequest} from "../../dtos/request/cinema-manager.request";
 
 @Component({
   selector: 'app-user-form',
@@ -35,6 +36,7 @@ export class UserFormComponent implements OnInit {
     if (params['email']) {
       this.isEditMode = true;
       this.cinemaManagerEmail = params['email'];
+
       this.pageTitle = 'Edit Cinema Manager';
       this.setUpEditCinemaManagerForm();
     } else {
@@ -66,16 +68,23 @@ export class UserFormComponent implements OnInit {
   }
 
   private goBack() {
-    this.router.navigate(['/cinema-managers']);
+    this.router.navigate(['/users']);
   }
 
   protected readonly onsubmit = onsubmit;
 
   onSubmit() {
     const cinemaManager = this.cinemaManagerFormHelper.cinemaManagerRequestFromForm();
-    const cinemaManager$ = this.isEditMode ?
-      this.userService.updateCinemaManager(this.cinemaManagerEmail, cinemaManager) :
-      this.userService.createCinemaManager(cinemaManager);
+    let cinemaManager$;
+    if (cinemaManager instanceof CinemaManagerRequest) {
+      cinemaManager$ = this.isEditMode ?
+        this.userService.updateCinemaManager(this.cinemaManagerEmail, cinemaManager) :
+        this.userService.createCinemaManager(cinemaManager);
+    } else {
+      cinemaManager$ = this.isEditMode ?
+        this.userService.updateCinemaNetworkManager(this.cinemaManagerEmail, cinemaManager) :
+        this.userService.createCinemaNetworkManager(cinemaManager);
+    }
 
     this.isLoading = true;
     cinemaManager$.subscribe({

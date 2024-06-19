@@ -2,9 +2,11 @@ package org.example.cinemabackend.user.core.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.core.port.secondary.CinemaRepository;
+import org.example.cinemabackend.user.application.dto.request.CreateCinemaManagerRequest;
+import org.example.cinemabackend.user.application.dto.request.UpdateCinemaManagerRequest;
 import org.example.cinemabackend.user.application.dto.response.CinemaManagerResponse;
 import org.example.cinemabackend.user.application.dto.response.CinemaManagerTableResponse;
-import org.example.cinemabackend.user.application.dto.response.UpdateCinemaManagerRequest;
+import org.example.cinemabackend.user.application.dto.response.UserResponse;
 import org.example.cinemabackend.user.core.port.primary.UserMapper;
 import org.example.cinemabackend.user.core.port.primary.UserUseCases;
 import org.example.cinemabackend.user.core.port.secondary.UserRepository;
@@ -12,8 +14,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -30,9 +30,13 @@ class UserService implements UserUseCases {
     }
 
     @Override
-    public List<CinemaManagerResponse> getCinemaManagers() {
-        final var cinemaManagers = userRepository.findAllCinemaManagers();
-        return cinemaManagers.stream().map(userMapper::mapUserToCinemaManagerResponse).toList();
+    public Page<UserResponse> getUsers(Pageable pageable) {
+        return userRepository.findAll(pageable).map(userMapper::mapUserToUserResponse);
+    }
+
+    @Override
+    public UserResponse getUser(String email) {
+        throw new IllegalArgumentException("Not implemented");
     }
 
     @Override
@@ -42,11 +46,29 @@ class UserService implements UserUseCases {
     }
 
     @Override
+    public void createCinemaManager(CreateCinemaManagerRequest createCinemaManagerRequest) {
+        validateEmailIsNotTaken(createCinemaManagerRequest.email());
+        final var cinemaManager = userMapper.mapCreateCinemaManagerRequestToUser(createCinemaManagerRequest);
+        userRepository.save(cinemaManager);
+    }
+
+    @Override
     public void updateCinemaManager(String email, UpdateCinemaManagerRequest updateCinemaManagerRequest) {
         validateEmailIsNotTakenWhenUpdatingManager(email, updateCinemaManagerRequest.email());
         validateCinemaHasNoManager(updateCinemaManagerRequest);
         final var cinemaManagerToUpdate = userRepository.findCinemaManagerByEmail(email).orElseThrow();
-        userMapper.updateCinemaManager(cinemaManagerToUpdate, updateCinemaManagerRequest);
+        userMapper.mapUpdateCinemaManagerRequestToUser(cinemaManagerToUpdate, updateCinemaManagerRequest);
+    }
+
+    @Override
+    public void deleteCinemaManager(String email) {
+
+    }
+
+    private void validateEmailIsNotTaken(String email) {
+        if (!userRepository.existsByEmail(email)) {
+            throw new IllegalArgumentException("User with email " + email + " already exists!");
+        }
     }
 
     private void validateCinemaHasNoManager(UpdateCinemaManagerRequest updateCinemaManagerRequest) {

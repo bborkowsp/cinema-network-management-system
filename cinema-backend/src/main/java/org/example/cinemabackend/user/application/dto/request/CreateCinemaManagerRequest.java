@@ -1,4 +1,4 @@
-package org.example.cinemabackend.user.application.dto.response;
+package org.example.cinemabackend.user.application.dto.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -8,6 +8,7 @@ public record CreateCinemaManagerRequest(
         @NotBlank @Size(max = 255) String firstName,
         @NotBlank @Size(max = 255) String lastName,
         @NotBlank @Email @Size(max = 255) String email,
+        @NotBlank @Size(max = 255) String password,
         @NotBlank String managedCinemaName
 ) {
 }

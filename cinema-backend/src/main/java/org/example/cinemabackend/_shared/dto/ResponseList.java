@@ -1,4 +1,4 @@
-package org.example.cinemabackend.shared.dto;
+package org.example.cinemabackend._shared.dto;
 
 import java.util.List;
 

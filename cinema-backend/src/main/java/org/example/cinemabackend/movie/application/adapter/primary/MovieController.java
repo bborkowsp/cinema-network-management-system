@@ -2,6 +2,7 @@ package org.example.cinemabackend.movie.application.adapter.primary;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.example.cinemabackend._shared.dto.ResponseList;
 import org.example.cinemabackend.movie.application.dto.request.CreateMovieRequest;
 import org.example.cinemabackend.movie.application.dto.request.UpdateMovieRequest;
 import org.example.cinemabackend.movie.application.dto.response.MovieListResponse;
@@ -9,7 +10,6 @@ import org.example.cinemabackend.movie.application.dto.response.MovieResponse;
 import org.example.cinemabackend.movie.core.domain.AgeRestriction;
 import org.example.cinemabackend.movie.core.domain.Genre;
 import org.example.cinemabackend.movie.core.port.primary.MovieUseCases;
-import org.example.cinemabackend.shared.dto.ResponseList;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;

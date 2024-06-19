@@ -1,4 +1,4 @@
-package org.example.cinemabackend.shared.exception.handler;
+package org.example.cinemabackend._shared.exception.handler;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

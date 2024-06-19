@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormControl, FormGroup, FormGroupDirective, NgForm} from "@angular/forms";
-import {CinemaService} from "../../../../../cinema/services/cinema.service";
 import {Observable} from "rxjs";
 
 @Component({
@@ -13,9 +12,7 @@ export class CinemaManagerFormFrameComponent implements OnInit {
   @Input({required: true}) formGroup!: FormGroup;
   @Input({required: true}) cinemaNames!: Observable<string[]>;
 
-  constructor(
-    private readonly cinemaService: CinemaService,
-  ) {
+  constructor() {
   }
 
   ngOnInit() {

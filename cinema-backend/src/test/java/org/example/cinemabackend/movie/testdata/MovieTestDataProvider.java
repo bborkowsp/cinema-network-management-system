@@ -16,6 +16,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static org.example.cinemabackend._shared.seeder.ImageUtil.createImage;
 import static org.example.cinemabackend.cinema.testdata.ImageTestDataProvider.generateCreateImageRequest;
 import static org.example.cinemabackend.cinema.testdata.ImageTestDataProvider.generateUpdateImageRequest;
 import static org.example.cinemabackend.cinema.testdata.ProjectionTechnologyTestDataProvider.generateProjectionTechnologies;
@@ -25,7 +26,6 @@ import static org.example.cinemabackend.movie.testdata.SubtitleAndSoundOptionTes
 import static org.example.cinemabackend.movie.testdata.SubtitleAndSoundOptionTestDataProvider.generateSubtitleAndSoundOptionsRequest;
 import static org.example.cinemabackend.movie.testdata.VideoFileTestDataProvider.generateVideoFile;
 import static org.example.cinemabackend.movie.testdata.VideoFileTestDataProvider.generateVideoFileRequest;
-import static org.example.cinemabackend.shared.seeder.ImageUtil.createImage;
 
 @Component
 @RequiredArgsConstructor

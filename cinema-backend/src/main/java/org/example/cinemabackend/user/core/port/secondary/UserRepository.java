@@ -9,15 +9,21 @@ import java.util.Optional;
 
 public interface UserRepository {
 
+    Page<User> findAllCinemaManagers(Pageable pageable);
+
+    Page<User> findAllCinemaNetworkManagers(Pageable pageable);
+
+    List<User> findAllCinemaManagers();
+
     Optional<User> findByEmail(String email);
 
     Optional<User> findCinemaManagerByEmail(String email);
 
-    Page<User> findAllCinemaManagers(Pageable pageable);
-
-    List<User> findAllCinemaManagers();
-
     boolean existsByEmail(String email);
 
     void save(User user);
+
+    void deleteUser(User user);
+
+    Page<User> findAll(Pageable pageable);
 }

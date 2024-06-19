@@ -1,4 +1,4 @@
-package org.example.cinemabackend.shared.seeder;
+package org.example.cinemabackend._shared.seeder;
 
 import org.example.cinemabackend.movie.core.domain.Image;
 
@@ -10,7 +10,7 @@ public class ImageUtil {
 
     public static Image createImage() {
         try {
-            File image = new File("src/main/java/org/example/cinemabackend/shared/seeder/images/poster.jpg");
+            File image = new File("src/main/java/org/example/cinemabackend/_shared/seeder/images/poster.jpg");
             String name = image.getName();
             String type = Files.probeContentType(image.toPath());
             byte[] data = Files.readAllBytes(image.toPath());

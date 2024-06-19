@@ -1,10 +1,10 @@
 package org.example.cinemabackend.cinema.testdata;
 
 import lombok.RequiredArgsConstructor;
+import org.example.cinemabackend._shared.seeder.ImageUtil;
 import org.example.cinemabackend.cinema.application.dto.request.create.CreateCinemaRequest;
 import org.example.cinemabackend.cinema.application.dto.request.update.UpdateCinemaRequest;
 import org.example.cinemabackend.cinema.core.domain.Cinema;
-import org.example.cinemabackend.shared.seeder.ImageUtil;
 import org.example.cinemabackend.user.core.domain.User;
 import org.example.cinemabackend.user.core.port.primary.UserMapper;
 import org.example.cinemabackend.user.core.port.secondary.UserRepository;
