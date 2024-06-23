@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FormControl, FormGroup, FormGroupDirective, NgForm} from "@angular/forms";
+import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from "@angular/forms";
 import {Observable} from "rxjs";
 
 @Component({
@@ -11,16 +11,11 @@ export class CinemaManagerFormFrameComponent implements OnInit {
   @Input({required: true}) form!: FormGroupDirective | NgForm;
   @Input({required: true}) formGroup!: FormGroup;
   @Input({required: true}) cinemaNames!: Observable<string[]>;
-
-  constructor() {
-  }
+  @Input({required: true}) isEditMode: boolean = false;
+  hidePassword: boolean = true;
 
   ngOnInit() {
-  }
-
-
-  get emailControl(): FormControl {
-    return this.formGroup.get('email') as FormControl;
+    this.configurePasswordControl();
   }
 
   get firstNameControl(): FormControl {
@@ -31,7 +26,27 @@ export class CinemaManagerFormFrameComponent implements OnInit {
     return this.formGroup.get('lastName') as FormControl;
   }
 
+  get emailControl(): FormControl {
+    return this.formGroup.get('email') as FormControl;
+  }
+
+  get passwordControl(): FormControl {
+    return this.formGroup.get('password') as FormControl;
+  }
+
   get managedCinemaNameControl(): FormControl {
     return this.formGroup.get('managedCinemaName') as FormControl;
+  }
+
+  togglePasswordVisibility() {
+    this.hidePassword = !this.hidePassword;
+  }
+
+  private configurePasswordControl() {
+    if (this.isEditMode) {
+      this.formGroup.removeControl('password');
+    } else {
+      this.formGroup.addControl('password', new FormControl('', [Validators.required]));
+    }
   }
 }

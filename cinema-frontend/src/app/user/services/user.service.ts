@@ -4,10 +4,13 @@ import {environment} from "../../../assets/environment";
 import {PaginatorRequestParams} from "../../_shared/dtos/paginator-request-params";
 import {Injectable} from "@angular/core";
 import {CinemaManagerResponse} from "../dtos/response/cinema-manager.response";
-import {CinemaManagerRequest} from "../dtos/request/cinema-manager.request";
+import {CreateCinemaManagerRequest} from "../dtos/request/create-cinema-manager.request";
 import {UserPageResponse} from "../dtos/response/user-page.response";
 import {CinemaManagerPageResponse} from "../dtos/response/cinema-manager-page.response";
-import {CinemaNetworkManagerRequest} from "../dtos/request/cinema-network-manager.request";
+import {CreateCinemaNetworkManagerRequest} from "../dtos/request/create-cinema-network-manager.request";
+import {UserResponse} from "../dtos/response/user.response";
+import {UpdateCinemaNetworkManagerRequest} from "../dtos/request/update-cinema-network-manager.request";
+import {UpdateCinemaManagerRequest} from "../dtos/request/update-cinema-manager.request";
 
 @Injectable({
   providedIn: 'root',
@@ -42,9 +45,6 @@ export class UserService {
     if (paginatorRequestParams.sort) {
       params = params.set('sort', paginatorRequestParams.sort.join(','));
     }
-    console.log("bb");
-
-    console.log(UserService.CINEMA_MANAGERS_ENDPOINT_PREFIX);
 
     return this.httpClient
       .get<CinemaManagerPageResponse>(UserService.CINEMA_MANAGERS_ENDPOINT_PREFIX, {params})
@@ -62,28 +62,28 @@ export class UserService {
     return this.httpClient.get<CinemaManagerResponse>(url);
   }
 
-  createCinemaManager(cinemaManager: CinemaManagerRequest) {
-    return this.httpClient.post<void>(UserService.CINEMA_MANAGERS_ENDPOINT_PREFIX, cinemaManager);
+  getCinemaNetworkManager(email: string) {
+    const url = `${UserService.USERS_API_URL}/${email}`;
+    return this.httpClient.get<UserResponse>(url);
   }
 
-  updateCinemaManager(cinemaManagerEmail: string, cinemaManager: CinemaManagerRequest) {
+  createCinemaManager(createCinemaManagerRequest: CreateCinemaManagerRequest) {
+    return this.httpClient.post<void>(UserService.CINEMA_MANAGERS_ENDPOINT_PREFIX, createCinemaManagerRequest);
+  }
+
+  createCinemaNetworkManager(createCinemaNetworkManagerRequest: CreateCinemaNetworkManagerRequest) {
+    return this.httpClient.post<void>(UserService.CINEMA_NETWORK_MANAGERS_ENDPOINT_PREFIX, createCinemaNetworkManagerRequest);
+  }
+
+  updateCinemaManager(cinemaManagerEmail: string, updateCinemaManagerRequest: UpdateCinemaManagerRequest) {
     const url = `${UserService.CINEMA_MANAGERS_ENDPOINT_PREFIX}/${cinemaManagerEmail}`;
-    return this.httpClient.patch<void>(url, cinemaManager);
+    console.log(updateCinemaManagerRequest)
+    return this.httpClient.patch<void>(url, updateCinemaManagerRequest);
   }
 
-
-  deleteCinemaNetworkManager(email: string) {
-    const url = `${UserService.CINEMA_NETWORK_MANAGERS_ENDPOINT_PREFIX}/${email}`;
-    return this.httpClient.delete<void>(url);
-  }
-
-  updateCinemaNetworkManager(cinemaManagerEmail: string, cinemaManager: CinemaNetworkManagerRequest) {
+  updateCinemaNetworkManager(cinemaManagerEmail: string, updateCinemaNetworkManagerRequest: UpdateCinemaNetworkManagerRequest) {
     const url = `${UserService.CINEMA_NETWORK_MANAGERS_ENDPOINT_PREFIX}/${cinemaManagerEmail}`;
-    return this.httpClient.patch<void>(url, cinemaManager);
-  }
-
-  createCinemaNetworkManager(cinemaManager: CinemaNetworkManagerRequest) {
-    return this.httpClient.post<void>(UserService.CINEMA_NETWORK_MANAGERS_ENDPOINT_PREFIX, cinemaManager);
+    return this.httpClient.patch<void>(url, updateCinemaNetworkManagerRequest);
   }
 
   deleteCinemaManager(email: string) {

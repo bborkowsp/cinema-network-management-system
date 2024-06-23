@@ -8,6 +8,8 @@ public record UpdateCinemaManagerRequest(
         @NotBlank @Size(max = 255) String firstName,
         @NotBlank @Size(max = 255) String lastName,
         @NotBlank @Email @Size(max = 255) String email,
-        String managedCinemaName
+        @Size(max = 255) String currentPassword,
+        @Size(max = 255) String newPassword,
+        @Size(max = 255) String managedCinemaName
 ) {
 }

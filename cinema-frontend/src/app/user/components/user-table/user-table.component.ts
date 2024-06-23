@@ -5,6 +5,7 @@ import {PaginatorRequestParams} from "../../../_shared/dtos/paginator-request-pa
 import {UserService} from "../../services/user.service";
 import {Router} from "@angular/router";
 import {UserResponse} from "../../dtos/response/user.response";
+import {AuthService} from "../../../auth/services/auth.service";
 
 @Component({
   selector: 'app-user-table',
@@ -19,10 +20,12 @@ export class UserTableComponent {
 
   @ViewChild(MatPaginator) readonly paginator!: MatPaginator;
   paginatorRequestParams = new PaginatorRequestParams(0, 10);
+  private userRole!: string;
 
   constructor(
     private readonly userService: UserService,
     private readonly router: Router,
+    private readonly authService: AuthService,
   ) {
     this.users$ = this.getAllUsers();
   }
@@ -36,7 +39,7 @@ export class UserTableComponent {
   }
 
   handleEdit(userResponse: UserResponse): void {
-    const url = `users/edit/${userResponse.email}`;
+    const url = `users/edit/${userResponse.email}+${userResponse.role}`;
     this.router.navigateByUrl(url);
   }
 

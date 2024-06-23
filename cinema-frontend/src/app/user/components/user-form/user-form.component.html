@@ -1,7 +1,7 @@
 <form
   #cinemaManagerForm="ngForm"
   (ngSubmit)="onSubmit()"
-  [formGroup]="cinemaManagerFormHelper.form"
+  [formGroup]="userFormBuilder.form"
 >
   <app-page-content-container
     [isLoading]="isLoading"
@@ -9,7 +9,7 @@
   >
     <ng-container content>
       <app-user-form-frame
-        [formGroup]="cinemaManagerFormHelper.mainFormGroup"
+        [formGroup]="userFormBuilder.mainFormGroup"
         [form]="cinemaManagerForm"
         [cinemaNames]="cinemaNames"
         [isEditMode]="isEditMode"

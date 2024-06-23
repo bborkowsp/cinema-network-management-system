@@ -1,13 +1,12 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {BehaviorSubject, Observable} from "rxjs";
+import {BehaviorSubject} from "rxjs";
 import {environment} from "../../../assets/environment";
 import * as moment from "moment";
 import {Router} from "@angular/router";
 import {jwtDecode} from 'jwt-decode';
 import {Role} from "./roles";
 import {LoginUserRequest} from "../../user/dtos/request/login-user.request";
-import {RegisterUserRequest} from "../../user/dtos/request/register-user.request";
 
 interface AuthResult {
   expiresIn: number;
@@ -43,13 +42,6 @@ export class AuthService {
       }
     )
   }
-
-  register(registerUserRequest: RegisterUserRequest): Observable<void> {
-    this.logout();
-    const url = `${AuthService.usersUrl}/register`;
-    return this.httpClient.post<void>(url, registerUserRequest);
-  }
-
 
   logout() {
     this.loggedIn.next(false);

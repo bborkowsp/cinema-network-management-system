@@ -1,12 +1,15 @@
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {CinemaManagerResponse} from "../../dtos/response/cinema-manager.response";
-import {CinemaManagerRequest} from "../../dtos/request/cinema-manager.request";
+import {CreateCinemaManagerRequest} from "../../dtos/request/create-cinema-manager.request";
+import {UpdateCinemaManagerRequest} from "../../dtos/request/update-cinema-manager.request";
 
 export class CinemaManagerFormBuilder {
   form: FormGroup;
+  readonly isEditMode: boolean;
 
-  constructor(private readonly formBuilder: FormBuilder) {
+  constructor(private readonly formBuilder: FormBuilder, isEditMode: boolean) {
     this.form = this.createForm();
+    this.isEditMode = isEditMode;
   }
 
   public get mainFormGroup() {
@@ -25,15 +28,22 @@ export class CinemaManagerFormBuilder {
   }
 
   private createForm(): FormGroup {
+    const formGroupConfig: any = {
+      firstName: ['', [Validators.required]],
+      lastName: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      managedCinemaName: ['', [Validators.required]]
+    };
+
+    if (!this.isEditMode) {
+      formGroupConfig.password = ['', [Validators.required]];
+    }
+
     return this.formBuilder.group({
-      main: this.formBuilder.group({
-        firstName: ['', [Validators.required]],
-        lastName: ['', [Validators.required]],
-        email: ['', [Validators.required, Validators.email]],
-        managedCinemaName: ['', [Validators.required]]
-      })
+      main: this.formBuilder.group(formGroupConfig)
     });
   }
+
 
   cinemaManagerRequestFromForm() {
     let managedCinemaName = this.mainFormGroup.get('managedCinemaName')!.value;
@@ -41,11 +51,20 @@ export class CinemaManagerFormBuilder {
       managedCinemaName = null;
     }
 
-    return new CinemaManagerRequest(
+    if (this.isEditMode) {
+      return new UpdateCinemaManagerRequest(
+        this.mainFormGroup.get('firstName')!.value,
+        this.mainFormGroup.get('lastName')!.value,
+        this.mainFormGroup.get('email')!.value,
+        '', '',
+        this.mainFormGroup.get('managedCinemaName')!.value
+      );
+    }
+    return new CreateCinemaManagerRequest(
       this.mainFormGroup.get('firstName')!.value,
       this.mainFormGroup.get('lastName')!.value,
       this.mainFormGroup.get('email')!.value,
-      "a",
+      this.mainFormGroup.get('password')!.value,
       managedCinemaName
     );
   }

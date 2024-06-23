@@ -6,10 +6,11 @@ import org.example.cinemabackend.cinema.core.port.primary.CinemaMapper;
 import org.example.cinemabackend.cinema.core.port.secondary.CinemaRepository;
 import org.example.cinemabackend.cinema.infrastructure.adapter.secondary.CinemaJpaRepository;
 import org.example.cinemabackend.user.application.dto.request.CreateCinemaManagerRequest;
+import org.example.cinemabackend.user.application.dto.request.CreateCinemaNetworkManagerRequest;
 import org.example.cinemabackend.user.application.dto.request.UpdateCinemaManagerRequest;
+import org.example.cinemabackend.user.application.dto.request.UpdateCinemaNetworkManagerRequest;
 import org.example.cinemabackend.user.application.dto.response.CinemaManagerResponse;
 import org.example.cinemabackend.user.application.dto.response.CinemaManagerTableResponse;
-import org.example.cinemabackend.user.application.dto.response.CinemaNetworkManagerResponse;
 import org.example.cinemabackend.user.application.dto.response.UserResponse;
 import org.example.cinemabackend.user.core.domain.Role;
 import org.example.cinemabackend.user.core.domain.User;
@@ -67,19 +68,6 @@ class UserMapperService implements UserMapper {
     }
 
     @Override
-    @Transactional
-    public void mapUpdateCinemaManagerRequestToUser(User cinemaManagerToUpdate, UpdateCinemaManagerRequest updateCinemaManagerRequest) {
-        cinemaManagerToUpdate.setFirstName(updateCinemaManagerRequest.firstName());
-        cinemaManagerToUpdate.setLastName(updateCinemaManagerRequest.lastName());
-
-        if (updateCinemaManagerRequest.managedCinemaName() != null) {
-            updateCinemaManagerIfUpdatedManagedCinemaIsNotNull(cinemaManagerToUpdate, updateCinemaManagerRequest);
-        } else {
-            updateCinemaManagerIfUpdatedManagedCinemaIsNull(cinemaManagerToUpdate, updateCinemaManagerRequest);
-        }
-    }
-
-    @Override
     public User mapCreateCinemaManagerRequestToUser(CreateCinemaManagerRequest createCinemaManagerRequest) {
         final var passwordHash = passwordEncoder.encode(createCinemaManagerRequest.password());
         return new User(
@@ -92,18 +80,48 @@ class UserMapperService implements UserMapper {
     }
 
     @Override
-    public CinemaNetworkManagerResponse mapUserToCinemaNetworkManagerResponse(User cinemaNetworkManager) {
-        return CinemaNetworkManagerResponse.builder()
-                .firstName(cinemaNetworkManager.getFirstName())
-                .lastName(cinemaNetworkManager.getLastName())
-                .email(cinemaNetworkManager.getEmail())
-                .role(cinemaNetworkManager.getRole())
-                .build();
+    public User mapCreateCinemaNetworkManagerRequestToUser(CreateCinemaNetworkManagerRequest createCinemaManagerRequest) {
+        final var passwordHash = passwordEncoder.encode(createCinemaManagerRequest.password());
+        return new User(
+                createCinemaManagerRequest.firstName(),
+                createCinemaManagerRequest.lastName(),
+                createCinemaManagerRequest.email(),
+                passwordHash,
+                Role.CINEMA_NETWORK_MANAGER
+        );
+    }
+
+    @Override
+    @Transactional
+    public void mapUpdateCinemaManagerRequestToUser(User cinemaManagerToUpdate, UpdateCinemaManagerRequest updateCinemaManagerRequest) {
+        cinemaManagerToUpdate.setFirstName(updateCinemaManagerRequest.firstName());
+        cinemaManagerToUpdate.setLastName(updateCinemaManagerRequest.lastName());
+        updatePassword(updateCinemaManagerRequest.newPassword(), cinemaManagerToUpdate);
+
+        if (updateCinemaManagerRequest.managedCinemaName() != null) {
+            updateCinemaManagerIfUpdatedManagedCinemaIsNotNull(cinemaManagerToUpdate, updateCinemaManagerRequest);
+        } else {
+            updateCinemaManagerIfUpdatedManagedCinemaIsNull(cinemaManagerToUpdate, updateCinemaManagerRequest);
+        }
+    }
+
+    @Override
+    public void mapUpdateCinemaNetworkManagerRequestToUser(User cinemaNetworkManagerToUpdate, UpdateCinemaNetworkManagerRequest updateCinemaManagerRequest) {
+        cinemaNetworkManagerToUpdate.setFirstName(updateCinemaManagerRequest.firstName());
+        cinemaNetworkManagerToUpdate.setLastName(updateCinemaManagerRequest.lastName());
+        cinemaNetworkManagerToUpdate.setEmail(updateCinemaManagerRequest.email());
+        updatePassword(updateCinemaManagerRequest.newPassword(), cinemaNetworkManagerToUpdate);
+    }
+
+    private void updatePassword(String newPassword, User cinemaNetworkManagerToUpdate) {
+        if (!newPassword.isEmpty()) {
+            final var newPasswordHash = passwordEncoder.encode(newPassword);
+            cinemaNetworkManagerToUpdate.setPasswordHash(newPasswordHash);
+        }
     }
 
     private void updateCinemaManagerIfUpdatedManagedCinemaIsNull(User cinemaManagerToUpdate, UpdateCinemaManagerRequest updateCinemaManagerRequest) {
         final var oldManagedCinema = getCinemaByUserEmail(cinemaManagerToUpdate.getEmail());
-
         removeCinemaManagerFromOldManagedCinema(oldManagedCinema);
         cinemaManagerToUpdate.setEmail(updateCinemaManagerRequest.email());
         userRepository.save(cinemaManagerToUpdate);
@@ -133,5 +151,4 @@ class UserMapperService implements UserMapper {
     private Cinema findByCinemaManager(User user) {
         return cinemaRepository.findByCinemaManager(user).orElse(null);
     }
-
 }

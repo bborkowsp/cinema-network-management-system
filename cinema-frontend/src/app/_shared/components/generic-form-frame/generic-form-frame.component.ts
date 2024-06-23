@@ -6,5 +6,5 @@ import {Component, Input} from '@angular/core';
   styleUrls: ['./generic-form-frame.component.scss']
 })
 export class GenericFormFrameComponent {
-  @Input({required: true}) title!: string;
+  @Input({required: false}) title!: string;
 }

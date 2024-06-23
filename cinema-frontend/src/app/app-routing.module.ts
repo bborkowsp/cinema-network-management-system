@@ -132,7 +132,7 @@ const routes: Routes = [
     data: {roles: [Role.ADMIN]}
   },
   {
-    path: 'users/edit/:email',
+    path: 'users/edit/:email+role',
     component: UserFormComponent,
     canActivate: [AuthGuard],
     data: {roles: [Role.ADMIN]}

@@ -6,6 +6,7 @@ import {FormBuilder} from "@angular/forms";
 import {UserService} from "../../services/user.service";
 import {CinemaService} from "../../../cinema/services/cinema.service";
 import {CinemaManagerResponse} from "../../dtos/response/cinema-manager.response";
+import {UpdateCinemaManagerRequest} from "../../dtos/request/update-cinema-manager.request";
 
 @Component({
   selector: 'app-cinema-manager-form',
@@ -44,12 +45,12 @@ export class CinemaManagerFormComponent implements OnInit {
   }
 
   private setUpEditCinemaManagerForm() {
-    this.cinemaManagerFormHelper = new CinemaManagerFormBuilder(this.formBuilder);
+    this.cinemaManagerFormHelper = new CinemaManagerFormBuilder(this.formBuilder, this.isEditMode);
     this.loadCinemaManager();
   }
 
   private setUpCinemaManagerForm() {
-    this.cinemaManagerFormHelper = new CinemaManagerFormBuilder(this.formBuilder);
+    this.cinemaManagerFormHelper = new CinemaManagerFormBuilder(this.formBuilder, this.isEditMode);
     this.isLoading = false;
   }
 
@@ -73,10 +74,12 @@ export class CinemaManagerFormComponent implements OnInit {
 
   onSubmit() {
     const cinemaManager = this.cinemaManagerFormHelper.cinemaManagerRequestFromForm();
-    const cinemaManager$ = this.isEditMode ?
-      this.userService.updateCinemaManager(this.cinemaManagerEmail, cinemaManager) :
-      this.userService.createCinemaManager(cinemaManager);
-
+    let cinemaManager$;
+    if (cinemaManager instanceof UpdateCinemaManagerRequest) {
+      cinemaManager$ = this.userService.updateCinemaManager(this.cinemaManagerEmail, cinemaManager);
+    } else {
+      cinemaManager$ = this.userService.createCinemaManager(cinemaManager);
+    }
     this.isLoading = true;
     cinemaManager$.subscribe({
       next: () => {

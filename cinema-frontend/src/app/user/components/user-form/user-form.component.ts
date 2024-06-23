@@ -6,7 +6,9 @@ import {UserFormBuilder} from "./user-form-builder";
 import {CinemaManagerResponse} from "../../dtos/response/cinema-manager.response";
 import {CinemaService} from "../../../cinema/services/cinema.service";
 import {Observable, tap} from "rxjs";
-import {CinemaManagerRequest} from "../../dtos/request/cinema-manager.request";
+import {CreateCinemaManagerRequest} from "../../dtos/request/create-cinema-manager.request";
+import {UserResponse} from "../../dtos/response/user.response";
+import {UpdateCinemaManagerRequest} from "../../dtos/request/update-cinema-manager.request";
 
 @Component({
   selector: 'app-user-form',
@@ -16,10 +18,12 @@ import {CinemaManagerRequest} from "../../dtos/request/cinema-manager.request";
 export class UserFormComponent implements OnInit {
   protected isEditMode = false;
   protected isLoading = true;
-  protected cinemaManagerFormHelper !: UserFormBuilder;
+  protected userFormBuilder !: UserFormBuilder;
   protected pageTitle !: string;
   protected cinemaNames!: Observable<string[]>
-  private cinemaManagerEmail !: string;
+  protected readonly onsubmit = onsubmit;
+  private userEmail !: string;
+  private role !: string;
 
   constructor(
     private router: Router,
@@ -33,33 +37,71 @@ export class UserFormComponent implements OnInit {
   ngOnInit() {
     const params = this.activatedRoute.snapshot.params;
     this.cinemaNames = this.loadCinemaNames();
-    if (params['email']) {
-      this.isEditMode = true;
-      this.cinemaManagerEmail = params['email'];
-
-      this.pageTitle = 'Edit Cinema Manager';
-      this.setUpEditCinemaManagerForm();
+    if (params['email+role']) {
+      this.setUpEditUserPage(params['email+role']);
     } else {
-      this.pageTitle = 'Add Cinema Manager';
-      this.setUpCinemaManagerForm();
+      this.setUpCreateUserPage();
     }
   }
 
-  private setUpEditCinemaManagerForm() {
-    this.cinemaManagerFormHelper = new UserFormBuilder(this.formBuilder);
-    this.loadCinemaManager();
+  handleCancelClicked() {
+    this.goBack();
   }
 
-  private setUpCinemaManagerForm() {
-    this.cinemaManagerFormHelper = new UserFormBuilder(this.formBuilder);
+  onSubmit() {
+    if (this.isEditMode) {
+      this.handleEditSubmit();
+    } else {
+      this.handleCreateSubmit();
+    }
+  }
+
+  private loadCinemaNames(): Observable<string[]> {
+    this.isLoading = true;
+    return this.cinemaService.getAllCinemaNames().pipe(
+      tap(() => this.isLoading = false)
+    );
+  }
+
+  private setUpEditUserPage(emailAndRoleParam: string) {
+    this.isEditMode = true;
+    [this.userEmail, this.role] = emailAndRoleParam.split('+');
+    if (this.role === 'CINEMA_NETWORK_MANAGER') {
+      this.pageTitle = 'Edit Cinema Network Manager';
+      this.isLoading = false;
+    } else if (this.role === 'CINEMA_MANAGER') {
+      this.pageTitle = 'Edit Cinema Manager';
+    } else {
+      this.pageTitle = 'Edit Admin';
+      this.isLoading = false;
+    }
+    this.setUpEditUserForm();
+  }
+
+  private setUpCreateUserPage() {
+    this.pageTitle = 'Add new User'
+    this.setUpCreateUserForm();
+  }
+
+  private setUpEditUserForm() {
+    this.userFormBuilder = new UserFormBuilder(this.formBuilder, this.role, this.isEditMode);
+    if (this.role === 'CINEMA_MANAGER') {
+      this.loadCinemaManager();
+    } else {
+      this.loadCinemaNetworkManager();
+    }
+  }
+
+  private setUpCreateUserForm() {
+    this.userFormBuilder = new UserFormBuilder(this.formBuilder, this.role, this.isEditMode);
     this.isLoading = false;
   }
 
   private loadCinemaManager() {
-    const cinemaManager$ = this.userService.getCinemaManager(this.cinemaManagerEmail);
+    const cinemaManager$ = this.userService.getCinemaManager(this.userEmail);
     cinemaManager$.subscribe({
       next: (cinemaManager: CinemaManagerResponse) => {
-        this.cinemaManagerFormHelper.fillFormWithCinemaManager(cinemaManager);
+        this.userFormBuilder.fillFormWithCinemaManager(cinemaManager);
       },
       error: () => {
         this.goBack();
@@ -67,25 +109,41 @@ export class UserFormComponent implements OnInit {
     });
   }
 
-  private goBack() {
-    this.router.navigate(['/users']);
+  private loadCinemaNetworkManager() {
+    const cinemaNetworkManager$ = this.userService.getCinemaNetworkManager(this.userEmail);
+    cinemaNetworkManager$.subscribe({
+      next: (cinemaNetworkManager: UserResponse) => {
+        this.userFormBuilder.fillFormWithCinemaNetworkManager(cinemaNetworkManager);
+      },
+      error: () => {
+        this.goBack();
+      }
+    });
   }
 
-  protected readonly onsubmit = onsubmit;
-
-  onSubmit() {
-    const cinemaManager = this.cinemaManagerFormHelper.cinemaManagerRequestFromForm();
-    let cinemaManager$;
-    if (cinemaManager instanceof CinemaManagerRequest) {
-      cinemaManager$ = this.isEditMode ?
-        this.userService.updateCinemaManager(this.cinemaManagerEmail, cinemaManager) :
-        this.userService.createCinemaManager(cinemaManager);
+  private handleEditSubmit() {
+    let editUserRequest$;
+    const editUserRequest = this.userFormBuilder.editUserRequestFromForm();
+    if (editUserRequest instanceof UpdateCinemaManagerRequest) {
+      editUserRequest$ = this.userService.updateCinemaManager(this.userEmail, editUserRequest);
     } else {
-      cinemaManager$ = this.isEditMode ?
-        this.userService.updateCinemaNetworkManager(this.cinemaManagerEmail, cinemaManager) :
-        this.userService.createCinemaNetworkManager(cinemaManager);
+      editUserRequest$ = this.userService.updateCinemaNetworkManager(this.userEmail, editUserRequest);
     }
+    this.subscribeWithLoading(editUserRequest$);
+  }
 
+  private handleCreateSubmit() {
+    let createUserRequest$;
+    const createUserRequest = this.userFormBuilder.createUserRequestFromForm();
+    if (createUserRequest instanceof CreateCinemaManagerRequest) {
+      createUserRequest$ = this.userService.createCinemaManager(createUserRequest);
+    } else {
+      createUserRequest$ = this.userService.createCinemaNetworkManager(createUserRequest);
+    }
+    this.subscribeWithLoading(createUserRequest$);
+  }
+
+  private subscribeWithLoading(cinemaManager$: Observable<any>) {
     this.isLoading = true;
     cinemaManager$.subscribe({
       next: () => {
@@ -98,14 +156,7 @@ export class UserFormComponent implements OnInit {
     });
   }
 
-  handleCancelClicked() {
-    this.goBack();
-  }
-
-  private loadCinemaNames(): Observable<string[]> {
-    this.isLoading = true;
-    return this.cinemaService.getAllCinemaNames().pipe(
-      tap(() => this.isLoading = false)
-    );
+  private goBack() {
+    this.router.navigate(['/users']);
   }
 }

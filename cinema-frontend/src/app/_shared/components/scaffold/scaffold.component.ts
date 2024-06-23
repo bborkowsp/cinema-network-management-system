@@ -81,11 +81,6 @@ export class ScaffoldComponent {
         path: '/repertory',
         icon: 'event'
       },
-      {
-        label: 'Cinema managers',
-        path: '/cinema-managers',
-        icon: 'people'
-      }
     ];
   }
 
@@ -93,7 +88,7 @@ export class ScaffoldComponent {
     return [
       {
         label: 'Cinema managers',
-        path: '/users',
+        path: '/cinema-managers',
         icon: 'people'
       },
       {

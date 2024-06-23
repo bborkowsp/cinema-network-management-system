@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -86,19 +87,19 @@ class MovieService implements MovieUseCases {
 
     private void validateMovieTitleIsNotTaken(String oldTitle, String newTitle) {
         if (!oldTitle.equals(newTitle) && movieRepository.findByTitle(newTitle).isPresent()) {
-            throw new IllegalArgumentException("Movie with title " + newTitle + " already exists");
+            throw new IllegalStateException("Movie with title " + newTitle + " already exists");
         }
     }
 
     private void validateMovieExists(String title) {
         if (movieRepository.findByTitle(title).isEmpty()) {
-            throw new IllegalArgumentException("Movie does not exist");
+            throw new NoSuchElementException("Movie does not exist");
         }
     }
 
     private void validateMovieNotExists(String title) {
         if (movieRepository.findByTitle(title).isPresent()) {
-            throw new IllegalArgumentException("Movie with title " + title + " already exists");
+            throw new IllegalStateException("Movie with title " + title + " already exists");
         }
     }
 }

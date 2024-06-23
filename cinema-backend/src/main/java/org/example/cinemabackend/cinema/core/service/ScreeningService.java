@@ -82,7 +82,7 @@ class ScreeningService implements ScreeningUseCases {
 
     private void validateCinemaManagerIsManagingACinema(String email) {
         if (!cinemaRepository.existsByCinemaManagerEmail(email)) {
-            throw new IllegalArgumentException("You are not assigned to any cinema");
+            throw new IllegalStateException("You are not assigned to any cinema");
         }
     }
 

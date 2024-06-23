@@ -75,31 +75,31 @@ class CinemaService implements CinemaUseCases {
 
     private void validateCinemaExists(String name) {
         if (!cinemaRepository.existsByName(name)) {
-            throw new IllegalArgumentException("Cinema with name " + name + " doesn't exist.");
+            throw new IllegalStateException("Cinema with name " + name + " doesn't exist.");
         }
     }
 
     private void validateCinemaDoesntExist(String name) {
         if (cinemaRepository.existsByName(name)) {
-            throw new IllegalArgumentException("Cinema with name " + name + " already exists.");
+            throw new IllegalStateException("Cinema with name " + name + " already exists.");
         }
     }
 
     private void validateCinemaNameIsNotTakenWhenUpdate(String name, String newName) {
         if (!name.equals(newName) && cinemaRepository.existsByName(newName)) {
-            throw new IllegalArgumentException("Cinema with name " + newName + " already exists.");
+            throw new IllegalStateException("Cinema with name " + newName + " already exists.");
         }
     }
 
     private void validateCinemaManagerIsNotAssigned(String email) {
         if (cinemaRepository.existsByCinemaManagerEmail(email)) {
-            throw new IllegalArgumentException("Cinema manager with email " + email + " is already assigned to a cinema.");
+            throw new IllegalStateException("Cinema manager with email " + email + " is already assigned to a cinema.");
         }
     }
 
     private void validateCinemaManagerIsNotAssignedWhenUpdate(Cinema cinema, String email) {
         if (cinemaRepository.existsByCinemaManagerEmail(email) && email != null && !Objects.equals(cinema.getCinemaManager().getEmail(), email)) {
-            throw new IllegalArgumentException("Cinema manager with email " + email + " is already assigned to a cinema.");
+            throw new IllegalStateException("Cinema manager with email " + email + " is already assigned to a cinema.");
         }
     }
 }

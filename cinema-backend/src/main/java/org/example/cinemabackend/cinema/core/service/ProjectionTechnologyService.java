@@ -81,13 +81,13 @@ class ProjectionTechnologyService implements ProjectionTechnologyUseCases {
 
     private void validateProjectionTechnologyDoesntExist(String technology) {
         if (projectionTechnologyRepository.existsByTechnology(technology)) {
-            throw new IllegalArgumentException("Projection technology '" + technology + "' already exists");
+            throw new IllegalStateException("Projection technology '" + technology + "' already exists");
         }
     }
 
     private void validateProjectionTechnologyIsNotTaken(String oldTechnology, String newTechnology) {
         if (!oldTechnology.equals(newTechnology) && projectionTechnologyRepository.existsByTechnology(newTechnology)) {
-            throw new IllegalArgumentException("Projection technology '" + newTechnology + "' already exists");
+            throw new IllegalStateException("Projection technology '" + newTechnology + "' already exists");
         }
     }
 
@@ -99,7 +99,7 @@ class ProjectionTechnologyService implements ProjectionTechnologyUseCases {
 
     private void validateProjectionTechnologyIsNotUsedInAnyMovie(String technology) {
         if (movieRepository.existsByProjectionTechnology(technology)) {
-            throw new IllegalArgumentException("Cannot delete projection technology '" + technology + "' because it is used in some movies");
+            throw new IllegalStateException("Cannot delete projection technology '" + technology + "' because it is used in some movies");
         }
     }
 }

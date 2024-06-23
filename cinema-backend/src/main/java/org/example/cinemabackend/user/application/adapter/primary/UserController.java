@@ -3,7 +3,9 @@ package org.example.cinemabackend.user.application.adapter.primary;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.user.application.dto.request.CreateCinemaManagerRequest;
+import org.example.cinemabackend.user.application.dto.request.CreateCinemaNetworkManagerRequest;
 import org.example.cinemabackend.user.application.dto.request.UpdateCinemaManagerRequest;
+import org.example.cinemabackend.user.application.dto.request.UpdateCinemaNetworkManagerRequest;
 import org.example.cinemabackend.user.application.dto.response.CinemaManagerResponse;
 import org.example.cinemabackend.user.application.dto.response.CinemaManagerTableResponse;
 import org.example.cinemabackend.user.application.dto.response.UserResponse;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 class UserController {
 
     private static final String CINEMA_MANAGERS_ENDPOINT_PREFIX = "/cinema-managers";
+    private static final String CINEMA_NETWORK_MANAGERS_ENDPOINT_PREFIX = "/cinema-network-managers";
     private final UserUseCases userUseCases;
 
     @GetMapping
@@ -52,11 +55,17 @@ class UserController {
         return ResponseEntity.ok(cinemaManager);
     }
 
-
     @PostMapping(CINEMA_MANAGERS_ENDPOINT_PREFIX)
     @PreAuthorize("hasAnyAuthority('CINEMA_NETWORK_MANAGER','ADMIN')")
     ResponseEntity<Void> createCinemaManager(@RequestBody @Valid CreateCinemaManagerRequest createCinemaManagerRequest) {
         userUseCases.createCinemaManager(createCinemaManagerRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @PostMapping(CINEMA_NETWORK_MANAGERS_ENDPOINT_PREFIX)
+    @PreAuthorize("hasAuthority('ADMIN')")
+    ResponseEntity<Void> createCinemaNetworkManager(@RequestBody @Valid CreateCinemaNetworkManagerRequest createCinemaManagerRequest) {
+        userUseCases.createCinemaNetworkManager(createCinemaManagerRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -68,6 +77,16 @@ class UserController {
             @RequestBody @Valid UpdateCinemaManagerRequest updateCinemaManagerRequest
     ) {
         userUseCases.updateCinemaManager(email, updateCinemaManagerRequest);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping(CINEMA_NETWORK_MANAGERS_ENDPOINT_PREFIX + "/{email}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    ResponseEntity<Void> updateCinemaNetworkManager(
+            @PathVariable String email,
+            @RequestBody @Valid UpdateCinemaNetworkManagerRequest updateCinemaManagerRequest
+    ) {
+        userUseCases.updateCinemaNetworkManager(email, updateCinemaManagerRequest);
         return ResponseEntity.noContent().build();
     }
 

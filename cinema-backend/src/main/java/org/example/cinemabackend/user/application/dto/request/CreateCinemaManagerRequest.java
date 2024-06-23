@@ -9,6 +9,6 @@ public record CreateCinemaManagerRequest(
         @NotBlank @Size(max = 255) String lastName,
         @NotBlank @Email @Size(max = 255) String email,
         @NotBlank @Size(max = 255) String password,
-        @NotBlank String managedCinemaName
+        @Size(max = 255) String managedCinemaName
 ) {
 }
