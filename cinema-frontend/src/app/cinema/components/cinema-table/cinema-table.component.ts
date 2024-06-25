@@ -15,11 +15,11 @@ import {ConfirmDeletionCinemaDialog} from "../confirm-deletion-cinema-dialog/con
   styleUrls: ['./cinema-table.component.scss']
 })
 export class CinemaTableComponent implements AfterViewInit, OnInit {
-  displayedColumns: string[] = ['options', 'name', 'cinemaManager', 'numberOfScreeningRooms', 'numberOfAvailableSeats', 'numberOfUnavailableSeats'];
-  cinemas$: MatTableDataSource<CinemaListResponse>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  protected isLoading = true;
+  displayedColumns: string[] = ['options', 'name', 'cinemaManager', 'numberOfScreeningRooms', 'numberOfAvailableSeats', 'numberOfUnavailableSeats'];
+  cinemas$: MatTableDataSource<CinemaListResponse>;
+  isLoading = true;
 
   constructor(
     private cinemaService: CinemaService,

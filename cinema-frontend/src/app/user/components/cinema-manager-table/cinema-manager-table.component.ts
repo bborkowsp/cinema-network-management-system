@@ -12,12 +12,12 @@ import {CinemaManagerTableResponse} from "../../dtos/response/cinema-manager-tab
   styleUrls: ['./cinema-manager-table.component.scss']
 })
 export class CinemaManagerTableComponent {
+  @ViewChild(MatPaginator) readonly paginator!: MatPaginator;
   displayedColumns = ['options', 'firstName', 'lastName', 'email', 'managedCinema'];
   cinemaManagers$!: Observable<CinemaManagerTableResponse[]>;
   dataLength = 0;
-  @ViewChild(MatPaginator) readonly paginator!: MatPaginator;
   paginatorRequestParams = new PaginatorRequestParams(0, 10);
-  protected isLoading = true;
+  isLoading = true;
 
   constructor(
     private readonly userService: UserService,
@@ -25,7 +25,7 @@ export class CinemaManagerTableComponent {
   ) {
     this.cinemaManagers$ = this.getData();
   }
-
+ 
   handlePageEvent(event: PageEvent): void {
     this.paginatorRequestParams = new PaginatorRequestParams(
       event.pageIndex,

@@ -14,6 +14,7 @@ export class RepertoryListComponentComponent implements OnInit {
 
   displayedColumns = ['options', 'movie', 'startTime', 'endTime'];
   screeningsGroupedByScreeningRoom: { [key: string]: ScreeningResponse[] } = {};
+  protected readonly Object = Object;
 
   ngOnInit() {
     this.groupScreeningsByScreeningRoom();
@@ -30,9 +31,7 @@ export class RepertoryListComponentComponent implements OnInit {
     });
   }
 
-  protected readonly Object = Object;
-
-  protected handleDeleteScreening(screening: ScreeningResponse) {
+  handleDeleteScreening(screening: ScreeningResponse) {
     this.handleDelete.emit(screening);
   }
 

@@ -15,8 +15,8 @@ import {AuthService} from "../../../auth/services/auth.service";
 export class MovieDetailsComponent implements OnInit {
   movie$!: Observable<MovieResponse>;
   title: string = '';
-  protected isLoading = true;
-  protected isUserRoleCinemaManager = true;
+  isLoading = true;
+  isUserRoleCinemaManager = true;
 
   constructor(
     private readonly movieService: MovieService,

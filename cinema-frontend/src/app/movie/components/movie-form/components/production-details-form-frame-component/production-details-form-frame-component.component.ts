@@ -29,5 +29,4 @@ export class ProductionDetailsFormFrameComponentComponent {
   get productionCountriesControl(): FormControl {
     return this.formGroup.get('productionCountries') as FormControl;
   }
-
 }

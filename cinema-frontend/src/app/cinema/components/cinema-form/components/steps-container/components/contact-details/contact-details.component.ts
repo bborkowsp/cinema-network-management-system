@@ -10,7 +10,7 @@ import {ContactDetailsResponse} from "../../../../../../dtos/response/contact-de
 export class ContactDetailsComponent implements OnInit, OnChanges {
   @Input({required: true}) form!: FormGroupDirective | NgForm;
   @Input({required: true}) formArray!: FormArray;
-  protected allContactDetails: ContactDetailsResponse[] = [];
+  allContactDetails: ContactDetailsResponse[] = [];
   createContactDetailFormGroup!: FormGroup;
   currentEditedContactDetailIndex: number = -1;
 
@@ -94,5 +94,4 @@ export class ContactDetailsComponent implements OnInit, OnChanges {
       })
     });
   }
-
 }

@@ -12,7 +12,7 @@ class PermissionService {
     private authService: AuthService
   ) {
   }
-
+ 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     const userRole = this.authService.getUserRoleAsEnum();
     if (userRole === null) {

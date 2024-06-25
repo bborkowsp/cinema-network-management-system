@@ -9,9 +9,9 @@ import {AuthService} from "../../../auth/services/auth.service";
   styleUrls: ['./scaffold.component.scss']
 })
 export class ScaffoldComponent {
-  protected navigationLinks: NavigationLink[] = [];
-  protected isDrawerOpened = false;
-
+  navigationLinks: NavigationLink[] = [];
+  isDrawerOpened = false;
+ 
   constructor(
     private readonly router: Router,
     private readonly authService: AuthService

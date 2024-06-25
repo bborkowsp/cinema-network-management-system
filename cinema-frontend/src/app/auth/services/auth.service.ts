@@ -8,14 +8,10 @@ import {jwtDecode} from 'jwt-decode';
 import {Role} from "./roles";
 import {LoginUserRequest} from "../../user/dtos/request/login-user.request";
 
-interface AuthResult {
-  expiresIn: number;
-  idToken: string;
-}
-
 @Injectable({
   providedIn: 'root'
 })
+
 export class AuthService {
   static readonly usersUrl = `${environment.API_BASE_URL}/auth`;
   public loggedInUserSubject: BehaviorSubject<string> = new BehaviorSubject<string>('');

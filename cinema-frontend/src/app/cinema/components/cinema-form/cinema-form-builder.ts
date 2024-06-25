@@ -17,47 +17,6 @@ export class CinemaFormBuilder {
     this.form = this.createForm();
   }
 
-  private createForm() {
-    return this.formBuilder.group({
-      stepOne: this.formBuilder.group({
-        address: this.formBuilder.group({
-          streetAndBuildingNumber: [
-            '',
-            [
-              Validators.required,
-              Validators.maxLength(FormValidatorLengths.DEFAULT_MAX_INPUT_LENGTH),
-              Validators.pattern(FormValidatorPatterns.STREET_AND_BUILDING_NUMBER_PATTERN),
-            ],
-          ],
-          city: ['', [Validators.required, Validators.maxLength(FormValidatorLengths.DEFAULT_MAX_INPUT_LENGTH),]],
-          postalCode: [
-            '',
-            [
-              Validators.required,
-              Validators.maxLength(FormValidatorLengths.DEFAULT_MAX_INPUT_LENGTH),
-              Validators.pattern(FormValidatorPatterns.POSTAL_CODE_PATTERN),
-            ],
-          ],
-          country: ['', [Validators.required, Validators.maxLength(FormValidatorLengths.DEFAULT_MAX_INPUT_LENGTH),],],
-        }),
-        aboutCinema: this.formBuilder.group({
-          name: ['', [Validators.required, Validators.maxLength(FormValidatorLengths.DEFAULT_MAX_INPUT_LENGTH),]],
-          description: ['', [Validators.required, Validators.maxLength(FormValidatorLengths.DEFAULT_MAX_INPUT_LENGTH)]],
-          image: ['', [Validators.required]],
-        }),
-      }),
-      stepTwo: this.formBuilder.group({
-        screeningRooms: this.formBuilder.array([], [Validators.required])
-      }),
-      stepThree: this.formBuilder.group({
-        contactDetails: this.formBuilder.array([], [Validators.required])
-      }),
-      stepFour: this.formBuilder.group({
-        cinemaManager: ['', [Validators.required]],
-      }),
-    });
-  }
-
   public get stepOneFormGroup() {
     return this.form.get('stepOne') as FormGroup;
   }
@@ -138,7 +97,6 @@ export class CinemaFormBuilder {
     this.stepThreeFormGroup.setControl('contactDetails', contactDetailsFormArray);
   }
 
-
   async getCreateCinemaRequestFromForm(): Promise<CreateCinemaRequest> {
     const imageRequest = await this.createImageRequest();
     const commonFields = this.getCommonRequestFields();
@@ -169,6 +127,47 @@ export class CinemaFormBuilder {
       commonFields.contactDetails,
       cinemaManager
     );
+  }
+
+  private createForm() {
+    return this.formBuilder.group({
+      stepOne: this.formBuilder.group({
+        address: this.formBuilder.group({
+          streetAndBuildingNumber: [
+            '',
+            [
+              Validators.required,
+              Validators.maxLength(FormValidatorLengths.DEFAULT_MAX_INPUT_LENGTH),
+              Validators.pattern(FormValidatorPatterns.STREET_AND_BUILDING_NUMBER_PATTERN),
+            ],
+          ],
+          city: ['', [Validators.required, Validators.maxLength(FormValidatorLengths.DEFAULT_MAX_INPUT_LENGTH),]],
+          postalCode: [
+            '',
+            [
+              Validators.required,
+              Validators.maxLength(FormValidatorLengths.DEFAULT_MAX_INPUT_LENGTH),
+              Validators.pattern(FormValidatorPatterns.POSTAL_CODE_PATTERN),
+            ],
+          ],
+          country: ['', [Validators.required, Validators.maxLength(FormValidatorLengths.DEFAULT_MAX_INPUT_LENGTH),],],
+        }),
+        aboutCinema: this.formBuilder.group({
+          name: ['', [Validators.required, Validators.maxLength(FormValidatorLengths.DEFAULT_MAX_INPUT_LENGTH),]],
+          description: ['', [Validators.required, Validators.maxLength(FormValidatorLengths.DEFAULT_MAX_INPUT_LENGTH)]],
+          image: ['', [Validators.required]],
+        }),
+      }),
+      stepTwo: this.formBuilder.group({
+        screeningRooms: this.formBuilder.array([], [Validators.required])
+      }),
+      stepThree: this.formBuilder.group({
+        contactDetails: this.formBuilder.array([], [Validators.required])
+      }),
+      stepFour: this.formBuilder.group({
+        cinemaManager: ['', [Validators.required]],
+      }),
+    });
   }
 
   private async createImageRequest(): Promise<CreateImageRequest> {

@@ -10,8 +10,8 @@ import {Router} from "@angular/router";
   styleUrls: ['./manage-repertory.component.scss'],
 })
 export class ManageRepertoryComponent implements OnInit {
-  protected isLoading = true;
   repertory$ !: ScreeningResponse[];
+  isLoading = true;
 
   constructor(
     private readonly repertoryService: ScreeningService,
@@ -24,10 +24,6 @@ export class ManageRepertoryComponent implements OnInit {
       this.repertory$ = repertory;
       this.isLoading = false;
     });
-  }
-
-  private getData() {
-    return this.repertoryService.getRepertory();
   }
 
   onDeleteScreening(screening: ScreeningResponse) {
@@ -48,5 +44,9 @@ export class ManageRepertoryComponent implements OnInit {
   onAddScreening(roomName: string) {
     const url = `repertory/create/${roomName}`;
     this.router.navigateByUrl(url);
+  }
+
+  private getData() {
+    return this.repertoryService.getRepertory();
   }
 }

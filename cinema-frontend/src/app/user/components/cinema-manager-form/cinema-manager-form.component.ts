@@ -14,11 +14,12 @@ import {UpdateCinemaManagerRequest} from "../../dtos/request/update-cinema-manag
   styleUrls: ['./cinema-manager-form.component.scss']
 })
 export class CinemaManagerFormComponent implements OnInit {
-  protected isEditMode = false;
-  protected isLoading = true;
-  protected cinemaManagerFormBuilder !: CinemaManagerFormBuilder;
-  protected pageTitle !: string;
-  protected cinemaNames!: Observable<string[]>
+  isEditMode = false;
+  isLoading = true;
+  cinemaManagerFormBuilder !: CinemaManagerFormBuilder;
+  pageTitle !: string;
+  cinemaNames!: Observable<string[]>
+  protected readonly onsubmit = onsubmit;
   private cinemaManagerEmail !: string;
 
   constructor(
@@ -42,6 +43,30 @@ export class CinemaManagerFormComponent implements OnInit {
       this.pageTitle = 'Add Cinema Manager';
       this.setUpCinemaManagerForm();
     }
+  }
+
+  onSubmit() {
+    const cinemaManager = this.cinemaManagerFormBuilder.cinemaManagerRequestFromForm();
+    let cinemaManager$;
+    if (cinemaManager instanceof UpdateCinemaManagerRequest) {
+      cinemaManager$ = this.userService.updateCinemaManager(this.cinemaManagerEmail, cinemaManager);
+    } else {
+      cinemaManager$ = this.userService.createCinemaManager(cinemaManager);
+    }
+    this.isLoading = true;
+    cinemaManager$.subscribe({
+      next: () => {
+        this.isLoading = false;
+        this.goBack();
+      },
+      error: () => {
+        this.isLoading = false;
+      }
+    });
+  }
+
+  handleCancelClicked() {
+    this.goBack();
   }
 
   private setUpEditCinemaManagerForm() {
@@ -68,32 +93,6 @@ export class CinemaManagerFormComponent implements OnInit {
 
   private goBack() {
     this.router.navigate(['/cinema-managers']);
-  }
-
-  protected readonly onsubmit = onsubmit;
-
-  onSubmit() {
-    const cinemaManager = this.cinemaManagerFormBuilder.cinemaManagerRequestFromForm();
-    let cinemaManager$;
-    if (cinemaManager instanceof UpdateCinemaManagerRequest) {
-      cinemaManager$ = this.userService.updateCinemaManager(this.cinemaManagerEmail, cinemaManager);
-    } else {
-      cinemaManager$ = this.userService.createCinemaManager(cinemaManager);
-    }
-    this.isLoading = true;
-    cinemaManager$.subscribe({
-      next: () => {
-        this.isLoading = false;
-        this.goBack();
-      },
-      error: () => {
-        this.isLoading = false;
-      }
-    });
-  }
-
-  handleCancelClicked() {
-    this.goBack();
   }
 
   private loadCinemaNames(): Observable<string[]> {

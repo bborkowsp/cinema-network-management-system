@@ -10,11 +10,11 @@ import {ProjectionTechnologyFormBuilder} from "./projection-technology-form-buil
   styleUrls: ['./projection-technology-form.component.scss']
 })
 export class ProjectionTechnologyFormComponent implements OnInit {
-  protected isEditMode = false;
-  protected isLoading = true;
-  protected pageTitle !: string;
-  protected projectionTechnologyFormBuilder !: ProjectionTechnologyFormBuilder;
   private static readonly GO_BACK_NAVIGATION_PATH = '/projection-technologies';
+  isEditMode = false;
+  isLoading = true;
+  pageTitle !: string;
+  projectionTechnologyFormBuilder !: ProjectionTechnologyFormBuilder;
   private technology !: string;
 
   constructor(
@@ -36,29 +36,6 @@ export class ProjectionTechnologyFormComponent implements OnInit {
       this.pageTitle = 'Add Projection Technology';
       this.setUpCreateProjectionTechnologyForm();
     }
-  }
-
-  private setUpEditProjectionTechnologyForm() {
-    this.projectionTechnologyFormBuilder = new ProjectionTechnologyFormBuilder(this.formBuilder);
-    this.loadProjectionTechnology();
-  }
-
-  private setUpCreateProjectionTechnologyForm() {
-    this.projectionTechnologyFormBuilder = new ProjectionTechnologyFormBuilder(this.formBuilder);
-    this.isLoading = false;
-  }
-
-  private loadProjectionTechnology() {
-    const projectionTechnology$ = this.projectionTechnologyService.getProjectionTechnology(this.technology);
-    projectionTechnology$.subscribe({
-      next: (projectionTechnology) => {
-        this.projectionTechnologyFormBuilder.fillFormWithProjectionTechnology(projectionTechnology);
-        this.isLoading = false;
-      },
-      error: () => {
-        this.goBack();
-      }
-    });
   }
 
   protected onSubmit() {
@@ -84,6 +61,29 @@ export class ProjectionTechnologyFormComponent implements OnInit {
 
   protected handleCancelClicked() {
     this.goBack()
+  }
+
+  private setUpEditProjectionTechnologyForm() {
+    this.projectionTechnologyFormBuilder = new ProjectionTechnologyFormBuilder(this.formBuilder);
+    this.loadProjectionTechnology();
+  }
+
+  private setUpCreateProjectionTechnologyForm() {
+    this.projectionTechnologyFormBuilder = new ProjectionTechnologyFormBuilder(this.formBuilder);
+    this.isLoading = false;
+  }
+
+  private loadProjectionTechnology() {
+    const projectionTechnology$ = this.projectionTechnologyService.getProjectionTechnology(this.technology);
+    projectionTechnology$.subscribe({
+      next: (projectionTechnology) => {
+        this.projectionTechnologyFormBuilder.fillFormWithProjectionTechnology(projectionTechnology);
+        this.isLoading = false;
+      },
+      error: () => {
+        this.goBack();
+      }
+    });
   }
 
   private goBack() {

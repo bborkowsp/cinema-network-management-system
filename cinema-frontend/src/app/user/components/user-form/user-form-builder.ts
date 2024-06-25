@@ -11,12 +11,11 @@ export class UserFormBuilder {
 
   constructor(
     private readonly formBuilder: FormBuilder,
-    private role: string,
     private isEditMode: boolean
   ) {
     this.form = this.createForm();
   }
-
+ 
   public get mainFormGroup() {
     return this.form.get('main') as FormGroup;
   }
@@ -41,28 +40,6 @@ export class UserFormBuilder {
       managedCinemaName: null
     };
     this.mainFormGroup.patchValue(formValue);
-  }
-
-
-  private createForm(): FormGroup {
-    const formGroupConfig: any = {
-      firstName: ['', [Validators.required]],
-      lastName: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-      role: ['', [Validators.required]],
-      managedCinemaName: ['']
-    };
-
-    if (this.isEditMode) {
-      formGroupConfig.currentPassword = [''];
-      formGroupConfig.newPassword = [''];
-    } else {
-      formGroupConfig.password = ['', [Validators.required]];
-    }
-
-    return this.formBuilder.group({
-      main: this.formBuilder.group(formGroupConfig)
-    });
   }
 
   createUserRequestFromForm() {
@@ -112,5 +89,26 @@ export class UserFormBuilder {
       this.mainFormGroup.get('newPassword')!.value,
       managedCinemaName
     );
+  }
+
+  private createForm(): FormGroup {
+    const formGroupConfig: any = {
+      firstName: ['', [Validators.required]],
+      lastName: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      role: ['', [Validators.required]],
+      managedCinemaName: ['']
+    };
+
+    if (this.isEditMode) {
+      formGroupConfig.currentPassword = [''];
+      formGroupConfig.newPassword = [''];
+    } else {
+      formGroupConfig.password = ['', [Validators.required]];
+    }
+
+    return this.formBuilder.group({
+      main: this.formBuilder.group(formGroupConfig)
+    });
   }
 }

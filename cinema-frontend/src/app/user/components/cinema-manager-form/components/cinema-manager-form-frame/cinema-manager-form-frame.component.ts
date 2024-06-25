@@ -14,10 +14,6 @@ export class CinemaManagerFormFrameComponent implements OnInit {
   @Input({required: true}) isEditMode: boolean = false;
   hidePassword: boolean = true;
 
-  ngOnInit() {
-    this.configurePasswordControl();
-  }
-
   get firstNameControl(): FormControl {
     return this.formGroup.get('firstName') as FormControl;
   }
@@ -36,6 +32,10 @@ export class CinemaManagerFormFrameComponent implements OnInit {
 
   get managedCinemaNameControl(): FormControl {
     return this.formGroup.get('managedCinemaName') as FormControl;
+  }
+
+  ngOnInit() {
+    this.configurePasswordControl();
   }
 
   togglePasswordVisibility() {

@@ -12,7 +12,6 @@ import {UserService} from "../../../../../../../user/services/user.service";
 export class CinemaManagerComponent implements OnInit {
   @Input({required: true}) form!: FormGroupDirective | NgForm;
   @Input({required: true}) formGroup!: FormGroup;
-
   cinemaManagers!: Observable<CinemaManagerResponse[]>;
 
   constructor(
@@ -27,5 +26,4 @@ export class CinemaManagerComponent implements OnInit {
   ngOnInit(): void {
     this.cinemaManagers = this.userService.getCinemaManagersList();
   }
-
 }

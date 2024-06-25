@@ -16,7 +16,7 @@ import {
   CinemaManagerFormFrameComponent
 } from './components/cinema-manager-form/components/cinema-manager-form-frame/cinema-manager-form-frame.component';
 import {UserTableComponent} from './components/user-table/user-table.component';
-import { CinemaManagerTableComponent } from './components/cinema-manager-table/cinema-manager-table.component';
+import {CinemaManagerTableComponent} from './components/cinema-manager-table/cinema-manager-table.component';
 
 
 @NgModule({

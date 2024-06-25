@@ -13,5 +13,4 @@ export class StepThreeComponent {
   get contactDetailsArray(): FormArray {
     return this.createCinemaForm.get('contactDetails') as FormArray;
   }
-
 }

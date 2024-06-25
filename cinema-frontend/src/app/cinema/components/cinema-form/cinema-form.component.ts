@@ -12,11 +12,11 @@ import {UpdateCinemaRequest} from "../../dtos/request/update-cinema.request";
   styleUrls: ['./cinema-form.component.scss']
 })
 export class CinemaFormComponent implements OnInit {
-  protected isEditMode = false;
-  protected isLoading = true;
-  protected pageTitle !: string;
-  protected cinemaFormBuilder !: CinemaFormBuilder;
   private static readonly GO_BACK_NAVIGATION_PATH = '/cinemas';
+  isEditMode = false;
+  isLoading = true;
+  pageTitle !: string;
+  cinemaFormBuilder !: CinemaFormBuilder;
   private cinemaName !: string;
 
   constructor(
@@ -38,6 +38,22 @@ export class CinemaFormComponent implements OnInit {
       this.pageTitle = 'Add Cinema';
       this.setUpCreateCinemaForm();
     }
+  }
+
+  protected onSubmit() {
+    let cinemaRequestPromise: Promise<CreateCinemaRequest | UpdateCinemaRequest>;
+
+    if (this.isEditMode) {
+      cinemaRequestPromise = this.cinemaFormBuilder.getUpdateCinemaRequestFromForm();
+    } else {
+      cinemaRequestPromise = this.cinemaFormBuilder.getCreateCinemaRequestFromForm();
+    }
+
+    this.handleFormSubmission(cinemaRequestPromise);
+  }
+
+  protected handleCancelClicked() {
+    this.goBack();
   }
 
   private setUpEditCinemaForm() {
@@ -63,18 +79,6 @@ export class CinemaFormComponent implements OnInit {
     });
   }
 
-  protected onSubmit() {
-    let cinemaRequestPromise: Promise<CreateCinemaRequest | UpdateCinemaRequest>;
-
-    if (this.isEditMode) {
-      cinemaRequestPromise = this.cinemaFormBuilder.getUpdateCinemaRequestFromForm();
-    } else {
-      cinemaRequestPromise = this.cinemaFormBuilder.getCreateCinemaRequestFromForm();
-    }
-
-    this.handleFormSubmission(cinemaRequestPromise);
-  }
-
   private handleFormSubmission(cinemaRequestPromise: Promise<CreateCinemaRequest | UpdateCinemaRequest>) {
     this.isLoading = true;
     cinemaRequestPromise.then((cinemaRequest) => {
@@ -96,11 +100,6 @@ export class CinemaFormComponent implements OnInit {
     }).catch(() => {
       this.isLoading = false;
     });
-  }
-
-
-  protected handleCancelClicked() {
-    this.goBack();
   }
 
   private goBack() {

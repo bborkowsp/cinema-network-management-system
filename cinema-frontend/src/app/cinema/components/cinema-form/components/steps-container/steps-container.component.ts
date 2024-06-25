@@ -8,14 +8,13 @@ import {FormGroup, FormGroupDirective} from "@angular/forms";
   styleUrls: ['./steps-container.component.scss']
 })
 export class StepsContainerComponent {
-
   @Input({required: true}) cinemaFormBuilder!: CinemaFormBuilder;
   @Input({required: true}) cinemaForm!: FormGroupDirective;
 
   public get stepOneFormGroup() {
     return this.cinemaFormBuilder.form.get('stepOne') as FormGroup;
   }
-
+ 
   public get stepTwoFormGroup() {
     return this.cinemaFormBuilder.form.get('stepTwo') as FormGroup;
   }
@@ -27,5 +26,4 @@ export class StepsContainerComponent {
   public get stepFourFormGroup() {
     return this.cinemaFormBuilder.form.get('stepFour') as FormGroup;
   }
-
 }

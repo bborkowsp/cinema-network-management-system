@@ -10,9 +10,8 @@ export class LoginMainFormFrameComponent {
   @Input({required: true}) form!: FormGroupDirective | NgForm;
   @Input() emailControl!: FormControl;
   @Input() passwordControl!: FormControl;
-
   hidePassword: boolean = true;
-
+ 
   togglePasswordVisibility() {
     this.hidePassword = !this.hidePassword;
   }

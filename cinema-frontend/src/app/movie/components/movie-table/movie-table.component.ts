@@ -15,13 +15,13 @@ import {AuthService} from "../../../auth/services/auth.service";
   styleUrls: ['./movie-table.component.scss']
 })
 export class MovieTableComponent implements OnInit {
+  @ViewChild(MatPaginator) readonly paginator!: MatPaginator;
   displayedColumns = ['options', 'poster', 'title', 'originalTitle', 'releaseDate', 'director'];
   movies$!: Observable<MovieListResponse[]>;
   dataLength = 0;
-  @ViewChild(MatPaginator) readonly paginator!: MatPaginator;
   paginatorRequestParams = new PaginatorRequestParams(0, 10);
-  protected isLoading = true;
-  protected isUserRoleCinemaManager = true;
+  isLoading = true;
+  isUserRoleCinemaManager = true;
 
   constructor(
     private readonly movieService: MovieService,
@@ -87,5 +87,4 @@ export class MovieTableComponent implements OnInit {
       map((moviePage) => moviePage.content),
     );
   }
-
 }

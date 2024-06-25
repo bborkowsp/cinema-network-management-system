@@ -24,6 +24,22 @@ export class ScreeningFormFrameComponent implements OnInit {
   ) {
   }
 
+  get movieTitleControl() {
+    return this.formGroup.get('movieTitle') as FormControl;
+  }
+
+  get startTimeControl(): FormControl {
+    return this.formGroup.get('startTime') as FormControl;
+  }
+
+  get endTimeControl(): FormControl {
+    return this.formGroup.get('endTime') as FormControl;
+  }
+
+  get screeningRoomControl(): FormControl {
+    return this.formGroup.get('screeningRoom') as FormControl;
+  }
+
   ngOnInit() {
     this.movieService.getAllMovieTitles().subscribe(
       titles => {
@@ -38,6 +54,14 @@ export class ScreeningFormFrameComponent implements OnInit {
         this.setupFilteredScreeningRoomsObservable();
       }
     );
+  }
+
+  displayTitleFn(title: string): string {
+    return title && title ? title : '';
+  }
+
+  displayScreeningRoomNameFn(screeningRooName: string): string {
+    return screeningRooName && screeningRooName ? screeningRooName : '';
   }
 
   private setupFilteredTitlesObservable() {
@@ -60,7 +84,6 @@ export class ScreeningFormFrameComponent implements OnInit {
     );
   }
 
-
   private _filter_titles(name: string): string[] {
     const filterValue = name.toLowerCase();
     return this.movieTitles.filter(option => option.toLowerCase().includes(filterValue));
@@ -69,29 +92,5 @@ export class ScreeningFormFrameComponent implements OnInit {
   private _filter_screeningRoomNames(name: string): string[] {
     const filterValue = name.toLowerCase();
     return this.screeningRoomsNames.filter(option => option.toLowerCase().includes(filterValue));
-  }
-
-  displayTitleFn(title: string): string {
-    return title && title ? title : '';
-  }
-
-  displayScreeningRoomNameFn(screeningRooName: string): string {
-    return screeningRooName && screeningRooName ? screeningRooName : '';
-  }
-
-  get movieTitleControl() {
-    return this.formGroup.get('movieTitle') as FormControl;
-  }
-
-  get startTimeControl(): FormControl {
-    return this.formGroup.get('startTime') as FormControl;
-  }
-
-  get endTimeControl(): FormControl {
-    return this.formGroup.get('endTime') as FormControl;
-  }
-
-  get screeningRoomControl(): FormControl {
-    return this.formGroup.get('screeningRoom') as FormControl;
   }
 }

@@ -18,12 +18,13 @@ import {
 export class ScreeningRoomComponent implements OnInit, OnChanges {
   @Input({required: true}) form!: FormGroupDirective | NgForm;
   @Input({required: true}) formArray!: FormArray;
+
   rowsNumberControl = new FormControl(1, Validators.required);
   columnsNumberControl = new FormControl(1, Validators.required);
   supportedTechnologiesFormControl = new FormControl([], Validators.required);
-  protected allScreeningRooms: ScreeningRoomResponse[] = [];
-  projectionTechnologies!: Observable<string[]>;
 
+  allScreeningRooms: ScreeningRoomResponse[] = [];
+  projectionTechnologies!: Observable<string[]>;
   createScreeningRoomFormGroup!: FormGroup;
   currentScreeningRoom: SeatResponse[][] = [];
   currentSupportedTechnologies: ProjectionTechnologyNameResponse[] = [];
@@ -291,5 +292,4 @@ export class ScreeningRoomComponent implements OnInit, OnChanges {
   handleCorridorClicked(cell: any) {
     cell.seatZone = 'CORRIDOR';
   }
-
 }

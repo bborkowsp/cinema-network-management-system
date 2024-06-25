@@ -65,7 +65,6 @@ import {SharedModule} from "../_shared/shared.module";
     MatIconModule,
     MatSelectModule,
     MatNativeDateModule,
-    SharedModule
   ]
 })
 export class MovieModule {

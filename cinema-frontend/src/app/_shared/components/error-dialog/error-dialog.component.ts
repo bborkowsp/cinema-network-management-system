@@ -13,5 +13,4 @@ export interface DialogData {
 })
 export class ErrorDialogComponent {
   data = inject<DialogData>(MAT_DIALOG_DATA);
-
 }

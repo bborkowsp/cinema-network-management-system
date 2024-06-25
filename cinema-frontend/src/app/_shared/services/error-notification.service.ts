@@ -8,7 +8,9 @@ import {ErrorDialogComponent} from "../components/error-dialog/error-dialog.comp
 
 export class ErrorNotificationService {
 
-  constructor(private readonly dialog: MatDialog) {
+  constructor(
+    private readonly dialog: MatDialog
+  ) {
   }
 
   showDialog(errorMessage: string) {

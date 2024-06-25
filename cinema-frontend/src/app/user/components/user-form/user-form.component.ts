@@ -16,11 +16,11 @@ import {UpdateCinemaManagerRequest} from "../../dtos/request/update-cinema-manag
   styleUrls: ['./user-form.component.scss']
 })
 export class UserFormComponent implements OnInit {
-  protected isEditMode = false;
-  protected isLoading = true;
-  protected userFormBuilder !: UserFormBuilder;
-  protected pageTitle !: string;
-  protected cinemaNames!: Observable<string[]>
+  isEditMode = false;
+  isLoading = true;
+  userFormBuilder !: UserFormBuilder;
+  pageTitle !: string;
+  cinemaNames!: Observable<string[]>
   protected readonly onsubmit = onsubmit;
   private userEmail !: string;
   private role !: string;
@@ -84,7 +84,7 @@ export class UserFormComponent implements OnInit {
   }
 
   private setUpEditUserForm() {
-    this.userFormBuilder = new UserFormBuilder(this.formBuilder, this.role, this.isEditMode);
+    this.userFormBuilder = new UserFormBuilder(this.formBuilder, this.isEditMode);
     if (this.role === 'CINEMA_MANAGER') {
       this.loadCinemaManager();
     } else {
@@ -93,7 +93,7 @@ export class UserFormComponent implements OnInit {
   }
 
   private setUpCreateUserForm() {
-    this.userFormBuilder = new UserFormBuilder(this.formBuilder, this.role, this.isEditMode);
+    this.userFormBuilder = new UserFormBuilder(this.formBuilder, this.isEditMode);
     this.isLoading = false;
   }
 

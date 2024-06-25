@@ -18,13 +18,13 @@ import {AuthService} from "../../../auth/services/auth.service";
   styleUrls: ['./projection-technology-table.component.scss']
 })
 export class ProjectionTechnologyTableComponent implements OnInit {
+  @ViewChild(MatPaginator) readonly paginator!: MatPaginator;
   displayedColumns = ['options', 'technology', 'description'];
   projectionTechnologies$!: Observable<ProjectionTechnologyResponse[]>;
   dataLength = 0;
-  @ViewChild(MatPaginator) readonly paginator!: MatPaginator;
   paginatorRequestParams = new PaginatorRequestParams(0, 10);
-  protected isLoading = true;
-  protected isUserRoleCinemaManager = true;
+  isLoading = true;
+  isUserRoleCinemaManager = true;
 
   constructor(
     private readonly projectionTechnologyService: ProjectionTechnologyService,
@@ -37,19 +37,6 @@ export class ProjectionTechnologyTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.isUserRoleCinemaManager = this.authService.checkIfLoggedInUserIsCinemaManager()
-  }
-
-  private getProjectionTechnologyPage(): Observable<ProjectionTechnologyResponse[]> {
-    return this.projectionTechnologyService.getProjectionTechnologiesPage(this.paginatorRequestParams).pipe(
-      tap({
-        next: (projectionTechnologyPage) => {
-          this.dataLength = projectionTechnologyPage.totalElements;
-          this.isLoading = false;
-        },
-        error: (err) => console.log(err),
-      }),
-      map(projectionTechnologyPage => projectionTechnologyPage.content),
-    );
   }
 
   handlePageEvent(event: PageEvent): void {
@@ -84,5 +71,18 @@ export class ProjectionTechnologyTableComponent implements OnInit {
   handleShowDetails(projectionTechnology: CreateProjectionTechnologyRequest): void {
     const url = `projection-technologies/details/${projectionTechnology.technology}`;
     this.router.navigateByUrl(url);
+  }
+
+  private getProjectionTechnologyPage(): Observable<ProjectionTechnologyResponse[]> {
+    return this.projectionTechnologyService.getProjectionTechnologiesPage(this.paginatorRequestParams).pipe(
+      tap({
+        next: (projectionTechnologyPage) => {
+          this.dataLength = projectionTechnologyPage.totalElements;
+          this.isLoading = false;
+        },
+        error: (err) => console.log(err),
+      }),
+      map(projectionTechnologyPage => projectionTechnologyPage.content),
+    );
   }
 }

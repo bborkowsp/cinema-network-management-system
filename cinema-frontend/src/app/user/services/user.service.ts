@@ -20,7 +20,9 @@ export class UserService {
   static readonly CINEMA_MANAGERS_ENDPOINT_PREFIX = `${UserService.USERS_API_URL}/cinema-managers`;
   static readonly CINEMA_NETWORK_MANAGERS_ENDPOINT_PREFIX = `${UserService.USERS_API_URL}/cinema-network-managers`;
 
-  constructor(private httpClient: HttpClient) {
+  constructor(
+    private httpClient: HttpClient
+  ) {
   }
 
   getUsers(paginatorRequestParams: PaginatorRequestParams): Observable<UserPageResponse> {

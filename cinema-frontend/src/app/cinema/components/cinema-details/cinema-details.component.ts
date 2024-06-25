@@ -13,7 +13,7 @@ import {ScreeningRoomResponse} from "../../../repertory/dtos/screening-room.resp
 export class CinemaDetailsComponent implements OnInit {
   cinema$!: Observable<CinemaResponse>;
   name: string = '';
-  protected isLoading = true;
+  isLoading = true;
 
   constructor(
     private readonly cinemaService: CinemaService,
@@ -41,6 +41,12 @@ export class CinemaDetailsComponent implements OnInit {
     this.router.navigateByUrl('/cinemas');
   }
 
+  getSupportedTechnologiesAsString(screeningRoom: ScreeningRoomResponse) {
+    return screeningRoom.supportedTechnologies
+      .map(supportedTechnology => supportedTechnology.technology)
+      .join(', ');
+  }
+
   private getCinema() {
     this.cinema$ = this.activatedRoute.paramMap.pipe(
       map((paramMap) => paramMap.get('name')!),
@@ -51,11 +57,5 @@ export class CinemaDetailsComponent implements OnInit {
       }),
       switchMap((name) => this.cinemaService.getCinema(name)),
     );
-  }
-
-  getSupportedTechnologiesAsString(screeningRoom: ScreeningRoomResponse) {
-    return screeningRoom.supportedTechnologies
-      .map(supportedTechnology => supportedTechnology.technology)
-      .join(', ');
   }
 }

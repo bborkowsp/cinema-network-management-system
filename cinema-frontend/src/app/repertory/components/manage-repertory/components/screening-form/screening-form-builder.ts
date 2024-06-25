@@ -61,6 +61,4 @@ export class ScreeningFormBuilder {
     // Return date in 'YYYY-MM-DDTHH:MM' format
     return `${year}-${month}-${day}T${hours}:${minutes}`;
   }
-
-
 }

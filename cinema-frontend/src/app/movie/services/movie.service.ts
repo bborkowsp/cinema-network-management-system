@@ -15,7 +15,9 @@ import {UpdateMovieRequest} from "../dtos/request/update-movie.request";
 export class MovieService {
   static readonly MOVIES_API_URL = `${environment.API_BASE_URL}/movies`;
 
-  constructor(private readonly httpClient: HttpClient) {
+  constructor(
+    private readonly httpClient: HttpClient
+  ) {
   }
 
   getMovies(paginatorRequestParams: PaginatorRequestParams): Observable<MoviePageResponse> {

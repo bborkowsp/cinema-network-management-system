@@ -15,12 +15,10 @@ import {AuthService} from "../../../auth/services/auth.service";
   styleUrls: ['./projection-technology-details.component.scss']
 })
 export class ProjectionTechnologyDetailsComponent implements OnInit {
-
   projectionTechnology$!: Observable<ProjectionTechnologyResponse>;
   technology: string = '';
-  protected isLoading = true;
-  protected isUserRoleCinemaManager = true;
-
+  isLoading = true;
+  isUserRoleCinemaManager = true;
 
   constructor(
     private readonly projectionTechnologyService: ProjectionTechnologyService,

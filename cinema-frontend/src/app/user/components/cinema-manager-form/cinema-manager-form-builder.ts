@@ -7,7 +7,10 @@ export class CinemaManagerFormBuilder {
   form: FormGroup;
   readonly isEditMode: boolean;
 
-  constructor(private readonly formBuilder: FormBuilder, isEditMode: boolean) {
+  constructor(
+    private readonly formBuilder: FormBuilder,
+    isEditMode: boolean
+  ) {
     this.form = this.createForm();
     this.isEditMode = isEditMode;
   }
@@ -26,24 +29,6 @@ export class CinemaManagerFormBuilder {
       }
     })
   }
-
-  private createForm(): FormGroup {
-    const formGroupConfig: any = {
-      firstName: ['', [Validators.required]],
-      lastName: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-      managedCinemaName: ['', [Validators.required]]
-    };
-
-    if (!this.isEditMode) {
-      formGroupConfig.password = ['', [Validators.required]];
-    }
-
-    return this.formBuilder.group({
-      main: this.formBuilder.group(formGroupConfig)
-    });
-  }
-
 
   cinemaManagerRequestFromForm() {
     let managedCinemaName = this.mainFormGroup.get('managedCinemaName')!.value;
@@ -67,5 +52,22 @@ export class CinemaManagerFormBuilder {
       this.mainFormGroup.get('password')!.value,
       managedCinemaName
     );
+  }
+
+  private createForm(): FormGroup {
+    const formGroupConfig: any = {
+      firstName: ['', [Validators.required]],
+      lastName: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      managedCinemaName: ['', [Validators.required]]
+    };
+
+    if (!this.isEditMode) {
+      formGroupConfig.password = ['', [Validators.required]];
+    }
+
+    return this.formBuilder.group({
+      main: this.formBuilder.group(formGroupConfig)
+    });
   }
 }

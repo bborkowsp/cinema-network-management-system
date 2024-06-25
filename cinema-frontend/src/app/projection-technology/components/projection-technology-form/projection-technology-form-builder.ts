@@ -4,13 +4,16 @@ import {CreateProjectionTechnologyRequest} from "../../dtos/request/create-proje
 import {UpdateProjectionTechnologyRequest} from "../../dtos/request/update-projection-technology.request";
 
 export class ProjectionTechnologyFormBuilder {
-
   form: FormGroup;
 
   constructor(
     private readonly formBuilder: FormBuilder
   ) {
     this.form = this.createForm();
+  }
+
+  get mainFormGroup() {
+    return this.form.get('main') as FormGroup;
   }
 
   createForm(): FormGroup {
@@ -20,10 +23,6 @@ export class ProjectionTechnologyFormBuilder {
         description: ['', [Validators.required]],
       })
     });
-  }
-
-  get mainFormGroup() {
-    return this.form.get('main') as FormGroup;
   }
 
   fillFormWithProjectionTechnology(projectionTechnology: ProjectionTechnologyResponse) {

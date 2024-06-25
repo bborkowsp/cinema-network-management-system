@@ -11,10 +11,10 @@ import {AuthService} from "../../../../../auth/services/auth.service";
   styleUrls: ['./screening-form.component.scss']
 })
 export class ScreeningFormComponent implements OnInit {
-  protected isEditMode = false;
-  protected isLoading = true;
-  protected screeningFormBuilder !: ScreeningFormBuilder;
-  protected pageTitle !: string;
+  isEditMode = false;
+  isLoading = true;
+  screeningFormBuilder !: ScreeningFormBuilder;
+  pageTitle !: string;
   id !: number;
 
   constructor(
@@ -38,33 +38,6 @@ export class ScreeningFormComponent implements OnInit {
       this.pageTitle = 'Add Screening';
       this.setUpScreeningForm();
     }
-  }
-
-  private setUpEditScreeningForm() {
-    this.screeningFormBuilder = new ScreeningFormBuilder(this.formBuilder, this.authService);
-    this.loadScreening();
-  }
-
-  private setUpScreeningForm() {
-    this.screeningFormBuilder = new ScreeningFormBuilder(this.formBuilder, this.authService);
-    this.isLoading = false;
-  }
-
-  private loadScreening() {
-    const screening$ = this.screeningService.getScreening(this.activatedRoute.snapshot.params['id']);
-    screening$.subscribe({
-      next: (screening) => {
-        this.screeningFormBuilder.fillFormWithScreening(screening);
-        this.isLoading = false;
-      },
-      error: () => {
-        this.goBack();
-      }
-    });
-  }
-
-  private goBack() {
-    this.router.navigate(['/repertory']);
   }
 
   onSubmit() {
@@ -94,8 +67,34 @@ export class ScreeningFormComponent implements OnInit {
     }
   }
 
-
   handleCancelClicked() {
     this.goBack();
+  }
+
+  private setUpEditScreeningForm() {
+    this.screeningFormBuilder = new ScreeningFormBuilder(this.formBuilder, this.authService);
+    this.loadScreening();
+  }
+
+  private setUpScreeningForm() {
+    this.screeningFormBuilder = new ScreeningFormBuilder(this.formBuilder, this.authService);
+    this.isLoading = false;
+  }
+
+  private loadScreening() {
+    const screening$ = this.screeningService.getScreening(this.activatedRoute.snapshot.params['id']);
+    screening$.subscribe({
+      next: (screening) => {
+        this.screeningFormBuilder.fillFormWithScreening(screening);
+        this.isLoading = false;
+      },
+      error: () => {
+        this.goBack();
+      }
+    });
+  }
+
+  private goBack() {
+    this.router.navigate(['/repertory']);
   }
 }
