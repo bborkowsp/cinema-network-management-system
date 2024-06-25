@@ -1,5 +1,5 @@
 {
-  "name": "cinema-frontend",
+  "name": "cinema-admin-frontend",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
