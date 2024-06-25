@@ -16,7 +16,7 @@ import {UpdateCinemaManagerRequest} from "../../dtos/request/update-cinema-manag
 export class CinemaManagerFormComponent implements OnInit {
   protected isEditMode = false;
   protected isLoading = true;
-  protected cinemaManagerFormHelper !: CinemaManagerFormBuilder;
+  protected cinemaManagerFormBuilder !: CinemaManagerFormBuilder;
   protected pageTitle !: string;
   protected cinemaNames!: Observable<string[]>
   private cinemaManagerEmail !: string;
@@ -45,12 +45,12 @@ export class CinemaManagerFormComponent implements OnInit {
   }
 
   private setUpEditCinemaManagerForm() {
-    this.cinemaManagerFormHelper = new CinemaManagerFormBuilder(this.formBuilder, this.isEditMode);
+    this.cinemaManagerFormBuilder = new CinemaManagerFormBuilder(this.formBuilder, this.isEditMode);
     this.loadCinemaManager();
   }
 
   private setUpCinemaManagerForm() {
-    this.cinemaManagerFormHelper = new CinemaManagerFormBuilder(this.formBuilder, this.isEditMode);
+    this.cinemaManagerFormBuilder = new CinemaManagerFormBuilder(this.formBuilder, this.isEditMode);
     this.isLoading = false;
   }
 
@@ -58,7 +58,7 @@ export class CinemaManagerFormComponent implements OnInit {
     const cinemaManager$ = this.userService.getCinemaManager(this.cinemaManagerEmail);
     cinemaManager$.subscribe({
       next: (cinemaManager: CinemaManagerResponse) => {
-        this.cinemaManagerFormHelper.fillFormWithCinemaManager(cinemaManager);
+        this.cinemaManagerFormBuilder.fillFormWithCinemaManager(cinemaManager);
       },
       error: () => {
         this.goBack();
@@ -73,7 +73,7 @@ export class CinemaManagerFormComponent implements OnInit {
   protected readonly onsubmit = onsubmit;
 
   onSubmit() {
-    const cinemaManager = this.cinemaManagerFormHelper.cinemaManagerRequestFromForm();
+    const cinemaManager = this.cinemaManagerFormBuilder.cinemaManagerRequestFromForm();
     let cinemaManager$;
     if (cinemaManager instanceof UpdateCinemaManagerRequest) {
       cinemaManager$ = this.userService.updateCinemaManager(this.cinemaManagerEmail, cinemaManager);

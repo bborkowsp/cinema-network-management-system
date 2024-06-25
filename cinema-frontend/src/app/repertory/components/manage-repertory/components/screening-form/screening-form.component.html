@@ -1,7 +1,7 @@
 <form
   #screeningForm="ngForm"
   (ngSubmit)="onSubmit()"
-  [formGroup]="screeningFormHelper.form"
+  [formGroup]="screeningFormBuilder.form"
 >
   <app-page-content-container
     [isLoading]="isLoading"
@@ -9,7 +9,7 @@
   >
     <ng-container content>
       <app-screening-form-frame
-        [formGroup]="screeningFormHelper.mainFormGroup"
+        [formGroup]="screeningFormBuilder.mainFormGroup"
         [form]="screeningForm"
       ></app-screening-form-frame>
     </ng-container>

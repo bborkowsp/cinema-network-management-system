@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ScreeningRequest} from "../../../../dtos/screening.request";
 import {AuthService} from "../../../../../auth/services/auth.service";
 
-export class ScreeningFormHelper {
+export class ScreeningFormBuilder {
   form: FormGroup;
 
   public get mainFormGroup() {

@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {FormBuilder} from "@angular/forms";
 import {ScreeningService} from "../../../../services/screening.service";
-import {ScreeningFormHelper} from "./screening-form-helper";
+import {ScreeningFormBuilder} from "./screening-form-builder";
 import {AuthService} from "../../../../../auth/services/auth.service";
 
 @Component({
@@ -13,7 +13,7 @@ import {AuthService} from "../../../../../auth/services/auth.service";
 export class ScreeningFormComponent implements OnInit {
   protected isEditMode = false;
   protected isLoading = true;
-  protected screeningFormHelper !: ScreeningFormHelper;
+  protected screeningFormBuilder !: ScreeningFormBuilder;
   protected pageTitle !: string;
   id !: number;
 
@@ -41,12 +41,12 @@ export class ScreeningFormComponent implements OnInit {
   }
 
   private setUpEditScreeningForm() {
-    this.screeningFormHelper = new ScreeningFormHelper(this.formBuilder, this.authService);
+    this.screeningFormBuilder = new ScreeningFormBuilder(this.formBuilder, this.authService);
     this.loadScreening();
   }
 
   private setUpScreeningForm() {
-    this.screeningFormHelper = new ScreeningFormHelper(this.formBuilder, this.authService);
+    this.screeningFormBuilder = new ScreeningFormBuilder(this.formBuilder, this.authService);
     this.isLoading = false;
   }
 
@@ -54,7 +54,7 @@ export class ScreeningFormComponent implements OnInit {
     const screening$ = this.screeningService.getScreening(this.activatedRoute.snapshot.params['id']);
     screening$.subscribe({
       next: (screening) => {
-        this.screeningFormHelper.fillFormWithScreening(screening);
+        this.screeningFormBuilder.fillFormWithScreening(screening);
         this.isLoading = false;
       },
       error: () => {
@@ -68,7 +68,7 @@ export class ScreeningFormComponent implements OnInit {
   }
 
   onSubmit() {
-    const screening = this.screeningFormHelper.screeningRequestFromForm();
+    const screening = this.screeningFormBuilder.screeningRequestFromForm();
     this.isLoading = true;
 
     if (this.isEditMode) {
