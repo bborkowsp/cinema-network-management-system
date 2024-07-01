@@ -1,0 +1,21 @@
+.input-form-field {
+  width: 100%;
+}
+
+.inputs-form-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-buttons-container {
+  display: flex;
+  justify-content: flex-end;
+
+  button {
+    margin-right: 1rem;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
