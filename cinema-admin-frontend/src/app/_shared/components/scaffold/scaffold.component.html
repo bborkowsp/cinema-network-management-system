@@ -3,7 +3,10 @@
   (toggleDrawerButtonClick)="handleToggleDrawerButtonClick()"
   *ngIf="!isUserOnLoginPage && !isUserOnRegisterPage"
 ></app-toolbar>
-<app-drawer [isOnLoginOrRegisterPage]="isUserOnLoginPage || isUserOnRegisterPage" [navigationLinks]="navigationLinks"
-            [drawerOpened]="isDrawerOpened">
+<app-drawer
+  [drawerOpened]="isDrawerOpened"
+  [isOnLoginOrRegisterPage]="isUserOnLoginPage || isUserOnRegisterPage"
+  [navigationLinks]="navigationLinks"
+>
   <ng-content></ng-content>
 </app-drawer>

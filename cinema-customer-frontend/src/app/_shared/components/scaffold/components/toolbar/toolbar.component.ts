@@ -10,7 +10,4 @@ export class ToolbarComponent {
   @Output() toggleDrawerButtonClick = new EventEmitter<void>();
   @Output() logoutButtonClick = new EventEmitter<void>();
 
-  protected handleLogoutButtonClick() {
-    this.logoutButtonClick.emit();
-  }
 }
