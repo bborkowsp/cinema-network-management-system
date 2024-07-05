@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.Set;
 
 public class User implements UserDetails {
+    private static final String ROLE_AUTHORITY_PREFIX = "ROLE_";
     private Long id;
     private Role role;
     private String firstName;
@@ -74,7 +75,9 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Set.of(new SimpleGrantedAuthority(role.name()));
+        final var roleAuthorityName = ROLE_AUTHORITY_PREFIX + role.name();
+        final var roleAuthority = new SimpleGrantedAuthority(roleAuthorityName);
+        return Set.of(roleAuthority);
     }
 
     @Override

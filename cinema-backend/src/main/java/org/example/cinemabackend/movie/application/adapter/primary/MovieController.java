@@ -26,56 +26,56 @@ class MovieController {
     private final MovieUseCases movieUseCases;
 
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('CINEMA_NETWORK_MANAGER','CINEMA_MANAGER','ADMIN')")
+    @PreAuthorize("hasAnyRole('CINEMA_NETWORK_MANAGER','CINEMA_MANAGER','ADMIN')")
     ResponseEntity<Page<MovieListResponse>> getMovies(Pageable pageable) {
         final var movies = movieUseCases.getMovies(pageable);
         return ResponseEntity.ok(movies);
     }
 
     @GetMapping({"/titles"})
-    @PreAuthorize("hasAnyAuthority('CINEMA_NETWORK_MANAGER','CINEMA_MANAGER','ADMIN')")
+    @PreAuthorize("hasAnyRole('CINEMA_NETWORK_MANAGER','CINEMA_MANAGER','ADMIN')")
     ResponseEntity<ResponseList<String>> getMovieTitles() {
         final var movieTitles = movieUseCases.getMovieTitles();
         return ResponseEntity.ok(new ResponseList<>(movieTitles));
     }
 
     @GetMapping("/genres")
-    @PreAuthorize("hasAnyAuthority('CINEMA_NETWORK_MANAGER','CINEMA_MANAGER','ADMIN')")
+    @PreAuthorize("hasAnyRole('CINEMA_NETWORK_MANAGER','CINEMA_MANAGER','ADMIN')")
     ResponseEntity<List<Genre>> getGenres() {
         final var genres = movieUseCases.getGenres();
         return ResponseEntity.ok(genres);
     }
 
     @GetMapping("/age-restrictions")
-    @PreAuthorize("hasAnyAuthority('CINEMA_NETWORK_MANAGER','CINEMA_MANAGER','ADMIN')")
+    @PreAuthorize("hasAnyRole('CINEMA_NETWORK_MANAGER','CINEMA_MANAGER','ADMIN')")
     ResponseEntity<List<AgeRestriction>> getAgeRestrictions() {
         final var ageRestrictions = movieUseCases.getAgeRestrictions();
         return ResponseEntity.ok(ageRestrictions);
     }
 
     @GetMapping("/{title}")
-    @PreAuthorize("hasAnyAuthority('CINEMA_NETWORK_MANAGER','CINEMA_MANAGER','ADMIN')")
+    @PreAuthorize("hasAnyRole('CINEMA_NETWORK_MANAGER','CINEMA_MANAGER','ADMIN')")
     ResponseEntity<MovieResponse> getMovie(@PathVariable String title) {
         final var cinema = movieUseCases.getMovie(title);
         return ResponseEntity.ok(cinema);
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyAuthority('CINEMA_NETWORK_MANAGER','ADMIN')")
+    @PreAuthorize("hasAnyRole('CINEMA_NETWORK_MANAGER','ADMIN')")
     ResponseEntity<Void> createMovie(@RequestBody @Valid CreateMovieRequest createMovieRequest) {
         movieUseCases.createMovie(createMovieRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PatchMapping("/{title}")
-    @PreAuthorize("hasAnyAuthority('CINEMA_NETWORK_MANAGER','ADMIN')")
+    @PreAuthorize("hasAnyRole('CINEMA_NETWORK_MANAGER','ADMIN')")
     ResponseEntity<Void> updateMovie(@PathVariable String title, @RequestBody @Valid UpdateMovieRequest updateMovieRequest) {
         movieUseCases.updateMovie(title, updateMovieRequest);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{title}")
-    @PreAuthorize("hasAnyAuthority('CINEMA_NETWORK_MANAGER','ADMIN')")
+    @PreAuthorize("hasAnyRole('CINEMA_NETWORK_MANAGER','ADMIN')")
     ResponseEntity<Void> deleteMovie(@PathVariable String title) {
         movieUseCases.deleteMovie(title);
         return ResponseEntity.noContent().build();

@@ -21,14 +21,14 @@ class CinemaController {
     private final CinemaUseCases cinemaUseCases;
 
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('CINEMA_NETWORK_MANAGER','ADMIN')")
+    @PreAuthorize("hasAnyRole('CINEMA_NETWORK_MANAGER','ADMIN')")
     ResponseEntity<ResponseList<CinemaTableResponse>> getCinemas() {
         final var cinemas = cinemaUseCases.getCinemas();
         return ResponseEntity.ok(new ResponseList<>(cinemas));
     }
 
     @GetMapping("/names")
-    @PreAuthorize("hasAnyAuthority('CINEMA_NETWORK_MANAGER','ADMIN')")
+    @PreAuthorize("hasAnyRole('CINEMA_NETWORK_MANAGER','ADMIN')")
     ResponseEntity<ResponseList<String>> getCinemaNames() {
         final var cinemaNames = cinemaUseCases.getCinemaNames();
         return ResponseEntity.ok(new ResponseList<>(cinemaNames));
@@ -47,21 +47,21 @@ class CinemaController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyAuthority('CINEMA_NETWORK_MANAGER','ADMIN')")
+    @PreAuthorize("hasAnyRole('CINEMA_NETWORK_MANAGER','ADMIN')")
     ResponseEntity<Void> createCinema(@RequestBody @Valid CreateCinemaRequest createCinemaRequest) {
         cinemaUseCases.createCinema(createCinemaRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PatchMapping("/{name}")
-    @PreAuthorize("hasAnyAuthority('CINEMA_NETWORK_MANAGER','ADMIN')")
+    @PreAuthorize("hasAnyRole('CINEMA_NETWORK_MANAGER','ADMIN')")
     ResponseEntity<Void> updateCinema(@PathVariable String name, @RequestBody @Valid UpdateCinemaRequest updateCinemaRequest) {
         cinemaUseCases.updateCinema(name, updateCinemaRequest);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{name}")
-    @PreAuthorize("hasAnyAuthority('CINEMA_NETWORK_MANAGER','ADMIN')")
+    @PreAuthorize("hasAnyRole('CINEMA_NETWORK_MANAGER','ADMIN')")
     ResponseEntity<Void> deleteCinema(@PathVariable String name) {
         cinemaUseCases.deleteCinema(name);
         return ResponseEntity.noContent().build();

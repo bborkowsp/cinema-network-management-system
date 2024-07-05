@@ -20,6 +20,9 @@ import java.util.Set;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserSchema implements UserDetails {
 
+    private static final String ROLE_AUTHORITY_PREFIX = "ROLE_";
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -66,7 +69,9 @@ public class UserSchema implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Set.of(new SimpleGrantedAuthority(role.name()));
+        final var roleAuthorityName = ROLE_AUTHORITY_PREFIX + role.name();
+        final var roleAuthority = new SimpleGrantedAuthority(roleAuthorityName);
+        return Set.of(roleAuthority);
     }
 
     @Override

@@ -11,7 +11,7 @@ import {AuthService} from "../../../auth/services/auth.service";
 export class ScaffoldComponent {
   navigationLinks: NavigationLink[] = [];
   isDrawerOpened = false;
- 
+
   constructor(
     private readonly router: Router,
     private readonly authService: AuthService
@@ -40,13 +40,13 @@ export class ScaffoldComponent {
     const userRole = this.authService.getUserRole();
     this.navigationLinks = this.getCommonLinks();
     switch (userRole) {
-      case 'CINEMA_MANAGER':
+      case 'ROLE_CINEMA_MANAGER':
         this.navigationLinks.push(...this.getCinemaManagerLinks());
         break;
-      case 'CINEMA_NETWORK_MANAGER':
+      case 'ROLE_CINEMA_NETWORK_MANAGER':
         this.navigationLinks.push(...this.getCinemaNetworkManagerLinks());
         break;
-      case 'ADMIN':
+      case 'ROLE_ADMIN':
         this.navigationLinks.push(...this.getAdminLinks());
         break;
       default:

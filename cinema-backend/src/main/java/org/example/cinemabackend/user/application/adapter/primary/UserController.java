@@ -27,14 +27,14 @@ class UserController {
     private final UserUseCases userUseCases;
 
     @GetMapping
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     ResponseEntity<Page<UserResponse>> getUsers(Pageable pageable) {
         final var users = userUseCases.getUsers(pageable);
         return ResponseEntity.ok(users);
     }
 
     @GetMapping(CINEMA_MANAGERS_ENDPOINT_PREFIX)
-    @PreAuthorize("hasAnyAuthority('CINEMA_NETWORK_MANAGER','ADMIN')")
+    @PreAuthorize("hasAnyRole('CINEMA_NETWORK_MANAGER','ADMIN')")
     ResponseEntity<Page<CinemaManagerTableResponse>> getCinemaManagers(Pageable pageable) {
         final var cinemaManagers = userUseCases.getCinemaManagers(pageable);
         return ResponseEntity.ok(cinemaManagers);
@@ -42,28 +42,28 @@ class UserController {
 
 
     @GetMapping(CINEMA_MANAGERS_ENDPOINT_PREFIX + "/{email}")
-    @PreAuthorize("hasAnyAuthority('CINEMA_NETWORK_MANAGER','ADMIN')")
+    @PreAuthorize("hasAnyRole('CINEMA_NETWORK_MANAGER','ADMIN')")
     ResponseEntity<CinemaManagerResponse> getCinemaManager(@PathVariable String email) {
         final var cinemaManager = userUseCases.getCinemaManager(email);
         return ResponseEntity.ok(cinemaManager);
     }
 
     @GetMapping("/{email}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     ResponseEntity<UserResponse> getUser(@PathVariable String email) {
         final var cinemaManager = userUseCases.getUser(email);
         return ResponseEntity.ok(cinemaManager);
     }
 
     @PostMapping(CINEMA_MANAGERS_ENDPOINT_PREFIX)
-    @PreAuthorize("hasAnyAuthority('CINEMA_NETWORK_MANAGER','ADMIN')")
+    @PreAuthorize("hasAnyRole('CINEMA_NETWORK_MANAGER','ADMIN')")
     ResponseEntity<Void> createCinemaManager(@RequestBody @Valid CreateCinemaManagerRequest createCinemaManagerRequest) {
         userUseCases.createCinemaManager(createCinemaManagerRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PostMapping(CINEMA_NETWORK_MANAGERS_ENDPOINT_PREFIX)
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     ResponseEntity<Void> createCinemaNetworkManager(@RequestBody @Valid CreateCinemaNetworkManagerRequest createCinemaManagerRequest) {
         userUseCases.createCinemaNetworkManager(createCinemaManagerRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -71,7 +71,7 @@ class UserController {
 
 
     @PatchMapping(CINEMA_MANAGERS_ENDPOINT_PREFIX + "/{email}")
-    @PreAuthorize("hasAnyAuthority('CINEMA_NETWORK_MANAGER','ADMIN')")
+    @PreAuthorize("hasAnyRole('CINEMA_NETWORK_MANAGER','ADMIN')")
     ResponseEntity<Void> updateCinemaManager(
             @PathVariable String email,
             @RequestBody @Valid UpdateCinemaManagerRequest updateCinemaManagerRequest
@@ -81,7 +81,7 @@ class UserController {
     }
 
     @PatchMapping(CINEMA_NETWORK_MANAGERS_ENDPOINT_PREFIX + "/{email}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     ResponseEntity<Void> updateCinemaNetworkManager(
             @PathVariable String email,
             @RequestBody @Valid UpdateCinemaNetworkManagerRequest updateCinemaManagerRequest
@@ -92,14 +92,14 @@ class UserController {
 
 
     @DeleteMapping(CINEMA_MANAGERS_ENDPOINT_PREFIX + "/{email}")
-    @PreAuthorize("hasAnyAuthority('CINEMA_NETWORK_MANAGER','ADMIN')")
+    @PreAuthorize("hasAnyRole('CINEMA_NETWORK_MANAGER','ADMIN')")
     ResponseEntity<Void> deleteCinemaManager(@PathVariable String email) {
         userUseCases.deleteCinemaManager(email);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{email}")
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     ResponseEntity<Void> deleteUser(@PathVariable String email) {
         userUseCases.deleteUser(email);
         return ResponseEntity.noContent().build();

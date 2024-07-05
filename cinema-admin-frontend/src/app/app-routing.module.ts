@@ -33,131 +33,131 @@ const routes: Routes = [
     path: 'cinemas',
     component: CinemaTableComponent,
     canActivate: [AuthGuard],
-    data: {roles: [Role.CINEMA_NETWORK_MANAGER, Role.ADMIN]}
+    data: {roles: [Role.ROLE_CINEMA_NETWORK_MANAGER, Role.ROLE_ADMIN]}
   },
   {
     path: 'cinemas/create',
     component: CinemaFormComponent,
     canActivate: [AuthGuard],
-    data: {roles: [Role.CINEMA_NETWORK_MANAGER, Role.ADMIN]}
+    data: {roles: [Role.ROLE_CINEMA_NETWORK_MANAGER, Role.ROLE_ADMIN]}
   },
   {
     path: 'cinemas/edit/:name',
     component: CinemaFormComponent,
     canActivate: [AuthGuard],
-    data: {roles: [Role.CINEMA_NETWORK_MANAGER, Role.ADMIN]}
+    data: {roles: [Role.ROLE_CINEMA_NETWORK_MANAGER, Role.ROLE_ADMIN]}
   },
   {
     path: 'cinemas/details/:name',
     component: CinemaDetailsComponent,
     canActivate: [AuthGuard],
-    data: {roles: [Role.CINEMA_NETWORK_MANAGER, Role.ADMIN]}
+    data: {roles: [Role.ROLE_CINEMA_NETWORK_MANAGER, Role.ROLE_ADMIN]}
   },
   {
     path: 'projection-technologies',
     component: ProjectionTechnologyTableComponent,
     canActivate: [AuthGuard],
-    data: {roles: [Role.CINEMA_NETWORK_MANAGER, Role.CINEMA_MANAGER, Role.ADMIN]}
+    data: {roles: [Role.ROLE_CINEMA_NETWORK_MANAGER, Role.ROLE_CINEMA_MANAGER, Role.ROLE_ADMIN]}
   },
   {
     path: 'projection-technologies/create',
     component: ProjectionTechnologyFormComponent,
     canActivate: [AuthGuard],
-    data: {roles: [Role.CINEMA_NETWORK_MANAGER, Role.ADMIN]}
+    data: {roles: [Role.ROLE_CINEMA_NETWORK_MANAGER, Role.ROLE_ADMIN]}
   },
   {
     path: 'projection-technologies/edit/:technology',
     component: ProjectionTechnologyFormComponent,
     canActivate: [AuthGuard],
-    data: {roles: [Role.CINEMA_NETWORK_MANAGER, Role.ADMIN]}
+    data: {roles: [Role.ROLE_CINEMA_NETWORK_MANAGER, Role.ROLE_ADMIN]}
   },
   {
     path: 'projection-technologies/details/:technology',
     component: ProjectionTechnologyDetailsComponent,
     canActivate: [AuthGuard],
-    data: {roles: [Role.CINEMA_NETWORK_MANAGER, Role.CINEMA_MANAGER, Role.ADMIN]}
+    data: {roles: [Role.ROLE_CINEMA_NETWORK_MANAGER, Role.ROLE_CINEMA_MANAGER, Role.ROLE_ADMIN]}
   },
   {
     path: 'movies',
     component: MovieTableComponent,
     canActivate: [AuthGuard],
-    data: {roles: [Role.CINEMA_NETWORK_MANAGER, Role.CINEMA_MANAGER, Role.ADMIN]}
+    data: {roles: [Role.ROLE_CINEMA_NETWORK_MANAGER, Role.ROLE_CINEMA_MANAGER, Role.ROLE_ADMIN]}
   },
   {
     path: 'movies/create',
     component: MovieFormComponent,
     canActivate: [AuthGuard],
-    data: {roles: [Role.CINEMA_NETWORK_MANAGER, Role.ADMIN]}
+    data: {roles: [Role.ROLE_CINEMA_NETWORK_MANAGER, Role.ROLE_ADMIN]}
   },
   {
     path: 'movies/edit/:title',
     component: MovieFormComponent,
     canActivate: [AuthGuard],
-    data: {roles: [Role.CINEMA_NETWORK_MANAGER, Role.ADMIN]}
+    data: {roles: [Role.ROLE_CINEMA_NETWORK_MANAGER, Role.ROLE_ADMIN]}
   },
   {
     path: 'movies/details/:title',
     component: MovieDetailsComponent,
     canActivate: [AuthGuard],
-    data: {roles: [Role.CINEMA_NETWORK_MANAGER, Role.CINEMA_MANAGER, Role.ADMIN]}
+    data: {roles: [Role.ROLE_CINEMA_NETWORK_MANAGER, Role.ROLE_CINEMA_MANAGER, Role.ROLE_ADMIN]}
   },
   {
     path: 'cinema-managers',
     component: CinemaManagerTableComponent,
     canActivate: [AuthGuard],
-    data: {roles: [Role.CINEMA_NETWORK_MANAGER, Role.ADMIN]}
+    data: {roles: [Role.ROLE_CINEMA_NETWORK_MANAGER, Role.ROLE_ADMIN]}
   },
   {
     path: 'cinema-managers/create',
     component: CinemaManagerFormComponent,
     canActivate: [AuthGuard],
-    data: {roles: [Role.CINEMA_NETWORK_MANAGER, Role.ADMIN]}
+    data: {roles: [Role.ROLE_CINEMA_NETWORK_MANAGER, Role.ROLE_ADMIN]}
   },
   {
     path: 'cinema-managers/edit/:email',
     component: CinemaManagerFormComponent,
     canActivate: [AuthGuard],
-    data: {roles: [Role.CINEMA_NETWORK_MANAGER, Role.ADMIN]}
+    data: {roles: [Role.ROLE_CINEMA_NETWORK_MANAGER, Role.ROLE_ADMIN]}
   },
   {
     path: 'users',
     component: UserTableComponent,
     canActivate: [AuthGuard],
-    data: {roles: [Role.ADMIN]}
+    data: {roles: [Role.ROLE_ADMIN]}
   },
   {
     path: 'users/create',
     component: UserFormComponent,
     canActivate: [AuthGuard],
-    data: {roles: [Role.ADMIN]}
+    data: {roles: [Role.ROLE_ADMIN]}
   },
   {
     path: 'users/edit/:email+role',
     component: UserFormComponent,
     canActivate: [AuthGuard],
-    data: {roles: [Role.ADMIN]}
+    data: {roles: [Role.ROLE_ADMIN]}
   },
   {
     path: 'repertory',
     component: ManageRepertoryComponent,
     canActivate: [AuthGuard],
-    data: {roles: [Role.CINEMA_MANAGER]}
+    data: {roles: [Role.ROLE_CINEMA_MANAGER]}
   },
   {
     path: 'repertory/edit/:id',
     component: ScreeningFormComponent,
     canActivate: [AuthGuard],
-    data: {roles: [Role.CINEMA_MANAGER]}
+    data: {roles: [Role.ROLE_CINEMA_MANAGER]}
   },
   {
     path: 'repertory/create',
     component: ScreeningFormComponent,
     canActivate: [AuthGuard],
-    data: {roles: [Role.CINEMA_MANAGER]}
+    data: {roles: [Role.ROLE_CINEMA_MANAGER]}
   },
   {
     path: 'home', component: HomeComponent, canActivate: [AuthGuard],
-    data: {roles: [Role.CINEMA_MANAGER, Role.CINEMA_NETWORK_MANAGER, Role.ADMIN]}
+    data: {roles: [Role.ROLE_CINEMA_MANAGER, Role.ROLE_CINEMA_NETWORK_MANAGER, Role.ROLE_ADMIN]}
   },
   {path: 'login', component: LoginFormComponent},
   {path: '', redirectTo: '/login', pathMatch: 'full'},

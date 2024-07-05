@@ -15,7 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@WithMockUser(authorities = "CINEMA_MANAGER")
+@WithMockUser(roles = "CINEMA_MANAGER")
 public class ScreeningControllerTest {
     private static final String SCREENINGS_ENDPOINT_PATH = "/v1/screenings";
 

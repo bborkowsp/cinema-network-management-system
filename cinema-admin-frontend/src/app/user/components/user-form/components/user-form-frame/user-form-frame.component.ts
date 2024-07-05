@@ -14,11 +14,6 @@ export class UserFormFrameComponent implements OnInit {
   @Input({required: true}) isEditMode!: boolean;
   hidePassword: boolean = true;
 
-  ngOnInit() {
-    this.configurePasswordControl();
-    this.subscribeToRoleChanges();
-  }
-
   get firstNameControl(): FormControl {
     return this.formGroup.get('firstName') as FormControl;
   }
@@ -51,6 +46,11 @@ export class UserFormFrameComponent implements OnInit {
     return this.formGroup.get('managedCinemaName') as FormControl;
   }
 
+  ngOnInit() {
+    this.configurePasswordControl();
+    this.subscribeToRoleChanges();
+  }
+
   togglePasswordVisibility() {
     this.hidePassword = !this.hidePassword;
   }
@@ -70,9 +70,9 @@ export class UserFormFrameComponent implements OnInit {
   }
 
   private updateManagedCinemaName(role: string) {
-    if (role === 'CINEMA_NETWORK_MANAGER') {
+    if (role === 'ROLE_CINEMA_NETWORK_MANAGER') {
       this.managedCinemaNameControl.setValue(-1);
-    } else if (role === 'CINEMA_MANAGER') {
+    } else if (role === 'ROLE_CINEMA_MANAGER') {
       this.managedCinemaNameControl.setValue(0);
     }
   }

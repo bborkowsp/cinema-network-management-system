@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@WithMockUser(authorities = "CINEMA_NETWORK_MANAGER")
+@WithMockUser(roles = "CINEMA_NETWORK_MANAGER")
 public class ProjectionTechnologyControllerTest {
 
     private static final String PROJECTION_TECHNOLOGIES_ENDPOINT_PATH = "/v1/projection-technologies";

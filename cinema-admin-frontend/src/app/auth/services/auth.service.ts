@@ -24,9 +24,11 @@ export class AuthService {
     const url = `${AuthService.usersUrl}/login`;
     localStorage.removeItem("token");
     localStorage.removeItem("expires_at");
+    console.log(loginUserRequest)
     return this.httpClient.post<any>(url, loginUserRequest).subscribe(
       (response) => {
         const token = response.token;
+        console.log(token)
         this.loggedIn.next(true);
         this.loggedInUserSubject.next(loginUserRequest.email);
         localStorage.setItem('token', token);
@@ -74,20 +76,20 @@ export class AuthService {
 
   getUserRoleAsEnum(): Role | null {
     const role = this.getUserRole();
-    if (role === 'ADMIN') {
-      return Role.ADMIN;
+    if (role === 'ROLE_ADMIN') {
+      return Role.ROLE_ADMIN;
     }
-    if (role === 'CINEMA_NETWORK_MANAGER') {
-      return Role.CINEMA_NETWORK_MANAGER;
+    if (role === 'ROLE_CINEMA_NETWORK_MANAGER') {
+      return Role.ROLE_CINEMA_NETWORK_MANAGER;
     }
-    if (role === 'CINEMA_MANAGER') {
-      return Role.CINEMA_MANAGER;
+    if (role === 'ROLE_CINEMA_MANAGER') {
+      return Role.ROLE_CINEMA_MANAGER;
     }
     return null;
   }
 
   checkIfLoggedInUserIsCinemaManager(): boolean {
-    return this.getUserRole() === 'CINEMA_MANAGER';
+    return this.getUserRole() === 'ROLE_CINEMA_MANAGER';
   }
 
   getDecodedAccessToken(token: string): any {
