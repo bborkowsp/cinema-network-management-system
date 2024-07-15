@@ -1,0 +1,42 @@
+.container {
+  height: 64px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 20px;
+  display: block;
+  text-align: left;
+}
+
+.container.container-small {
+  max-width: 70em;
+}
+
+.screening-container {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 22px;
+}
+
+.mat-divider {
+  border-top-width: 4px;
+  margin-bottom: 22px;
+}
+
+.details {
+  margin-left: 2.688rem;
+}
+
+.image-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.movie-poster {
+  max-width: 12.75rem;
+  border-radius: 8px;
+  overflow: hidden;
+  height: auto;
+  display: block;
+}
+
+

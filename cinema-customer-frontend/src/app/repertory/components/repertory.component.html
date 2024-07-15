@@ -1,3 +1,33 @@
-<p>1</p>
-<p>2</p>
-<p>3</p>
+<section class="container container-small ">
+  <h1>REPERTORY</h1>
+
+  <mat-form-field>
+    <mat-label>Cinema</mat-label>
+    <input [formControl]="myControl" [matAutocomplete]="autoMovie" matInput type="text">
+
+    <mat-autocomplete #autoMovie="matAutocomplete" [displayWith]="displayCinemaNameFn">
+      <mat-option *ngFor="let title of filteredCinemaNames | async" [value]="title">
+        {{ title }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+
+  <div *ngFor="let screening of repertory">
+    <div class="screening-container">
+      <div class="image-container">
+        <img [src]="'data:' + screening.movie.poster.type + ';base64,' + screening.movie.poster.data"
+             alt="movie image"
+             class="movie-poster"
+        />
+      </div>
+      <div class="details">
+        <h2>{{ screening.movie.title }}</h2>
+        <p>{{ screening.movie.description }}</p>
+        <p>Duration: {{ screening.movie.duration }} minutes</p>
+        <p>Screening date: {{ screening.startTime }}</p>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+  </div>
+</section>

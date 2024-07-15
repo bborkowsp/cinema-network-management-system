@@ -6,6 +6,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SharedModule} from "./_shared/shared.module";
 import {RepertoryModule} from "./repertory/repertory.module";
 import {AppRoutingModule} from "./app-routing.module";
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import {AppRoutingModule} from "./app-routing.module";
     AppRoutingModule,
     BrowserAnimationsModule,
     SharedModule,
-    RepertoryModule
+    RepertoryModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

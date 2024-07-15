@@ -21,6 +21,12 @@ class ScreeningController {
         return ResponseEntity.ok(new ResponseList<>(screenings));
     }
 
+    @GetMapping("/repertory/{cinema}")
+    ResponseEntity<ResponseList<ScreeningResponse>> getRepertory(@PathVariable("cinema") String cinema) {
+        final var screenings = screeningUseCases.getRepertory(cinema);
+        return ResponseEntity.ok(new ResponseList<>(screenings));
+    }
+
     @GetMapping("/id/{id}")
     ResponseEntity<ScreeningResponse> getScreening(@PathVariable("id") Long id) {
         final var screening = screeningUseCases.getScreening(id);

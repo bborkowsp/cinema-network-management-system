@@ -8,6 +8,8 @@ import java.util.List;
 public interface ScreeningUseCases {
     List<ScreeningResponse> getScreenings(String email);
 
+    List<ScreeningResponse> getRepertory(String cinema);
+
     ScreeningResponse getScreening(Long id);
 
     void createScreening(ScreeningRequest screening);

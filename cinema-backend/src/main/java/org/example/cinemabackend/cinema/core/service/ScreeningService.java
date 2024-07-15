@@ -38,6 +38,16 @@ class ScreeningService implements ScreeningUseCases {
     }
 
     @Override
+    public List<ScreeningResponse> getRepertory(String cinema) {
+        return cinemaRepository.findByName(cinema)
+                .map(cinemaSchema -> cinemaSchema.getScreeningRooms().stream()
+                        .flatMap(screeningRoom -> screeningRoom.getRepertory().stream()
+                                .map(screening -> screeningMapper.mapScreeningToScreeningResponse(screening, screeningRoom)))
+                        .collect(Collectors.toList()))
+                .orElse(Collections.emptyList());
+    }
+
+    @Override
     public ScreeningResponse getScreening(Long id) {
         final var screening = getScreeningById(id);
         final var screeningRoom = getScreeningRoomWhichContainsScreening(screening);

@@ -28,7 +28,6 @@ class CinemaController {
     }
 
     @GetMapping("/names")
-    @PreAuthorize("hasAnyRole('CINEMA_NETWORK_MANAGER','ADMIN')")
     ResponseEntity<ResponseList<String>> getCinemaNames() {
         final var cinemaNames = cinemaUseCases.getCinemaNames();
         return ResponseEntity.ok(new ResponseList<>(cinemaNames));
