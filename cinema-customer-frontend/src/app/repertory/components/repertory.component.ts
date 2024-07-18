@@ -13,7 +13,7 @@ import {ScreeningResponse} from "../dtos/response/screening.response";
 export class RepertoryComponent implements OnInit {
   cinemaNames: string[] = [];
   filteredCinemaNames!: Observable<string[]>;
-  repertory !: ScreeningResponse[];
+  repertory: { [movieTitle: string]: ScreeningResponse[] } = {};
   myControl = new FormControl<string>('Jacobi-Bayer');
 
   constructor(
@@ -37,6 +37,10 @@ export class RepertoryComponent implements OnInit {
     return name && name ? name : '';
   }
 
+  getMovieTitles(): string[] {
+    return this.repertory ? Object.keys(this.repertory) : [];
+  }
+
   private setupFilteredCinemaNames() {
     this.filteredCinemaNames = this.myControl.valueChanges.pipe(
       startWith(''),
@@ -57,7 +61,7 @@ export class RepertoryComponent implements OnInit {
       value => {
         this.screeningService.getRepertory(value).subscribe(
           repertory => {
-            this.repertory = repertory;
+            this.repertory = this.groupRepertoryByMovie(repertory);
           }
         )
       }
@@ -67,8 +71,19 @@ export class RepertoryComponent implements OnInit {
   private getRepertory() {
     this.screeningService.getRepertory(this.myControl.value).subscribe(
       repertory => {
-        this.repertory = repertory;
+        this.repertory = this.groupRepertoryByMovie(repertory);
       }
-    )
+    );
+  }
+
+  private groupRepertoryByMovie(repertory: ScreeningResponse[]): { [movieTitle: string]: ScreeningResponse[] } {
+    return repertory.reduce((groups, screening) => {
+      const movieTitle = screening.movie.title;
+      if (!groups[movieTitle]) {
+        groups[movieTitle] = [];
+      }
+      groups[movieTitle].push(screening);
+      return groups;
+    }, {} as { [movieTitle: string]: ScreeningResponse[] });
   }
 }

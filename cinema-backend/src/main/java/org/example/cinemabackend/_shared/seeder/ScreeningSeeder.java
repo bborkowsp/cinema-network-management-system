@@ -39,19 +39,22 @@ class ScreeningSeeder implements Seeder {
     private List<Screening> createRepertory() {
         List<Screening> repertory = new ArrayList<>();
         for (int i = 0; i < SCREENINGS_PER_CINEMA; i++) {
-            repertory.add(createScreening());
+            repertory.add(createScreening(i));
         }
         return repertory;
     }
 
-    private Screening createScreening() {
-        final var movie = getMovie();
+    private Screening createScreening(int i) {
+        final var movie = getMovie(i);
         final var startTime = LocalDateTime.now().plusDays(1);
         final var endTime = startTime.plusHours(2);
         return new Screening(movie, startTime, endTime);
     }
 
-    private Movie getMovie() {
-        return movieRepository.findAll().stream().findAny().orElseThrow();
+    private Movie getMovie(int i) {
+        if (i % 2 == 0) {
+            return movieRepository.findAll().getLast();
+        }
+        return movieRepository.findAll().getFirst();
     }
 }
