@@ -33,10 +33,6 @@ export class RepertoryComponent implements OnInit {
     );
   }
 
-  displayCinemaNameFn(name: string): string {
-    return name && name ? name : '';
-  }
-
   getMovieTitles(): string[] {
     return this.repertory ? Object.keys(this.repertory) : [];
   }
@@ -48,9 +44,12 @@ export class RepertoryComponent implements OnInit {
   private subscribeToCinemaNameChanges() {
     this.myControl.valueChanges.subscribe(
       value => {
+        console.log("subscribeToCinemaNameChanges fun")
+        this.isLoading = true;
         this.screeningService.getRepertory(value).subscribe(
           repertory => {
             this.repertory = this.groupRepertoryByMovie(repertory);
+            this.isLoading = false;
           }
         )
       }
@@ -58,6 +57,7 @@ export class RepertoryComponent implements OnInit {
   }
 
   private getRepertory() {
+    this.isLoading = true;
     this.screeningService.getRepertory(this.myControl.value).subscribe(
       repertory => {
         this.repertory = this.groupRepertoryByMovie(repertory);
