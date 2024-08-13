@@ -25,7 +25,6 @@ public class UserSeeder implements Seeder {
     @Override
     public void seedDatabase(int objectsToSeed) {
         createUsers(objectsToSeed, Role.CINEMA_MANAGER, "cinemaMgr");
-        increment = 0;
         createUsers(objectsToSeed, Role.CINEMA_NETWORK_MANAGER, "cinemaNetMgr");
         createAdmin();
     }
@@ -44,6 +43,7 @@ public class UserSeeder implements Seeder {
             users.add(user);
             increment++;
         }
+        increment = 0;
     }
 
     private User createUser(Role role, String email) {

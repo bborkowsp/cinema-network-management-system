@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -17,6 +18,9 @@ public interface CinemaJpaRepository extends JpaRepository<CinemaSchema, Long> {
     Optional<CinemaSchema> findByCinemaManager(UserSchema user);
 
     Optional<CinemaSchema> findByCinemaManagerEmail(String email);
+
+    @Query("SELECT c.name FROM CinemaSchema c")
+    List<String> findAllCinemaNames();
 
     boolean existsByName(String name);
 

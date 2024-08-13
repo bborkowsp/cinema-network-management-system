@@ -10,6 +10,8 @@ public interface CinemaRepository {
 
     List<Cinema> findAll();
 
+    List<String> findAllCinemaNames();
+
     Optional<Cinema> findByName(String name);
 
     Optional<Cinema> findByUserEmail(String email);
@@ -25,4 +27,5 @@ public interface CinemaRepository {
     void updateCinemaManager(Cinema cinemaId, Long cinemaManagerId);
 
     void deleteByName(String name);
+
 }

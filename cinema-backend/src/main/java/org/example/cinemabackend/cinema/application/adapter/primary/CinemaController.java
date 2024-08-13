@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/v1/cinemas")
 @RequiredArgsConstructor
 class CinemaController {
-
     private final CinemaUseCases cinemaUseCases;
 
     @GetMapping

@@ -25,6 +25,11 @@ class CinemaDatabaseGateway implements CinemaRepository {
     }
 
     @Override
+    public List<String> findAllCinemaNames() {
+        return cinemaJpaRepository.findAllCinemaNames();
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public Optional<Cinema> findByName(String name) {
         return cinemaJpaRepository.findByName(name).map(CinemaSchema::toCinema);

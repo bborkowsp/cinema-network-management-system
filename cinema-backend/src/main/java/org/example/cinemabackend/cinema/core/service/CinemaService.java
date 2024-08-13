@@ -28,7 +28,7 @@ class CinemaService implements CinemaUseCases {
 
     @Override
     public List<String> getCinemaNames() {
-        return cinemaRepository.findAll().stream().map(Cinema::getName).toList();
+        return cinemaRepository.findAllCinemaNames();
     }
 
     @Override

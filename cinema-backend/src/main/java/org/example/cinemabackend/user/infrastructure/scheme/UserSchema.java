@@ -19,9 +19,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserSchema implements UserDetails {
-
     private static final String ROLE_AUTHORITY_PREFIX = "ROLE_";
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
