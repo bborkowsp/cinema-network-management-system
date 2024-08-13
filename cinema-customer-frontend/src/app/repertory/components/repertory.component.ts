@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {CinemaService} from "../../_shared/services/cinema.service";
-import {map, Observable, startWith} from "rxjs";
 import {FormControl} from "@angular/forms";
 import {ScreeningService} from "../../_shared/services/screening.service";
 import {ScreeningResponse} from "../dtos/response/screening.response";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-repertory',
@@ -11,13 +11,14 @@ import {ScreeningResponse} from "../dtos/response/screening.response";
   styleUrls: ['./repertory.component.scss']
 })
 export class RepertoryComponent implements OnInit {
+  isLoading: boolean = true;
   cinemaNames: string[] = [];
-  filteredCinemaNames!: Observable<string[]>;
   repertory: { [movieTitle: string]: ScreeningResponse[] } = {};
-  myControl = new FormControl<string>('Jacobi-Bayer');
+  myControl = new FormControl<string>('Stehr Group');
 
   constructor(
     private readonly cinemaService: CinemaService,
+    private readonly router: Router,
     private readonly screeningService: ScreeningService,
   ) {
   }
@@ -28,7 +29,6 @@ export class RepertoryComponent implements OnInit {
     this.cinemaService.getAllCinemaNames().subscribe(
       cinemaNames => {
         this.cinemaNames = cinemaNames;
-        this.setupFilteredCinemaNames();
       }
     );
   }
@@ -41,19 +41,8 @@ export class RepertoryComponent implements OnInit {
     return this.repertory ? Object.keys(this.repertory) : [];
   }
 
-  private setupFilteredCinemaNames() {
-    this.filteredCinemaNames = this.myControl.valueChanges.pipe(
-      startWith(''),
-      map(value => {
-        const name = typeof value === 'string' ? value : value;
-        return name ? this._filter(name as string) : this.cinemaNames.slice();
-      }),
-    );
-  }
-
-  private _filter(name: string): string[] {
-    const filterValue = name.toLowerCase();
-    return this.cinemaNames.filter(option => option.toLowerCase().includes(filterValue));
+  handleBuyTicket(screening: ScreeningResponse) {
+    this.router.navigateByUrl(`buy-ticket/${screening.id}`);
   }
 
   private subscribeToCinemaNameChanges() {
@@ -72,6 +61,7 @@ export class RepertoryComponent implements OnInit {
     this.screeningService.getRepertory(this.myControl.value).subscribe(
       repertory => {
         this.repertory = this.groupRepertoryByMovie(repertory);
+        this.isLoading = false;
       }
     );
   }

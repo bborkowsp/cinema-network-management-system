@@ -1,0 +1,10 @@
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-steps-container',
+  templateUrl: './steps-container.component.html',
+  styleUrls: ['./steps-container.component.scss']
+})
+export class StepsContainerComponent {
+
+}

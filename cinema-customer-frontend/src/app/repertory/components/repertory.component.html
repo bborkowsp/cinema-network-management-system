@@ -3,39 +3,46 @@
 
   <mat-form-field>
     <mat-label>Cinema</mat-label>
-    <input [formControl]="myControl" [matAutocomplete]="autoMovie" matInput type="text">
-
-    <mat-autocomplete #autoMovie="matAutocomplete" [displayWith]="displayCinemaNameFn">
-      <mat-option *ngFor="let title of filteredCinemaNames | async" [value]="title">
+    <mat-select [formControl]="myControl">
+      <mat-option *ngFor="let title of cinemaNames" [value]="title">
         {{ title }}
       </mat-option>
-    </mat-autocomplete>
+    </mat-select>
   </mat-form-field>
 
 
-  <div *ngFor="let movieTitle of getMovieTitles()">
-    <div class="screening-container">
-      <img
-        [src]="'data:' + repertory[movieTitle][0].movie.poster.type + ';base64,' + repertory[movieTitle][0].movie.poster.data"
-        alt="movie image"
-        class="movie-poster"
-      />
-      <div class="screening-details">
-        <h2>{{ movieTitle }}</h2>
-        <p>{{ repertory[movieTitle][0].movie.description }}</p>
-        <div class="screening-hours-container">
-          <div *ngFor="let screening of repertory[movieTitle] | slice:0:4" class="screening-hours">
-            <a color="primary" href="https://www.google.com/" mat-flat-button target="_blank">
-              {{ screening.startTime | date:'HH:mm' }}
+  <ng-container *ngIf="!isLoading; else spinner">
+    <div *ngFor="let movieTitle of getMovieTitles()">
+      <div class="screening-container">
+        <img
+          [src]="'data:' + repertory[movieTitle][0].movie.poster.type + ';base64,' + repertory[movieTitle][0].movie.poster.data"
+          alt="movie image"
+          class="movie-poster"
+        />
+        <div class="screening-details">
+          <h2>{{ movieTitle }}</h2>
+          <p>{{ repertory[movieTitle][0].movie.description }}</p>
+          <div class="screening-hours-container">
+            <div *ngFor="let screening of repertory[movieTitle] | slice:0:4" class="screening-hours">
+              <button (click)="handleBuyTicket(screening)" color="primary" mat-flat-button>
+                {{ screening.startTime | date:'HH:mm' }}
+              </button>
+            </div>
+            <a *ngIf="repertory[movieTitle].length > 4" class="show-more" href="https://www.google.com/" mat-flat-button
+               target="_blank">
+              Show more
             </a>
           </div>
-          <a *ngIf="repertory[movieTitle].length > 4" class="show-more" href="https://www.google.com/" mat-flat-button
-             target="_blank">
-            Show more
-          </a>
         </div>
       </div>
+      <mat-divider></mat-divider>
     </div>
-    <mat-divider></mat-divider>
-  </div>
+  </ng-container>
 </section>
+
+
+<ng-template #spinner>
+  <div class="page-content-container__spinner-container">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>

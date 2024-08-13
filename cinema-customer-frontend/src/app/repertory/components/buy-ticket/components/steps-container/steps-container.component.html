@@ -1,0 +1,28 @@
+<mat-stepper #stepper linear>
+  <mat-step>
+    <ng-template matStepLabel>Seat selection</ng-template>
+    <app-seat-selection
+    ></app-seat-selection>
+    <div>
+      <button color="primary" mat-flat-button matStepperNext type="button">Next</button>
+    </div>
+  </mat-step>
+
+  <mat-step>
+    <ng-template matStepLabel>Ticket types</ng-template>
+    <app-ticket-types
+    ></app-ticket-types>
+    <div>
+      <button color="primary" mat-flat-button matStepperNext type="button">Next</button>
+    </div>
+  </mat-step>
+
+  <mat-step>
+    <ng-template matStepLabel>Order form</ng-template>
+    <app-order-form
+    ></app-order-form>
+    <div>
+      <button color="primary" mat-flat-button matStepperNext type="button">Next</button>
+    </div>
+  </mat-step>
+</mat-stepper>
