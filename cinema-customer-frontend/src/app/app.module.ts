@@ -8,6 +8,7 @@ import {RepertoryModule} from "./repertory/repertory.module";
 import {AppRoutingModule} from "./app-routing.module";
 import {HttpClientModule} from "@angular/common/http";
 import {DatePipe} from "@angular/common";
+import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import {DatePipe} from "@angular/common";
     BrowserAnimationsModule,
     SharedModule,
     RepertoryModule,
-    HttpClientModule
+    HttpClientModule,
+    MatDialogModule
   ],
   providers: [
     DatePipe
