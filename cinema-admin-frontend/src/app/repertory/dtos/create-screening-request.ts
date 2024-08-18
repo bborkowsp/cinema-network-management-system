@@ -1,4 +1,4 @@
-export class ScreeningRequest {
+export class CreateScreeningRequest {
   constructor(
     readonly movieTitle: string,
     readonly startTime: Date,

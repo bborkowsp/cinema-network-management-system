@@ -3,6 +3,7 @@ package org.example.cinemabackend._shared.seeder;
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.core.domain.Cinema;
 import org.example.cinemabackend.cinema.core.domain.Screening;
+import org.example.cinemabackend.cinema.core.domain.ScreeningRoom;
 import org.example.cinemabackend.cinema.core.port.secondary.CinemaRepository;
 import org.example.cinemabackend.cinema.core.port.secondary.ScreeningRoomRepository;
 import org.example.cinemabackend.movie.core.domain.Movie;
@@ -25,36 +26,40 @@ class ScreeningSeeder implements Seeder {
 
     @Override
     public void seedDatabase(int objectsToSeed) {
-        cinemaRepository.findAll().forEach(this::createAndSaveRepertory);
+        List<Movie> movies = new ArrayList<>(movieRepository.findAll());
+        cinemaRepository.findAll().forEach(cinema -> createAndSaveRepertory(cinema, movies));
     }
 
-    private void createAndSaveRepertory(Cinema cinema) {
+    private void createAndSaveRepertory(Cinema cinema, List<Movie> movies) {
+        List<ScreeningRoom> updatedScreeningRooms = new ArrayList<>();
+
         cinema.getScreeningRooms().forEach(screeningRoom -> {
-            final var repertory = createRepertory();
+            final var repertory = createRepertory(movies);
             screeningRoom.setRepertory(repertory);
-            screeningRoomRepository.save(screeningRoom);
+            updatedScreeningRooms.add(screeningRoom);
         });
+
+        // Save all screening rooms at once
+        screeningRoomRepository.saveAll(updatedScreeningRooms);
     }
 
-    private List<Screening> createRepertory() {
-        List<Screening> repertory = new ArrayList<>();
+    private List<Screening> createRepertory(List<Movie> movies) {
+        List<Screening> repertory = new ArrayList<>(SCREENINGS_PER_CINEMA);
         for (int i = 0; i < SCREENINGS_PER_CINEMA; i++) {
-            repertory.add(createScreening(i));
+            repertory.add(createScreening(i, movies));
         }
         return repertory;
     }
 
-    private Screening createScreening(int i) {
-        final var movie = getMovie(i);
+    private Screening createScreening(int i, List<Movie> movies) {
+        final var movie = getMovie(i, movies);
         final var startTime = LocalDateTime.now().plusDays(1);
         final var endTime = startTime.plusHours(2);
         return new Screening(movie, startTime, endTime);
     }
 
-    private Movie getMovie(int i) {
-        if (i % 2 == 0) {
-            return movieRepository.findAll().getLast();
-        }
-        return movieRepository.findAll().getFirst();
+    private Movie getMovie(int i, List<Movie> movies) {
+        // Assuming the list has at least two movies
+        return i % 2 == 0 ? movies.getLast() : movies.getFirst();
     }
 }

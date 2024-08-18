@@ -15,6 +15,10 @@ import {OrderFormComponent} from "./components/buy-ticket/components/steps/order
 import {MatStepperModule} from "@angular/material/stepper";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatSelectModule} from "@angular/material/select";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatNativeDateModule} from "@angular/material/core";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import { DialogBuyTicketComponent } from './components/dialog-buy-ticket/dialog-buy-ticket.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +29,7 @@ import {MatSelectModule} from "@angular/material/select";
     SeatSelectionComponent,
     TicketTypesComponent,
     OrderFormComponent,
+    DialogBuyTicketComponent,
   ],
   imports: [
     CommonModule,
@@ -35,7 +40,10 @@ import {MatSelectModule} from "@angular/material/select";
     MatButtonModule,
     MatStepperModule,
     MatProgressSpinnerModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatFormFieldModule,
   ],
 })
 export class RepertoryModule {

@@ -2,11 +2,13 @@ package org.example.cinemabackend.cinema.application.adapter.primary;
 
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend._shared.dto.ResponseList;
-import org.example.cinemabackend.cinema.application.dto.request.ScreeningRequest;
+import org.example.cinemabackend.cinema.application.dto.request.create.CreateScreeningRequest;
 import org.example.cinemabackend.cinema.application.dto.response.ScreeningResponse;
 import org.example.cinemabackend.cinema.core.port.primary.ScreeningUseCases;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/v1/screenings")
@@ -27,6 +29,12 @@ class ScreeningController {
         return ResponseEntity.ok(new ResponseList<>(screenings));
     }
 
+    @GetMapping("/repertory/{cinema}/{date}")
+    ResponseEntity<ResponseList<ScreeningResponse>> getRepertoryAtSpecificDate(@PathVariable String cinema, @PathVariable LocalDate date) {
+        final var screenings = screeningUseCases.getRepertoryAtSpecificDate(cinema, date);
+        return ResponseEntity.ok(new ResponseList<>(screenings));
+    }
+
     @GetMapping("/id/{id}")
     ResponseEntity<ScreeningResponse> getScreening(@PathVariable("id") Long id) {
         final var screening = screeningUseCases.getScreening(id);
@@ -34,7 +42,7 @@ class ScreeningController {
     }
 
     @PostMapping
-    ResponseEntity<Void> createScreening(@RequestBody ScreeningRequest screening) {
+    ResponseEntity<Void> createScreening(@RequestBody CreateScreeningRequest screening) {
         screeningUseCases.createScreening(screening);
         return ResponseEntity.noContent().build();
     }
@@ -42,7 +50,7 @@ class ScreeningController {
     @PatchMapping("/{id}")
     ResponseEntity<ScreeningResponse> updateScreening(
             @PathVariable("id") Long id,
-            @RequestBody ScreeningRequest screening
+            @RequestBody CreateScreeningRequest screening
     ) {
         screeningUseCases.updateScreening(id, screening);
         return ResponseEntity.noContent().build();

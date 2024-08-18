@@ -39,6 +39,7 @@ class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/v1/auth/register").permitAll()
                         .requestMatchers(HttpMethod.GET, "/v1/cinemas/names").permitAll()
                         .requestMatchers(HttpMethod.GET, "/v1/screenings/repertory/{cinema}").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/v1/screenings/repertory/{cinema}/{date}").permitAll()
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())

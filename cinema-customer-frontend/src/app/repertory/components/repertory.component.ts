@@ -4,6 +4,7 @@ import {FormControl} from "@angular/forms";
 import {ScreeningService} from "../../_shared/services/screening.service";
 import {ScreeningResponse} from "../dtos/response/screening.response";
 import {Router} from "@angular/router";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-repertory',
@@ -14,18 +15,22 @@ export class RepertoryComponent implements OnInit {
   isLoading: boolean = true;
   cinemaNames: string[] = [];
   repertory: { [movieTitle: string]: ScreeningResponse[] } = {};
-  myControl = new FormControl<string>('Stehr Group');
+  cinemaNameControl = new FormControl<string>('Greenholt LLC');
+  dateControl: FormControl;
 
   constructor(
     private readonly cinemaService: CinemaService,
     private readonly router: Router,
     private readonly screeningService: ScreeningService,
+    private datePipe: DatePipe
   ) {
+    this.dateControl = new FormControl(new Date());
   }
 
   ngOnInit(): void {
     this.getRepertory()
     this.subscribeToCinemaNameChanges();
+    this.subscribeToDateChanges();
     this.cinemaService.getAllCinemaNames().subscribe(
       cinemaNames => {
         this.cinemaNames = cinemaNames;
@@ -42,11 +47,10 @@ export class RepertoryComponent implements OnInit {
   }
 
   private subscribeToCinemaNameChanges() {
-    this.myControl.valueChanges.subscribe(
+    this.cinemaNameControl.valueChanges.subscribe(
       value => {
-        console.log("subscribeToCinemaNameChanges fun")
         this.isLoading = true;
-        this.screeningService.getRepertory(value).subscribe(
+        this.screeningService.getRepertoryAtSpecificDate(value, this.dateControl.value).subscribe(
           repertory => {
             this.repertory = this.groupRepertoryByMovie(repertory);
             this.isLoading = false;
@@ -58,7 +62,7 @@ export class RepertoryComponent implements OnInit {
 
   private getRepertory() {
     this.isLoading = true;
-    this.screeningService.getRepertory(this.myControl.value).subscribe(
+    this.screeningService.getRepertoryAtSpecificDate(this.cinemaNameControl.value, this.dateControl.value).subscribe(
       repertory => {
         this.repertory = this.groupRepertoryByMovie(repertory);
         this.isLoading = false;
@@ -75,5 +79,19 @@ export class RepertoryComponent implements OnInit {
       groups[movieTitle].push(screening);
       return groups;
     }, {} as { [movieTitle: string]: ScreeningResponse[] });
+  }
+
+  private subscribeToDateChanges() {
+    this.dateControl.valueChanges.subscribe(
+      value => {
+        this.isLoading = true;
+        this.screeningService.getRepertoryAtSpecificDate(this.cinemaNameControl.value, value).subscribe(
+          repertory => {
+            this.repertory = this.groupRepertoryByMovie(repertory);
+            this.isLoading = false;
+          }
+        )
+      }
+    );
   }
 }

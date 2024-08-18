@@ -3,6 +3,7 @@ package org.example.cinemabackend.cinema.core.port.secondary;
 import org.example.cinemabackend.cinema.core.domain.Screening;
 import org.example.cinemabackend.cinema.core.domain.ScreeningRoom;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ScreeningRoomRepository {
@@ -14,4 +15,6 @@ public interface ScreeningRoomRepository {
     Optional<ScreeningRoom> findByContainsScreening(Screening screening);
 
     Optional<ScreeningRoom> findByRepertoryContains(Screening screening);
+
+    void saveAll(List<ScreeningRoom> updatedScreeningRooms);
 }

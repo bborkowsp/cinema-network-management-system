@@ -1,20 +1,20 @@
 import {ScreeningResponse} from "../../../../dtos/screening.response";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ScreeningRequest} from "../../../../dtos/screening.request";
 import {AuthService} from "../../../../../auth/services/auth.service";
+import {CreateScreeningRequest} from "src/app/repertory/dtos/create-screening-request";
 
 export class ScreeningFormBuilder {
   form: FormGroup;
-
-  public get mainFormGroup() {
-    return this.form.get('main') as FormGroup;
-  }
 
   constructor(
     private readonly formBuilder: FormBuilder,
     private readonly authService: AuthService
   ) {
     this.form = this.createForm();
+  }
+
+  public get mainFormGroup() {
+    return this.form.get('main') as FormGroup;
   }
 
   fillFormWithScreening(screening: ScreeningResponse) {
@@ -28,20 +28,9 @@ export class ScreeningFormBuilder {
     })
   }
 
-  private createForm(): FormGroup {
-    return this.formBuilder.group({
-      main: this.formBuilder.group({
-        movieTitle: ['', [Validators.required]],
-        startTime: ['', [Validators.required]],
-        endTime: ['', [Validators.required]],
-        screeningRoom: ['', [Validators.required]],
-      })
-    });
-  }
-
-  screeningRequestFromForm(): ScreeningRequest {
+  screeningRequestFromForm(): CreateScreeningRequest {
     const email = this.authService.getLoggedInUserEmail();
-    return new ScreeningRequest(
+    return new CreateScreeningRequest(
       this.mainFormGroup.get('movieTitle')!.value,
       this.mainFormGroup.get('startTime')!.value,
       this.mainFormGroup.get('endTime')!.value,
@@ -60,5 +49,16 @@ export class ScreeningFormBuilder {
 
     // Return date in 'YYYY-MM-DDTHH:MM' format
     return `${year}-${month}-${day}T${hours}:${minutes}`;
+  }
+
+  private createForm(): FormGroup {
+    return this.formBuilder.group({
+      main: this.formBuilder.group({
+        movieTitle: ['', [Validators.required]],
+        startTime: ['', [Validators.required]],
+        endTime: ['', [Validators.required]],
+        screeningRoom: ['', [Validators.required]],
+      })
+    });
   }
 }

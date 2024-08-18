@@ -1,7 +1,7 @@
 package org.example.cinemabackend.cinema.core.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.cinemabackend.cinema.application.dto.request.ScreeningRequest;
+import org.example.cinemabackend.cinema.application.dto.request.create.CreateScreeningRequest;
 import org.example.cinemabackend.cinema.application.dto.response.ScreeningResponse;
 import org.example.cinemabackend.cinema.core.domain.Cinema;
 import org.example.cinemabackend.cinema.core.domain.Screening;
@@ -33,7 +33,7 @@ class ScreeningMapperService implements ScreeningMapper {
     }
 
     @Override
-    public Screening mapScreeningRequestToScreening(ScreeningRequest screening) {
+    public Screening mapScreeningRequestToScreening(CreateScreeningRequest screening) {
         return new Screening(
                 movieRepository.findByTitle(screening.movieTitle()).orElseThrow(),
                 screening.startTime(),

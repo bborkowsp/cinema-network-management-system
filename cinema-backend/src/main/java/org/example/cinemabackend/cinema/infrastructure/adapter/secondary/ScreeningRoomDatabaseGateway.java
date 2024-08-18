@@ -9,6 +9,7 @@ import org.example.cinemabackend.cinema.infrastructure.schema.ScreeningSchema;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -38,5 +39,12 @@ class ScreeningRoomDatabaseGateway implements ScreeningRoomRepository {
     public Optional<ScreeningRoom> findByRepertoryContains(Screening screening) {
         return screeningRoomJpaRepository.findByRepertoryContains(ScreeningSchema.fromScreening(screening))
                 .map(ScreeningRoomSchema::toScreeningRoom);
+    }
+
+    @Override
+    public void saveAll(List<ScreeningRoom> updatedScreeningRooms) {
+        screeningRoomJpaRepository.saveAll(updatedScreeningRooms.stream()
+                .map(ScreeningRoomSchema::fromScreeningRoom)
+                .toList());
     }
 }

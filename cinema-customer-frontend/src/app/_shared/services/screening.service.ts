@@ -17,6 +17,17 @@ export class ScreeningService {
 
   getRepertory(cinema: string | null): Observable<ScreeningResponse[]> {
     const url = `${ScreeningService.SCREENINGS_API_URL}/repertory/${cinema}`;
+    return this.httpClient.get<{ content: ScreeningResponse[] }>(url).pipe(
+      map((response) => response.content),
+    );
+  }
+
+  getRepertoryAtSpecificDate(cinema: string | null, date: Date): Observable<ScreeningResponse[]> {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    const formattedDate = `${year}-${month}-${day}`;
+    const url = `${ScreeningService.SCREENINGS_API_URL}/repertory/${cinema}/${formattedDate}`;
     console.log(url);
     return this.httpClient.get<{ content: ScreeningResponse[] }>(url).pipe(
       map((response) => response.content),

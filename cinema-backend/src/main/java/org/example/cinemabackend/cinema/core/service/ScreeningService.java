@@ -1,7 +1,7 @@
 package org.example.cinemabackend.cinema.core.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.cinemabackend.cinema.application.dto.request.ScreeningRequest;
+import org.example.cinemabackend.cinema.application.dto.request.create.CreateScreeningRequest;
 import org.example.cinemabackend.cinema.application.dto.response.ScreeningResponse;
 import org.example.cinemabackend.cinema.core.domain.Screening;
 import org.example.cinemabackend.cinema.core.domain.ScreeningRoom;
@@ -13,6 +13,7 @@ import org.example.cinemabackend.cinema.core.port.secondary.ScreeningRoomReposit
 import org.example.cinemabackend.movie.core.port.secondary.MovieRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -48,6 +49,17 @@ class ScreeningService implements ScreeningUseCases {
     }
 
     @Override
+    public List<ScreeningResponse> getRepertoryAtSpecificDate(String cinema, LocalDate date) {
+        return cinemaRepository.findByName(cinema)
+                .map(cinemaSchema -> cinemaSchema.getScreeningRooms().stream()
+                        .flatMap(screeningRoom -> screeningRoom.getRepertory().stream()
+                                .filter(screening -> screening.getStartTime().toLocalDate().equals(date))
+                                .map(screening -> screeningMapper.mapScreeningToScreeningResponse(screening, screeningRoom)))
+                        .collect(Collectors.toList()))
+                .orElse(Collections.emptyList());
+    }
+
+    @Override
     public ScreeningResponse getScreening(Long id) {
         final var screening = getScreeningById(id);
         final var screeningRoom = getScreeningRoomWhichContainsScreening(screening);
@@ -55,7 +67,7 @@ class ScreeningService implements ScreeningUseCases {
     }
 
     @Override
-    public void createScreening(ScreeningRequest screening) {
+    public void createScreening(CreateScreeningRequest screening) {
         validateCinemaManagerIsManagingACinema(screening.email());
         final var newScreening = screeningMapper.mapScreeningRequestToScreening(screening);
         final var screeningRoom = screeningRoomRepository.findByName(screening.screeningRoom()).orElseThrow();
@@ -64,7 +76,7 @@ class ScreeningService implements ScreeningUseCases {
     }
 
     @Override
-    public void updateScreening(Long id, ScreeningRequest screening) {
+    public void updateScreening(Long id, CreateScreeningRequest screening) {
         validateCinemaManagerIsManagingACinema(screening.email());
         final var screeningRoom = screeningRoomRepository.findByName(screening.screeningRoom()).orElseThrow();
         final var screeningToUpdate = getScreeningById(id);
@@ -96,9 +108,9 @@ class ScreeningService implements ScreeningUseCases {
         }
     }
 
-    private void updateScreeningDetails(Screening screeningToUpdate, ScreeningRequest screeningRequest) {
-        screeningToUpdate.setMovie(movieRepository.findByTitle(screeningRequest.movieTitle()).orElseThrow());
-        screeningToUpdate.setStartTime(screeningRequest.startTime());
-        screeningToUpdate.setEndTime(screeningRequest.endTime());
+    private void updateScreeningDetails(Screening screeningToUpdate, CreateScreeningRequest createScreeningRequest) {
+        screeningToUpdate.setMovie(movieRepository.findByTitle(createScreeningRequest.movieTitle()).orElseThrow());
+        screeningToUpdate.setStartTime(createScreeningRequest.startTime());
+        screeningToUpdate.setEndTime(createScreeningRequest.endTime());
     }
 }

@@ -32,7 +32,7 @@ class DatabaseSeeder implements CommandLineRunner {
             movieSeeder.seedDatabase(OBJECTS_TO_SEED);
             logger.info("Movies seeded");
 
-            userSeeder.seedDatabase(OBJECTS_TO_SEED / 2);
+            userSeeder.seedDatabase(OBJECTS_TO_SEED / 5);
             logger.info("Users seeded");
 
             cinemaSeeder.seedDatabase(OBJECTS_TO_SEED / 5);

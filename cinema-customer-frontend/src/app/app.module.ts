@@ -7,6 +7,7 @@ import {SharedModule} from "./_shared/shared.module";
 import {RepertoryModule} from "./repertory/repertory.module";
 import {AppRoutingModule} from "./app-routing.module";
 import {HttpClientModule} from "@angular/common/http";
+import {DatePipe} from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -20,7 +21,9 @@ import {HttpClientModule} from "@angular/common/http";
     RepertoryModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    DatePipe
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -3,8 +3,8 @@ import {ScreeningResponse} from "../dtos/screening.response";
 import {HttpClient} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {map} from "rxjs";
-import {ScreeningRequest} from "../dtos/screening.request";
 import {AuthService} from "../../auth/services/auth.service";
+import {CreateScreeningRequest} from "../dtos/create-screening-request";
 
 @Injectable({
   providedIn: 'root',
@@ -35,12 +35,12 @@ export class ScreeningService {
     return this.httpClient.get<ScreeningResponse>(url);
   }
 
-  updateScreening(id: number, screening: ScreeningRequest) {
+  updateScreening(id: number, screening: CreateScreeningRequest) {
     const url = `${ScreeningService.SCREENINGS_API_URL}/${id}`;
     return this.httpClient.patch(url, screening);
   }
 
-  createScreening(screening: ScreeningRequest) {
+  createScreening(screening: CreateScreeningRequest) {
     return this.httpClient.post<void>(ScreeningService.SCREENINGS_API_URL, screening);
   }
 }
