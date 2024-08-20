@@ -1,57 +1,83 @@
-<img alt="Screen" class="screen-svg" height="100" src="assets/screen.svg" width="700"/>
-<div *ngFor="let rows of data.screeningRoom.seats; let rowIndex = index" class="seat-row">
-  <!-- Row number -->
-  <div class="row-number">{{ rowIndex + 1 }}</div>
+<div class="group">
+  <div class="group__left-column">
+    <div class="screen-and-seats">
+      <img alt="Screen" class="screen-svg" height="70" src="assets/screen.svg" width="200"/>
+      <div *ngFor="let rows of data.screeningRoom.seats; let rowIndex = index" class="seat-row">
+        <!-- Row number -->
+        <div class="row-number">{{ rowIndex + 1 }}</div>
 
-  <!-- Seats -->
-  <div *ngFor="let seat of rows" class="seat">
-    <ng-container *ngIf="seat.seatZone !== 'CORRIDOR'; else corridorSpace">
-      <button
-        (click)="selectSeat(seat)"
-        [disabled]="seat.seatType === 'OCCUPIED' || seat.seatType === 'UNAVAILABLE' || seat.seatType === 'RESERVED'"
-        [matTooltip]="seat.seatZone === 'STANDARD' ? 'Standard Seat' :
-                     seat.seatZone === 'VIP' ? 'VIP Seat' :
-                     seat.seatZone === 'PROMO' ? 'Promotional Seat' :
-                     seat.seatZone === 'WHEELCHAIR' ? 'Wheelchair Accessible Seat' : ''"
-        [ngClass]="seat.seatZone === 'STANDARD' ? 'btn selected-standard' :
+        <!-- Seats -->
+        <div *ngFor="let seat of rows" class="seat">
+          <ng-container *ngIf="seat.seatZone !== 'CORRIDOR'; else corridorSpace">
+            <button
+              (click)="selectSeat(seat)"
+              [disabled]="seat.seatType === 'OCCUPIED' || seat.seatType === 'UNAVAILABLE' || seat.seatType === 'RESERVED'"
+              [matTooltip]="seat.seatZone === 'STANDARD' ? '27,90 ZŁ' :
+                     seat.seatZone === 'VIP' ? '35,90 ZŁ' :
+                     seat.seatZone === 'PROMO' ? '19,90 ZŁ' :
+                     seat.seatZone === 'WHEELCHAIR' ? '19,90 ZŁ' : ''"
+              [ngClass]="seat.seatZone === 'STANDARD' ? 'btn selected-standard' :
                    seat.seatZone === 'VIP' ? 'btn selected-vip' :
                    seat.seatZone === 'PROMO' ? 'btn selected-promo' :
                    seat.seatZone === 'WHEELCHAIR' ? 'btn selected-wheelchair' : ''"
-        [ngStyle]="{ 'background-color': getSeatBackgroundColor(seat) }"
-        mat-mini-fab>
-        <mat-icon>{{
-            seat.seatType === 'AVAILABLE' ? 'event_seat' :
-              seat.seatType === 'OCCUPIED' ? 'event_busy' :
-                seat.seatType === 'RESERVED' ? 'bookmark' :
-                  seat.seatType === 'UNAVAILABLE' ? 'block' : 'help_outline'
-          }}
-        </mat-icon>
-      </button>
-    </ng-container>
+              [ngStyle]="{ 'background-color': getSeatBackgroundColor(seat) }"
+              mat-mini-fab>
+              <mat-icon>{{
+                  seat.seatType === 'AVAILABLE' ? 'event_seat' :
+                    seat.seatType === 'OCCUPIED' ? 'event_busy' :
+                      seat.seatType === 'RESERVED' ? 'bookmark' :
+                        seat.seatType === 'UNAVAILABLE' ? 'block' : 'help_outline'
+                }}
+              </mat-icon>
+            </button>
+          </ng-container>
 
-    <!-- Placeholder for CORRIDOR to maintain spacing -->
-    <ng-template #corridorSpace>
-      <div class="corridor-space"></div>
-    </ng-template>
+          <!-- Placeholder for CORRIDOR to maintain spacing -->
+          <ng-template #corridorSpace>
+            <div class="corridor-space"></div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+
+    <div class="legend">
+      <div class="legend-item">
+        <mat-icon class="legend-icon">event_seat</mat-icon>
+        <span class="legend-text">Available</span>
+      </div>
+      <div class="legend-item">
+        <mat-icon class="legend-icon">event_busy</mat-icon>
+        <span class="legend-text">Occupied</span>
+      </div>
+      <div class="legend-item">
+        <mat-icon class="legend-icon">bookmark</mat-icon>
+        <span class="legend-text">Reserved</span>
+      </div>
+      <div class="legend-item">
+        <mat-icon class="legend-icon">block</mat-icon>
+        <span class="legend-text">Unavailable</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="group__right-column">
+    <h2>Summary</h2>
+    <hr>
+    <div class="selected-seats">
+      <div *ngFor="let seat of selectedSeats" class="selected-seat">
+        <button [ngStyle]="{ 'background-color': getSeatBackgroundColor(seat) }" class="selected-seat"
+                mat-mini-fab>
+          R:{{ seat.seatRow + 1 }} C:{{ seat.seatColumn }}
+        </button>
+      </div>
+    </div>
+
+    <div class="total">
+      <H4>Total cost: <strong>{{ totalCost }} ZŁ</strong></H4>
+      <span></span>
+    </div>
   </div>
 </div>
 
-<div class="legend">
-  <div class="legend-item">
-    <mat-icon class="legend-icon">event_seat</mat-icon>
-    <span class="legend-text">Available</span>
-  </div>
-  <div class="legend-item">
-    <mat-icon class="legend-icon">event_busy</mat-icon>
-    <span class="legend-text">Occupied</span>
-  </div>
-  <div class="legend-item">
-    <mat-icon class="legend-icon">bookmark</mat-icon>
-    <span class="legend-text">Reserved</span>
-  </div>
-  <div class="legend-item">
-    <mat-icon class="legend-icon">block</mat-icon>
-    <span class="legend-text">Unavailable</span>
-  </div>
-</div>
+
 

@@ -3,6 +3,8 @@ import {Router} from "@angular/router";
 import {ScreeningResponse} from "../../../../../dtos/response/screening.response";
 import {SeatResponse} from "../../../../../dtos/response/seat.response";
 import "../../../../../../_shared/styles/_colors.scss";
+import {SeatLimitDialogComponent} from "./seat-limit-dialog/seat-limit-dialog.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-seat-selection',
@@ -12,8 +14,13 @@ import "../../../../../../_shared/styles/_colors.scss";
 export class SeatSelectionComponent {
   data!: ScreeningResponse;
   selectedSeats: SeatResponse[] = [];
+  totalCost: number = 0;
+  zones = ['PROMO', 'STANDARD', 'VIP', 'WHEELCHAIR', 'CORRIDOR'];
 
-  constructor(private readonly router: Router) {
+  constructor(
+    private readonly router: Router,
+    private dialogRef: MatDialog,
+  ) {
     const navigation = this.router.getCurrentNavigation();
     if (navigation?.extras.state) {
       this.data = navigation.extras.state['data'] as ScreeningResponse;
@@ -24,9 +31,14 @@ export class SeatSelectionComponent {
   selectSeat(seat: SeatResponse) {
     if (this.selectedSeats.includes(seat)) {
       this.selectedSeats = this.selectedSeats.filter(s => s !== seat);
+      this.totalCost -= this.getPrice(seat);
       return;
     }
+    if (this.selectedSeats.length >= 9) {
+      this.open();
+    }
     this.selectedSeats.push(seat);
+    this.totalCost += this.getPrice(seat);
   }
 
   getSeatBackgroundColor(seat: SeatResponse): string {
@@ -45,5 +57,25 @@ export class SeatSelectionComponent {
       }
     }
     return 'white';
+  }
+
+
+  private getPrice(seat: SeatResponse) {
+    switch (seat.seatZone) {
+      case 'STANDARD':
+        return 10;
+      case 'VIP':
+        return 20;
+      case 'PROMO':
+        return 5;
+      case 'WHEELCHAIR':
+        return 19.90;
+      default:
+        return 0;
+    }
+  }
+
+  private open() {
+    this.dialogRef.open(SeatLimitDialogComponent);
   }
 }

@@ -31,12 +31,15 @@
 
 .btn {
   border: 2px solid black;
-  // background-color: white;
   cursor: pointer;
 }
 
 .selected-standard {
   border-color: $app-seat-standard;
+}
+
+.standard {
+  background-color: $app-seat-standard;
 }
 
 .selected-standard:hover {
@@ -47,12 +50,20 @@
   border-color: $app-seat-vip;
 }
 
+.vip {
+  background-color: $app-seat-vip;
+}
+
 .selected-vip:hover {
   background-color: $app-seat-vip;
 }
 
 .selected-promo {
   border-color: $app-seat-promo;
+}
+
+.promo {
+  background-color: $app-seat-promo;
 }
 
 .selected-promo:hover {
@@ -63,12 +74,12 @@
   border-color: $app-seat-wheelchair;
 }
 
-.selected-wheelchair:hover {
+.wheelchair {
   background-color: $app-seat-wheelchair;
 }
 
-.selected-by-user {
-  background-color: $app-seat-corridor;
+.selected-wheelchair:hover {
+  background-color: $app-seat-wheelchair;
 }
 
 .corridor-space {
@@ -80,7 +91,7 @@
 .legend {
   display: flex;
   justify-content: center;
-  margin-top: 5rem;
+  margin-top: 2rem;
 }
 
 .legend-item {
@@ -89,3 +100,61 @@
   margin-right: 20px;
 }
 
+
+.group {
+  display: flex;
+  width: 100%;
+
+  &__left-column {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  &__right-column {
+    flex-basis: 505px;
+    display: flex;
+    flex-direction: column;
+    height: 200px;
+    overflow-y: scroll;
+    padding-left: 2rem;
+  }
+}
+
+.screen-and-seats {
+  border-radius: 1rem;
+  background-color: #f8f8f8;
+}
+
+hr {
+  margin: 0;
+  border: 0;
+  border-top: 3px solid #ccc;
+}
+
+.selected-seats {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.selected-seat {
+  margin-right: 0.5rem;
+}
+
+.seat-summary {
+  font-size: 16px;
+  margin: 1rem 0;
+}
+
+.seat-summary div {
+  margin-bottom: 0.5rem;
+}
+
+
+.total {
+  margin-top: 1rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+}

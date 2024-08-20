@@ -21,6 +21,10 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {DialogBuyTicketComponent} from './components/dialog-buy-ticket/dialog-buy-ticket.component';
 import {MatIconModule} from "@angular/material/icon";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {
+  SeatLimitDialogComponent
+} from './components/buy-ticket/components/steps/seat-selection/seat-limit-dialog/seat-limit-dialog.component';
+import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
@@ -32,6 +36,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     TicketTypesComponent,
     OrderFormComponent,
     DialogBuyTicketComponent,
+    SeatLimitDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -48,7 +53,8 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     MatFormFieldModule,
     NgOptimizedImage,
     MatIconModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatDialogModule
   ],
 })
 export class RepertoryModule {
