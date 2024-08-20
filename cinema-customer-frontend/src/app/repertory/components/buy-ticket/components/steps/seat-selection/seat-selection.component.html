@@ -1,16 +1,21 @@
 <img alt="Screen" class="screen-svg" height="100" src="assets/screen.svg" width="700"/>
-<div *ngFor="let rows of data.screeningRoom.seats" class="seat-row">
+<div *ngFor="let rows of data.screeningRoom.seats; let rowIndex = index" class="seat-row">
+  <!-- Row number -->
+  <div class="row-number">{{ rowIndex + 1 }}</div>
+
+  <!-- Seats -->
   <div *ngFor="let seat of rows" class="seat">
     <ng-container *ngIf="seat.seatZone !== 'CORRIDOR'; else corridorSpace">
       <button
+        (click)="selectSeat(seat)"
         [matTooltip]="seat.seatZone === 'STANDARD' ? 'Standard Seat' :
-                 seat.seatZone === 'VIP' ? 'VIP Seat' :
-                 seat.seatZone === 'PROMO' ? 'Promotional Seat' :
-                 seat.seatZone === 'WHEELCHAIR' ? 'Wheelchair Accessible Seat' : ''"
-        [ngClass]="seat.seatZone === 'STANDARD' ? 'selected-standard' :
-               seat.seatZone === 'VIP' ? 'selected-vip' :
-               seat.seatZone === 'PROMO' ? 'selected-promo' :
-               seat.seatZone === 'WHEELCHAIR' ? 'selected-wheelchair' : ''"
+                     seat.seatZone === 'VIP' ? 'VIP Seat' :
+                     seat.seatZone === 'PROMO' ? 'Promotional Seat' :
+                     seat.seatZone === 'WHEELCHAIR' ? 'Wheelchair Accessible Seat' : ''"
+        [ngClass]="seat.seatZone === 'STANDARD' ? 'btn selected-standard' :
+                   seat.seatZone === 'VIP' ? 'btn selected-vip' :
+                   seat.seatZone === 'PROMO' ? 'btn selected-promo' :
+                   seat.seatZone === 'WHEELCHAIR' ? 'btn selected-wheelchair' : ''"
         mat-mini-fab>
         <mat-icon>{{
             seat.seatType === 'AVAILABLE' ? 'event_seat' :
@@ -21,7 +26,6 @@
         </mat-icon>
       </button>
     </ng-container>
-
 
     <!-- Placeholder for CORRIDOR to maintain spacing -->
     <ng-template #corridorSpace>

@@ -7,9 +7,17 @@
   width: 50%;
 }
 
+.row-number {
+  width: 30px;
+  text-align: center;
+  font-weight: lighter;
+  margin-right: 10px;
+}
+
 .seat-row {
   display: flex;
   justify-content: center;
+  align-items: center; /* Aligns row number and seats vertically */
   margin-bottom: 10px;
 }
 
@@ -21,29 +29,51 @@
 
 }
 
+.btn {
+  border: 2px solid black;
+  background-color: white;
+  cursor: pointer;
+}
+
 .selected-standard {
+  border-color: $app-seat-standard;
+}
+
+.selected-standard:hover {
   background-color: $app-seat-standard;
 }
 
 .selected-vip {
+  border-color: $app-seat-vip;
+}
+
+.selected-vip:hover {
   background-color: $app-seat-vip;
 }
 
 .selected-promo {
+  border-color: $app-seat-promo;
+}
+
+.selected-promo:hover {
   background-color: $app-seat-promo;
 }
 
 .selected-wheelchair {
+  border-color: $app-seat-wheelchair;
+}
+
+.selected-wheelchair:hover {
   background-color: $app-seat-wheelchair;
 }
 
-.selected-corridor {
+.selected-by-user {
   background-color: $app-seat-corridor;
 }
 
 .corridor-space {
-  width: 40px; /* Adjust to match button width */
-  height: 40px; /* Adjust to match button height */
+  width: 40px;
+  height: 40px;
   display: inline-block;
 }
 
@@ -58,3 +88,4 @@
   align-items: center;
   margin-right: 20px;
 }
+
