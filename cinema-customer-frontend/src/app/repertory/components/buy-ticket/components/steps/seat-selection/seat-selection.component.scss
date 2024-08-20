@@ -1,0 +1,60 @@
+@import "../../../../../../_shared/styles/_colors.scss";
+
+.screen-svg {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
+.seat-row {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.seat {
+  margin-right: 5px;
+}
+
+.custom-mini-fab {
+
+}
+
+.selected-standard {
+  background-color: $app-seat-standard;
+}
+
+.selected-vip {
+  background-color: $app-seat-vip;
+}
+
+.selected-promo {
+  background-color: $app-seat-promo;
+}
+
+.selected-wheelchair {
+  background-color: $app-seat-wheelchair;
+}
+
+.selected-corridor {
+  background-color: $app-seat-corridor;
+}
+
+.corridor-space {
+  width: 40px; /* Adjust to match button width */
+  height: 40px; /* Adjust to match button height */
+  display: inline-block;
+}
+
+.legend {
+  display: flex;
+  justify-content: center;
+  margin-top: 5rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+}

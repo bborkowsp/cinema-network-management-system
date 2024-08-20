@@ -1,6 +1,6 @@
 import {NgModule} from "@angular/core";
 import {RepertoryComponent} from "./components/repertory.component";
-import {CommonModule} from "@angular/common";
+import {CommonModule, NgOptimizedImage} from "@angular/common";
 import {MatInputModule} from "@angular/material/input";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {ReactiveFormsModule} from "@angular/forms";
@@ -18,7 +18,9 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
 import {MatFormFieldModule} from "@angular/material/form-field";
-import { DialogBuyTicketComponent } from './components/dialog-buy-ticket/dialog-buy-ticket.component';
+import {DialogBuyTicketComponent} from './components/dialog-buy-ticket/dialog-buy-ticket.component';
+import {MatIconModule} from "@angular/material/icon";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @NgModule({
   declarations: [
@@ -44,6 +46,9 @@ import { DialogBuyTicketComponent } from './components/dialog-buy-ticket/dialog-
     MatDatepickerModule,
     MatNativeDateModule,
     MatFormFieldModule,
+    NgOptimizedImage,
+    MatIconModule,
+    MatTooltipModule
   ],
 })
 export class RepertoryModule {

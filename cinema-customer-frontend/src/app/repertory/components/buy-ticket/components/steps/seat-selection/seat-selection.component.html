@@ -1,1 +1,51 @@
-<p>seat-selection works!</p>
+<img alt="Screen" class="screen-svg" height="100" src="assets/screen.svg" width="700"/>
+<div *ngFor="let rows of data.screeningRoom.seats" class="seat-row">
+  <div *ngFor="let seat of rows" class="seat">
+    <ng-container *ngIf="seat.seatZone !== 'CORRIDOR'; else corridorSpace">
+      <button
+        [matTooltip]="seat.seatZone === 'STANDARD' ? 'Standard Seat' :
+                 seat.seatZone === 'VIP' ? 'VIP Seat' :
+                 seat.seatZone === 'PROMO' ? 'Promotional Seat' :
+                 seat.seatZone === 'WHEELCHAIR' ? 'Wheelchair Accessible Seat' : ''"
+        [ngClass]="seat.seatZone === 'STANDARD' ? 'selected-standard' :
+               seat.seatZone === 'VIP' ? 'selected-vip' :
+               seat.seatZone === 'PROMO' ? 'selected-promo' :
+               seat.seatZone === 'WHEELCHAIR' ? 'selected-wheelchair' : ''"
+        mat-mini-fab>
+        <mat-icon>{{
+            seat.seatType === 'AVAILABLE' ? 'event_seat' :
+              seat.seatType === 'OCCUPIED' ? 'event_busy' :
+                seat.seatType === 'RESERVED' ? 'bookmark' :
+                  seat.seatType === 'UNAVAILABLE' ? 'block' : 'help_outline'
+          }}
+        </mat-icon>
+      </button>
+    </ng-container>
+
+
+    <!-- Placeholder for CORRIDOR to maintain spacing -->
+    <ng-template #corridorSpace>
+      <div class="corridor-space"></div>
+    </ng-template>
+  </div>
+</div>
+
+<div class="legend">
+  <div class="legend-item">
+    <mat-icon class="legend-icon">event_seat</mat-icon>
+    <span class="legend-text">Available</span>
+  </div>
+  <div class="legend-item">
+    <mat-icon class="legend-icon">event_busy</mat-icon>
+    <span class="legend-text">Occupied</span>
+  </div>
+  <div class="legend-item">
+    <mat-icon class="legend-icon">bookmark</mat-icon>
+    <span class="legend-text">Reserved</span>
+  </div>
+  <div class="legend-item">
+    <mat-icon class="legend-icon">block</mat-icon>
+    <span class="legend-text">Unavailable</span>
+  </div>
+</div>
+

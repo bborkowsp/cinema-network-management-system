@@ -1,6 +1,7 @@
 import {Component, inject} from '@angular/core';
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 import {Router} from "@angular/router";
+import {ScreeningResponse} from "../../dtos/response/screening.response";
 
 export interface ConfirmDialogData {
   id: string;
@@ -12,7 +13,7 @@ export interface ConfirmDialogData {
   styleUrls: ['./dialog-buy-ticket.component.scss']
 })
 export class DialogBuyTicketComponent {
-  readonly data = inject<ConfirmDialogData>(MAT_DIALOG_DATA);
+  readonly data = inject<ScreeningResponse>(MAT_DIALOG_DATA);
 
   constructor(
     private readonly router: Router
@@ -22,6 +23,6 @@ export class DialogBuyTicketComponent {
   handleBuyTicket() {
     console.log(this.data)
     console.log("handle buy")
-    this.router.navigateByUrl(`buy-ticket/${this.data.id}`);
+    this.router.navigateByUrl(`buy-ticket/${this.data.id}`, {state: {data: this.data}});
   }
 }
