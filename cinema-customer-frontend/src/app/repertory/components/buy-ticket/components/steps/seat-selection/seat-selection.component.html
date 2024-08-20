@@ -8,6 +8,7 @@
     <ng-container *ngIf="seat.seatZone !== 'CORRIDOR'; else corridorSpace">
       <button
         (click)="selectSeat(seat)"
+        [disabled]="seat.seatType === 'OCCUPIED' || seat.seatType === 'UNAVAILABLE' || seat.seatType === 'RESERVED'"
         [matTooltip]="seat.seatZone === 'STANDARD' ? 'Standard Seat' :
                      seat.seatZone === 'VIP' ? 'VIP Seat' :
                      seat.seatZone === 'PROMO' ? 'Promotional Seat' :
@@ -16,6 +17,7 @@
                    seat.seatZone === 'VIP' ? 'btn selected-vip' :
                    seat.seatZone === 'PROMO' ? 'btn selected-promo' :
                    seat.seatZone === 'WHEELCHAIR' ? 'btn selected-wheelchair' : ''"
+        [ngStyle]="{ 'background-color': getSeatBackgroundColor(seat) }"
         mat-mini-fab>
         <mat-icon>{{
             seat.seatType === 'AVAILABLE' ? 'event_seat' :
