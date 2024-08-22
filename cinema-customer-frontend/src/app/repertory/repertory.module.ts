@@ -10,7 +10,6 @@ import {ScreeningComponent} from './components/screening/screening.component';
 import {BuyTicketComponent} from "./components/buy-ticket/buy-ticket.component";
 import {StepsContainerComponent} from "./components/buy-ticket/components/steps-container/steps-container.component";
 import {SeatSelectionComponent} from "./components/buy-ticket/components/steps/seat-selection/seat-selection.component";
-import {TicketTypesComponent} from "./components/buy-ticket/components/steps/ticket-types/ticket-types.component";
 import {OrderFormComponent} from "./components/buy-ticket/components/steps/order-form/order-form.component";
 import {MatStepperModule} from "@angular/material/stepper";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
@@ -33,7 +32,6 @@ import {MatDialogModule} from "@angular/material/dialog";
     BuyTicketComponent,
     StepsContainerComponent,
     SeatSelectionComponent,
-    TicketTypesComponent,
     OrderFormComponent,
     DialogBuyTicketComponent,
     SeatLimitDialogComponent,

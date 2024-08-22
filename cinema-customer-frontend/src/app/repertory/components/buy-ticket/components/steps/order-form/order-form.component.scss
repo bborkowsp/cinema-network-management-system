@@ -1,0 +1,50 @@
+/* Apply consistent box-sizing */
+.form, .form * {
+  box-sizing: border-box;
+}
+
+/* Ensure form width consistency */
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  margin: 0 auto; /* Center horizontally */
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add some shadow */
+  border-radius: 8px; /* Optional: Rounded corners */
+  background-color: #fff; /* Optional: Background color */
+}
+
+/* Full width for the selection list and options */
+mat-selection-list {
+  width: 100%;
+  padding: 0;
+}
+
+mat-list-option {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+/* Ensure form fields take up full width */
+.custom-form-field {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+/* Icon styling */
+.option-icon {
+  width: 50px;
+  height: 50px;
+  margin-right: 8px;
+}
+
+/* Pseudo-checkbox alignment */
+.mat-list-option .mat-pseudo-checkbox {
+  margin-left: 0 !important;
+  margin-right: auto !important;
+}

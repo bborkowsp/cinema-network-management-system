@@ -15,7 +15,6 @@ export class SeatSelectionComponent {
   data!: ScreeningResponse;
   selectedSeats: SeatResponse[] = [];
   totalCost: number = 0;
-  zones = ['PROMO', 'STANDARD', 'VIP', 'WHEELCHAIR', 'CORRIDOR'];
 
   constructor(
     private readonly router: Router,
