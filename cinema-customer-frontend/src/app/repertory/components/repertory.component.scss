@@ -15,6 +15,10 @@
   display: flex;
   align-items: flex-start;
   margin-bottom: 22px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add some shadow */
+  border-radius: 8px; /* Optional: Rounded corners */
+  background-color: #fff; /* Optional: Background color */
+  padding: 16px;
 }
 
 .mat-divider {
