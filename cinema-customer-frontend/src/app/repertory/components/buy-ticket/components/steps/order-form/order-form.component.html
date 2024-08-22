@@ -1,21 +1,36 @@
-<span></span>
+<div [formGroup]="form" class="center">
+  <h1><strong>ORDER FORM</strong></h1>
+</div>
 <form class="form">
   <mat-form-field class="custom-form-field">
     <mat-label>First name</mat-label>
     <input [formControl]="firstNameControl" matInput required>
+    <mat-error *ngIf="firstNameControl.hasError('required')">
+      First name is required!
+    </mat-error>
   </mat-form-field>
   <mat-form-field class="custom-form-field">
     <mat-label>Last name</mat-label>
     <input [formControl]="lastNameControl" matInput required>
+    <mat-error *ngIf="lastNameControl.hasError('required')">
+      Last name is required!
+    </mat-error>
   </mat-form-field>
   <mat-form-field class="custom-form-field">
     <mat-label>E-Mail</mat-label>
     <input [formControl]="emailControl" matInput required>
+    <mat-error *ngIf="emailControl.hasError('required')">
+      E-Mail is required!
+    </mat-error>
   </mat-form-field>
   <mat-form-field class="custom-form-field">
     <mat-label>Confirm E-Mail</mat-label>
-    <input [formControl]="lastNameControl" matInput required>
+    <input [formControl]="emailConfirmationControl" matInput required>
+    <mat-error *ngIf="emailConfirmationControl.hasError('required')">
+      Confirm your email!
+    </mat-error>
   </mat-form-field>
+
 
   <mat-selection-list [multiple]="false">
     <mat-list-option *ngFor="let payment of paymentMethods" class="mat-primary">

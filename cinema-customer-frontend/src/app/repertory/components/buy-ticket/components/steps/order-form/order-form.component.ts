@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {FormControl} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-order-form',
@@ -7,10 +7,18 @@ import {FormControl} from "@angular/forms";
   styleUrls: ['./order-form.component.scss']
 })
 export class OrderFormComponent {
-  firstNameControl = new FormControl;
-  lastNameControl = new FormControl;
-  emailControl = new FormControl;
+  firstNameControl = new FormControl('', [Validators.required]);
+  lastNameControl = new FormControl('', [Validators.required]);
+  emailControl = new FormControl('', [Validators.required, Validators.email]);
+  emailConfirmationControl = new FormControl('', [Validators.required, Validators.email]);
   paymentMethods: string[] = ['Przelewy Online', 'Google Pay', 'BLIK'];
+
+  form = new FormGroup({
+    firstName: this.firstNameControl,
+    lastName: this.lastNameControl,
+    email: this.emailControl,
+    emailConfirmation: this.emailConfirmationControl,
+  });
 
   getPaymentIcon(payment: string) {
     switch (payment) {
