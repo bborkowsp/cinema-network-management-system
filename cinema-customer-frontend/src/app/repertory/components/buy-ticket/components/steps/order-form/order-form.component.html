@@ -18,7 +18,7 @@
   </mat-form-field>
 
   <mat-selection-list [multiple]="false">
-    <mat-list-option *ngFor="let payment of paymentMethods">
+    <mat-list-option *ngFor="let payment of paymentMethods" class="mat-primary">
       <div class="custom-form-field">
         <img [src]="getPaymentIcon(payment)" alt="{{ payment }}-icon" class="option-icon">
         {{ payment }}
