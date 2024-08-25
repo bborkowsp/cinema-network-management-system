@@ -118,9 +118,9 @@ class CinemaSeeder implements Seeder {
     }
 
     private Seat[][] createSeats() {
-        Seat[][] seats = new Seat[3][6];
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 6; j++)
+        Seat[][] seats = new Seat[12][15];
+        for (int i = 0; i < 12; i++) {
+            for (int j = 0; j < 15; j++)
                 seats[i][j] = createSeat(i, j);
         }
         return seats;

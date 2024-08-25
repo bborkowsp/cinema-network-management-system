@@ -26,5 +26,4 @@ public interface UserRepository {
     void deleteUser(User user);
 
     Page<User> findAll(Pageable pageable);
-
 }

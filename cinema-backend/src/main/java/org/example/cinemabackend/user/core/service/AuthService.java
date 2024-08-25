@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.config.JwtConfig;
 import org.example.cinemabackend.user.application.dto.JwtDto;
 import org.example.cinemabackend.user.application.dto.request.LoginUserRequest;
+import org.example.cinemabackend.user.application.dto.request.RegisterUserRequest;
 import org.example.cinemabackend.user.core.domain.User;
 import org.example.cinemabackend.user.core.port.primary.AuthUseCases;
 import org.example.cinemabackend.user.core.port.secondary.UserRepository;
@@ -24,6 +25,7 @@ import java.util.NoSuchElementException;
 class AuthService implements AuthUseCases, UserDetailsService {
     private static final String USER_NOT_FOUND_ERROR_MESSAGE = "User not found";
     private static final String PASSWORD_DOES_NOT_MATCH_ERROR_MESSAGE = "Invalid login credentials";
+    private static final String USER_ALREADY_EXISTS_ERROR_MESSAGE = "User already exists";
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtConfig jwtConfig;
@@ -34,6 +36,20 @@ class AuthService implements AuthUseCases, UserDetailsService {
         checkPasswordsMatch(loginUserDto.password(), user.getPassword());
         final var jwt = createAndEncodeJwt(user);
         return new JwtDto(jwt);
+    }
+
+    @Override
+    public void register(RegisterUserRequest registerUserRequest) {
+        checkIfUserAlreadyExists(registerUserRequest.email());
+        final var encodedPassword = passwordEncoder.encode(registerUserRequest.password());
+        final var user = new User(
+                registerUserRequest.firstName(),
+                registerUserRequest.lastName(),
+                registerUserRequest.email(),
+                encodedPassword,
+                registerUserRequest.role()
+        );
+        userRepository.save(user);
     }
 
     @Override
@@ -61,5 +77,11 @@ class AuthService implements AuthUseCases, UserDetailsService {
     private User validateUserExistence(String email) {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new NoSuchElementException(USER_NOT_FOUND_ERROR_MESSAGE));
+    }
+
+    private void checkIfUserAlreadyExists(String username) {
+        if (userRepository.existsByEmail(username)) {
+            throw new IllegalStateException(USER_ALREADY_EXISTS_ERROR_MESSAGE);
+        }
     }
 }

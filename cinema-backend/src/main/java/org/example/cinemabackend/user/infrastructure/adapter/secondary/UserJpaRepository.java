@@ -29,4 +29,5 @@ public interface UserJpaRepository extends JpaRepository<UserSchema, Long> {
     Optional<UserSchema> findByEmailAndRoleCinemaManager(@Param("email") String email);
 
     boolean existsByEmail(String email);
+
 }
