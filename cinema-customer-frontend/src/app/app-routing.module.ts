@@ -4,6 +4,7 @@ import {RepertoryComponent} from "./repertory/components/repertory.component";
 import {BuyTicketComponent} from "./repertory/components/buy-ticket/buy-ticket.component";
 
 const routes: Routes = [
+  {path: '', component: RepertoryComponent},
   {path: 'repertory', component: RepertoryComponent},
   {path: 'buy-ticket/:id', component: BuyTicketComponent}
 ];

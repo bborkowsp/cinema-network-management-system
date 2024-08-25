@@ -13,10 +13,11 @@ import {DialogBuyTicketComponent} from "./dialog-buy-ticket/dialog-buy-ticket.co
   styleUrls: ['./repertory.component.scss']
 })
 export class RepertoryComponent implements OnInit {
-  isLoading: boolean = true;
+  isLoading: boolean = false;
+  isCinemaSelected: boolean = false
   cinemaNames: string[] = [];
   repertory: { [movieTitle: string]: ScreeningResponse[] } = {};
-  cinemaNameControl = new FormControl<string>('Greenholt LLC');
+  cinemaNameControl = new FormControl<string>('');
   dateControl: FormControl;
 
   constructor(
@@ -44,7 +45,6 @@ export class RepertoryComponent implements OnInit {
   }
 
   handleBuyTicket(screening: ScreeningResponse) {
-    // this.router.navigateByUrl(`buy-ticket/${screening.id}`);
     const matDialog = this.dialog.open(DialogBuyTicketComponent, {
       data: screening
     })
@@ -53,6 +53,7 @@ export class RepertoryComponent implements OnInit {
   private subscribeToCinemaNameChanges() {
     this.cinemaNameControl.valueChanges.subscribe(
       value => {
+        this.isCinemaSelected = !!value;
         this.isLoading = true;
         this.screeningService.getRepertoryAtSpecificDate(value, this.dateControl.value).subscribe(
           repertory => {
@@ -65,6 +66,8 @@ export class RepertoryComponent implements OnInit {
   }
 
   private getRepertory() {
+    if (this.cinemaNameControl.value === '') return;
+    this.isCinemaSelected = true;
     this.isLoading = true;
     this.screeningService.getRepertoryAtSpecificDate(this.cinemaNameControl.value, this.dateControl.value).subscribe(
       repertory => {
@@ -75,6 +78,7 @@ export class RepertoryComponent implements OnInit {
   }
 
   private groupRepertoryByMovie(repertory: ScreeningResponse[]): { [movieTitle: string]: ScreeningResponse[] } {
+    if (repertory.length === 0) return {};
     return repertory.reduce((groups, screening) => {
       const movieTitle = screening.movie.title;
       if (!groups[movieTitle]) {

@@ -1,7 +1,10 @@
 <div class="dialog">
-  <h1>Hello!</h1>
-  <h4>Login and buy ticket</h4>
-  <a href="https://www.google.com/" mat-flat-button target="_blank">Login</a>
-  <br>
-  <button (click)="handleBuyTicket()" mat-flat-button target="_blank">Buy ticket as guest</button>
+  <h1>Welcome!</h1>
+  <h4>Please log in to buy a ticket</h4>
+  <a color="primary" href="https://www.google.com/" mat-flat-button target="_blank">Login</a>
+  <div class="divider">
+    <span>OR</span>
+  </div>
+  <button (click)="handleBuyTicket()" color="accent" mat-flat-button>Buy ticket as guest</button>
+  <h5>Remember as a guest you cannot refund your tickets!</h5>
 </div>

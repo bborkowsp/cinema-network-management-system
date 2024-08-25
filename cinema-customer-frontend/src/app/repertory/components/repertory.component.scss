@@ -1,8 +1,8 @@
 .container {
-  height: 64px;
+  // height: 64px;
   margin-left: auto;
   margin-right: auto;
-  padding-top: 20px;
+  // padding-top: 20px;
   display: block;
   text-align: left;
 }
@@ -63,5 +63,76 @@
   text-decoration: none; /* Remove underline from the link */
 }
 
+.spinner {
+  padding-top: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.bg {
+  width: 100%;
+  background-color: white;
+  height: 15vh;
+}
+
+.bg2 {
+  width: 100%;
+  background-color: #f3f1f5;
+  height: 100vh;
+  position: relative;
+}
 
 
+.no-movies-message {
+  text-align: center;
+  padding: 20px;
+  background-color: #f8d7da; /* Light red background for emphasis */
+  border: 1px solid #f5c6cb; /* Slightly darker border */
+  border-radius: 8px; /* Rounded corners */
+  color: #721c24; /* Dark red text color */
+  font-family: Arial, sans-serif; /* Clean font */
+  max-width: 500px; /* Limit width for readability */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.no-movies-icon {
+  font-size: 48px; /* Larger icon size */
+  color: #721c24; /* Match icon color with text */
+}
+
+.no-movies-text {
+  font-size: 1.25em; /* Slightly larger text for main message */
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.no-movies-subtext {
+  font-size: 1em; /* Smaller text for additional info */
+  color: #7d818d; /* Subtle gray color */
+}
+
+
+hr {
+  margin: 0 0;
+  border-top: 3px solid #ccc;
+}
+
+.breaker {
+  height: 32px;
+}
+
+.form-field {
+  padding-right: 1rem;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+
+  p {
+    margin-left: 1.5rem;
+  }
+}
