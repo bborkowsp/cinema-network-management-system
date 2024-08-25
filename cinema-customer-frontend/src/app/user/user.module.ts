@@ -17,11 +17,13 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {RegisterComponent} from './components/register/register.component';
 import {LoginComponent} from "./components/login/login.component";
 import {SharedModule} from "../_shared/shared.module";
+import { UserAccountComponent } from './components/user-account/user-account.component';
 
 @NgModule({
   declarations: [
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    UserAccountComponent
   ],
   imports: [
     CommonModule,
