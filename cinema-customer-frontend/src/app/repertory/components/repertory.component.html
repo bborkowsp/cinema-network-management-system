@@ -19,8 +19,7 @@
   </section>
 </div>
 <hr>
-<div class="bg2">
-  <div class="breaker"></div>
+<div *ngIf="isCinemaSelected" class="bg2">
   <section class="container container-small ">
     <ng-container *ngIf="!isLoading; else spinner">
       <ng-container *ngIf="getMovieTitles().length; else noMovies">

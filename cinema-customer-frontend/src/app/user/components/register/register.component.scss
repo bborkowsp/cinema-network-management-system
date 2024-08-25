@@ -85,3 +85,11 @@ h1 {
 .space {
   margin-top: 20px;
 }
+
+.items-together {
+  display: flex;
+  justify-content: space-between;
+  width: 50%;
+  gap: 16px;
+}
+
