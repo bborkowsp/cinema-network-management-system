@@ -7,6 +7,10 @@
   right: 0;
   z-index: 2;
   height: 74px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 .content {
@@ -31,4 +35,27 @@
 
 .spacer {
   flex: 1;
+}
+
+
+.toolbar .nav-link {
+  text-decoration: none;
+  color: #ffffff;
+  font-size: 18px;
+  padding: 0 20px;
+  transition: color 0.3s, transform 0.3s;
+}
+
+.toolbar .nav-link:hover {
+  color: #FFD700;
+  transform: scale(1.1);
+}
+
+.divider {
+  height: 50%;
+  margin: 0 10px;
+}
+
+.mat-divider.mat-divider-vertical {
+  border-right: 2px solid rgb(255, 255, 255); /* Increased thickness */
 }
