@@ -21,8 +21,6 @@ export class DialogBuyTicketComponent {
   }
 
   handleBuyTicket() {
-    console.log(this.data)
-    console.log("handle buy")
     this.router.navigateByUrl(`buy-ticket/${this.data.id}`, {state: {data: this.data}});
   }
 }

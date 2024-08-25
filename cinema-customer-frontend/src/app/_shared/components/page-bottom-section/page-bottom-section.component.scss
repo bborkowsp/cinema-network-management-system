@@ -1,0 +1,43 @@
+.bg2 {
+  width: 100%;
+  background-color: #000000;
+  height: 100vh;
+  position: relative;
+  display: flex; /* Enable Flexbox on the background */
+  justify-content: center; /* Horizontally center the container */
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 50%;
+  max-width: 1200px;
+  padding-top: 2rem
+}
+
+
+.header {
+  margin-bottom: 10px; /* Space below the header */
+  color: #ffffff;
+}
+
+.group-item {
+  font-size: 14px;
+  color: #929292;
+  margin-bottom: 10px;
+}
+
+a {
+  color: #929292;
+  text-decoration: none;
+}
+
+.link-with-icon {
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  padding-right: 8px;
+}

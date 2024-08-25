@@ -24,6 +24,7 @@ import {
   SeatLimitDialogComponent
 } from './components/buy-ticket/components/steps/seat-selection/seat-limit-dialog/seat-limit-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
+import {SharedModule} from "../_shared/shared.module";
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import {MatDialogModule} from "@angular/material/dialog";
     NgOptimizedImage,
     MatIconModule,
     MatTooltipModule,
-    MatDialogModule
+    MatDialogModule,
+    SharedModule
   ],
 })
 export class RepertoryModule {

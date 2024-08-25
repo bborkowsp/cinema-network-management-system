@@ -5,6 +5,7 @@
   <div class="divider">
     <span>OR</span>
   </div>
-  <button (click)="handleBuyTicket()" color="accent" mat-flat-button>Buy ticket as guest</button>
+  <button (click)="handleBuyTicket()" [matDialogClose]="true" color="accent" mat-flat-button>Buy ticket as guest
+  </button>
   <h5>Remember as a guest you cannot refund your tickets!</h5>
 </div>

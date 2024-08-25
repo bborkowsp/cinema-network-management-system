@@ -9,12 +9,14 @@ import {MatListModule} from "@angular/material/list";
 import {AccountComponent} from "./components/scaffold/components/account/account.component";
 import {ToolbarComponent} from "./components/scaffold/components/toolbar/toolbar.component";
 import {MatSidenavModule} from "@angular/material/sidenav";
+import {PageBottomSectionComponent} from './components/page-bottom-section/page-bottom-section.component';
 
 
 @NgModule({
   declarations: [
     AccountComponent,
     ToolbarComponent,
+    PageBottomSectionComponent,
   ],
   imports: [
     CommonModule,
@@ -27,7 +29,8 @@ import {MatSidenavModule} from "@angular/material/sidenav";
     MatMenuModule,
   ],
   exports: [
-    ToolbarComponent
+    ToolbarComponent,
+    PageBottomSectionComponent
   ],
 })
 export class SharedModule {

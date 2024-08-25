@@ -9,12 +9,11 @@ import {AppRoutingModule} from "./app-routing.module";
 import {HttpClientModule} from "@angular/common/http";
 import {DatePipe} from "@angular/common";
 import {MatDialogModule} from "@angular/material/dialog";
-import { LoginComponent } from './login/login.component';
+import {UserModule} from "./user/user.module";
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -23,7 +22,8 @@ import { LoginComponent } from './login/login.component';
     SharedModule,
     RepertoryModule,
     HttpClientModule,
-    MatDialogModule
+    MatDialogModule,
+    UserModule
   ],
   providers: [
     DatePipe

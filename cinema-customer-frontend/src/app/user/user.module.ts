@@ -14,9 +14,14 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatIconModule} from "@angular/material/icon";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatDialogModule} from "@angular/material/dialog";
+import {RegisterComponent} from './components/register/register.component';
+import {LoginComponent} from "./components/login/login.component";
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    LoginComponent,
+    RegisterComponent
+  ],
   imports: [
     CommonModule,
     MatInputModule,
