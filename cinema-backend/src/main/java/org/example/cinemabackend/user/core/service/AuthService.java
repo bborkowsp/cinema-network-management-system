@@ -2,12 +2,16 @@ package org.example.cinemabackend.user.core.service;
 
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.example.cinemabackend.config.JwtConfig;
 import org.example.cinemabackend.user.application.dto.JwtDto;
 import org.example.cinemabackend.user.application.dto.request.LoginUserRequest;
 import org.example.cinemabackend.user.application.dto.request.RegisterUserRequest;
 import org.example.cinemabackend.user.core.domain.User;
+import org.example.cinemabackend.user.core.port.primary.AccountVerificationUseCases;
 import org.example.cinemabackend.user.core.port.primary.AuthUseCases;
+import org.example.cinemabackend.user.core.port.primary.EmailUseCases;
 import org.example.cinemabackend.user.core.port.secondary.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -23,12 +27,15 @@ import java.util.NoSuchElementException;
 @Transactional
 @RequiredArgsConstructor
 class AuthService implements AuthUseCases, UserDetailsService {
+    private static final Logger LOGGER = LogManager.getLogger(AuthService.class);
     private static final String USER_NOT_FOUND_ERROR_MESSAGE = "User not found";
     private static final String PASSWORD_DOES_NOT_MATCH_ERROR_MESSAGE = "Invalid login credentials";
     private static final String USER_ALREADY_EXISTS_ERROR_MESSAGE = "User already exists";
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtConfig jwtConfig;
+    private final EmailUseCases emailUseCases;
+    private final AccountVerificationUseCases accountVerificationUseCases;
 
     @Override
     public JwtDto login(LoginUserRequest loginUserDto) {
@@ -50,6 +57,9 @@ class AuthService implements AuthUseCases, UserDetailsService {
                 registerUserRequest.role()
         );
         userRepository.save(user);
+        final String verificationUrl = "http://localhost:4200/registration/verify-user?token=" + accountVerificationUseCases.generateAccountVerificationToken(user);
+        LOGGER.info("Sending email to: " + user.getEmail() + " with verification url: " + verificationUrl);
+        emailUseCases.sendEmailToConfirmAccount(user.getEmail(), "Email Verification", verificationUrl);
     }
 
     @Override
