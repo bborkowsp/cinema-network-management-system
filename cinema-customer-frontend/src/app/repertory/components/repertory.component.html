@@ -39,7 +39,7 @@
               <p>{{ repertory[movieTitle][0].movie.description }}</p>
               <div class="screening-hours-container">
                 <div *ngFor="let screening of repertory[movieTitle] | slice:0:4" class="screening-hours">
-                  <button (click)="handleBuyTicket(screening)" color="primary" mat-flat-button>
+                  <button (click)="handleBuyTicket(screening)" color="accent" mat-flat-button>
                     {{ screening.startTime | date:'HH:mm' }}
                   </button>
                 </div>
