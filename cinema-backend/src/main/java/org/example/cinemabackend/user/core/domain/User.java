@@ -15,6 +15,7 @@ public class User implements UserDetails {
     private String lastName;
     private String email;
     private String passwordHash;
+    private boolean isAccountVerified = false;
 
     public User(String firstName, String lastName, String email, String passwordHash, Role role) {
         this.firstName = firstName;
@@ -31,6 +32,16 @@ public class User implements UserDetails {
         this.email = email;
         this.passwordHash = passwordHash;
         this.role = role;
+    }
+
+    public User(Long id, String firstName, String lastName, String email, String passwordHash, Role role, boolean isAccountVerified) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.passwordHash = passwordHash;
+        this.role = role;
+        this.isAccountVerified = isAccountVerified;
     }
 
     public String getFirstName() {
@@ -71,6 +82,18 @@ public class User implements UserDetails {
 
     public Long getId() {
         return id;
+    }
+
+    public boolean getIsAccountVerified() {
+        return isAccountVerified;
+    }
+
+    public void setIsAccountVerified(boolean b) {
+        this.isAccountVerified = b;
+    }
+
+    public void setAccountVerified(boolean accountVerified) {
+        isAccountVerified = accountVerified;
     }
 
     @Override

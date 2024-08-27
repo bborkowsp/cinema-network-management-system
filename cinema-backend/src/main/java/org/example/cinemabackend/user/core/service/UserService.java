@@ -99,6 +99,13 @@ class UserService implements UserUseCases {
         userRepository.deleteUser(user);
     }
 
+    @Override
+    public void verifyAccount(String email) {
+        final var user = userRepository.findByEmail(email).orElseThrow();
+        user.setIsAccountVerified(true);
+        userRepository.save(user);
+    }
+
     private void validateUserIsNotAdmin(User user) {
         if (user.getRole().equals(Role.ADMIN)) {
             throw new IllegalArgumentException("Cannot delete admin user");

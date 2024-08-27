@@ -41,6 +41,8 @@ public class UserSchema implements UserDetails {
     @Column(nullable = false)
     private Role role;
 
+    private boolean isAccountVerified = false;
+
     public static UserSchema fromUser(User user) {
         return UserSchema.builder()
                 .id(user.getId())
@@ -49,6 +51,7 @@ public class UserSchema implements UserDetails {
                 .email(user.getEmail())
                 .passwordHash(user.getPasswordHash())
                 .role(user.getRole())
+                .isAccountVerified(user.getIsAccountVerified())
                 .build();
     }
 
@@ -60,7 +63,8 @@ public class UserSchema implements UserDetails {
                 this.lastName,
                 this.email,
                 this.passwordHash,
-                this.role
+                this.role,
+                this.isAccountVerified
         );
         return user;
     }

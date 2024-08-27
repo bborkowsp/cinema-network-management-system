@@ -8,6 +8,7 @@ import org.example.cinemabackend.config.JwtConfig;
 import org.example.cinemabackend.user.application.dto.JwtDto;
 import org.example.cinemabackend.user.application.dto.request.LoginUserRequest;
 import org.example.cinemabackend.user.application.dto.request.RegisterUserRequest;
+import org.example.cinemabackend.user.core.domain.Role;
 import org.example.cinemabackend.user.core.domain.User;
 import org.example.cinemabackend.user.core.port.primary.AccountVerificationUseCases;
 import org.example.cinemabackend.user.core.port.primary.AuthUseCases;
@@ -41,6 +42,7 @@ class AuthService implements AuthUseCases, UserDetailsService {
     public JwtDto login(LoginUserRequest loginUserDto) {
         final var user = validateUserExistence(loginUserDto.email());
         checkPasswordsMatch(loginUserDto.password(), user.getPassword());
+        checkIfUserIsVerified(user);
         final var jwt = createAndEncodeJwt(user);
         return new JwtDto(jwt);
     }
@@ -60,6 +62,12 @@ class AuthService implements AuthUseCases, UserDetailsService {
         final String verificationUrl = "http://localhost:4200/registration/verify-user?token=" + accountVerificationUseCases.generateAccountVerificationToken(user);
         LOGGER.info("Sending email to: " + user.getEmail() + " with verification url: " + verificationUrl);
         emailUseCases.sendEmailToConfirmAccount(user.getEmail(), "Email Verification", verificationUrl);
+    }
+
+    private void checkIfUserIsVerified(User user) {
+        if (!user.getIsAccountVerified() && user.getRole().equals(Role.CUSTOMER)) {
+            throw new IllegalStateException("Account is not verified");
+        }
     }
 
     @Override
