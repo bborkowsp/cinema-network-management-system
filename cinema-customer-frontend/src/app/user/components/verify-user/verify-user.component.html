@@ -1,8 +1,28 @@
-<div class="container">
-  <h1>Thank you! Your account has been <strong>successfully </strong> verified</h1>
-  <p>Now you can login to your account and start using our services</p>
-  <button color="accent" mat-flat-button>
-    <a href="/login" mat-button target="_blank">Login</a>
-  </button>
+<div *ngIf="status === 'success'">
+  <div class="container">
+    <h1>Thank you! Your account has been <strong>successfully </strong> verified</h1>
+    <p>Now you can login to your account and start using our services</p>
+    <button color="accent" mat-flat-button>
+      <a href="/login" mat-button target="_blank">Login</a>
+    </button>
+  </div>
+</div>
+<div *ngIf="status === 'failed' && reason === 'expired'">
+  <div class="container">
+    <h1>Token has expired!</h1>
+    <p>The verification link has expired. Please register again to receive a new verification email.</p>
+    <button color="accent" mat-flat-button>
+      <a href="/registration" mat-button target="_blank">Register again</a>
+    </button>
+  </div>
+</div>
+<div *ngIf="status === 'failed' && reason === 'invalid'">
+  <div class="container">
+    <h1>Verification failed</h1>
+    <p>The verification link is invalid. Please try registering again.</p>
+    <button color="accent" mat-flat-button>
+      <a href="/registration" mat-button target="_blank">Register again</a>
+    </button>
+  </div>
 </div>
 <app-page-bottom-section></app-page-bottom-section>

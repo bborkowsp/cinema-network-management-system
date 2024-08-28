@@ -10,7 +10,8 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class VerifyUserComponent implements OnInit {
   static readonly accountVerificationUrl = `${environment.API_BASE_URL}/verify-account`;
-
+  status!: string;
+  reason!: string;
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -19,16 +20,22 @@ export class VerifyUserComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      this.status = params['status'];
+      this.reason = params['reason'];
+    });
     const token = this.route.snapshot.queryParamMap.get('token');
     const url = `${VerifyUserComponent.accountVerificationUrl}?token=${token}`;
     this.httpClient.get(url)
       .subscribe({
-        next: () => {
-          console.log('User registered')
+        next: (response: any) => {
+          this.status = response.status;
+          this.reason = response.reason;
         },
-        error: () => {
-          console.log('Error registering user')
+        error: (error: any) => {
+          this.status = error.error.status;
+          this.reason = error.error.reason;
         }
-      })
+      });
   }
 }
