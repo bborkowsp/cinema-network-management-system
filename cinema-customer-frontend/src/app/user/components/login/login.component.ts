@@ -1,5 +1,7 @@
 import {Component} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {AuthService} from "../../../auth/auth.service";
+import {LoginUserRequest} from "../../../auth/login-user.request";
 
 @Component({
   selector: 'app-login',
@@ -17,11 +19,18 @@ export class LoginComponent {
     password: this.passwordControl,
   });
 
+  constructor(
+    private readonly authService: AuthService,
+  ) {
+  }
+
   togglePasswordVisibility() {
     this.hidePassword = !this.hidePassword;
   }
 
   submit() {
-    
+    const {email, password} = this.form.value;
+    const loginUserRequest = new LoginUserRequest(email ?? '', password ?? '');
+    this.authService.login(loginUserRequest);
   }
 }

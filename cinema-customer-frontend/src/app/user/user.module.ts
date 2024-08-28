@@ -18,12 +18,15 @@ import {RegisterComponent} from './components/register/register.component';
 import {LoginComponent} from "./components/login/login.component";
 import {SharedModule} from "../_shared/shared.module";
 import {VerifyUserComponent} from './components/verify-user/verify-user.component';
+import {AccountPageComponent} from './components/account-page/account-page.component';
+import {MatTabsModule} from "@angular/material/tabs";
 
 @NgModule({
   declarations: [
     LoginComponent,
     RegisterComponent,
-    VerifyUserComponent
+    VerifyUserComponent,
+    AccountPageComponent
   ],
   imports: [
     CommonModule,
@@ -42,7 +45,8 @@ import {VerifyUserComponent} from './components/verify-user/verify-user.componen
     MatIconModule,
     MatTooltipModule,
     MatDialogModule,
-    SharedModule
+    SharedModule,
+    MatTabsModule
   ],
 })
 export class UserModule {

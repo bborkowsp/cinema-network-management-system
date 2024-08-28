@@ -31,7 +31,7 @@ export class AuthService {
         this.loggedIn.next(true);
         this.loggedInUserSubject.next(loginUserRequest.email);
         localStorage.setItem('token', token);
-        this.router.navigate(['/home']);
+        this.router.navigate(['/account']);
       },
       (error) => {
         this.loggedIn.next(false);

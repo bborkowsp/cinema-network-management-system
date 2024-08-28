@@ -1,0 +1,34 @@
+.container {
+  padding: 1.5rem 2rem;
+  margin: 2rem auto;
+  background-color: #ffffff;
+  border-radius: 8px;
+  max-width: 960px;
+}
+
+.mat-tab-group {
+  margin-top: 1rem;
+}
+
+.pad {
+  padding-top: 2rem;
+}
+
+.tab-content {
+  padding: 1rem;
+  font-size: 1.1rem;
+  color: #424242;
+}
+
+.content {
+  height: 25rem;
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background-color: #fff; /* Optional: Background color */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add some shadow */
+}
+
+app-page-bottom-section {
+  margin-top: 2rem;
+}
