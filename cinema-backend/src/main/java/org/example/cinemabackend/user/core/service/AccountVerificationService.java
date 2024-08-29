@@ -26,7 +26,7 @@ public class AccountVerificationService implements AccountVerificationUseCases {
     @Override
     public String generateAccountVerificationToken(User user) {
         final String token = UUID.randomUUID().toString();
-        final LocalDateTime expiryDate = LocalDateTime.now().plusDays(1);
+        final LocalDateTime expiryDate = LocalDateTime.now().plusSeconds(30);
         AccountVerificationToken accountVerificationToken = new AccountVerificationToken(token, user.getEmail(), expiryDate);
         accountVerificationTokenRepository.save(accountVerificationToken);
         return token;
