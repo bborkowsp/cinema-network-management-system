@@ -6,6 +6,7 @@ import {LoginComponent} from "./user/components/login/login.component";
 import {RegisterComponent} from "./user/components/register/register.component";
 import {VerifyUserComponent} from "./user/components/verify-user/verify-user.component";
 import {AccountPageComponent} from "./user/components/account-page/account-page.component";
+import {AuthGuard} from "./auth/permission.service";
 
 const routes: Routes = [
   {path: '', component: RepertoryComponent},
@@ -14,7 +15,7 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'registration', component: RegisterComponent},
   {path: 'registration/verify-user', component: VerifyUserComponent},
-  {path: 'account', component: AccountPageComponent},
+  {path: 'account', component: AccountPageComponent, canActivate: [AuthGuard],},
 ];
 
 @NgModule({

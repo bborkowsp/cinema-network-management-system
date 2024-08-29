@@ -61,7 +61,7 @@ class AuthService implements AuthUseCases, UserDetailsService {
         userRepository.save(user);
         final String verificationUrl = "http://localhost:4200/registration/verify-user?token=" + accountVerificationUseCases.generateAccountVerificationToken(user);
         LOGGER.info("Sending email to: " + user.getEmail() + " with verification url: " + verificationUrl);
-        emailUseCases.sendEmailToConfirmAccount(user.getEmail(), "Email Verification", verificationUrl);
+        emailUseCases.sendEmailToConfirmAccount(user.getEmail(), verificationUrl);
     }
 
     private void checkIfUserIsVerified(User user) {

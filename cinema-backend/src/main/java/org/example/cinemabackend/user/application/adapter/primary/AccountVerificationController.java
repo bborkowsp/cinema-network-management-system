@@ -18,8 +18,6 @@ import java.util.Map;
 @RequestMapping("/v1/verify-account")
 @RequiredArgsConstructor
 public class AccountVerificationController {
-    private static final String ACCOUNT_VERIFICATION_TOKEN_EXPIRED = "Account verification token has expired";
-    private static final String ACCOUNT_VERIFICATION_TOKEN_INVALID = "Invalid account verification token";
     private final AccountVerificationTokenRepository accountVerificationTokenRepository;
     private final UserUseCases userUseCases;
 
