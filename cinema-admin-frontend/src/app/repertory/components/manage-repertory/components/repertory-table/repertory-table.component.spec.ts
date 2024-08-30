@@ -1,16 +1,16 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {RepertoryListComponentComponent} from './repertory-list-component.component';
+import {RepertoryTableComponent} from './repertory-table.component';
 
 describe('RepertoryTableComponentComponent', () => {
-  let component: RepertoryListComponentComponent;
-  let fixture: ComponentFixture<RepertoryListComponentComponent>;
+  let component: RepertoryTableComponent;
+  let fixture: ComponentFixture<RepertoryTableComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [RepertoryListComponentComponent]
+      declarations: [RepertoryTableComponent]
     });
-    fixture = TestBed.createComponent(RepertoryListComponentComponent);
+    fixture = TestBed.createComponent(RepertoryTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

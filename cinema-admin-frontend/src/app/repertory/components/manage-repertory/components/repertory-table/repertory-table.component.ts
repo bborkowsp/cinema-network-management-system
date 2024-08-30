@@ -2,11 +2,11 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {ScreeningResponse} from "../../../../dtos/screening.response";
 
 @Component({
-  selector: 'app-repertory-list-component',
-  templateUrl: './repertory-list-component.component.html',
-  styleUrls: ['./repertory-list-component.component.scss'],
+  selector: 'app-repertory-table-component',
+  templateUrl: './repertory-table.component.html',
+  styleUrls: ['./repertory-table.component.scss'],
 })
-export class RepertoryListComponentComponent {
+export class RepertoryTableComponent {
   @Input({required: true}) screenings!: ScreeningResponse[];
   @Output() handleDelete = new EventEmitter<ScreeningResponse>();
   @Output() handleEdit = new EventEmitter<ScreeningResponse>();

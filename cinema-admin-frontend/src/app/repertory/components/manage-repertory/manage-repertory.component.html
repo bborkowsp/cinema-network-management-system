@@ -11,12 +11,12 @@
           <div class="header-content">
             <h2 class="room-name">{{ roomName }}</h2>
           </div>
-          <app-repertory-list-component
+          <app-repertory-table-component
             (handleAdd)="onAddScreening($event)"
             (handleDelete)="onDeleteScreening($event)"
             (handleEdit)="onEditScreening($event)"
             [screenings]="groupedScreenings[roomName]"
-          ></app-repertory-list-component>
+          ></app-repertory-table-component>
         </div>
       </div>
     </div>

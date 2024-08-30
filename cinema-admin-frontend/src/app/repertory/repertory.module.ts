@@ -3,9 +3,6 @@ import {ManageRepertoryComponent} from "./components/manage-repertory/manage-rep
 import {SharedModule} from "../_shared/shared.module";
 import {MatTableModule} from "@angular/material/table";
 import {AsyncPipe, DatePipe, KeyValuePipe, NgForOf, NgIf} from "@angular/common";
-import {
-  RepertoryListComponentComponent
-} from "./components/manage-repertory/components/repertory-list-component/repertory-list-component.component";
 import {MatButtonModule} from "@angular/material/button";
 import {ScreeningFormComponent} from './components/manage-repertory/components/screening-form/screening-form.component';
 import {MatIconModule} from "@angular/material/icon";
@@ -16,11 +13,14 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {
+  RepertoryTableComponent
+} from "./components/manage-repertory/components/repertory-table/repertory-table.component";
 
 @NgModule({
   declarations: [
     ManageRepertoryComponent,
-    RepertoryListComponentComponent,
+    RepertoryTableComponent,
     ScreeningFormComponent,
     ScreeningFormFrameComponent,
   ],
