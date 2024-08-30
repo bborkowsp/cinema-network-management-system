@@ -27,10 +27,10 @@ public class ScreeningRoomSchema {
     @Column(columnDefinition = "TEXT")
     private String seatingPlan;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<ProjectionTechnologySchema> supportedTechnologies = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<ScreeningSchema> repertory;
 
     public static ScreeningRoomSchema fromScreeningRoom(ScreeningRoom screeningRoom) {

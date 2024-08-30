@@ -1,17 +1,25 @@
 <app-page-content-container
+  [hasCreateNewButton]=true
   [isLoading]="isLoading"
   pageTitle="Repertory"
-  [hasCreateNewButton]=true
   routerLink="/repertory/create"
 >
-  <ng-container content *ngIf="!isLoading">
-    <app-repertory-list-component
-      [repertory]="repertory$"
-      (handleDelete)="onDeleteScreening($event)"
-      (handleEdit)="onEditScreening($event)"
-      (handleAdd)="onAddScreening($event)"
-    >
-    </app-repertory-list-component>
+  <ng-container *ngIf="!isLoading" content>
+    <div *ngIf="screeningsGroupedByScreeningRoom  as groupedScreenings" content>
+      <div *ngFor="let roomName of Object.keys(groupedScreenings)">
+        <div class="repertory-table-container">
+          <div class="header-content">
+            <h2 class="room-name">{{ roomName }}</h2>
+          </div>
+          <app-repertory-list-component
+            (handleAdd)="onAddScreening($event)"
+            (handleDelete)="onDeleteScreening($event)"
+            (handleEdit)="onEditScreening($event)"
+            [screenings]="groupedScreenings[roomName]"
+          ></app-repertory-list-component>
+        </div>
+      </div>
+    </div>
   </ng-container>
 </app-page-content-container>
 

@@ -12,6 +12,8 @@ import {Router} from "@angular/router";
 export class ManageRepertoryComponent implements OnInit {
   repertory$ !: ScreeningResponse[];
   isLoading = true;
+  screeningsGroupedByScreeningRoom: { [key: string]: ScreeningResponse[] } = {};
+  protected readonly Object = Object;
 
   constructor(
     private readonly repertoryService: ScreeningService,
@@ -22,6 +24,7 @@ export class ManageRepertoryComponent implements OnInit {
   ngOnInit(): void {
     this.getData().subscribe((repertory) => {
       this.repertory$ = repertory;
+      this.groupScreeningsByScreeningRoom();
       this.isLoading = false;
     });
   }
@@ -48,5 +51,16 @@ export class ManageRepertoryComponent implements OnInit {
 
   private getData() {
     return this.repertoryService.getRepertory();
+  }
+
+  private groupScreeningsByScreeningRoom() {
+    this.screeningsGroupedByScreeningRoom = {};
+    this.repertory$.forEach((screening: ScreeningResponse) => {
+      const roomName = screening.screeningRoom.name;
+      if (!this.screeningsGroupedByScreeningRoom[roomName]) {
+        this.screeningsGroupedByScreeningRoom[roomName] = [];
+      }
+      this.screeningsGroupedByScreeningRoom[roomName].push(screening);
+    });
   }
 }

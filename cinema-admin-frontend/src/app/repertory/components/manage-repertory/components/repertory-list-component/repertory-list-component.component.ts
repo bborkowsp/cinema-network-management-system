@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {ScreeningResponse} from "../../../../dtos/screening.response";
 
 @Component({
@@ -6,30 +6,12 @@ import {ScreeningResponse} from "../../../../dtos/screening.response";
   templateUrl: './repertory-list-component.component.html',
   styleUrls: ['./repertory-list-component.component.scss'],
 })
-export class RepertoryListComponentComponent implements OnInit {
-  @Input() repertory!: ScreeningResponse[];
+export class RepertoryListComponentComponent {
+  @Input({required: true}) screenings!: ScreeningResponse[];
   @Output() handleDelete = new EventEmitter<ScreeningResponse>();
   @Output() handleEdit = new EventEmitter<ScreeningResponse>();
   @Output() handleAdd = new EventEmitter<string>();
-
-  displayedColumns = ['options', 'movie', 'startTime', 'endTime'];
-  screeningsGroupedByScreeningRoom: { [key: string]: ScreeningResponse[] } = {};
-  protected readonly Object = Object;
-
-  ngOnInit() {
-    this.groupScreeningsByScreeningRoom();
-  }
-
-  private groupScreeningsByScreeningRoom() {
-    this.screeningsGroupedByScreeningRoom = {};
-    this.repertory.forEach((screening: ScreeningResponse) => {
-      const roomName = screening.screeningRoom.name;
-      if (!this.screeningsGroupedByScreeningRoom[roomName]) {
-        this.screeningsGroupedByScreeningRoom[roomName] = [];
-      }
-      this.screeningsGroupedByScreeningRoom[roomName].push(screening);
-    });
-  }
+  protected displayedColumns = ['options', 'movie', 'startTime', 'endTime'];
 
   handleDeleteScreening(screening: ScreeningResponse) {
     this.handleDelete.emit(screening);

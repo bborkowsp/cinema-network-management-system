@@ -28,7 +28,6 @@ export class ScreeningFormComponent implements OnInit {
 
   ngOnInit() {
     const params = this.activatedRoute.snapshot.params;
-
     if (params['id']) {
       this.isEditMode = true;
       this.id = params['id'];

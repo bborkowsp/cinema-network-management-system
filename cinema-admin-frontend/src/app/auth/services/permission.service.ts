@@ -3,9 +3,10 @@ import {inject, Injectable} from "@angular/core";
 import {AuthService} from "./auth.service";
 import {Role} from "./roles";
 
+
 export const AuthGuard: CanActivateFn = (next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean => {
   return inject(PermissionService).canActivate(next, state);
-}
+};
 
 @Injectable({
   providedIn: 'root'
@@ -18,15 +19,20 @@ class PermissionService {
   }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    const userRole = this.authService.getUserRoleAsEnum();
-    if (!userRole || !this.isAuthorized(next.data['roles'], userRole)) {
+    const userActualRole = this.authService.getUserRoleAsEnum();
+    const expectedRoles: Role[] = next.data['roles'];
+    if (
+      userActualRole == null ||
+      !this.authService.isLoggedIn ||
+      !this.checkIfUserHasExpectedRole(expectedRoles, userActualRole)
+    ) {
       this.router.navigate(['/login']);
       return false;
     }
     return true;
   }
 
-  private isAuthorized(expectedRoles: Role[], userRole: Role): boolean {
-    return this.authService.isLoggedIn() && expectedRoles.includes(userRole);
+  private checkIfUserHasExpectedRole(expectedRoles: Role[], userActualRole: Role): boolean {
+    return expectedRoles.some((role) => userActualRole === role);
   }
 }

@@ -22,7 +22,7 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
     ManageRepertoryComponent,
     RepertoryListComponentComponent,
     ScreeningFormComponent,
-    ScreeningFormFrameComponent
+    ScreeningFormFrameComponent,
   ],
   imports: [
     SharedModule,

@@ -6,6 +6,7 @@ import org.example.cinemabackend.cinema.application.dto.request.create.CreateScr
 import org.example.cinemabackend.cinema.application.dto.response.ScreeningResponse;
 import org.example.cinemabackend.cinema.core.port.primary.ScreeningUseCases;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -36,6 +37,7 @@ class ScreeningController {
     }
 
     @GetMapping("/id/{id}")
+    @PreAuthorize("hasAnyRole('CINEMA_MANAGER','ADMIN')")
     ResponseEntity<ScreeningResponse> getScreening(@PathVariable("id") Long id) {
         final var screening = screeningUseCases.getScreening(id);
         return ResponseEntity.ok(screening);
@@ -61,5 +63,4 @@ class ScreeningController {
         screeningUseCases.deleteScreening(id);
         return ResponseEntity.noContent().build();
     }
-
 }
