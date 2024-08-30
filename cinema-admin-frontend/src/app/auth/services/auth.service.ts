@@ -14,52 +14,42 @@ import {LoginUserRequest} from "../../user/dtos/request/login-user.request";
 
 export class AuthService {
   static readonly usersUrl = `${environment.API_BASE_URL}/auth`;
-  public loggedInUserSubject: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  loggedInUserSubject: BehaviorSubject<string> = new BehaviorSubject<string>('');
   private loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-  constructor(private httpClient: HttpClient, private router: Router) {
+  constructor(
+    private httpClient: HttpClient,
+    private router: Router
+  ) {
   }
 
   login(loginUserRequest: LoginUserRequest) {
     const url = `${AuthService.usersUrl}/login`;
-    localStorage.removeItem("token");
-    localStorage.removeItem("expires_at");
-    console.log(loginUserRequest)
-    return this.httpClient.post<any>(url, loginUserRequest).subscribe(
-      (response) => {
+    this.removeTokenFromLocalStorage();
+
+    return this.httpClient.post<any>(url, loginUserRequest).subscribe({
+      next: (response) => {
         const token = response.token;
-        console.log(token)
         this.loggedIn.next(true);
         this.loggedInUserSubject.next(loginUserRequest.email);
         localStorage.setItem('token', token);
         this.router.navigate(['/home']);
       },
-      (error) => {
+      error: (error) => {
         this.loggedIn.next(false);
         this.router.navigate(['/login']);
       }
-    )
+    });
   }
 
   logout() {
     this.loggedIn.next(false);
-    localStorage.removeItem("token");
-    localStorage.removeItem("expires_at");
+    this.removeTokenFromLocalStorage();
     this.router.navigate(['/login']);
   }
 
-  public isLoggedIn() {
+  isLoggedIn() {
     return moment().isBefore(this.getExpiration());
-  }
-
-  isLoggedOut() {
-    return !this.isLoggedIn();
-  }
-
-  getExpiration() {
-    const expiration = localStorage.getItem("expires_at");
-    const expiresAt = JSON.parse(expiration ?? '');
-    return moment(expiresAt);
   }
 
   getUserRole(): string {
@@ -92,14 +82,6 @@ export class AuthService {
     return this.getUserRole() === 'ROLE_CINEMA_MANAGER';
   }
 
-  getDecodedAccessToken(token: string): any {
-    try {
-      return jwtDecode(token);
-    } catch (Error) {
-      return null;
-    }
-  }
-
   getLoggedInUserEmail(): string {
     const token = localStorage.getItem('token');
     if (token) {
@@ -107,5 +89,24 @@ export class AuthService {
       return decodedToken.sub;
     }
     return '';
+  }
+
+  private getExpiration() {
+    const expiration = localStorage.getItem("expires_at");
+    const expiresAt = JSON.parse(expiration ?? '');
+    return moment(expiresAt);
+  }
+
+  private getDecodedAccessToken(token: string): any {
+    try {
+      return jwtDecode(token);
+    } catch (Error) {
+      return null;
+    }
+  }
+
+  private removeTokenFromLocalStorage() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('expires_at');
   }
 }
