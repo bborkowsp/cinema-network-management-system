@@ -1,4 +1,4 @@
-<div *ngIf="isCinemaSelected" class="bg2">
+<div *ngIf="isCinemaSelected" class="movies-container">
   <section class="container container-small">
     <ng-container *ngIf="!isLoading; else spinner">
       <ng-container *ngIf="movieTitles.length; else noMovies">
@@ -10,7 +10,7 @@
               class="movie-poster"
             />
             <div class="screening-details">
-              <div class="header">
+              <div class="screening-details__header">
                 <h2>{{ movieTitle }}</h2>
                 <p>| {{ repertory[movieTitle][0].movie.duration }} min</p>
               </div>
@@ -21,7 +21,7 @@
                     {{ screening.startTime | date:'HH:mm' }}
                   </button>
                 </div>
-                <a *ngIf="repertory[movieTitle].length > 4" class="show-more" href="https://www.google.com/"
+                <a *ngIf="repertory[movieTitle].length > 4" href="https://www.google.com/"
                    mat-flat-button
                    target="_blank">
                   Show more
