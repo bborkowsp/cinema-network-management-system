@@ -10,6 +10,9 @@ import {AuthGuard} from "./auth/permission.service";
 import {CheckEmailComponent} from "./user/components/check-email/check-email.component";
 import {ResetPasswordComponent} from "./user/components/reset-password/reset-password.component";
 import {ActivateAccountComponent} from "./user/components/activate-account/activate-account.component";
+import {
+  ResetPasswordFormComponent
+} from "./user/components/reset-password/reset-password-form/reset-password-form.component";
 
 const routes: Routes = [
   {path: '', component: RepertoryComponent},
@@ -21,7 +24,8 @@ const routes: Routes = [
   {path: 'account', component: AccountPageComponent, canActivate: [AuthGuard]},
   {path: 'check-email', component: CheckEmailComponent},
   {path: 'reset-password', component: ResetPasswordComponent},
-  {path: 'activate-account', component: ActivateAccountComponent}
+  {path: 'activate-account', component: ActivateAccountComponent},
+  {path: 'reset-password-form', component: ResetPasswordFormComponent}
 ];
 
 @NgModule({

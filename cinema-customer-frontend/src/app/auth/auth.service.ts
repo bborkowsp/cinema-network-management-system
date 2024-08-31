@@ -7,6 +7,7 @@ import {BehaviorSubject} from "rxjs";
 import * as moment from "moment";
 import {RegisterUserRequest} from "./register-user.request";
 import {jwtDecode} from 'jwt-decode';
+import {ResetPasswordRequest} from "../user/dtos/request/reset-password.request";
 
 @Injectable({
   providedIn: 'root'
@@ -59,10 +60,14 @@ export class AuthService {
     return isLoggedIn;
   }
 
-  resetPassword(email: string) {
+  requestForPasswordReset(email: string) {
+    const url = `${AuthService.authUrl}/reset-password-request?email=${encodeURIComponent(email)}`;
+    return this.httpClient.post<void>(url, {});
+  }
+
+  resetPassword(resetPasswordRequest: ResetPasswordRequest) {
     const url = `${AuthService.authUrl}/reset-password`;
-    console.log(url);
-    return this.httpClient.post<any>(url, {email});
+    return this.httpClient.post<void>(url, resetPasswordRequest);
   }
 
   private getExpiration(): moment.Moment {

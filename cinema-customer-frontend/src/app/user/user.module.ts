@@ -25,6 +25,7 @@ import {RouterLink} from "@angular/router";
 import {ResetPasswordComponent} from './components/reset-password/reset-password.component';
 import {ActivateAccountComponent} from './components/activate-account/activate-account.component';
 import {MatCardModule} from "@angular/material/card";
+import { ResetPasswordFormComponent } from './components/reset-password/reset-password-form/reset-password-form.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import {MatCardModule} from "@angular/material/card";
     AccountPageComponent,
     CheckEmailComponent,
     ResetPasswordComponent,
-    ActivateAccountComponent
+    ActivateAccountComponent,
+    ResetPasswordFormComponent
   ],
   imports: [
     CommonModule,

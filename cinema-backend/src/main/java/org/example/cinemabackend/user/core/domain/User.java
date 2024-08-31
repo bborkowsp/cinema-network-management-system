@@ -60,14 +60,6 @@ public class User implements UserDetails {
         this.lastName = lastName;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getPasswordHash() {
         return passwordHash;
     }
@@ -108,9 +100,21 @@ public class User implements UserDetails {
         return passwordHash;
     }
 
+    public void setPassword(String encodedPassword) {
+        this.passwordHash = encodedPassword;
+    }
+
     @Override
     public String getUsername() {
         return getEmail();
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override

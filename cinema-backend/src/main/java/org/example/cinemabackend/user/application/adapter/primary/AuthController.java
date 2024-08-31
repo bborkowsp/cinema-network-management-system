@@ -7,13 +7,11 @@ import org.apache.logging.log4j.Logger;
 import org.example.cinemabackend.user.application.dto.JwtDto;
 import org.example.cinemabackend.user.application.dto.request.LoginUserRequest;
 import org.example.cinemabackend.user.application.dto.request.RegisterUserRequest;
+import org.example.cinemabackend.user.application.dto.request.ResetPasswordRequest;
 import org.example.cinemabackend.user.core.port.primary.AuthUseCases;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -37,9 +35,15 @@ class AuthController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @PostMapping("/reset-password-request")
+    public ResponseEntity<Void> resetPassword(@RequestParam("email") String email) {
+        authUseCases.processRequestForPasswordReset(email);
+        return ResponseEntity.ok().build();
+    }
+
     @PostMapping("/reset-password")
-    public ResponseEntity<Void> resetPassword(@RequestBody String email) {
-        authUseCases.resetPassword(email);
+    public ResponseEntity<Void> resetPassword(@RequestBody @Valid ResetPasswordRequest resetPasswordRequest) {
+        authUseCases.resetPassword(resetPasswordRequest);
         return ResponseEntity.ok().build();
     }
 }

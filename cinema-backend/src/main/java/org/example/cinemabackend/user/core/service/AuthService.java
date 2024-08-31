@@ -8,6 +8,7 @@ import org.example.cinemabackend.config.JwtConfig;
 import org.example.cinemabackend.user.application.dto.JwtDto;
 import org.example.cinemabackend.user.application.dto.request.LoginUserRequest;
 import org.example.cinemabackend.user.application.dto.request.RegisterUserRequest;
+import org.example.cinemabackend.user.application.dto.request.ResetPasswordRequest;
 import org.example.cinemabackend.user.core.domain.Role;
 import org.example.cinemabackend.user.core.domain.User;
 import org.example.cinemabackend.user.core.port.primary.AuthUseCases;
@@ -33,7 +34,7 @@ class AuthService implements AuthUseCases, UserDetailsService {
     private static final String PASSWORD_DOES_NOT_MATCH_ERROR_MESSAGE = "Invalid login credentials";
     private static final String USER_ALREADY_EXISTS_ERROR_MESSAGE = "User already exists";
     private static final String ACCOUNT_VERIFICATION_URL_PREFIX = "http://localhost:4200/registration/verify-user?token=";
-    private static final String RESET_PASSWORD_URL_PREFIX = "http://localhost:4200/reset-password?token=";
+    private static final String RESET_PASSWORD_URL_PREFIX = "http://localhost:4200/reset-password-form?token=";
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtConfig jwtConfig;
@@ -67,10 +68,20 @@ class AuthService implements AuthUseCases, UserDetailsService {
     }
 
     @Override
-    public void resetPassword(String email) {
+    public void processRequestForPasswordReset(String email) {
         final var user = validateUserExistence(email);
         final String resetPasswordUrl = RESET_PASSWORD_URL_PREFIX + tokenUseCases.generateToken(user);
         emailUseCases.sendEmailToResetPassword(user.getEmail(), resetPasswordUrl);
+    }
+
+    @Override
+    public void resetPassword(ResetPasswordRequest resetPasswordRequest) {
+        tokenUseCases.validateToken(resetPasswordRequest.token());
+        String email = tokenUseCases.getEmailFromToken(resetPasswordRequest.token());
+        final var user = validateUserExistence(email);
+        final var encodedPassword = passwordEncoder.encode(resetPasswordRequest.newPassword());
+        user.setPassword(encodedPassword);
+        userRepository.save(user);
     }
 
     private void checkIfUserAlreadyExists(String username) {

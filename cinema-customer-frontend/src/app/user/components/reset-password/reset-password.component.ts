@@ -21,8 +21,8 @@ export class ResetPasswordComponent {
   }
 
   submit() {
-    const email = this.form.value as string;
-    this.authService.resetPassword(email).subscribe({
+    const email = this.form.value.email as string;
+    this.authService.requestForPasswordReset(email).subscribe({
       next: () => {
         this.router.navigate(['/check-email']);
       },
