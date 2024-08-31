@@ -93,3 +93,14 @@ h1 {
   gap: 16px;
 }
 
+.error-message {
+  color: #d32f2f; /* Red color for error messages */
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.error-message mat-icon {
+  margin-right: 8px;
+}

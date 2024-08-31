@@ -10,9 +10,9 @@ import org.example.cinemabackend.user.application.dto.request.LoginUserRequest;
 import org.example.cinemabackend.user.application.dto.request.RegisterUserRequest;
 import org.example.cinemabackend.user.core.domain.Role;
 import org.example.cinemabackend.user.core.domain.User;
-import org.example.cinemabackend.user.core.port.primary.AccountVerificationUseCases;
 import org.example.cinemabackend.user.core.port.primary.AuthUseCases;
 import org.example.cinemabackend.user.core.port.primary.EmailUseCases;
+import org.example.cinemabackend.user.core.port.primary.TokenUseCases;
 import org.example.cinemabackend.user.core.port.secondary.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -32,11 +32,13 @@ class AuthService implements AuthUseCases, UserDetailsService {
     private static final String USER_NOT_FOUND_ERROR_MESSAGE = "User not found";
     private static final String PASSWORD_DOES_NOT_MATCH_ERROR_MESSAGE = "Invalid login credentials";
     private static final String USER_ALREADY_EXISTS_ERROR_MESSAGE = "User already exists";
+    private static final String ACCOUNT_VERIFICATION_URL_PREFIX = "http://localhost:4200/registration/verify-user?token=";
+    private static final String RESET_PASSWORD_URL_PREFIX = "http://localhost:4200/reset-password?token=";
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtConfig jwtConfig;
     private final EmailUseCases emailUseCases;
-    private final AccountVerificationUseCases accountVerificationUseCases;
+    private final TokenUseCases tokenUseCases;
 
     @Override
     public JwtDto login(LoginUserRequest loginUserDto) {
@@ -59,26 +61,38 @@ class AuthService implements AuthUseCases, UserDetailsService {
                 registerUserRequest.role()
         );
         userRepository.save(user);
-        final String verificationUrl = "http://localhost:4200/registration/verify-user?token=" + accountVerificationUseCases.generateAccountVerificationToken(user);
+        final String verificationUrl = ACCOUNT_VERIFICATION_URL_PREFIX + tokenUseCases.generateToken(user);
         LOGGER.info("Sending email to: " + user.getEmail() + " with verification url: " + verificationUrl);
         emailUseCases.sendEmailToConfirmAccount(user.getEmail(), verificationUrl);
     }
 
-    private void checkIfUserIsVerified(User user) {
-        if (!user.getIsAccountVerified() && user.getRole().equals(Role.CUSTOMER)) {
-            throw new IllegalStateException("Account is not verified");
+    @Override
+    public void resetPassword(String email) {
+        final var user = validateUserExistence(email);
+        final String resetPasswordUrl = RESET_PASSWORD_URL_PREFIX + tokenUseCases.generateToken(user);
+        emailUseCases.sendEmailToResetPassword(user.getEmail(), resetPasswordUrl);
+    }
+
+    private void checkIfUserAlreadyExists(String username) {
+        if (userRepository.existsByEmail(username)) {
+            throw new IllegalStateException(USER_ALREADY_EXISTS_ERROR_MESSAGE);
         }
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND_ERROR_MESSAGE));
+    private User validateUserExistence(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new NoSuchElementException(USER_NOT_FOUND_ERROR_MESSAGE));
     }
 
     private void checkPasswordsMatch(String password, String encodedPassword) {
         if (!passwordEncoder.matches(password, encodedPassword)) {
             throw new IllegalStateException(PASSWORD_DOES_NOT_MATCH_ERROR_MESSAGE);
+        }
+    }
+
+    private void checkIfUserIsVerified(User user) {
+        if (!user.getIsAccountVerified() && user.getRole().equals(Role.CUSTOMER)) {
+            throw new IllegalStateException("Account is not verified");
         }
     }
 
@@ -92,14 +106,9 @@ class AuthService implements AuthUseCases, UserDetailsService {
                 .compact();
     }
 
-    private User validateUserExistence(String email) {
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new NoSuchElementException(USER_NOT_FOUND_ERROR_MESSAGE));
-    }
-
-    private void checkIfUserAlreadyExists(String username) {
-        if (userRepository.existsByEmail(username)) {
-            throw new IllegalStateException(USER_ALREADY_EXISTS_ERROR_MESSAGE);
-        }
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND_ERROR_MESSAGE));
     }
 }

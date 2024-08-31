@@ -13,7 +13,7 @@ import {jwtDecode} from 'jwt-decode';
 })
 
 export class AuthService {
-  static readonly usersUrl = `${environment.API_BASE_URL}/auth`;
+  static readonly authUrl = `${environment.API_BASE_URL}/auth`;
   loggedInUserSubject: BehaviorSubject<string> = new BehaviorSubject<string>('');
   loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.isLoggedIn());
 
@@ -24,7 +24,7 @@ export class AuthService {
   }
 
   login(loginUserRequest: LoginUserRequest) {
-    const url = `${AuthService.usersUrl}/login`;
+    const url = `${AuthService.authUrl}/login`;
     this.removeTokenFromLocalStorage();
     return this.httpClient.post<any>(url, loginUserRequest).subscribe({
       next: (response) => {
@@ -42,7 +42,7 @@ export class AuthService {
   }
 
   register(registerUserRequest: RegisterUserRequest) {
-    const url = `${AuthService.usersUrl}/register`;
+    const url = `${AuthService.authUrl}/register`;
     return this.httpClient.post<any>(url, registerUserRequest);
   }
 
@@ -57,6 +57,12 @@ export class AuthService {
     const isLoggedIn = expiration && moment().isBefore(expiration);
     console.log('isLoggedIn fun', isLoggedIn);
     return isLoggedIn;
+  }
+
+  resetPassword(email: string) {
+    const url = `${AuthService.authUrl}/reset-password`;
+    console.log(url);
+    return this.httpClient.post<any>(url, {email});
   }
 
   private getExpiration(): moment.Moment {

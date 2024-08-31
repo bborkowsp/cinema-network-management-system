@@ -1,5 +1,7 @@
 package org.example.cinemabackend.user.core.port.primary;
 
 public interface EmailUseCases {
-    void sendEmailToConfirmAccount(String to, String text);
+    void sendEmailToResetPassword(String email, String resetPasswordUrl);
+
+    void sendEmailToConfirmAccount(String to, String verificationUrl);
 }

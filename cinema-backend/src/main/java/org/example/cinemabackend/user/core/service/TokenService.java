@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.user.application.dto.AccountVerificationTokenDto;
 import org.example.cinemabackend.user.core.domain.AccountVerificationToken;
 import org.example.cinemabackend.user.core.domain.User;
-import org.example.cinemabackend.user.core.port.primary.AccountVerificationUseCases;
-import org.example.cinemabackend.user.core.port.secondary.AccountVerificationTokenRepository;
+import org.example.cinemabackend.user.core.port.primary.TokenUseCases;
+import org.example.cinemabackend.user.core.port.secondary.TokenRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -13,9 +13,9 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class AccountVerificationService implements AccountVerificationUseCases {
+public class TokenService implements TokenUseCases {
     private static final LocalDateTime EXPIRE_DATE = LocalDateTime.now().plusDays(1);
-    private final AccountVerificationTokenRepository accountVerificationTokenRepository;
+    private final TokenRepository tokenRepository;
 
 
     @Override
@@ -24,10 +24,10 @@ public class AccountVerificationService implements AccountVerificationUseCases {
     }
 
     @Override
-    public String generateAccountVerificationToken(User user) {
+    public String generateToken(User user) {
         final String token = UUID.randomUUID().toString();
         AccountVerificationToken accountVerificationToken = new AccountVerificationToken(token, user.getEmail(), EXPIRE_DATE);
-        accountVerificationTokenRepository.save(accountVerificationToken);
+        tokenRepository.save(accountVerificationToken);
         return token;
     }
 }

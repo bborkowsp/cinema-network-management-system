@@ -8,4 +8,6 @@ public interface AuthUseCases {
     JwtDto login(LoginUserRequest loginUserRequest);
 
     void register(RegisterUserRequest registerUserRequest);
+
+    void resetPassword(String email);
 }

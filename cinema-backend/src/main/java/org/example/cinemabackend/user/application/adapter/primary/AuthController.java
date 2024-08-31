@@ -36,4 +36,10 @@ class AuthController {
         LOGGER.info("User registered: " + registerUserRequest.email());
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<Void> resetPassword(@RequestBody String email) {
+        authUseCases.resetPassword(email);
+        return ResponseEntity.ok().build();
+    }
 }

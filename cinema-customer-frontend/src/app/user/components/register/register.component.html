@@ -45,7 +45,10 @@
       </div>
     </mat-form-field>
     <button [disabled]="form.invalid" color="primary" mat-raised-button type="submit">Create an account</button>
+    <div *ngIf="accountAlreadyExistsError" class="error-message">
+      <mat-icon color="warn">error</mat-icon>
+      <span>Email is already in use. Please use a different email address.</span>
+    </div>
   </form>
 </div>
-
 <app-page-bottom-section></app-page-bottom-section>

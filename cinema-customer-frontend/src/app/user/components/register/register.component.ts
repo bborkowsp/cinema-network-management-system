@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../../auth/auth.service";
 import {RegisterUserRequest} from "../../../auth/register-user.request";
 import {Role} from "../../../auth/role";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-register',
@@ -15,8 +16,8 @@ export class RegisterComponent {
   emailControl = new FormControl('', [Validators.required, Validators.email]);
   emailConfirmationControl = new FormControl('', [Validators.required, Validators.email]);
   passwordControl = new FormControl('', [Validators.required]);
-
   hidePassword: boolean = true;
+  accountAlreadyExistsError: boolean = false;
 
   form = new FormGroup({
     firstName: this.firstNameControl,
@@ -29,6 +30,7 @@ export class RegisterComponent {
 
   constructor(
     private readonly authService: AuthService,
+    private readonly router: Router,
   ) {
   }
 
@@ -41,9 +43,12 @@ export class RegisterComponent {
     this.authService.register(registerUserRequest).subscribe({
       next: () => {
         console.log('User registered')
+        this.router.navigate(['/activate-account']);
       },
-      error: () => {
-        console.log('Error registering user')
+      error: (error) => {
+        if (error.error.errors[0] === 'User already exists') {
+          this.accountAlreadyExistsError = true;
+        }
       }
     })
   }

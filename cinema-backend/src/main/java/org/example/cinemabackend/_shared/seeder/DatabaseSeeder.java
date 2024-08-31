@@ -20,7 +20,6 @@ class DatabaseSeeder implements CommandLineRunner {
     private final UserSeeder userSeeder;
     private final MovieSeeder movieSeeder;
     private final ScreeningSeeder screeningSeeder;
-
     private final Logger logger = LoggerFactory.getLogger(DatabaseSeeder.class);
 
     @Override

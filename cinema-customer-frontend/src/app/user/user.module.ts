@@ -22,6 +22,9 @@ import {AccountPageComponent} from './components/account-page/account-page.compo
 import {MatTabsModule} from "@angular/material/tabs";
 import {CheckEmailComponent} from './components/check-email/check-email.component';
 import {RouterLink} from "@angular/router";
+import {ResetPasswordComponent} from './components/reset-password/reset-password.component';
+import {ActivateAccountComponent} from './components/activate-account/activate-account.component';
+import {MatCardModule} from "@angular/material/card";
 
 @NgModule({
   declarations: [
@@ -29,7 +32,9 @@ import {RouterLink} from "@angular/router";
     RegisterComponent,
     VerifyUserComponent,
     AccountPageComponent,
-    CheckEmailComponent
+    CheckEmailComponent,
+    ResetPasswordComponent,
+    ActivateAccountComponent
   ],
   imports: [
     CommonModule,
@@ -50,7 +55,8 @@ import {RouterLink} from "@angular/router";
     MatDialogModule,
     SharedModule,
     MatTabsModule,
-    RouterLink
+    RouterLink,
+    MatCardModule
   ],
 })
 export class UserModule {
