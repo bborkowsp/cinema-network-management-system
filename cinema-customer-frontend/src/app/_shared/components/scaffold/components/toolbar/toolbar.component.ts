@@ -1,12 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  OnDestroy,
-  OnInit,
-  Output
-} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {AuthService} from "../../../../../auth/auth.service";
 import {Router} from "@angular/router";
 import {Subscription} from "rxjs";
@@ -17,7 +9,7 @@ import {Subscription} from "rxjs";
   styleUrls: ['./toolbar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ToolbarComponent implements OnInit, OnDestroy {
+export class ToolbarComponent implements OnInit {
   @Output() toggleDrawerButtonClick = new EventEmitter<void>();
   @Output() logoutButtonClick = new EventEmitter<void>();
   isLoggedIn: boolean = false;
@@ -37,12 +29,6 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         this.changeDetectorRef.detectChanges();
       }
     );
-  }
-
-  ngOnDestroy(): void {
-    if (this.authSubscription) {
-      this.authSubscription.unsubscribe();
-    }
   }
 
   getAccountRouterLink(): string {
