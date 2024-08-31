@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {environment} from "../../../../assets/environment";
 import {ActivatedRoute} from "@angular/router";
+import {environment} from "../../../../../assets/environment";
 
 @Component({
   selector: 'app-verify-user',

@@ -1,13 +1,13 @@
 import {Injectable} from "@angular/core";
-import {environment} from "../../assets/environment";
-import {LoginUserRequest} from "./login-user.request";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {BehaviorSubject} from "rxjs";
 import * as moment from "moment";
-import {RegisterUserRequest} from "./register-user.request";
 import {jwtDecode} from 'jwt-decode';
-import {ResetPasswordRequest} from "../user/dtos/request/reset-password.request";
+import {environment} from "../../../assets/environment";
+import {LoginUserRequest} from "../dto/login-user.request";
+import {RegisterUserRequest} from "../dto/register-user.request";
+import {ResetPasswordRequest} from "../../user/dtos/request/reset-password.request";
 
 @Injectable({
   providedIn: 'root'

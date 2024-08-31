@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {AuthService} from "../../../../auth/auth.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ResetPasswordRequest} from "../../../dtos/request/reset-password.request";
+import {AuthService} from "../../../../auth/service/auth.service";
 
 @Component({
   selector: 'app-reset-password-form',
@@ -27,10 +27,9 @@ export class ResetPasswordFormComponent {
     const token = this.route.snapshot.queryParamMap.get('token') as string;
     this.authService.resetPassword(new ResetPasswordRequest(email, token)).subscribe({
       next: () => {
-        this.router.navigate(['/check-email']);
+        this.router.navigate(['/login']);
       },
       error: () => {
-        this.router.navigate(['/check-email']);
       }
     })
   }

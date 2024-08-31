@@ -17,15 +17,17 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {RegisterComponent} from './components/register/register.component';
 import {LoginComponent} from "./components/login/login.component";
 import {SharedModule} from "../_shared/shared.module";
-import {VerifyUserComponent} from './components/verify-user/verify-user.component';
 import {AccountPageComponent} from './components/account-page/account-page.component';
 import {MatTabsModule} from "@angular/material/tabs";
-import {CheckEmailComponent} from './components/check-email/check-email.component';
 import {RouterLink} from "@angular/router";
 import {ResetPasswordComponent} from './components/reset-password/reset-password.component';
-import {ActivateAccountComponent} from './components/activate-account/activate-account.component';
 import {MatCardModule} from "@angular/material/card";
-import { ResetPasswordFormComponent } from './components/reset-password/reset-password-form/reset-password-form.component';
+import {
+  ResetPasswordFormComponent
+} from './components/reset-password/reset-password-form/reset-password-form.component';
+import {VerifyUserComponent} from "./components/register/verify-user/verify-user.component";
+import {CheckEmailComponent} from "./components/reset-password/check-email/check-email.component";
+import {ActivateAccountComponent} from "./components/register/activate-account/activate-account.component";
 
 @NgModule({
   declarations: [

@@ -6,7 +6,6 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatListModule} from "@angular/material/list";
 import {MatButtonModule} from "@angular/material/button";
-import {ScreeningComponent} from './components/screening/screening.component';
 import {BuyTicketComponent} from "./components/buy-ticket/buy-ticket.component";
 import {StepsContainerComponent} from "./components/buy-ticket/components/steps-container/steps-container.component";
 import {SeatSelectionComponent} from "./components/buy-ticket/components/steps/seat-selection/seat-selection.component";
@@ -29,7 +28,6 @@ import {SharedModule} from "../_shared/shared.module";
 @NgModule({
   declarations: [
     RepertoryComponent,
-    ScreeningComponent,
     BuyTicketComponent,
     StepsContainerComponent,
     SeatSelectionComponent,

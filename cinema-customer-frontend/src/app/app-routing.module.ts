@@ -4,15 +4,15 @@ import {RepertoryComponent} from "./repertory/components/repertory.component";
 import {BuyTicketComponent} from "./repertory/components/buy-ticket/buy-ticket.component";
 import {LoginComponent} from "./user/components/login/login.component";
 import {RegisterComponent} from "./user/components/register/register.component";
-import {VerifyUserComponent} from "./user/components/verify-user/verify-user.component";
 import {AccountPageComponent} from "./user/components/account-page/account-page.component";
-import {AuthGuard} from "./auth/permission.service";
-import {CheckEmailComponent} from "./user/components/check-email/check-email.component";
 import {ResetPasswordComponent} from "./user/components/reset-password/reset-password.component";
-import {ActivateAccountComponent} from "./user/components/activate-account/activate-account.component";
 import {
   ResetPasswordFormComponent
 } from "./user/components/reset-password/reset-password-form/reset-password-form.component";
+import {ActivateAccountComponent} from "./user/components/register/activate-account/activate-account.component";
+import {CheckEmailComponent} from "./user/components/reset-password/check-email/check-email.component";
+import {AuthGuard} from "./auth/service/permission.service";
+import {VerifyUserComponent} from "./user/components/register/verify-user/verify-user.component";
 
 const routes: Routes = [
   {path: '', component: RepertoryComponent},
