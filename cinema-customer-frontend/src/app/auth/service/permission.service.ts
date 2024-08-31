@@ -17,12 +17,10 @@ class PermissionService {
   }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    console.log('AuthGuard#canActivate called');
     if (!this.authService.isLoggedIn()) {
       this.router.navigate(['/login']);
       return false;
     }
-    console.log('AuthGuard#canActivate returned true');
     return true;
   }
 }
