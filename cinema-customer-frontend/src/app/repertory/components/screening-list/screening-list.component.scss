@@ -1,0 +1,109 @@
+.bg2 {
+  width: 100%;
+  background-color: #f3f1f5;
+  padding: 20px;
+  position: relative;
+}
+
+.container {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  text-align: left;
+}
+
+.container.container-small {
+  max-width: 70em;
+}
+
+
+.screening-container {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 22px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add some shadow */
+  border-radius: 8px; /* Optional: Rounded corners */
+  background-color: #fff; /* Optional: Background color */
+  padding: 16px;
+}
+
+.movie-poster {
+  max-width: 12.75rem;
+  border-radius: 8px;
+  overflow: hidden;
+  height: auto;
+  display: block;
+}
+
+.screening-details {
+  display: flex;
+  flex-direction: column;
+  margin-left: 1.5rem;
+}
+
+.screening-hours-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+
+.no-movies-message {
+  text-align: center;
+  padding: 20px;
+  background-color: #f8d7da; /* Light red background for emphasis */
+  border: 1px solid #f5c6cb; /* Slightly darker border */
+  border-radius: 8px; /* Rounded corners */
+  color: #721c24; /* Dark red text color */
+  font-family: Arial, sans-serif; /* Clean font */
+  max-width: 500px; /* Limit width for readability */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.no-movies-icon {
+  font-size: 48px; /* Larger icon size */
+  color: #721c24; /* Match icon color with text */
+}
+
+.no-movies-text {
+  font-size: 1.25em; /* Slightly larger text for main message */
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.no-movies-subtext {
+  font-size: 1em; /* Smaller text for additional info */
+  color: #7d818d; /* Subtle gray color */
+}
+
+
+.header {
+  display: flex;
+  align-items: center;
+
+  p {
+    margin-left: 1.5rem;
+  }
+}
+
+.show-more {
+  text-decoration: none; /* Remove underline from the link */
+}
+
+.spinner {
+  padding-top: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.screening-hours {
+  margin-right: 1rem;
+}
+
+.mat-divider {
+  border-top-width: 4px;
+  margin-bottom: 22px;
+}

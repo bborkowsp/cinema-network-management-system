@@ -24,6 +24,7 @@ import {
 } from './components/buy-ticket/components/steps/seat-selection/seat-limit-dialog/seat-limit-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {SharedModule} from "../_shared/shared.module";
+import { ScreeningListComponent } from './components/screening-list/screening-list.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import {SharedModule} from "../_shared/shared.module";
     OrderFormComponent,
     DialogBuyTicketComponent,
     SeatLimitDialogComponent,
+    ScreeningListComponent,
   ],
   imports: [
     CommonModule,

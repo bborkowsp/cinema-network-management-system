@@ -1,4 +1,4 @@
-<div class="bg">
+<div class="header">
   <section class="container container-small">
     <h1><strong>REPERTORY</strong></h1>
     <mat-form-field class="form-field">
@@ -19,54 +19,11 @@
   </section>
 </div>
 <hr>
-<div *ngIf="isCinemaSelected" class="bg2">
-  <section class="container container-small ">
-    <ng-container *ngIf="!isLoading; else spinner">
-      <ng-container *ngIf="getMovieTitles().length; else noMovies">
-        <div *ngFor="let movieTitle of getMovieTitles()">
-          <div class="screening-container">
-            <img
-              [src]="'data:' + repertory[movieTitle][0].movie.poster.type + ';base64,' + repertory[movieTitle][0].movie.poster.data"
-              alt="movie image"
-              class="movie-poster"
-            />
-            <div class="screening-details">
-              <div class="header">
-                <h2>{{ movieTitle }}</h2>
-                <p>| {{ repertory[movieTitle][0].movie.duration }} min</p>
-              </div>
-              <p>{{ repertory[movieTitle][0].movie.description }}</p>
-              <div class="screening-hours-container">
-                <div *ngFor="let screening of repertory[movieTitle] | slice:0:4" class="screening-hours">
-                  <button (click)="handleBuyTicket(screening)" color="accent" mat-flat-button>
-                    {{ screening.startTime | date:'HH:mm' }}
-                  </button>
-                </div>
-                <a *ngIf="repertory[movieTitle].length > 4" class="show-more" href="https://www.google.com/"
-                   mat-flat-button
-                   target="_blank">
-                  Show more
-                </a>
-              </div>
-            </div>
-          </div>
-          <mat-divider></mat-divider>
-        </div>
-      </ng-container>
-    </ng-container>
-  </section>
-</div>
-
+<app-screening-list
+  (buyTicket)="handleBuyTicket($event)"
+  [isCinemaSelected]="isCinemaSelected"
+  [isLoading]="isLoading"
+  [movieTitles]="getMovieTitles()"
+  [repertory]="repertory">
+</app-screening-list>
 <app-page-bottom-section></app-page-bottom-section>
-<ng-template #noMovies>
-  <div *ngIf="isCinemaSelected" class="no-movies-message">
-    <mat-icon class="no-movies-icon">sentiment_dissatisfied</mat-icon>
-    <p class="no-movies-text">No movies available for this day.</p>
-    <p class="no-movies-subtext">Please check back later or select a different date.</p>
-  </div>
-</ng-template>
-<ng-template #spinner>
-  <div *ngIf="isCinemaSelected" class="spinner">
-    <mat-spinner></mat-spinner>
-  </div>
-</ng-template>
