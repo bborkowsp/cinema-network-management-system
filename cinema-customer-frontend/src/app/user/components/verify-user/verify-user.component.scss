@@ -15,3 +15,21 @@ button a {
   color: inherit; /* Ensures the link inherits the button's text color */
   text-decoration: none; /* Removes underline from the link */
 }
+
+.svg {
+  width: 90px;
+}
+
+.icon {
+  font-size: 90px;
+  height: 90px;
+  width: 90px;
+}
+
+.color-suc {
+  color: green;
+}
+
+.color-error {
+  color: red;
+}

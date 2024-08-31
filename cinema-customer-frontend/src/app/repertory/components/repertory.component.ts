@@ -6,6 +6,7 @@ import {ScreeningResponse} from "../dtos/response/screening.response";
 import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {DialogBuyTicketComponent} from "./dialog-buy-ticket/dialog-buy-ticket.component";
+import {AuthService} from "../../auth/auth.service";
 
 @Component({
   selector: 'app-repertory',
@@ -24,7 +25,8 @@ export class RepertoryComponent implements OnInit {
     private readonly cinemaService: CinemaService,
     private readonly router: Router,
     private readonly screeningService: ScreeningService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private readonly authService: AuthService
   ) {
     this.dateControl = new FormControl(new Date());
   }
@@ -45,9 +47,13 @@ export class RepertoryComponent implements OnInit {
   }
 
   handleBuyTicket(screening: ScreeningResponse) {
-    const matDialog = this.dialog.open(DialogBuyTicketComponent, {
-      data: screening
-    })
+    if (this.authService.isLoggedIn()) {
+      this.router.navigateByUrl(`buy-ticket/${screening.id}`, {state: {data: screening}});
+    } else {
+      this.dialog.open(DialogBuyTicketComponent, {
+        data: screening
+      })
+    }
   }
 
   private subscribeToCinemaNameChanges() {
