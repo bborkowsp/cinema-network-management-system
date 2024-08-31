@@ -26,13 +26,12 @@ export class AuthService {
   login(loginUserRequest: LoginUserRequest) {
     const url = `${AuthService.usersUrl}/login`;
     this.removeTokenFromLocalStorage();
-
     return this.httpClient.post<any>(url, loginUserRequest).subscribe({
       next: (response) => {
         const token = response.token;
+        this.setToken(token);
         this.loggedIn.next(true);
         this.loggedInUserSubject.next(loginUserRequest.email);
-        localStorage.setItem('token', token);
         this.router.navigate(['/home']);
       },
       error: (error) => {
@@ -48,8 +47,9 @@ export class AuthService {
     this.router.navigate(['/login']);
   }
 
-  isLoggedIn() {
-    return moment().isBefore(this.getExpiration());
+  isLoggedIn(): boolean {
+    const expiration = this.getExpiration();
+    return expiration && moment().isBefore(expiration);
   }
 
   getUserRole(): string {
@@ -91,10 +91,9 @@ export class AuthService {
     return '';
   }
 
-  private getExpiration() {
-    const expiration = localStorage.getItem("expires_at");
-    const expiresAt = JSON.parse(expiration ?? '');
-    return moment(expiresAt);
+  private getExpiration(): moment.Moment {
+    const expiration = localStorage.getItem('expires_at');
+    return expiration ? moment(JSON.parse(expiration)) : moment();
   }
 
   private getDecodedAccessToken(token: string): any {
@@ -108,5 +107,14 @@ export class AuthService {
   private removeTokenFromLocalStorage() {
     localStorage.removeItem('token');
     localStorage.removeItem('expires_at');
+  }
+
+  private setToken(token: string) {
+    const decodedToken = this.getDecodedAccessToken(token);
+    if (decodedToken) {
+      const expiresAt = decodedToken.exp * 1000;
+      localStorage.setItem('token', token);
+      localStorage.setItem('expires_at', JSON.stringify(expiresAt));
+    }
   }
 }

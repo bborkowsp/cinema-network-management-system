@@ -23,7 +23,7 @@ class PermissionService {
     const expectedRoles: Role[] = next.data['roles'];
     if (
       userActualRole == null ||
-      !this.authService.isLoggedIn ||
+      !this.authService.isLoggedIn() ||
       !this.checkIfUserHasExpectedRole(expectedRoles, userActualRole)
     ) {
       this.router.navigate(['/login']);

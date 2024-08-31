@@ -2,6 +2,10 @@ import {ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot} from
 import {inject, Injectable} from "@angular/core";
 import {AuthService} from "./auth.service";
 
+export const AuthGuard: CanActivateFn = (next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean => {
+  return inject(PermissionService).canActivate(next, state);
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -13,14 +17,12 @@ class PermissionService {
   }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    if (!this.authService.isLoggedIn) {
+    console.log('AuthGuard#canActivate called');
+    if (!this.authService.isLoggedIn()) {
       this.router.navigate(['/login']);
       return false;
     }
+    console.log('AuthGuard#canActivate returned true');
     return true;
   }
-}
-
-export const AuthGuard: CanActivateFn = (next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean => {
-  return inject(PermissionService).canActivate(next, state);
 }

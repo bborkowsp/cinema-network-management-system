@@ -6,6 +6,7 @@ import {Router} from "@angular/router";
 import {BehaviorSubject} from "rxjs";
 import * as moment from "moment";
 import {RegisterUserRequest} from "./register-user.request";
+import {jwtDecode} from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -16,51 +17,70 @@ export class AuthService {
   public loggedInUserSubject: BehaviorSubject<string> = new BehaviorSubject<string>('');
   private loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-  constructor(private httpClient: HttpClient, private router: Router) {
+  constructor(
+    private httpClient: HttpClient,
+    private router: Router
+  ) {
   }
 
   login(loginUserRequest: LoginUserRequest) {
     const url = `${AuthService.usersUrl}/login`;
-    localStorage.removeItem("token");
-    localStorage.removeItem("expires_at");
-    console.log(loginUserRequest)
-    return this.httpClient.post<any>(url, loginUserRequest).subscribe(
-      (response) => {
+    this.removeTokenFromLocalStorage();
+    return this.httpClient.post<any>(url, loginUserRequest).subscribe({
+      next: (response) => {
         const token = response.token;
-        console.log(token)
+        this.setToken(token);
         this.loggedIn.next(true);
         this.loggedInUserSubject.next(loginUserRequest.email);
-        localStorage.setItem('token', token);
-        this.router.navigate(['/account']);
+        this.router.navigate(['/home']);
       },
-      (error) => {
+      error: (error) => {
         this.loggedIn.next(false);
         this.router.navigate(['/login']);
       }
-    )
+    });
   }
 
   register(registerUserRequest: RegisterUserRequest) {
     const url = `${AuthService.usersUrl}/register`;
-    console.log(registerUserRequest);
-    console.log(url);
     return this.httpClient.post<any>(url, registerUserRequest);
   }
 
   logout() {
+    this.removeTokenFromLocalStorage();
     this.loggedIn.next(false);
-    localStorage.removeItem("token");
-    localStorage.removeItem("expires_at");
     this.router.navigate(['/login']);
   }
 
-  public isLoggedIn() {
-    return moment().isBefore(this.getExpiration());
+  isLoggedIn(): boolean {
+    const expiration = this.getExpiration();
+    return expiration && moment().isBefore(expiration);
   }
 
-  getExpiration() {
-    const expiration = localStorage.getItem("expires_at");
-    const expiresAt = JSON.parse(expiration ?? '');
-    return moment(expiresAt);
+  private getExpiration(): moment.Moment {
+    const expiration = localStorage.getItem('expires_at');
+    return expiration ? moment(JSON.parse(expiration)) : moment();
+  }
+
+  private removeTokenFromLocalStorage() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('expires_at');
+  }
+
+  private getDecodedAccessToken(token: string): any {
+    try {
+      return jwtDecode(token);
+    } catch (Error) {
+      return null;
+    }
+  }
+
+  private setToken(token: string) {
+    const decodedToken = this.getDecodedAccessToken(token);
+    if (decodedToken) {
+      const expiresAt = decodedToken.exp * 1000;
+      localStorage.setItem('token', token);
+      localStorage.setItem('expires_at', JSON.stringify(expiresAt));
+    }
   }
 }
