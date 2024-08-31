@@ -14,7 +14,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class AccountVerificationService implements AccountVerificationUseCases {
-
+    private static final LocalDateTime EXPIRE_DATE = LocalDateTime.now().plusDays(1);
     private final AccountVerificationTokenRepository accountVerificationTokenRepository;
 
 
@@ -26,8 +26,7 @@ public class AccountVerificationService implements AccountVerificationUseCases {
     @Override
     public String generateAccountVerificationToken(User user) {
         final String token = UUID.randomUUID().toString();
-        final LocalDateTime expiryDate = LocalDateTime.now().plusSeconds(30);
-        AccountVerificationToken accountVerificationToken = new AccountVerificationToken(token, user.getEmail(), expiryDate);
+        AccountVerificationToken accountVerificationToken = new AccountVerificationToken(token, user.getEmail(), EXPIRE_DATE);
         accountVerificationTokenRepository.save(accountVerificationToken);
         return token;
     }

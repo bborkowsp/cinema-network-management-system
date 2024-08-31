@@ -14,8 +14,8 @@ import {jwtDecode} from 'jwt-decode';
 
 export class AuthService {
   static readonly usersUrl = `${environment.API_BASE_URL}/auth`;
-  public loggedInUserSubject: BehaviorSubject<string> = new BehaviorSubject<string>('');
-  private loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  loggedInUserSubject: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.isLoggedIn());
 
   constructor(
     private httpClient: HttpClient,
@@ -32,7 +32,7 @@ export class AuthService {
         this.setToken(token);
         this.loggedIn.next(true);
         this.loggedInUserSubject.next(loginUserRequest.email);
-        this.router.navigate(['/home']);
+        this.router.navigate(['/account']);
       },
       error: (error) => {
         this.loggedIn.next(false);
@@ -54,7 +54,9 @@ export class AuthService {
 
   isLoggedIn(): boolean {
     const expiration = this.getExpiration();
-    return expiration && moment().isBefore(expiration);
+    const isLoggedIn = expiration && moment().isBefore(expiration);
+    console.log('isLoggedIn fun', isLoggedIn);
+    return isLoggedIn;
   }
 
   private getExpiration(): moment.Moment {

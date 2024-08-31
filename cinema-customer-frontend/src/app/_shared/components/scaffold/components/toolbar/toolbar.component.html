@@ -6,9 +6,19 @@
   <mat-divider class="divider" vertical></mat-divider>
   <a class="nav-link" href="/events">EVENTS</a>
   <div class="spacer"></div>
-  <a class="nav-link font-size" href="/login">Log in</a>
+  <div *ngIf="isLoggedIn">
+    <button (click)="logout()" class="nav-link" mat-button>Log out</button>
+  </div>
+  <div *ngIf="!isLoggedIn">
+    <a class="nav-link" href="/login">Log in</a>
+  </div>
   <mat-divider class="divider" vertical></mat-divider>
   <a class="nav-link" href="/registration">Register</a>
+  <mat-divider class="divider" vertical></mat-divider>
+  <button [routerLink]=getAccountRouterLink() aria-label="Example icon button with a vertical three dot icon"
+          mat-icon-button>
+    <mat-icon>account_circle</mat-icon>
+  </button>
 </mat-toolbar>
 <div class="content">
   <ng-content></ng-content>

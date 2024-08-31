@@ -20,13 +20,16 @@ import {SharedModule} from "../_shared/shared.module";
 import {VerifyUserComponent} from './components/verify-user/verify-user.component';
 import {AccountPageComponent} from './components/account-page/account-page.component';
 import {MatTabsModule} from "@angular/material/tabs";
+import {CheckEmailComponent} from './components/check-email/check-email.component';
+import {RouterLink} from "@angular/router";
 
 @NgModule({
   declarations: [
     LoginComponent,
     RegisterComponent,
     VerifyUserComponent,
-    AccountPageComponent
+    AccountPageComponent,
+    CheckEmailComponent
   ],
   imports: [
     CommonModule,
@@ -46,7 +49,8 @@ import {MatTabsModule} from "@angular/material/tabs";
     MatTooltipModule,
     MatDialogModule,
     SharedModule,
-    MatTabsModule
+    MatTabsModule,
+    RouterLink
   ],
 })
 export class UserModule {

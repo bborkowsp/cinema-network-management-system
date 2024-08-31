@@ -21,7 +21,9 @@
       </div>
     </mat-form-field>
 
-    <button [disabled]="form.invalid" color="primary" mat-raised-button type="submit">Login</button>
+    <button [disabled]="form.invalid" [routerLink]="['/account']" color="primary" mat-raised-button type="submit">
+      Login
+    </button>
     <a class="account-link space" color="primary" href="/forgot-password" mat-button>Forgot your password?</a>
     <div class="account-link-container">
       <p class="account-text">Click here to create an</p>
