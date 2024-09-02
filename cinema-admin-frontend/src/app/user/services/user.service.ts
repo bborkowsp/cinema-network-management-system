@@ -7,7 +7,7 @@ import {CinemaManagerResponse} from "../dtos/response/cinema-manager.response";
 import {CreateCinemaManagerRequest} from "../dtos/request/create-cinema-manager.request";
 import {UserPageResponse} from "../dtos/response/user-page.response";
 import {CinemaManagerPageResponse} from "../dtos/response/cinema-manager-page.response";
-import {CreateCinemaNetworkManagerRequest} from "../dtos/request/create-cinema-network-manager.request";
+import {CreateUserRequest} from "../dtos/request/create-user.request";
 import {UserResponse} from "../dtos/response/user.response";
 import {UpdateCinemaNetworkManagerRequest} from "../dtos/request/update-cinema-network-manager.request";
 import {UpdateCinemaManagerRequest} from "../dtos/request/update-cinema-manager.request";
@@ -73,7 +73,7 @@ export class UserService {
     return this.httpClient.post<void>(UserService.CINEMA_MANAGERS_ENDPOINT_PREFIX, createCinemaManagerRequest);
   }
 
-  createCinemaNetworkManager(createCinemaNetworkManagerRequest: CreateCinemaNetworkManagerRequest) {
+  createUser(createCinemaNetworkManagerRequest: CreateUserRequest) {
     return this.httpClient.post<void>(UserService.CINEMA_NETWORK_MANAGERS_ENDPOINT_PREFIX, createCinemaNetworkManagerRequest);
   }
 

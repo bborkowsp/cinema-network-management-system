@@ -3,9 +3,9 @@ package org.example.cinemabackend.user.core.service;
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.core.port.secondary.CinemaRepository;
 import org.example.cinemabackend.user.application.dto.request.CreateCinemaManagerRequest;
-import org.example.cinemabackend.user.application.dto.request.CreateCinemaNetworkManagerRequest;
+import org.example.cinemabackend.user.application.dto.request.CreateUserRequest;
 import org.example.cinemabackend.user.application.dto.request.UpdateCinemaManagerRequest;
-import org.example.cinemabackend.user.application.dto.request.UpdateCinemaNetworkManagerRequest;
+import org.example.cinemabackend.user.application.dto.request.UpdateUserRequest;
 import org.example.cinemabackend.user.application.dto.response.CinemaManagerResponse;
 import org.example.cinemabackend.user.application.dto.response.CinemaManagerTableResponse;
 import org.example.cinemabackend.user.application.dto.response.UserResponse;
@@ -53,6 +53,11 @@ class UserService implements UserUseCases {
     }
 
     @Override
+    public UserResponse getCustomerProfile() {
+        return null;
+    }
+
+    @Override
     public void createCinemaManager(CreateCinemaManagerRequest createCinemaManagerRequest) {
         validateUserDoesNotExist(createCinemaManagerRequest.email());
         final var cinemaManager = userMapper.mapCreateCinemaManagerRequestToUser(createCinemaManagerRequest);
@@ -60,10 +65,10 @@ class UserService implements UserUseCases {
     }
 
     @Override
-    public void createCinemaNetworkManager(CreateCinemaNetworkManagerRequest createCinemaManagerRequest) {
-        validateUserDoesNotExist(createCinemaManagerRequest.email());
-        final var cinemaNetworkManager = userMapper.mapCreateCinemaNetworkManagerRequestToUser(createCinemaManagerRequest);
-        userRepository.save(cinemaNetworkManager);
+    public void createUser(CreateUserRequest createUserRequest) {
+        validateUserDoesNotExist(createUserRequest.email());
+        final var user = userMapper.mapCreateUserRequestToUser(createUserRequest);
+        userRepository.save(user);
     }
 
     @Override
@@ -76,7 +81,7 @@ class UserService implements UserUseCases {
     }
 
     @Override
-    public void updateCinemaNetworkManager(String email, UpdateCinemaNetworkManagerRequest updateCinemaManagerRequest) {
+    public void updateCinemaNetworkManager(String email, UpdateUserRequest updateCinemaManagerRequest) {
         validateEmailIsNotTaken(email, updateCinemaManagerRequest.email());
         final var cinemaNetworkManagerToUpdate = userRepository.findByEmail(email).orElseThrow();
         checkIfCurrentPasswordIsEmpty(cinemaNetworkManagerToUpdate, updateCinemaManagerRequest);
@@ -99,12 +104,6 @@ class UserService implements UserUseCases {
         userRepository.deleteUser(user);
     }
 
-    @Override
-    public void verifyAccount(String email) {
-        final var user = userRepository.findByEmail(email).orElseThrow();
-        user.setIsAccountVerified(true);
-        userRepository.save(user);
-    }
 
     private void validateUserIsNotAdmin(User user) {
         if (user.getRole().equals(Role.ADMIN)) {
@@ -118,17 +117,11 @@ class UserService implements UserUseCases {
         }
     }
 
-    private void checkIfCurrentPasswordIsEmpty(User cinemaNetworkManagerToUpdate, UpdateCinemaNetworkManagerRequest updateCinemaNetworkManagerRequest) {
-        final var currentPassword = updateCinemaNetworkManagerRequest.currentPassword();
+    private void checkIfCurrentPasswordIsEmpty(User cinemaNetworkManagerToUpdate, UpdateUserRequest updateUserRequest) {
+        final var currentPassword = updateUserRequest.currentPassword();
         if (!currentPassword.isEmpty()) {
             validateCurrentPasswordIsCorrect(cinemaNetworkManagerToUpdate, currentPassword);
-            validateNewPasswordIsNotEmpty(updateCinemaNetworkManagerRequest.newPassword());
-        }
-    }
-
-    private void validateNewPasswordIsNotEmpty(String newPassword) {
-        if (newPassword.isEmpty()) {
-            throw new IllegalArgumentException("New password cannot be empty");
+            validateNewPasswordIsNotEmpty(updateUserRequest.newPassword());
         }
     }
 
@@ -138,15 +131,15 @@ class UserService implements UserUseCases {
         }
     }
 
-    private void validateEmailIsNotTaken(String email, String oldEmail) {
-        if (!email.equals(oldEmail) && userRepository.existsByEmail(oldEmail)) {
-            throw new IllegalStateException("Email is already taken");
+    private void validateNewPasswordIsNotEmpty(String newPassword) {
+        if (newPassword.isEmpty()) {
+            throw new IllegalArgumentException("New password cannot be empty");
         }
     }
 
-    private void validateUserDoesNotExist(String email) {
-        if (userRepository.existsByEmail(email)) {
-            throw new IllegalStateException("User with email " + email + " already exists!");
+    private void validateEmailIsNotTaken(String email, String oldEmail) {
+        if (!email.equals(oldEmail) && userRepository.existsByEmail(oldEmail)) {
+            throw new IllegalStateException("Email is already taken");
         }
     }
 
@@ -157,6 +150,12 @@ class UserService implements UserUseCases {
         final var cinema = cinemaRepository.findByName(updateCinemaManagerRequest.managedCinemaName()).orElseThrow();
         if (cinema.getCinemaManager() != null && !cinema.getCinemaManager().getEmail().equals(updateCinemaManagerRequest.email())) {
             throw new IllegalStateException("Cinema already has a manager");
+        }
+    }
+
+    private void validateUserDoesNotExist(String email) {
+        if (userRepository.existsByEmail(email)) {
+            throw new IllegalStateException("User with email " + email + " already exists!");
         }
     }
 }

@@ -1,5 +1,5 @@
 <div *ngIf="isCinemaSelected" class="movies-container">
-  <section class="container container-small">
+  <section class="container">
     <ng-container *ngIf="!isLoading; else spinner">
       <ng-container *ngIf="movieTitles.length; else noMovies">
         <div *ngFor="let movieTitle of movieTitles">
@@ -21,7 +21,7 @@
                     {{ screening.startTime | date:'HH:mm' }}
                   </button>
                 </div>
-                <a *ngIf="repertory[movieTitle].length > 4" href="https://www.google.com/"
+                <a *ngIf="repertory[movieTitle].length > 4" class="more-info" href="https://www.google.com/"
                    mat-flat-button
                    target="_blank">
                   Show more

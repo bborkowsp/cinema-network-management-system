@@ -84,6 +84,13 @@ class AuthService implements AuthUseCases, UserDetailsService {
         userRepository.save(user);
     }
 
+    @Override
+    public void verifyAccount(String email) {
+        final var user = userRepository.findByEmail(email).orElseThrow();
+        user.setIsAccountVerified(true);
+        userRepository.save(user);
+    }
+
     private void checkIfUserAlreadyExists(String username) {
         if (userRepository.existsByEmail(username)) {
             throw new IllegalStateException(USER_ALREADY_EXISTS_ERROR_MESSAGE);

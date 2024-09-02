@@ -28,6 +28,7 @@ import {
 import {VerifyUserComponent} from "./components/register/verify-user/verify-user.component";
 import {CheckEmailComponent} from "./components/reset-password/check-email/check-email.component";
 import {ActivateAccountComponent} from "./components/register/activate-account/activate-account.component";
+import { MyProfileComponent } from './components/account-page/tabs/my-profile/my-profile.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import {ActivateAccountComponent} from "./components/register/activate-account/a
     CheckEmailComponent,
     ResetPasswordComponent,
     ActivateAccountComponent,
-    ResetPasswordFormComponent
+    ResetPasswordFormComponent,
+    MyProfileComponent
   ],
   imports: [
     CommonModule,

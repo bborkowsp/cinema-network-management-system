@@ -2,7 +2,7 @@ package org.example.cinemabackend.user.application.adapter.primary;
 
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.user.core.domain.AccountVerificationToken;
-import org.example.cinemabackend.user.core.port.primary.UserUseCases;
+import org.example.cinemabackend.user.core.port.primary.AuthUseCases;
 import org.example.cinemabackend.user.core.port.secondary.TokenRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +19,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class TokenController {
     private final TokenRepository tokenRepository;
-    private final UserUseCases userUseCases;
+    private final AuthUseCases authUseCases;
 
     @GetMapping("/verify-account")
     public ResponseEntity<?> verifyAccount(@RequestParam("token") String token) {
@@ -31,7 +31,7 @@ public class TokenController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(Map.of("status", "failed", "reason", "expired"));
         }
-        userUseCases.verifyAccount(accountVerificationToken.getEmail());
+        authUseCases.verifyAccount(accountVerificationToken.getEmail());
         return ResponseEntity.ok(Map.of("status", "success"));
     }
 }

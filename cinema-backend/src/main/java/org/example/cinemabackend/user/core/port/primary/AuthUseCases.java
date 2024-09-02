@@ -14,4 +14,7 @@ public interface AuthUseCases {
     void processRequestForPasswordReset(String email);
 
     void resetPassword(ResetPasswordRequest resetPasswordRequest);
+
+    void verifyAccount(String email);
+
 }

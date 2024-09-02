@@ -6,9 +6,9 @@ import org.example.cinemabackend.cinema.core.port.primary.CinemaMapper;
 import org.example.cinemabackend.cinema.core.port.secondary.CinemaRepository;
 import org.example.cinemabackend.cinema.infrastructure.adapter.secondary.CinemaJpaRepository;
 import org.example.cinemabackend.user.application.dto.request.CreateCinemaManagerRequest;
-import org.example.cinemabackend.user.application.dto.request.CreateCinemaNetworkManagerRequest;
+import org.example.cinemabackend.user.application.dto.request.CreateUserRequest;
 import org.example.cinemabackend.user.application.dto.request.UpdateCinemaManagerRequest;
-import org.example.cinemabackend.user.application.dto.request.UpdateCinemaNetworkManagerRequest;
+import org.example.cinemabackend.user.application.dto.request.UpdateUserRequest;
 import org.example.cinemabackend.user.application.dto.response.CinemaManagerResponse;
 import org.example.cinemabackend.user.application.dto.response.CinemaManagerTableResponse;
 import org.example.cinemabackend.user.application.dto.response.UserResponse;
@@ -80,14 +80,14 @@ class UserMapperService implements UserMapper {
     }
 
     @Override
-    public User mapCreateCinemaNetworkManagerRequestToUser(CreateCinemaNetworkManagerRequest createCinemaManagerRequest) {
-        final var passwordHash = passwordEncoder.encode(createCinemaManagerRequest.password());
+    public User mapCreateUserRequestToUser(CreateUserRequest createUserRequest) {
+        final var passwordHash = passwordEncoder.encode(createUserRequest.password());
         return new User(
-                createCinemaManagerRequest.firstName(),
-                createCinemaManagerRequest.lastName(),
-                createCinemaManagerRequest.email(),
+                createUserRequest.firstName(),
+                createUserRequest.lastName(),
+                createUserRequest.email(),
                 passwordHash,
-                Role.CINEMA_NETWORK_MANAGER
+                createUserRequest.role()
         );
     }
 
@@ -106,7 +106,7 @@ class UserMapperService implements UserMapper {
     }
 
     @Override
-    public void mapUpdateCinemaNetworkManagerRequestToUser(User cinemaNetworkManagerToUpdate, UpdateCinemaNetworkManagerRequest updateCinemaManagerRequest) {
+    public void mapUpdateCinemaNetworkManagerRequestToUser(User cinemaNetworkManagerToUpdate, UpdateUserRequest updateCinemaManagerRequest) {
         cinemaNetworkManagerToUpdate.setFirstName(updateCinemaManagerRequest.firstName());
         cinemaNetworkManagerToUpdate.setLastName(updateCinemaManagerRequest.lastName());
         cinemaNetworkManagerToUpdate.setEmail(updateCinemaManagerRequest.email());
@@ -120,13 +120,6 @@ class UserMapperService implements UserMapper {
         }
     }
 
-    private void updateCinemaManagerIfUpdatedManagedCinemaIsNull(User cinemaManagerToUpdate, UpdateCinemaManagerRequest updateCinemaManagerRequest) {
-        final var oldManagedCinema = getCinemaByUserEmail(cinemaManagerToUpdate.getEmail());
-        removeCinemaManagerFromOldManagedCinema(oldManagedCinema);
-        cinemaManagerToUpdate.setEmail(updateCinemaManagerRequest.email());
-        userRepository.save(cinemaManagerToUpdate);
-    }
-
     private void updateCinemaManagerIfUpdatedManagedCinemaIsNotNull(User cinemaManagerToUpdate, UpdateCinemaManagerRequest updateCinemaManagerRequest) {
         final var newManagedCinema = cinemaRepository.findByName(updateCinemaManagerRequest.managedCinemaName()).orElseThrow();
         final var oldManagedCinema = getCinemaByUserEmail(cinemaManagerToUpdate.getEmail());
@@ -138,14 +131,21 @@ class UserMapperService implements UserMapper {
         cinemaRepository.updateCinemaManager(newManagedCinema, cinemaManagerToUpdate.getId());
     }
 
-    private void removeCinemaManagerFromOldManagedCinema(Cinema oldManagedCinema) {
-        if (oldManagedCinema != null) {
-            cinemaJpaRepository.updateCinemaManagerToNull(oldManagedCinema.getId());
-        }
+    private void updateCinemaManagerIfUpdatedManagedCinemaIsNull(User cinemaManagerToUpdate, UpdateCinemaManagerRequest updateCinemaManagerRequest) {
+        final var oldManagedCinema = getCinemaByUserEmail(cinemaManagerToUpdate.getEmail());
+        removeCinemaManagerFromOldManagedCinema(oldManagedCinema);
+        cinemaManagerToUpdate.setEmail(updateCinemaManagerRequest.email());
+        userRepository.save(cinemaManagerToUpdate);
     }
 
     private Cinema getCinemaByUserEmail(String email) {
         return cinemaRepository.findByUserEmail(email).orElse(null);
+    }
+
+    private void removeCinemaManagerFromOldManagedCinema(Cinema oldManagedCinema) {
+        if (oldManagedCinema != null) {
+            cinemaJpaRepository.updateCinemaManagerToNull(oldManagedCinema.getId());
+        }
     }
 
     private Cinema findByCinemaManager(User user) {

@@ -138,7 +138,7 @@ export class UserFormComponent implements OnInit {
     if (createUserRequest instanceof CreateCinemaManagerRequest) {
       createUserRequest$ = this.userService.createCinemaManager(createUserRequest);
     } else {
-      createUserRequest$ = this.userService.createCinemaNetworkManager(createUserRequest);
+      createUserRequest$ = this.userService.createUser(createUserRequest);
     }
     this.subscribeWithLoading(createUserRequest$);
   }

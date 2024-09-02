@@ -9,12 +9,8 @@
   margin: 0 auto;
   display: block;
   text-align: left;
-}
-
-.container.container-small {
   max-width: 70em;
 }
-
 
 .screening-container {
   display: flex;
@@ -96,4 +92,8 @@
 .mat-divider {
   border-top-width: 4px;
   margin-bottom: 22px;
+}
+
+.more-info {
+  text-decoration: none;
 }
