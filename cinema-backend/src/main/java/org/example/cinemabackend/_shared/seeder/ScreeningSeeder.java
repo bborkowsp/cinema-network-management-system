@@ -39,7 +39,6 @@ class ScreeningSeeder implements Seeder {
             updatedScreeningRooms.add(screeningRoom);
         });
 
-        // Save all screening rooms at once
         screeningRoomRepository.saveAll(updatedScreeningRooms);
     }
 

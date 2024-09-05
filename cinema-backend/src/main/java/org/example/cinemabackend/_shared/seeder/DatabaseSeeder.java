@@ -14,7 +14,7 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 class DatabaseSeeder implements CommandLineRunner {
     static final int OBJECTS_TO_SEED = 20;
-    private static final Logger logger = LoggerFactory.getLogger(DatabaseSeeder.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseSeeder.class);
     private static final String SEED_FLAG = "--seed";
     private final CinemaSeeder cinemaSeeder;
     private final ProjectionTechnologySeeder projectionTechnologySeeder;
@@ -26,19 +26,19 @@ class DatabaseSeeder implements CommandLineRunner {
     public void run(String... args) {
         if (Arrays.asList(args).contains(SEED_FLAG)) {
             projectionTechnologySeeder.seedDatabase(OBJECTS_TO_SEED);
-            logger.info("Projection technologies seeded");
+            LOGGER.info("Projection technologies seeded");
 
             movieSeeder.seedDatabase(OBJECTS_TO_SEED);
-            logger.info("Movies seeded");
+            LOGGER.info("Movies seeded");
 
-            userSeeder.seedDatabase(OBJECTS_TO_SEED / 5);
-            logger.info("Users seeded");
+            userSeeder.seedDatabase(OBJECTS_TO_SEED / 2);
+            LOGGER.info("Users seeded");
 
-            cinemaSeeder.seedDatabase(OBJECTS_TO_SEED / 5);
-            logger.info("Cinemas seeded");
+            cinemaSeeder.seedDatabase(OBJECTS_TO_SEED);
+            LOGGER.info("Cinemas seeded");
 
-            screeningSeeder.seedDatabase(OBJECTS_TO_SEED / 10);
-            logger.info("Screenings seeded");
+            screeningSeeder.seedDatabase(OBJECTS_TO_SEED);
+            LOGGER.info("Screenings seeded");
         }
     }
 }
