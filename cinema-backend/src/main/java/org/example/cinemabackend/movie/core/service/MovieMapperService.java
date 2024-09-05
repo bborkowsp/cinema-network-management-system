@@ -10,7 +10,10 @@ import org.example.cinemabackend.movie.application.dto.response.MovieListRespons
 import org.example.cinemabackend.movie.application.dto.response.MovieResponse;
 import org.example.cinemabackend.movie.core.domain.Movie;
 import org.example.cinemabackend.movie.core.domain.ProjectionTechnology;
-import org.example.cinemabackend.movie.core.port.primary.*;
+import org.example.cinemabackend.movie.core.port.primary.FilmMemberMapper;
+import org.example.cinemabackend.movie.core.port.primary.MovieMapper;
+import org.example.cinemabackend.movie.core.port.primary.ProductionDetailsMapper;
+import org.example.cinemabackend.movie.core.port.primary.SubtitleAndSoundOptionsMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -19,7 +22,6 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 class MovieMapperService implements MovieMapper {
-    private final VideoFileMapper videoFileMapper;
     private final FilmMemberMapper filmMemberMapper;
     private final ProductionDetailsMapper productionDetailsMapper;
     private final ProjectionTechnologyMapper projectionTechnologyMapper;
@@ -50,7 +52,7 @@ class MovieMapperService implements MovieMapper {
                 .poster(movie.getPoster())
                 .subtitleAndSoundOptions(subtitleAndSoundOptionsMapper.mapSubtitleAndSoundOptionsToSubtitleAndSoundOptionsResponse(movie.getSubtitleAndSoundOptions()))
                 .ageRestriction(movie.getAgeRestriction())
-                .trailer(videoFileMapper.mapVideoFileToVideoFileResponse(movie.getTrailer()))
+                .trailer(movie.getTrailer())
                 .genres(movie.getGenres())
                 .projectionTechnologies(projectionTechnologyMapper.mapProjectionTechnologiesToProjectionTechnologyResponses(movie.getProjectionTechnologies()))
                 .build();
@@ -67,7 +69,7 @@ class MovieMapperService implements MovieMapper {
                 createMovieRequest.description(),
                 subtitleAndSoundOptionsMapper.mapCreateSubtitleAndSoundOptionsRequestToSubtitleAndSoundOptions(createMovieRequest.subtitleAndSoundOptions()),
                 createMovieRequest.ageRestriction(),
-                videoFileMapper.mapVideoFileRequestToVideoFile(createMovieRequest.trailer()),
+                createMovieRequest.trailer(),
                 createMovieRequest.genres(),
                 getProjectionTechnologies(createMovieRequest.projectionTechnologies())
         );
@@ -83,7 +85,7 @@ class MovieMapperService implements MovieMapper {
         movie.setDescription(updateMovieRequest.description());
         movie.setSubtitleAndSoundOptions(subtitleAndSoundOptionsMapper.mapUpdateSubtitleAndSoundOptionsRequestToSubtitleAndSoundOptions(updateMovieRequest.subtitleAndSoundOptions(), movie.getSubtitleAndSoundOptions()));
         movie.setAgeRestriction(updateMovieRequest.ageRestriction());
-        movie.setTrailer(videoFileMapper.mapUpdateVideoFileRequestToVideoFile(updateMovieRequest.trailer(), movie.getTrailer()));
+        movie.setTrailer(movie.getTrailer());
         movie.setGenres(updateMovieRequest.genres());
         movie.setProjectionTechnologies(getProjectionTechnologies(updateMovieRequest.projectionTechnologies()));
     }

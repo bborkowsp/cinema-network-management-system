@@ -1,6 +1,5 @@
 import {ProductionDetailsRequest} from "./production-details.request";
 import {SubtitleAndSoundOptionsRequest} from "./subtitle-and-sound-options.request";
-import {VideoFileRequest} from "./video-file.request";
 import {
   ProjectionTechnologyResponse
 } from "../../../projection-technology/dtos/response/projection-technology.response";
@@ -15,8 +14,7 @@ export class CreateMovieRequest {
     readonly productionDetails: ProductionDetailsRequest,
     readonly subtitleAndSoundOptions: SubtitleAndSoundOptionsRequest,
     readonly ageRestriction: string,
-    // readonly image: CreateImageRequest,
-    readonly trailer: VideoFileRequest,
+    readonly trailer: string,
     readonly genres: string[],
     readonly projectionTechnologies: ProjectionTechnologyResponse[],
   ) {

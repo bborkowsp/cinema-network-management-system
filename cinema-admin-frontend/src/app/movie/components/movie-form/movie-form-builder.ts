@@ -2,7 +2,6 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MovieResponse} from "../../dtos/response/movie.response";
 import {UpdateMovieRequest} from "../../dtos/request/update-movie.request";
 import {ProductionDetailsRequest} from "../../dtos/request/production-details.request";
-import {VideoFileRequest} from "../../dtos/request/video-file.request";
 import {FilmMemberRequest} from "../../dtos/request/film-member.request";
 import {SubtitleAndSoundOptionsRequest} from "../../dtos/request/subtitle-and-sound-options.request";
 import {
@@ -111,7 +110,7 @@ export class MovieFormBuilder {
       },
       imageAndTrailer: {
         image: movie.poster,
-        trailer: movie.trailer.url
+        trailer: movie.trailer
       }
     });
   }
@@ -140,9 +139,7 @@ export class MovieFormBuilder {
       this.createProductionDetailsRequest(),
       this.createSubtitleAndSoundOptions(),
       this.form.get('ageRestrictionAndGenres')?.value.ageRestriction,
-      new VideoFileRequest(
-        this.form.get('imageAndTrailer')?.value.trailer
-      ),
+      this.form.get('imageAndTrailer')?.value.trailer,
       this.form.get('ageRestrictionAndGenres')?.value.genres,
       this.createProjectionTechnologies()
     );

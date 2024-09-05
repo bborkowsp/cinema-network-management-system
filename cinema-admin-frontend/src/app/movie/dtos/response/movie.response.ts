@@ -2,7 +2,6 @@ import {
   ProjectionTechnologyResponse
 } from "../../../projection-technology/dtos/response/projection-technology.response";
 import {AgeRestrictionResponse} from "./age-restriction.response";
-import {VideoFileResponse} from "./video-file.response";
 import {SubtitleAndSoundOptionsResponse} from "./subtitle-and-sound-options.response";
 import {ProductionDetailsResponse} from "./production-details.response";
 
@@ -17,7 +16,7 @@ export class MovieResponse {
     readonly subtitleAndSoundOptions: SubtitleAndSoundOptionsResponse,
     readonly ageRestriction: AgeRestrictionResponse,
     readonly poster: string,
-    readonly trailer: VideoFileResponse,
+    readonly trailer: string,
     readonly genres: string[],
     readonly projectionTechnologies: ProjectionTechnologyResponse[],
   ) {

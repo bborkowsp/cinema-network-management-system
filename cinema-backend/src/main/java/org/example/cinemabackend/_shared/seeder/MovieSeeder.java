@@ -17,6 +17,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 @Order(1)
 class MovieSeeder implements Seeder {
+    private static final String TRAILER_URL = "https://www.youtube.com/embed/ZiGdHLQD300";
     private final MovieRepository movieRepository;
     private final ProjectionTechnologyRepository projectionTechnologyRepository;
     private final Faker faker;
@@ -38,17 +39,20 @@ class MovieSeeder implements Seeder {
         final var productionDetails = createProductionDetails();
         final var subtitleAndSoundOptions = createSubtitleAndSoundOptions();
         final var ageRestriction = createAgeRestriction();
-        final var movieFile = createMovieFile();
         final var genres = createGenres();
         final var projectionTechnologies = getProjectionTechnologies();
-        return new Movie(faker.book().title() + increment,
+        return new Movie(
+                faker.book().title() + increment,
                 faker.book().title(),
                 faker.number().numberBetween(60, 180),
                 faker.date().birthday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
                 productionDetails,
                 faker.lorem().sentence(8),
-                subtitleAndSoundOptions, ageRestriction,
-                movieFile, genres, projectionTechnologies
+                subtitleAndSoundOptions,
+                ageRestriction,
+                TRAILER_URL,
+                genres,
+                projectionTechnologies
         );
     }
 
@@ -57,7 +61,10 @@ class MovieSeeder implements Seeder {
         final var actors = createFilmMembers();
         return new ProductionDetails(
                 faker.date().birthday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
-                director, actors, createOriginalLanguages(), createProductionCountries()
+                director,
+                actors,
+                createOriginalLanguages(),
+                createProductionCountries()
         );
     }
 
@@ -72,10 +79,6 @@ class MovieSeeder implements Seeder {
 
     private AgeRestriction createAgeRestriction() {
         return AgeRestriction.values()[faker.number().numberBetween(0, AgeRestriction.values().length)];
-    }
-
-    private VideoFile createMovieFile() {
-        return new VideoFile("https://www.youtube.com/embed/ZiGdHLQD300");
     }
 
     private Set<Genre> createGenres() {

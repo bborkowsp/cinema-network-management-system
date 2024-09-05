@@ -51,9 +51,8 @@ public class MovieSchema {
     @NotNull
     private String poster;
 
-    @Embedded
     @NotNull
-    private VideoFileSchema trailer;
+    private String trailer;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
@@ -79,7 +78,7 @@ public class MovieSchema {
                 .poster(movie.getPoster())
                 .subtitleAndSoundOptions(SubtitleAndSoundOptionsSchema.fromSubtitleAndSoundOptions(movie.getSubtitleAndSoundOptions()))
                 .ageRestriction(movie.getAgeRestriction())
-                .trailer(VideoFileSchema.fromVideoFile(movie.getTrailer()))
+                .trailer(movie.getTrailer())
                 .genres(movie.getGenres())
                 .projectionTechnologies(projectionTechnologies)
                 .build();
@@ -96,7 +95,7 @@ public class MovieSchema {
                 this.description,
                 this.subtitleAndSoundOptions.toSubtitleAndSoundOptions(),
                 this.ageRestriction,
-                this.trailer.toVideoFile(),
+                this.trailer,
                 this.poster,
                 this.genres,
                 this.projectionTechnologies.stream().map(ProjectionTechnologySchema::toProjectionTechnology).collect(Collectors.toSet())

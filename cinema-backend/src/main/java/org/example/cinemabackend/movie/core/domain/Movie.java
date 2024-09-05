@@ -14,11 +14,11 @@ public class Movie {
     private SubtitleAndSoundOptions subtitleAndSoundOptions;
     private AgeRestriction ageRestriction;
     private String poster;
-    private VideoFile trailer;
+    private String trailer;
     private Set<Genre> genres;
     private Set<ProjectionTechnology> projectionTechnologies;
 
-    public Movie(String title, String originalTitle, Integer duration, LocalDate releaseDate, ProductionDetails productionDetails, String description, SubtitleAndSoundOptions subtitleAndSoundOptions, AgeRestriction ageRestriction, VideoFile trailer, Set<Genre> genres, Set<ProjectionTechnology> projectionTechnologies) {
+    public Movie(String title, String originalTitle, Integer duration, LocalDate releaseDate, ProductionDetails productionDetails, String description, SubtitleAndSoundOptions subtitleAndSoundOptions, AgeRestriction ageRestriction, String trailer, Set<Genre> genres, Set<ProjectionTechnology> projectionTechnologies) {
         this.title = title;
         this.originalTitle = originalTitle;
         this.duration = duration;
@@ -32,7 +32,7 @@ public class Movie {
         this.projectionTechnologies = projectionTechnologies;
     }
 
-    public Movie(Long id, String title, String originalTitle, Integer duration, LocalDate releaseDate, ProductionDetails productionDetails, String description, SubtitleAndSoundOptions subtitleAndSoundOptions, AgeRestriction ageRestriction, VideoFile trailer, Set<Genre> genres, Set<ProjectionTechnology> projectionTechnologies) {
+    public Movie(Long id, String title, String originalTitle, Integer duration, LocalDate releaseDate, ProductionDetails productionDetails, String description, SubtitleAndSoundOptions subtitleAndSoundOptions, AgeRestriction ageRestriction, String trailer, Set<Genre> genres, Set<ProjectionTechnology> projectionTechnologies) {
         this.id = id;
         this.title = title;
         this.originalTitle = originalTitle;
@@ -47,7 +47,7 @@ public class Movie {
         this.projectionTechnologies = projectionTechnologies;
     }
 
-    public Movie(Long id, String title, String originalTitle, Integer duration, LocalDate releaseDate, ProductionDetails productionDetails, String description, SubtitleAndSoundOptions subtitleAndSoundOptions, AgeRestriction ageRestriction, VideoFile trailer, String poster, Set<Genre> genres, Set<ProjectionTechnology> projectionTechnologies) {
+    public Movie(Long id, String title, String originalTitle, Integer duration, LocalDate releaseDate, ProductionDetails productionDetails, String description, SubtitleAndSoundOptions subtitleAndSoundOptions, AgeRestriction ageRestriction, String trailer, String poster, Set<Genre> genres, Set<ProjectionTechnology> projectionTechnologies) {
         this.id = id;
         this.title = title;
         this.originalTitle = originalTitle;
@@ -136,11 +136,11 @@ public class Movie {
         this.poster = poster;
     }
 
-    public VideoFile getTrailer() {
+    public String getTrailer() {
         return trailer;
     }
 
-    public void setTrailer(VideoFile trailer) {
+    public void setTrailer(String trailer) {
         this.trailer = trailer;
     }
 

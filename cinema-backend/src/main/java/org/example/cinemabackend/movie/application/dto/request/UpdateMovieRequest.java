@@ -21,7 +21,7 @@ public record UpdateMovieRequest(
         @NotNull @Valid ProductionDetailsRequest productionDetails,
         @NotNull @Valid SubtitleAndSoundOptionsRequest subtitleAndSoundOptions,
         @NotNull AgeRestriction ageRestriction,
-        @NotNull @Valid VideoFileRequest trailer,
+        @NotNull String trailer,
         @NotNull Set<Genre> genres,
         @NotNull Set<@NotNull @Valid ProjectionTechnologyResponse> projectionTechnologies
 ) {

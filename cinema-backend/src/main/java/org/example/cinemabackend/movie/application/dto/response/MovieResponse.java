@@ -19,7 +19,7 @@ public record MovieResponse(
         ProductionDetailsResponse productionDetails,
         SubtitleAndSoundOptionsResponse subtitleAndSoundOptions,
         AgeRestriction ageRestriction,
-        VideoFileResponse trailer,
+        String trailer,
         Set<Genre> genres,
         Set<ProjectionTechnologyResponse> projectionTechnologies
 ) {
