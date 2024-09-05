@@ -10,7 +10,7 @@ public record CinemaResponse(
         String name,
         String description,
         AddressResponse address,
-        ImageResponse image,
+        String image,
         Set<ScreeningRoomResponse> screeningRooms,
         Set<ContactDetailsResponse> contactDetails,
         UserResponse cinemaManager

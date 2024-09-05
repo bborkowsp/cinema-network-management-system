@@ -31,9 +31,8 @@ public class CinemaSchema {
     @NotNull
     private AddressSchema address;
 
-    @Embedded
     @NotNull
-    private ImageSchema image;
+    private String image;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ScreeningRoomSchema> screeningRooms = new HashSet<>();
@@ -50,7 +49,7 @@ public class CinemaSchema {
                 cinema.getName(),
                 cinema.getDescription(),
                 AddressSchema.fromAddress(cinema.getAddress()),
-                ImageSchema.fromImage(cinema.getImage()),
+                cinema.getImage(),
                 cinema.getScreeningRooms().stream().map(ScreeningRoomSchema::fromScreeningRoom).collect(Collectors.toSet()),
                 cinema.getContactDetails().stream().map(ContactDetailsSchema::fromContactDetails).collect(Collectors.toSet()),
                 cinema.getCinemaManager() == null ? null : UserSchema.fromUser(cinema.getCinemaManager())
@@ -64,7 +63,7 @@ public class CinemaSchema {
                 this.name,
                 this.description,
                 this.address.toAddress(),
-                this.image.toImage(),
+                this.image,
                 this.screeningRooms.stream().map(ScreeningRoomSchema::toScreeningRoom).collect(Collectors.toSet()),
                 this.contactDetails.stream().map(ContactDetailsSchema::toContactDetails).collect(Collectors.toSet()),
                 user

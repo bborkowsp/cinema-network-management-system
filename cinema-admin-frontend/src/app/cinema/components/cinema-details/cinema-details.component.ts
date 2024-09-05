@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {CinemaService} from "../../services/cinema.service";
 import {CinemaResponse} from "../../dtos/response/cinema.response";
 import {ScreeningRoomResponse} from "../../../repertory/dtos/screening-room.response";
+import {images} from "../../../../assets/environment";
 
 @Component({
   selector: 'app-cinema-details',
@@ -11,6 +12,7 @@ import {ScreeningRoomResponse} from "../../../repertory/dtos/screening-room.resp
   styleUrls: ['./cinema-details.component.scss']
 })
 export class CinemaDetailsComponent implements OnInit {
+  readonly IMAGES_SERVER_DIRECTORY = `${images.IMAGES_DIRECTORY_URL}/cinemas-images`;
   cinema$!: Observable<CinemaResponse>;
   name: string = '';
   isLoading = true;

@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/v1/cinemas")
@@ -46,15 +47,22 @@ class CinemaController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('CINEMA_NETWORK_MANAGER','ADMIN')")
-    ResponseEntity<Void> createCinema(@RequestBody @Valid CreateCinemaRequest createCinemaRequest) {
-        cinemaUseCases.createCinema(createCinemaRequest);
+    ResponseEntity<Void> createCinema(
+            @RequestPart("image") MultipartFile image,
+            @RequestPart("cinemaRequest") @Valid CreateCinemaRequest createCinemaRequest
+    ) {
+        cinemaUseCases.createCinema(image, createCinemaRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PatchMapping("/{name}")
     @PreAuthorize("hasAnyRole('CINEMA_NETWORK_MANAGER','ADMIN')")
-    ResponseEntity<Void> updateCinema(@PathVariable String name, @RequestBody @Valid UpdateCinemaRequest updateCinemaRequest) {
-        cinemaUseCases.updateCinema(name, updateCinemaRequest);
+    ResponseEntity<Void> updateCinema(
+            @PathVariable String name,
+            @RequestPart(value = "image", required = false) MultipartFile image,
+            @RequestPart @Valid UpdateCinemaRequest updateCinemaRequest
+    ) {
+        cinemaUseCases.updateCinema(name, image, updateCinemaRequest);
         return ResponseEntity.noContent().build();
     }
 

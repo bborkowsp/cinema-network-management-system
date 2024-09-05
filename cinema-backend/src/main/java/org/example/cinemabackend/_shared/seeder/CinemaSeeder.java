@@ -31,6 +31,7 @@ class CinemaSeeder implements Seeder {
         Set<Cinema> cinemas = new HashSet<>();
         while (cinemas.size() < objectsToSeed) {
             final var cinema = createCinema();
+            cinema.setImage("poster.jpg");
             if (!cinemas.contains(cinema)) {
                 cinemas.add(cinema);
                 cinemaRepository.save(cinema);
@@ -41,25 +42,26 @@ class CinemaSeeder implements Seeder {
 
     private Cinema createCinema() {
         final var address = createAddress();
-        final var image = ImageUtil.createImage();
         final var screeningRooms = createScreeningRooms();
         final var contactDetails = createContactDetails();
         User cinemaManager = null;
 
-        if (increment < DatabaseSeeder.OBJECTS_TO_SEED / 2)
-            cinemaManager = getCinemaManager();
+        if (increment < DatabaseSeeder.OBJECTS_TO_SEED / 2) cinemaManager = getCinemaManager();
 
         Cinema cinema;
         if (cinemaManager == null) {
             cinema = new Cinema(
                     faker.company().name(),
                     faker.lorem().fixedString(100),
-                    address, image);
+                    address
+            );
         } else {
             cinema = new Cinema(
                     faker.company().name(),
                     faker.lorem().fixedString(100),
-                    address, image, cinemaManager);
+                    address,
+                    cinemaManager
+            );
         }
 
         screeningRooms.forEach(cinema::addScreeningRoom);
@@ -76,8 +78,12 @@ class CinemaSeeder implements Seeder {
         );
     }
 
-    private User getCinemaManager() {
-        return this.userRepository.findAllCinemaManagers().get(increment);
+    private Set<ScreeningRoom> createScreeningRooms() {
+        Set<ScreeningRoom> screeningRooms = new HashSet<>();
+        while (screeningRooms.size() < NUMBER_OF_SCREENING_ROOMS) {
+            screeningRooms.add(createScreeningRoom());
+        }
+        return screeningRooms;
     }
 
     private Set<ContactDetails> createContactDetails() {
@@ -92,19 +98,8 @@ class CinemaSeeder implements Seeder {
         return contactDetails;
     }
 
-    private ContactType createContactType() {
-        return new ContactType(
-                "+48 123 123 123",
-                faker.internet().emailAddress()
-        );
-    }
-
-    private Set<ScreeningRoom> createScreeningRooms() {
-        Set<ScreeningRoom> screeningRooms = new HashSet<>();
-        while (screeningRooms.size() < NUMBER_OF_SCREENING_ROOMS) {
-            screeningRooms.add(createScreeningRoom());
-        }
-        return screeningRooms;
+    private User getCinemaManager() {
+        return this.userRepository.findAllCinemaManagers().get(increment);
     }
 
     private ScreeningRoom createScreeningRoom() {
@@ -117,6 +112,13 @@ class CinemaSeeder implements Seeder {
         );
     }
 
+    private ContactType createContactType() {
+        return new ContactType(
+                "+48 123 123 123",
+                faker.internet().emailAddress()
+        );
+    }
+
     private Seat[][] createSeats() {
         Seat[][] seats = new Seat[12][15];
         for (int i = 0; i < 12; i++) {
@@ -126,6 +128,12 @@ class CinemaSeeder implements Seeder {
         return seats;
     }
 
+    Set<ProjectionTechnology> getProjectionTechnologies() {
+        return Set.of(
+                projectionTechnologyRepository.findAll().getFirst(),
+                projectionTechnologyRepository.findAll().getLast()
+        );
+    }
 
     private Seat createSeat(int seatRow, int seatColumn) {
         return new Seat(
@@ -136,18 +144,11 @@ class CinemaSeeder implements Seeder {
         );
     }
 
-    Set<ProjectionTechnology> getProjectionTechnologies() {
-        return Set.of(
-                projectionTechnologyRepository.findAll().getFirst(),
-                projectionTechnologyRepository.findAll().getLast()
-        );
+    private SeatZone getRandomSeatZone() {
+        return SeatZone.values()[new Random().nextInt(SeatZone.values().length)];
     }
 
     private SeatType getRandomSeatType() {
         return SeatType.values()[new Random().nextInt(SeatType.values().length)];
-    }
-
-    private SeatZone getRandomSeatZone() {
-        return SeatZone.values()[new Random().nextInt(SeatZone.values().length)];
     }
 }

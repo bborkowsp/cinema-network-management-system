@@ -1,6 +1,5 @@
 package org.example.cinemabackend.cinema.core.domain;
 
-import org.example.cinemabackend.movie.core.domain.Image;
 import org.example.cinemabackend.user.core.domain.User;
 
 import java.util.HashSet;
@@ -12,12 +11,12 @@ public class Cinema {
     private String name;
     private String description;
     private Address address;
-    private Image image;
+    private String image;
     private Set<ScreeningRoom> screeningRooms = new HashSet<>();
     private Set<ContactDetails> contactDetails = new HashSet<>();
     private User cinemaManager;
 
-    public Cinema(String name, String description, Address address, Image image, Set<ScreeningRoom> screeningRooms, Set<ContactDetails> contactDetails, User cinemaManager) {
+    public Cinema(String name, String description, Address address, String image, Set<ScreeningRoom> screeningRooms, Set<ContactDetails> contactDetails, User cinemaManager) {
         this.name = name;
         this.description = description;
         this.address = address;
@@ -27,7 +26,16 @@ public class Cinema {
         this.cinemaManager = cinemaManager;
     }
 
-    public Cinema(Long id, String name, String description, Address address, Image image, Set<ScreeningRoom> screeningRooms, Set<ContactDetails> contactDetails, User cinemaManager) {
+    public Cinema(String name, String description, Address address, Set<ScreeningRoom> screeningRooms, Set<ContactDetails> contactDetails, User cinemaManager) {
+        this.name = name;
+        this.description = description;
+        this.address = address;
+        this.screeningRooms = screeningRooms;
+        this.contactDetails = contactDetails;
+        this.cinemaManager = cinemaManager;
+    }
+
+    public Cinema(Long id, String name, String description, Address address, String image, Set<ScreeningRoom> screeningRooms, Set<ContactDetails> contactDetails, User cinemaManager) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -38,19 +46,17 @@ public class Cinema {
         this.cinemaManager = cinemaManager;
     }
 
-    public Cinema(String name, String description, Address address, Image image, User cinemaManager) {
+    public Cinema(String name, String description, Address address, User cinemaManager) {
         this.name = name;
         this.description = description;
         this.address = address;
-        this.image = image;
         this.cinemaManager = cinemaManager;
     }
 
-    public Cinema(String name, String description, Address address, Image image) {
+    public Cinema(String name, String description, Address address) {
         this.name = name;
         this.description = description;
         this.address = address;
-        this.image = image;
     }
 
     public String getName() {
@@ -77,11 +83,11 @@ public class Cinema {
         this.address = address;
     }
 
-    public Image getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(Image image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
@@ -118,6 +124,13 @@ public class Cinema {
         this.id = id;
     }
 
+    public void addScreeningRoom(ScreeningRoom screeningRoom) {
+        this.screeningRooms.add(screeningRoom);
+    }
+
+    public void addContactDetails(ContactDetails contactDetails) {
+        this.contactDetails.add(contactDetails);
+    }
 
     @Override
     public int hashCode() {
@@ -135,14 +148,6 @@ public class Cinema {
         }
 
         return Objects.equals(name, cinema.name);
-    }
-
-    public void addScreeningRoom(ScreeningRoom screeningRoom) {
-        this.screeningRooms.add(screeningRoom);
-    }
-
-    public void addContactDetails(ContactDetails contactDetails) {
-        this.contactDetails.add(contactDetails);
     }
 
 }

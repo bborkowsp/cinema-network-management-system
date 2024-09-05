@@ -4,6 +4,7 @@ import org.example.cinemabackend.cinema.application.dto.request.create.CreateCin
 import org.example.cinemabackend.cinema.application.dto.request.update.UpdateCinemaRequest;
 import org.example.cinemabackend.cinema.application.dto.response.CinemaResponse;
 import org.example.cinemabackend.cinema.application.dto.response.CinemaTableResponse;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -17,9 +18,9 @@ public interface CinemaUseCases {
 
     CinemaResponse getCinema(String name);
 
-    void createCinema(CreateCinemaRequest createCinemaRequest);
+    void createCinema(MultipartFile image, CreateCinemaRequest createCinemaRequest);
 
-    void updateCinema(String name, UpdateCinemaRequest updateCinemaRequest);
+    void updateCinema(String name, MultipartFile image, UpdateCinemaRequest updateCinemaRequest);
 
     void deleteCinema(String name);
 }

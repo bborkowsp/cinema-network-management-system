@@ -13,8 +13,8 @@
     <div *ngIf="cinema$ | async as cinema">
       <div class="movie-main-details-container">
         <div class="movie-main-details-container__image-container">
-          <img [src]="'data:' + cinema.image.type + ';base64,' + cinema.image.data" alt="movie image"
-               class="movie-main-details-container__image-container__image"/>
+          <img alt="movie image" class="movie-main-details-container__image-container__image"
+               src="{{IMAGES_SERVER_DIRECTORY}}/{{ cinema.image }}"/>
         </div>
         <div class="movie-main-details-container__details">
           <app-generic-details-field [content]="cinema.name" title="Cinema title"></app-generic-details-field>

@@ -51,7 +51,7 @@ class CinemaMapperService implements CinemaMapper {
                 .name(cinema.getName())
                 .description(cinema.getDescription())
                 .address(addressMapper.mapAddressToAddressResponse(cinema.getAddress()))
-                .image(imageMapper.mapImageToImageResponse(cinema.getImage()))
+                .image(cinema.getImage())
                 .screeningRooms(screeningRoomMapper.mapScreeningRoomToScreeningRoomResponses(cinema.getScreeningRooms()))
                 .contactDetails(contactDetailsMapper.mapContactDetailsToContactDetailsResponse(cinema.getContactDetails()))
                 .cinemaManager(cinemaManager)
@@ -65,7 +65,6 @@ class CinemaMapperService implements CinemaMapper {
                 createCinemaRequest.name(),
                 createCinemaRequest.description(),
                 addressMapper.mapCreateAddressRequestToAddress(createCinemaRequest.address()),
-                imageMapper.mapCreateImageRequestToImage(createCinemaRequest.image()),
                 screeningRoomMapper.mapCreateScreeningRoomToScreeningRoom(createCinemaRequest.screeningRooms()),
                 contactDetailsMapper.mapCreateContactDetailsToContactDetails(createCinemaRequest.contactDetails()),
                 cinemaManager
@@ -81,11 +80,6 @@ class CinemaMapperService implements CinemaMapper {
         cinema.setName(updateCinemaRequest.name());
         cinema.setDescription(updateCinemaRequest.description());
         cinema.setAddress(addressMapper.mapUpdateAddressRequestToAddress(updateCinemaRequest.address()));
-        cinema.setImage(
-                imageMapper.mapUpdateImageRequestToImage(
-                        updateCinemaRequest.image(),
-                        cinema.getImage()
-                ));
         cinema.setScreeningRooms(
                 screeningRoomMapper.mapCreateScreeningRoomToScreeningRoom(
                         updateCinemaRequest.screeningRooms()
@@ -98,6 +92,14 @@ class CinemaMapperService implements CinemaMapper {
             cinema.setCinemaManager(cinemaManager);
     }
 
+    private User findCinemaManager(String email) {
+        if (email != null && !email.isEmpty()) {
+            return userRepository.findByEmail(email).orElseThrow();
+        } else {
+            return null;
+        }
+    }
+
     private UserResponse getCinemaManagerOrEmptyUser(Cinema cinema) {
         if (cinema.getCinemaManager() == null) {
             return UserResponse.builder().build();
@@ -105,12 +107,22 @@ class CinemaMapperService implements CinemaMapper {
         return userMapper.mapUserToUserResponse(cinema.getCinemaManager());
     }
 
-    private User findCinemaManager(String email) {
-        if (email != null && !email.isEmpty()) {
-            return userRepository.findByEmail(email).orElseThrow();
-        } else {
-            return null;
+    private int getNumberOfAvailableSeats(Cinema cinema) {
+        Set<Seat[][]> seatingPlans = cinema.getScreeningRooms().stream()
+                .map(ScreeningRoom::getSeatingPlan)
+                .collect(Collectors.toSet());
+
+        int numberOfAvailableSeats = 0;
+        for (Seat[][] seatingPlan : seatingPlans) {
+            for (Seat[] row : seatingPlan) {
+                for (Seat seat : row) {
+                    if (seat.getSeatType() == SeatType.AVAILABLE) {
+                        numberOfAvailableSeats++;
+                    }
+                }
+            }
         }
+        return numberOfAvailableSeats;
     }
 
     private int getNumberOfUnavailableSeats(Cinema cinema) {
@@ -129,24 +141,5 @@ class CinemaMapperService implements CinemaMapper {
             }
         }
         return numberOfUnavailableSeats;
-    }
-
-
-    private int getNumberOfAvailableSeats(Cinema cinema) {
-        Set<Seat[][]> seatingPlans = cinema.getScreeningRooms().stream()
-                .map(ScreeningRoom::getSeatingPlan)
-                .collect(Collectors.toSet());
-
-        int numberOfAvailableSeats = 0;
-        for (Seat[][] seatingPlan : seatingPlans) {
-            for (Seat[] row : seatingPlan) {
-                for (Seat seat : row) {
-                    if (seat.getSeatType() == SeatType.AVAILABLE) {
-                        numberOfAvailableSeats++;
-                    }
-                }
-            }
-        }
-        return numberOfAvailableSeats;
     }
 }
