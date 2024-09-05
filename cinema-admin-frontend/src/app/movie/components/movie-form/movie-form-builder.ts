@@ -119,8 +119,10 @@ export class MovieFormBuilder {
 
   getUpdateMovieRequestFromForm() {
     const formData = new FormData();
-    formData.append('image', this.imageFormGroup?.value);
-
+    const image = this.imageFormGroup?.value;
+    if (image instanceof File) {
+      formData.append('image', image);
+    }
     const directorRequest = this.createDirectorRequest();
     const actorsRequests = this.createActorsRequests();
     const originalLanguagesRequest = this.extractLanguages();

@@ -76,8 +76,10 @@ class MovieService implements MovieUseCases {
         validateMovieTitleIsNotTaken(title, updateMovieRequest.title());
         final var movie = movieRepository.findByTitle(title).orElseThrow();
         movieMapper.updateMovieFromUpdateMovieRequest(updateMovieRequest, movie);
-        deletePosterFromFilSystem(movie.getPoster());
-        movie.setPoster(saveImageToFileSystem(image));
+        if (image != null && !image.isEmpty()) {
+            deleteOldPosterFromFileSystem(movie.getPoster());
+            movie.setPoster(saveImageToFileSystem(image));
+        }
         movieRepository.save(movie);
     }
 
@@ -107,7 +109,7 @@ class MovieService implements MovieUseCases {
         }
     }
 
-    private void deletePosterFromFilSystem(String poster) {
+    private void deleteOldPosterFromFileSystem(String poster) {
         try {
             Files.deleteIfExists(Paths.get(UPLOAD_DIRECTORY + poster));
         } catch (IOException e) {

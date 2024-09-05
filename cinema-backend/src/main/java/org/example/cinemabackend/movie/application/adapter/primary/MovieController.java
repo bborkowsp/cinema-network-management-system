@@ -75,7 +75,7 @@ class MovieController {
     @PreAuthorize("hasAnyRole('CINEMA_NETWORK_MANAGER','ADMIN')")
     ResponseEntity<Void> updateMovie(
             @PathVariable String title,
-            @RequestPart("image") MultipartFile image,
+            @RequestPart(value = "image", required = false) MultipartFile image,
             @RequestPart("updateMovieRequest") @Valid UpdateMovieRequest updateMovieRequest
     ) {
         movieUseCases.updateMovie(title, image, updateMovieRequest);
