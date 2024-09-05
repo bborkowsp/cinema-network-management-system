@@ -29,9 +29,12 @@ export class AboutCinemaComponent implements OnInit {
       this.selectedFileName = file.name;
     }
 
-    this.imageControl.valueChanges.subscribe((value: File) => {
+    this.imageControl.valueChanges.subscribe((value: any) => {
       if (value) {
-        this.selectedFileName = value.name;
+        if (value instanceof File)
+          this.selectedFileName = value.name
+        else
+          this.selectedFileName = value
       } else {
         this.selectedFileName = null;
       }

@@ -2,11 +2,10 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import FormValidatorLengths from "../../../_shared/validators/form-validators-lengths";
 import FormValidatorPatterns from "../../../_shared/validators/form-validators-patterns";
 import {CinemaResponse} from "../../dtos/response/cinema.response";
-import {CreateCinemaRequest} from "../../dtos/request/create-cinema.request";
 import {CreateAddressRequest} from "../../dtos/request/create-address.request";
-import {CreateImageRequest} from "../../../movie/dtos/request/create-image.request";
-import {UpdateCinemaRequest} from "../../dtos/request/update-cinema.request";
 import {UserResponse} from "../../../user/dtos/response/user.response";
+import {UpdateCinemaRequest} from "../../dtos/request/update-cinema.request";
+import {CreateCinemaRequest} from "../../dtos/request/create-cinema.request";
 
 export class CinemaFormBuilder {
   form: FormGroup;
@@ -38,7 +37,6 @@ export class CinemaFormBuilder {
   }
 
   fillFormWithCinema(cinema: CinemaResponse) {
-    const image = new CreateImageRequest(cinema.image.name, cinema.image.type, cinema.image.data);
     this.form.setValue({
       stepOne: {
         address: {
@@ -50,7 +48,7 @@ export class CinemaFormBuilder {
         aboutCinema: {
           name: cinema.name,
           description: cinema.description,
-          image: image,
+          image: cinema.image,
         }
       },
       stepTwo: {
@@ -97,36 +95,36 @@ export class CinemaFormBuilder {
     this.stepThreeFormGroup.setControl('contactDetails', contactDetailsFormArray);
   }
 
-  async getCreateCinemaRequestFromForm(): Promise<CreateCinemaRequest> {
-    const imageRequest = await this.createImageRequest();
-    const commonFields = this.getCommonRequestFields();
-    const cinemaManager = this.getCinemaManagerRequest();
-
-    return new CreateCinemaRequest(
-      commonFields.name,
-      commonFields.description,
-      commonFields.address,
-      imageRequest,
-      commonFields.screeningRooms,
-      commonFields.contactDetails,
-      cinemaManager
-    );
+  getUpdateCinemaRequestFromForm() {
+    return this.getCinemaRequestFromForm(UpdateCinemaRequest);
   }
 
-  async getUpdateCinemaRequestFromForm(): Promise<UpdateCinemaRequest> {
-    const imageRequest = await this.createImageRequest();
+  getCreateCinemaRequestFromForm() {
+    return this.getCinemaRequestFromForm(CreateCinemaRequest);
+  }
+
+  private getCinemaRequestFromForm(requestType: any) {
+    const formData = new FormData();
+    const image = this.imageFormGroup?.value;
+    if (image instanceof File) {
+      formData.append('image', image);
+    }
+
     const commonFields = this.getCommonRequestFields();
     const cinemaManager = this.getCinemaManagerRequest();
-
-    return new UpdateCinemaRequest(
+    const cinemaRequest = new requestType(
       commonFields.name,
       commonFields.description,
       commonFields.address,
-      imageRequest,
       commonFields.screeningRooms,
       commonFields.contactDetails,
       cinemaManager
     );
+    formData.append(
+      'cinemaRequest',
+      new Blob([JSON.stringify(cinemaRequest)], {type: 'application/json'})
+    );
+    return formData;
   }
 
   private createForm() {
@@ -167,32 +165,6 @@ export class CinemaFormBuilder {
       stepFour: this.formBuilder.group({
         cinemaManager: ['', [Validators.required]],
       }),
-    });
-  }
-
-  private async createImageRequest(): Promise<CreateImageRequest> {
-    const selectedImage = this.imageFormGroup?.value;
-    if (selectedImage instanceof CreateImageRequest)
-      return selectedImage;
-
-    const name = selectedImage.name;
-    const type = selectedImage.type;
-    const file = new File([selectedImage], name, {type: type});
-    const data = await this.readFileData(file);
-
-    return new CreateImageRequest(name, type, data);
-  }
-
-  private readFileData(file: File): Promise<string> {
-    return new Promise<string>((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        const dataUrl = reader.result as string;
-        const imageData = dataUrl.split(',')[1];
-        resolve(imageData);
-      };
-      reader.onerror = error => reject(error);
     });
   }
 

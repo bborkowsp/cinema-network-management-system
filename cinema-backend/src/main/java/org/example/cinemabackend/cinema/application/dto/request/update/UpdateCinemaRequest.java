@@ -16,7 +16,6 @@ public record UpdateCinemaRequest(
         @NotBlank @Size(max = 100) String name,
         @NotBlank @Size(max = 2000) String description,
         @NotNull @Valid UpdateAddressRequest address,
-        @NotNull @Valid UpdateImageRequest image,
         @NotNull Set<@Valid @NotNull CreateScreeningRoomRequest> screeningRooms,
         @NotNull Set<@Valid @NotNull CreateContactDetailsRequest> contactDetails,
         @NotNull @Valid UserResponse cinemaManager

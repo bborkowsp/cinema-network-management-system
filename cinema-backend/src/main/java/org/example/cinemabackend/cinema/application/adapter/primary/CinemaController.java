@@ -60,7 +60,7 @@ class CinemaController {
     ResponseEntity<Void> updateCinema(
             @PathVariable String name,
             @RequestPart(value = "image", required = false) MultipartFile image,
-            @RequestPart @Valid UpdateCinemaRequest updateCinemaRequest
+            @RequestPart("cinemaRequest") @Valid UpdateCinemaRequest updateCinemaRequest
     ) {
         cinemaUseCases.updateCinema(name, image, updateCinemaRequest);
         return ResponseEntity.noContent().build();

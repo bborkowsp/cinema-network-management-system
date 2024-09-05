@@ -3,8 +3,6 @@ import {CinemaFormBuilder} from "./cinema-form-builder";
 import {ActivatedRoute, Router} from "@angular/router";
 import {FormBuilder} from "@angular/forms";
 import {CinemaService} from "../../services/cinema.service";
-import {CreateCinemaRequest} from "../../dtos/request/create-cinema.request";
-import {UpdateCinemaRequest} from "../../dtos/request/update-cinema.request";
 
 @Component({
   selector: 'app-cinema-form',
@@ -41,7 +39,7 @@ export class CinemaFormComponent implements OnInit {
   }
 
   protected onSubmit() {
-    let cinemaRequestPromise: Promise<CreateCinemaRequest | UpdateCinemaRequest>;
+    let cinemaRequestPromise: FormData;
 
     if (this.isEditMode) {
       cinemaRequestPromise = this.cinemaFormBuilder.getUpdateCinemaRequestFromForm();
@@ -79,26 +77,22 @@ export class CinemaFormComponent implements OnInit {
     });
   }
 
-  private handleFormSubmission(cinemaRequestPromise: Promise<CreateCinemaRequest | UpdateCinemaRequest>) {
+  private handleFormSubmission(cinemaRequest: FormData) {
     this.isLoading = true;
-    cinemaRequestPromise.then((cinemaRequest) => {
-      let cinemaServiceObservable;
-      if (this.isEditMode) {
-        cinemaServiceObservable = this.cinemaService.updateCinema(this.cinemaName, cinemaRequest as UpdateCinemaRequest);
-      } else {
-        cinemaServiceObservable = this.cinemaService.createCinema(cinemaRequest as CreateCinemaRequest);
+    let cinemaServiceObservable;
+    if (this.isEditMode) {
+      cinemaServiceObservable = this.cinemaService.updateCinema(this.cinemaName, cinemaRequest);
+    } else {
+      cinemaServiceObservable = this.cinemaService.createCinema(cinemaRequest);
+    }
+    cinemaServiceObservable.subscribe({
+      next: () => {
+        this.isLoading = false;
+        this.goBack();
+      },
+      error: () => {
+        this.isLoading = false;
       }
-      cinemaServiceObservable.subscribe({
-        next: () => {
-          this.isLoading = false;
-          this.goBack();
-        },
-        error: () => {
-          this.isLoading = false;
-        }
-      });
-    }).catch(() => {
-      this.isLoading = false;
     });
   }
 

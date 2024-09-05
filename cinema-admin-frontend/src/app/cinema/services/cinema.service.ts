@@ -3,9 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {CinemaListResponse} from "../dtos/response/cinema-list.response";
 import {map, Observable} from "rxjs";
 import {Injectable} from "@angular/core";
-import {CreateCinemaRequest} from "../dtos/request/create-cinema.request";
 import {CinemaResponse} from "../dtos/response/cinema.response";
-import {UpdateCinemaRequest} from "../dtos/request/update-cinema.request";
 import {AuthService} from "../../auth/services/auth.service";
 
 @Injectable({
@@ -49,12 +47,11 @@ export class CinemaService {
     return this.httpClient.get<CinemaResponse>(url);
   }
 
-  createCinema(cinema: CreateCinemaRequest) {
+  createCinema(cinema: FormData) {
     return this.httpClient.post<void>(CinemaService.CINEMAS_API_URL, cinema);
   }
 
-  updateCinema(cinemaName: string, cinema: UpdateCinemaRequest) {
-    console.log(cinema);
+  updateCinema(cinemaName: string, cinema: FormData) {
     const url = `${CinemaService.CINEMAS_API_URL}/${cinemaName}`;
     return this.httpClient.patch<void>(url, cinema);
   }
