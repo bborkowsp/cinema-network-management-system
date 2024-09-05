@@ -40,10 +40,10 @@ export class CinemaFormBuilder {
     this.form.setValue({
       stepOne: {
         address: {
-          city: cinema.address.city,
-          country: cinema.address.country,
-          postalCode: cinema.address.postalCode,
           streetAndBuildingNumber: cinema.address.streetAndBuildingNumber,
+          city: cinema.address.city,
+          postalCode: cinema.address.postalCode,
+          country: cinema.address.country,
         },
         aboutCinema: {
           name: cinema.name,

@@ -12,15 +12,15 @@ import org.example.cinemabackend.cinema.core.domain.Address;
 @NoArgsConstructor(force = true)
 public class AddressSchema {
     String streetAndBuildingNumber;
-    String postalCode;
     String city;
+    String postalCode;
     String country;
 
     public static AddressSchema fromAddress(Address address) {
         return AddressSchema.builder()
                 .streetAndBuildingNumber(address.getStreetAndBuildingNumber())
-                .postalCode(address.getPostalCode())
                 .city(address.getCity())
+                .postalCode(address.getPostalCode())
                 .country(address.getCountry())
                 .build();
     }
@@ -28,8 +28,8 @@ public class AddressSchema {
     public Address toAddress() {
         return new Address(
                 this.streetAndBuildingNumber,
-                this.postalCode,
                 this.city,
+                this.postalCode,
                 this.country
         );
     }

@@ -70,6 +70,7 @@ export class CinemaFormComponent implements OnInit {
       next: (cinema) => {
         this.cinemaFormBuilder.fillFormWithCinema(cinema);
         this.isLoading = false;
+        console.log(cinema);
       },
       error: () => {
         this.goBack();
