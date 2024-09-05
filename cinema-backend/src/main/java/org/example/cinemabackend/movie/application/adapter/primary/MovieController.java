@@ -65,7 +65,7 @@ class MovieController {
     @PreAuthorize("hasAnyRole('CINEMA_NETWORK_MANAGER','ADMIN')")
     ResponseEntity<Void> createMovie(
             @RequestPart("image") MultipartFile image,
-            @RequestPart("createMovieRequest") @Valid CreateMovieRequest createMovieRequest
+            @RequestPart("movieRequest") @Valid CreateMovieRequest createMovieRequest
     ) {
         movieUseCases.createMovie(image, createMovieRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -76,7 +76,7 @@ class MovieController {
     ResponseEntity<Void> updateMovie(
             @PathVariable String title,
             @RequestPart(value = "image", required = false) MultipartFile image,
-            @RequestPart("updateMovieRequest") @Valid UpdateMovieRequest updateMovieRequest
+            @RequestPart("movieRequest") @Valid UpdateMovieRequest updateMovieRequest
     ) {
         movieUseCases.updateMovie(title, image, updateMovieRequest);
         return ResponseEntity.noContent().build();

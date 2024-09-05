@@ -1,6 +1,5 @@
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MovieResponse} from "../../dtos/response/movie.response";
-import {CreateImageRequest} from "../../dtos/request/create-image.request";
 import {UpdateMovieRequest} from "../../dtos/request/update-movie.request";
 import {ProductionDetailsRequest} from "../../dtos/request/production-details.request";
 import {VideoFileRequest} from "../../dtos/request/video-file.request";
@@ -118,90 +117,62 @@ export class MovieFormBuilder {
   }
 
   getUpdateMovieRequestFromForm() {
+    return this.getMovieRequestFromForm(UpdateMovieRequest);
+  }
+
+  getCreateMovieRequestFromForm() {
+    return this.getMovieRequestFromForm(CreateMovieRequest);
+  }
+
+  private getMovieRequestFromForm(requestType: any) {
     const formData = new FormData();
     const image = this.imageFormGroup?.value;
     if (image instanceof File) {
       formData.append('image', image);
     }
-    const directorRequest = this.createDirectorRequest();
-    const actorsRequests = this.createActorsRequests();
-    const originalLanguagesRequest = this.extractLanguages();
-    const productionCountriesRequest = this.extractProductionCountries();
-    const projectionTechnologies = this.createProjectionTechnologies();
-    const movieRequest = new UpdateMovieRequest(
+
+    const movieRequest = new requestType(
       this.form.get('title')?.value.title,
       this.form.get('title')?.value.originalTitle,
       this.form.get('information')?.value.duration,
       this.form.get('information')?.value.releaseDate,
       this.form.get('information')?.value.description,
-      new ProductionDetailsRequest(
-        this.form.get('productionDetails')?.value.worldPremiereDate,
-        directorRequest,
-        actorsRequests,
-        originalLanguagesRequest,
-        productionCountriesRequest
-      ),
+      this.createProductionDetailsRequest(),
       this.createSubtitleAndSoundOptions(),
       this.form.get('ageRestrictionAndGenres')?.value.ageRestriction,
       new VideoFileRequest(
         this.form.get('imageAndTrailer')?.value.trailer
       ),
       this.form.get('ageRestrictionAndGenres')?.value.genres,
-      projectionTechnologies
+      this.createProjectionTechnologies()
     );
+
     formData.append(
-      'updateMovieRequest',
+      'movieRequest',
       new Blob([JSON.stringify(movieRequest)], {type: 'application/json'})
     );
+
     return formData;
   }
 
-  getCreateMovieRequestFromForm() {
-    const formData = new FormData();
-    formData.append('image', this.imageFormGroup?.value);
-    const directorRequest = this.createDirectorRequest();
-    const actorsRequests = this.createActorsRequests();
-    const originalLanguagesRequest = this.extractLanguages();
-    const productionCountriesRequest = this.extractProductionCountries();
-    const projectionTechnologies = this.createProjectionTechnologies();
-
-    const movieRequest = new CreateMovieRequest(
-      this.form.get('title')?.value.title,
-      this.form.get('title')?.value.originalTitle,
-      this.form.get('information')?.value.duration,
-      this.form.get('information')?.value.releaseDate,
-      this.form.get('information')?.value.description,
-      new ProductionDetailsRequest(
-        this.form.get('productionDetails')?.value.worldPremiereDate,
-        directorRequest,
-        actorsRequests,
-        originalLanguagesRequest,
-        productionCountriesRequest
-      ),
-      this.createSubtitleAndSoundOptions(),
-      this.form.get('ageRestrictionAndGenres')?.value.ageRestriction,
-      // imageRequest,
-      new VideoFileRequest(
-        this.form.get('imageAndTrailer')?.value.trailer
-      ),
-      this.form.get('ageRestrictionAndGenres')?.value.genres,
-      projectionTechnologies
-    );
-    formData.append(
-      'createMovieRequest',
-      new Blob([JSON.stringify(movieRequest)], {type: 'application/json'})
-    );
-    return formData;
+  private createProductionDetailsRequest(): ProductionDetailsRequest {
+    return new ProductionDetailsRequest(
+      this.form.get('productionDetails')?.value.worldPremiereDate,
+      this.createDirectorRequest(),
+      this.createActorsRequests(),
+      this.extractLanguages(),
+      this.extractProductionCountries()
+    )
   }
 
-  createDirectorRequest(): FilmMemberRequest {
+  private createDirectorRequest(): FilmMemberRequest {
     const directorFullName: string = this.form.get('productionDetails')?.value.director || '';
     const [firstName, ...lastNameArray] = directorFullName.split(' ');
     const lastName = lastNameArray.join(' ');
     return new FilmMemberRequest(firstName, lastName);
   }
 
-  createActorsRequests(): FilmMemberRequest[] {
+  private createActorsRequests(): FilmMemberRequest[] {
     const actorsString: string = this.form.get('productionDetails')?.value.actors || '';
     const actorsArray: string[] = actorsString.split(',');
     return actorsArray.map(actor => {
@@ -211,17 +182,17 @@ export class MovieFormBuilder {
     });
   }
 
-  extractLanguages(): string[] {
+  private extractLanguages(): string[] {
     const languagesString: string = this.form.get('productionDetails')?.value.originalLanguages || '';
     return languagesString.split(',');
   }
 
-  extractProductionCountries(): string[] {
+  private extractProductionCountries(): string[] {
     const countriesString: string = this.form.get('productionDetails')?.value.productionCountries || '';
     return countriesString.split(',');
   }
 
-  createSubtitleAndSoundOptions(): SubtitleAndSoundOptionsRequest {
+  private createSubtitleAndSoundOptions(): SubtitleAndSoundOptionsRequest {
     const subtitlesAndSoundOptions = this.form.get('projectionDetails')?.value.subtitlesAndSoundOptions;
     return new SubtitleAndSoundOptionsRequest(
       subtitlesAndSoundOptions === 'Subtitles',
@@ -231,34 +202,8 @@ export class MovieFormBuilder {
     );
   }
 
-  createProjectionTechnologies(): ProjectionTechnologyResponse[] {
+  private createProjectionTechnologies(): ProjectionTechnologyResponse[] {
     const selectedTechnologies = this.form.get('projectionDetails')?.value.projectionTechnologies || [];
     return selectedTechnologies.map((technology: string) => new ProjectionTechnologyResponse(technology, ''));
-  }
-
-  private async createImageRequest(): Promise<CreateImageRequest> {
-    const selectedImage = this.imageFormGroup?.value;
-    if (selectedImage instanceof CreateImageRequest)
-      return selectedImage;
-
-    const name = selectedImage.name;
-    const type = selectedImage.type;
-    const file = new File([selectedImage], name, {type: type});
-    const data = await this.readFileData(file);
-
-    return new CreateImageRequest(name, type, data);
-  }
-
-  private readFileData(file: File): Promise<string> {
-    return new Promise<string>((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        const dataUrl = reader.result as string;
-        const imageData = dataUrl.split(',')[1];
-        resolve(imageData);
-      };
-      reader.onerror = error => reject(error);
-    });
   }
 }
