@@ -8,6 +8,7 @@ import {MovieService} from "../../services/movie.service";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDeletionMovieDialog} from "../confirm-deletion-movie-dialog/confirm-deletion-movie-dialog.component";
 import {AuthService} from "../../../auth/services/auth.service";
+import {images} from "../../../../assets/environment";
 
 @Component({
   selector: 'app-movie-table',
@@ -15,6 +16,7 @@ import {AuthService} from "../../../auth/services/auth.service";
   styleUrls: ['./movie-table.component.scss']
 })
 export class MovieTableComponent implements OnInit {
+  readonly POSTERS_SERVER_DIRECTORY_URL = `${images.IMAGES_SERVER_DIRECTORY_URL}/posters/`;
   @ViewChild(MatPaginator) readonly paginator!: MatPaginator;
   displayedColumns = ['options', 'poster', 'title', 'originalTitle', 'releaseDate', 'director'];
   movies$!: Observable<MovieListResponse[]>;

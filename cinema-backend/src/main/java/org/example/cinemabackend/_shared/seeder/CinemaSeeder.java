@@ -31,7 +31,7 @@ class CinemaSeeder implements Seeder {
         Set<Cinema> cinemas = new HashSet<>();
         while (cinemas.size() < objectsToSeed) {
             final var cinema = createCinema();
-            cinema.setImage("poster.jpg");
+            cinema.setImage("cinema.jpg");
             if (!cinemas.contains(cinema)) {
                 cinemas.add(cinema);
                 cinemaRepository.save(cinema);

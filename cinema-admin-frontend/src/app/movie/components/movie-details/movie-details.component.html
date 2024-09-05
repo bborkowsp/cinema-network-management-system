@@ -15,7 +15,7 @@
       <div class="movie-main-details-container">
         <div class="movie-main-details-container__image-container">
           <img alt="movie image" class="movie-main-details-container__image-container__image"
-               src="http://localhost:8080/api/posters/{{ movie.poster }}"/>
+               src="{{POSTERS_SERVER_DIRECTORY_URL}}{{ movie.poster }}"/>
         </div>
         <div class="movie-main-details-container__details">
           <app-generic-details-field [content]="movie.title" title="Movie title"></app-generic-details-field>

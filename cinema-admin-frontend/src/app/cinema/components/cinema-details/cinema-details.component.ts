@@ -12,7 +12,7 @@ import {images} from "../../../../assets/environment";
   styleUrls: ['./cinema-details.component.scss']
 })
 export class CinemaDetailsComponent implements OnInit {
-  readonly IMAGES_SERVER_DIRECTORY = `${images.IMAGES_DIRECTORY_URL}/cinemas-images`;
+  readonly CINEMA_IMAGES_SERVER_DIRECTORY_URL = `${images.IMAGES_SERVER_DIRECTORY_URL}/cinemas-images/`;
   cinema$!: Observable<CinemaResponse>;
   name: string = '';
   isLoading = true;

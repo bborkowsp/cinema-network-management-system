@@ -29,7 +29,7 @@
           </th>
           <td *matCellDef="let row" class="column-cell" mat-cell>
             <img alt="movie" class="movie-image-list"
-                 src="http://localhost:8080/api/posters/{{ row.poster }}"/>
+                 src="{{POSTERS_SERVER_DIRECTORY_URL}}{{ row.poster }}"/>
           </td>
         </ng-container>
 

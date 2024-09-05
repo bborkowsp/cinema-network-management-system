@@ -5,6 +5,7 @@ import {map, Observable, switchMap, tap} from "rxjs";
 import {MovieResponse} from "../../dtos/response/movie.response";
 import {DomSanitizer} from '@angular/platform-browser';
 import {AuthService} from "../../../auth/services/auth.service";
+import {images} from "../../../../assets/environment";
 
 
 @Component({
@@ -13,6 +14,7 @@ import {AuthService} from "../../../auth/services/auth.service";
   styleUrls: ['./movie-details.component.scss']
 })
 export class MovieDetailsComponent implements OnInit {
+  readonly POSTERS_SERVER_DIRECTORY_URL = `${images.IMAGES_SERVER_DIRECTORY_URL}/posters/`;
   movie$!: Observable<MovieResponse>;
   title: string = '';
   isLoading = true;
