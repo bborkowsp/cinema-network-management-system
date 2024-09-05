@@ -1,12 +1,12 @@
-package org.example.cinemabackend.cinema.core.service;
+package org.example.cinemabackend.projectiontechnology.core.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.cinemabackend.cinema.application.dto.request.create.CreateProjectionTechnologyRequest;
-import org.example.cinemabackend.cinema.application.dto.request.update.UpdateProjectionTechnologyRequest;
-import org.example.cinemabackend.cinema.application.dto.response.ProjectionTechnologyNameResponse;
-import org.example.cinemabackend.cinema.application.dto.response.ProjectionTechnologyResponse;
-import org.example.cinemabackend.cinema.core.port.primary.ProjectionTechnologyMapper;
 import org.example.cinemabackend.movie.core.domain.ProjectionTechnology;
+import org.example.cinemabackend.projectiontechnology.application.dto.request.create.CreateProjectionTechnologyRequest;
+import org.example.cinemabackend.projectiontechnology.application.dto.request.update.UpdateProjectionTechnologyRequest;
+import org.example.cinemabackend.projectiontechnology.application.dto.response.ProjectionTechnologyNameResponse;
+import org.example.cinemabackend.projectiontechnology.application.dto.response.ProjectionTechnologyResponse;
+import org.example.cinemabackend.projectiontechnology.core.port.primary.ProjectionTechnologyMapper;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 

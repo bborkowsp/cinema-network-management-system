@@ -3,11 +3,11 @@ package org.example.cinemabackend.cinema.testdata;
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.application.dto.request.create.CreatSeatRequest;
 import org.example.cinemabackend.cinema.application.dto.request.create.CreateScreeningRoomRequest;
-import org.example.cinemabackend.cinema.application.dto.response.ProjectionTechnologyNameResponse;
 import org.example.cinemabackend.cinema.core.domain.SeatType;
 import org.example.cinemabackend.cinema.core.domain.SeatZone;
-import org.example.cinemabackend.cinema.core.port.secondary.ProjectionTechnologyRepository;
 import org.example.cinemabackend.movie.core.domain.ProjectionTechnology;
+import org.example.cinemabackend.projectiontechnology.application.dto.response.ProjectionTechnologyNameResponse;
+import org.example.cinemabackend.projectiontechnology.core.port.secondary.ProjectionTechnologyRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
@@ -20,7 +20,6 @@ import static org.example.cinemabackend.cinema.testdata.ProjectionTechnologyTest
 @Component
 @RequiredArgsConstructor
 public class ScreeningRoomTestDataProvider {
-
     private static final int NUMBER_OF_SCREENING_ROOMS = 6;
     private final ProjectionTechnologyRepository projectionTechnologyRepository;
 
@@ -32,6 +31,10 @@ public class ScreeningRoomTestDataProvider {
             screeningRooms.add(createScreeningRoom());
         }
         return screeningRooms;
+    }
+
+    private void saveProjectionTechnologiesToDatabase(List<ProjectionTechnology> projectionTechnologies) {
+        projectionTechnologies.forEach(projectionTechnologyRepository::save);
     }
 
     private CreateScreeningRoomRequest createScreeningRoom() {
@@ -55,15 +58,6 @@ public class ScreeningRoomTestDataProvider {
         return seats;
     }
 
-    private CreatSeatRequest createSeat(int seatRow, int seatColumn) {
-        return new CreatSeatRequest(
-                seatRow,
-                seatColumn,
-                SeatZone.CORRIDOR,
-                SeatType.AVAILABLE
-        );
-    }
-
     private Set<ProjectionTechnologyNameResponse> getProjectionTechnologiesNameResponses() {
         final var projectionTechnologies = projectionTechnologyRepository.findAll();
         return projectionTechnologies.stream()
@@ -73,8 +67,12 @@ public class ScreeningRoomTestDataProvider {
                 .collect(Collectors.toSet());
     }
 
-
-    private void saveProjectionTechnologiesToDatabase(List<ProjectionTechnology> projectionTechnologies) {
-        projectionTechnologies.forEach(projectionTechnologyRepository::save);
+    private CreatSeatRequest createSeat(int seatRow, int seatColumn) {
+        return new CreatSeatRequest(
+                seatRow,
+                seatColumn,
+                SeatZone.CORRIDOR,
+                SeatType.AVAILABLE
+        );
     }
 }

@@ -1,15 +1,15 @@
-package org.example.cinemabackend.cinema.core.service;
+package org.example.cinemabackend.projectiontechnology.core.service;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import org.example.cinemabackend.cinema.application.dto.request.create.CreateProjectionTechnologyRequest;
-import org.example.cinemabackend.cinema.application.dto.request.update.UpdateProjectionTechnologyRequest;
-import org.example.cinemabackend.cinema.application.dto.response.ProjectionTechnologyNameResponse;
-import org.example.cinemabackend.cinema.application.dto.response.ProjectionTechnologyResponse;
-import org.example.cinemabackend.cinema.core.port.primary.ProjectionTechnologyMapper;
-import org.example.cinemabackend.cinema.core.port.primary.ProjectionTechnologyUseCases;
-import org.example.cinemabackend.cinema.core.port.secondary.ProjectionTechnologyRepository;
 import org.example.cinemabackend.movie.core.port.secondary.MovieRepository;
+import org.example.cinemabackend.projectiontechnology.application.dto.request.create.CreateProjectionTechnologyRequest;
+import org.example.cinemabackend.projectiontechnology.application.dto.request.update.UpdateProjectionTechnologyRequest;
+import org.example.cinemabackend.projectiontechnology.application.dto.response.ProjectionTechnologyNameResponse;
+import org.example.cinemabackend.projectiontechnology.application.dto.response.ProjectionTechnologyResponse;
+import org.example.cinemabackend.projectiontechnology.core.port.primary.ProjectionTechnologyMapper;
+import org.example.cinemabackend.projectiontechnology.core.port.primary.ProjectionTechnologyUseCases;
+import org.example.cinemabackend.projectiontechnology.core.port.secondary.ProjectionTechnologyRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -79,12 +79,6 @@ class ProjectionTechnologyService implements ProjectionTechnologyUseCases {
         projectionTechnologyRepository.save(projectionTechnology);
     }
 
-    private void validateProjectionTechnologyDoesntExist(String technology) {
-        if (projectionTechnologyRepository.existsByTechnology(technology)) {
-            throw new IllegalStateException("Projection technology '" + technology + "' already exists");
-        }
-    }
-
     private void validateProjectionTechnologyIsNotTaken(String oldTechnology, String newTechnology) {
         if (!oldTechnology.equals(newTechnology) && projectionTechnologyRepository.existsByTechnology(newTechnology)) {
             throw new IllegalStateException("Projection technology '" + newTechnology + "' already exists");
@@ -100,6 +94,12 @@ class ProjectionTechnologyService implements ProjectionTechnologyUseCases {
     private void validateProjectionTechnologyIsNotUsedInAnyMovie(String technology) {
         if (movieRepository.existsByProjectionTechnology(technology)) {
             throw new IllegalStateException("Cannot delete projection technology '" + technology + "' because it is used in some movies");
+        }
+    }
+
+    private void validateProjectionTechnologyDoesntExist(String technology) {
+        if (projectionTechnologyRepository.existsByTechnology(technology)) {
+            throw new IllegalStateException("Projection technology '" + technology + "' already exists");
         }
     }
 }

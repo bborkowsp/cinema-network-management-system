@@ -3,10 +3,10 @@ package org.example.cinemabackend.movie.infrastructure.schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import org.example.cinemabackend.cinema.infrastructure.schema.ProjectionTechnologySchema;
 import org.example.cinemabackend.movie.core.domain.AgeRestriction;
 import org.example.cinemabackend.movie.core.domain.Genre;
 import org.example.cinemabackend.movie.core.domain.Movie;
+import org.example.cinemabackend.projectiontechnology.infrastructure.schema.ProjectionTechnologySchema;
 
 import java.time.LocalDate;
 import java.util.Set;

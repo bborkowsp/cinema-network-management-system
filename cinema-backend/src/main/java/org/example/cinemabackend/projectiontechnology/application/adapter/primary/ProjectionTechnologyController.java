@@ -1,12 +1,12 @@
-package org.example.cinemabackend.cinema.application.adapter.primary;
+package org.example.cinemabackend.projectiontechnology.application.adapter.primary;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.cinemabackend.cinema.application.dto.request.create.CreateProjectionTechnologyRequest;
-import org.example.cinemabackend.cinema.application.dto.request.update.UpdateProjectionTechnologyRequest;
-import org.example.cinemabackend.cinema.application.dto.response.ProjectionTechnologyNameResponse;
-import org.example.cinemabackend.cinema.application.dto.response.ProjectionTechnologyResponse;
-import org.example.cinemabackend.cinema.core.port.primary.ProjectionTechnologyUseCases;
+import org.example.cinemabackend.projectiontechnology.application.dto.request.create.CreateProjectionTechnologyRequest;
+import org.example.cinemabackend.projectiontechnology.application.dto.request.update.UpdateProjectionTechnologyRequest;
+import org.example.cinemabackend.projectiontechnology.application.dto.response.ProjectionTechnologyNameResponse;
+import org.example.cinemabackend.projectiontechnology.application.dto.response.ProjectionTechnologyResponse;
+import org.example.cinemabackend.projectiontechnology.core.port.primary.ProjectionTechnologyUseCases;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;

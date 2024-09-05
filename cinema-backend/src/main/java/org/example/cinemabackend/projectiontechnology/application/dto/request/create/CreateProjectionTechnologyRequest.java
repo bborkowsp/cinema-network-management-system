@@ -1,4 +1,4 @@
-package org.example.cinemabackend.cinema.application.dto.request.create;
+package org.example.cinemabackend.projectiontechnology.application.dto.request.create;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

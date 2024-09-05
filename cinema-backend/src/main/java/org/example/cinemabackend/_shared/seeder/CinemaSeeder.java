@@ -4,8 +4,8 @@ import com.github.javafaker.Faker;
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.core.domain.*;
 import org.example.cinemabackend.cinema.core.port.secondary.CinemaRepository;
-import org.example.cinemabackend.cinema.core.port.secondary.ProjectionTechnologyRepository;
 import org.example.cinemabackend.movie.core.domain.ProjectionTechnology;
+import org.example.cinemabackend.projectiontechnology.core.port.secondary.ProjectionTechnologyRepository;
 import org.example.cinemabackend.user.core.domain.User;
 import org.example.cinemabackend.user.core.port.secondary.UserRepository;
 import org.springframework.core.annotation.Order;
@@ -20,6 +20,8 @@ import java.util.Set;
 @Order(3)
 class CinemaSeeder implements Seeder {
     private static final int NUMBER_OF_SCREENING_ROOMS = 3;
+    private static final int NUMBER_OF_ROWS_IN_SCREENING_ROOM = 12;
+    private static final int NUMBER_OF_COLUMNS_IN_SCREENING_ROOM = 15;
     private final CinemaRepository cinemaRepository;
     private final ProjectionTechnologyRepository projectionTechnologyRepository;
     private final UserRepository userRepository;
@@ -120,9 +122,9 @@ class CinemaSeeder implements Seeder {
     }
 
     private Seat[][] createSeats() {
-        Seat[][] seats = new Seat[12][15];
-        for (int i = 0; i < 12; i++) {
-            for (int j = 0; j < 15; j++)
+        Seat[][] seats = new Seat[NUMBER_OF_ROWS_IN_SCREENING_ROOM][NUMBER_OF_COLUMNS_IN_SCREENING_ROOM];
+        for (int i = 0; i < NUMBER_OF_ROWS_IN_SCREENING_ROOM; i++) {
+            for (int j = 0; j < NUMBER_OF_COLUMNS_IN_SCREENING_ROOM; j++)
                 seats[i][j] = createSeat(i, j);
         }
         return seats;

@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.example.cinemabackend.cinema.core.domain.ScreeningRoom;
 import org.example.cinemabackend.cinema.core.domain.Seat;
+import org.example.cinemabackend.projectiontechnology.infrastructure.schema.ProjectionTechnologySchema;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -66,25 +67,6 @@ public class ScreeningRoomSchema {
         );
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(name);
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) {
-            return true;
-        }
-
-        if (!(object instanceof ScreeningRoomSchema screeningRoomSchema)) {
-            return false;
-        }
-
-        return Objects.equals(id, screeningRoomSchema.getId()) &&
-                Objects.equals(name, screeningRoomSchema.getName());
-    }
-
     private SeatSchema[][] getSeatingPlanFromJson() {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
@@ -102,6 +84,25 @@ public class ScreeningRoomSchema {
             }
         }
         return seats;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+
+        if (!(object instanceof ScreeningRoomSchema screeningRoomSchema)) {
+            return false;
+        }
+
+        return Objects.equals(id, screeningRoomSchema.getId()) &&
+                Objects.equals(name, screeningRoomSchema.getName());
     }
 
 }

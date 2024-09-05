@@ -1,8 +1,8 @@
 package org.example.cinemabackend.cinema;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.cinemabackend.cinema.application.dto.request.create.CreateProjectionTechnologyRequest;
-import org.example.cinemabackend.cinema.core.port.secondary.ProjectionTechnologyRepository;
+import org.example.cinemabackend.projectiontechnology.application.dto.request.create.CreateProjectionTechnologyRequest;
+import org.example.cinemabackend.projectiontechnology.core.port.secondary.ProjectionTechnologyRepository;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;

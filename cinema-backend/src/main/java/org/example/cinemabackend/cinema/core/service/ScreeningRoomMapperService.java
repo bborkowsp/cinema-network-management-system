@@ -5,10 +5,10 @@ import org.example.cinemabackend.cinema.application.dto.request.create.CreateScr
 import org.example.cinemabackend.cinema.application.dto.request.update.UpdateScreeningRoomRequest;
 import org.example.cinemabackend.cinema.application.dto.response.ScreeningRoomResponse;
 import org.example.cinemabackend.cinema.core.domain.ScreeningRoom;
-import org.example.cinemabackend.cinema.core.port.primary.ProjectionTechnologyMapper;
 import org.example.cinemabackend.cinema.core.port.primary.ScreeningRoomMapper;
 import org.example.cinemabackend.cinema.core.port.primary.SeatMapper;
-import org.example.cinemabackend.cinema.core.port.secondary.ProjectionTechnologyRepository;
+import org.example.cinemabackend.projectiontechnology.core.port.primary.ProjectionTechnologyMapper;
+import org.example.cinemabackend.projectiontechnology.core.port.secondary.ProjectionTechnologyRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;

@@ -1,4 +1,4 @@
-package org.example.cinemabackend.cinema.application.dto.response;
+package org.example.cinemabackend.projectiontechnology.application.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;

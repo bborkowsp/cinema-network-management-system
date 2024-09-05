@@ -1,9 +1,9 @@
 package org.example.cinemabackend.movie.application.dto.response;
 
 import lombok.Builder;
-import org.example.cinemabackend.cinema.application.dto.response.ProjectionTechnologyResponse;
 import org.example.cinemabackend.movie.core.domain.AgeRestriction;
 import org.example.cinemabackend.movie.core.domain.Genre;
+import org.example.cinemabackend.projectiontechnology.application.dto.response.ProjectionTechnologyResponse;
 
 import java.time.LocalDate;
 import java.util.Set;

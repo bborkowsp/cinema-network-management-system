@@ -1,11 +1,11 @@
 package org.example.cinemabackend.cinema.testdata;
 
 import lombok.RequiredArgsConstructor;
-import org.example.cinemabackend.cinema.application.dto.request.create.CreateProjectionTechnologyRequest;
-import org.example.cinemabackend.cinema.application.dto.response.ProjectionTechnologyResponse;
-import org.example.cinemabackend.cinema.core.port.primary.ProjectionTechnologyMapper;
-import org.example.cinemabackend.cinema.core.port.secondary.ProjectionTechnologyRepository;
 import org.example.cinemabackend.movie.core.domain.ProjectionTechnology;
+import org.example.cinemabackend.projectiontechnology.application.dto.request.create.CreateProjectionTechnologyRequest;
+import org.example.cinemabackend.projectiontechnology.application.dto.response.ProjectionTechnologyResponse;
+import org.example.cinemabackend.projectiontechnology.core.port.primary.ProjectionTechnologyMapper;
+import org.example.cinemabackend.projectiontechnology.core.port.secondary.ProjectionTechnologyRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -23,6 +23,10 @@ public class ProjectionTechnologyTestDataProvider {
         return new CreateProjectionTechnologyRequest(getTechnology(), "Description");
     }
 
+    private static String getTechnology() {
+        return "Projection technology No. " + projectionTechnologyCounter++;
+    }
+
     public static Set<ProjectionTechnology> generateProjectionTechnologies() {
         return Set.of(
                 new ProjectionTechnology(getTechnology(), "Description 1"),
@@ -37,10 +41,6 @@ public class ProjectionTechnologyTestDataProvider {
                 new ProjectionTechnology(getTechnology(), "Description 2"),
                 new ProjectionTechnology(getTechnology(), "Description 3")
         );
-    }
-
-    private static String getTechnology() {
-        return "Projection technology No. " + projectionTechnologyCounter++;
     }
 
     public Set<ProjectionTechnologyResponse> generateProjectionTechnologiesResponse() {

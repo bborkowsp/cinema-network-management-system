@@ -1,9 +1,9 @@
-package org.example.cinemabackend.cinema.infrastructure.adapter.secondary;
+package org.example.cinemabackend.projectiontechnology.infrastructure.adapter.secondary;
 
 import lombok.RequiredArgsConstructor;
-import org.example.cinemabackend.cinema.core.port.secondary.ProjectionTechnologyRepository;
-import org.example.cinemabackend.cinema.infrastructure.schema.ProjectionTechnologySchema;
 import org.example.cinemabackend.movie.core.domain.ProjectionTechnology;
+import org.example.cinemabackend.projectiontechnology.core.port.secondary.ProjectionTechnologyRepository;
+import org.example.cinemabackend.projectiontechnology.infrastructure.schema.ProjectionTechnologySchema;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.lang.NonNull;

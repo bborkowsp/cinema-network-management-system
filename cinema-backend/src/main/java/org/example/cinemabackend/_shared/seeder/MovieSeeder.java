@@ -2,9 +2,9 @@ package org.example.cinemabackend._shared.seeder;
 
 import com.github.javafaker.Faker;
 import lombok.RequiredArgsConstructor;
-import org.example.cinemabackend.cinema.core.port.secondary.ProjectionTechnologyRepository;
 import org.example.cinemabackend.movie.core.domain.*;
 import org.example.cinemabackend.movie.core.port.secondary.MovieRepository;
+import org.example.cinemabackend.projectiontechnology.core.port.secondary.ProjectionTechnologyRepository;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 

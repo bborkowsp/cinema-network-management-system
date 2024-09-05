@@ -1,4 +1,4 @@
-package org.example.cinemabackend.cinema.core.port.secondary;
+package org.example.cinemabackend.projectiontechnology.core.port.secondary;
 
 import org.example.cinemabackend.movie.core.domain.ProjectionTechnology;
 import org.springframework.data.domain.Page;

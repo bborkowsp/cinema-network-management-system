@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
-import org.example.cinemabackend.cinema.application.dto.response.ProjectionTechnologyNameResponse;
+import org.example.cinemabackend.projectiontechnology.application.dto.response.ProjectionTechnologyNameResponse;
 
 import java.util.Set;
 

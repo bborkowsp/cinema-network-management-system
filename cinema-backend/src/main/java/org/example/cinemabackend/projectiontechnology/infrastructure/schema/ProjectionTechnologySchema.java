@@ -1,4 +1,4 @@
-package org.example.cinemabackend.cinema.infrastructure.schema;
+package org.example.cinemabackend.projectiontechnology.infrastructure.schema;
 
 import jakarta.persistence.*;
 import lombok.*;

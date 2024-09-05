@@ -15,8 +15,6 @@ import java.util.List;
 
 import static org.example.cinemabackend.cinema.testdata.AddressTestDataProvider.*;
 import static org.example.cinemabackend.cinema.testdata.ContactDetailTestDataProvider.generateContactDetailRequests;
-import static org.example.cinemabackend.cinema.testdata.ImageTestDataProvider.generateCreateImageRequest;
-import static org.example.cinemabackend.cinema.testdata.ImageTestDataProvider.generateUpdateImageRequest;
 import static org.example.cinemabackend.user.testdata.UserTestDataProvider.generateSampleCinemaManager;
 
 @Component
@@ -33,15 +31,16 @@ public class CinemaTestDataProvider {
         String[] names = {"Name 1", "Name 2", "Name 3"};
         String[] descriptions = {"Description 1", "Description 2", "Description 3"};
         final var addresses = generateSampleAddresses();
-        final var image = ImageUtil.createImage();
+        final var image = "cinema.jpg";
 
         final var cinemaManagers = UserTestDataProvider.generateSampleCinemaManagers();
         saveCinemaManagersToDatabase(cinemaManagers);
 
         for (int i = 0; i < names.length; i++) {
-            cinemas.add(new Cinema(names[i], descriptions[i], addresses.get(i), image, getCinemaManager(i)));
+            final var cinema = new Cinema(names[i], descriptions[i], addresses.get(i), getCinemaManager(i));
+            cinema.setImage(image);
+            cinemas.add(cinema);
         }
-
         return cinemas;
     }
 
@@ -55,7 +54,6 @@ public class CinemaTestDataProvider {
 
     public CreateCinemaRequest generateCreateCinemaRequest() {
         final var createAddressRequest = generateCreateAddressRequest();
-        final var createImageRequest = generateCreateImageRequest();
 
         final var cinemaManager = generateSampleCinemaManager();
         saveCinemaManagersToDatabase(List.of(cinemaManager));
@@ -67,7 +65,6 @@ public class CinemaTestDataProvider {
                 .name("Name")
                 .description("Description")
                 .address(createAddressRequest)
-                .image(createImageRequest)
                 .screeningRooms(screeningRooms)
                 .contactDetails(contactDetails)
                 .cinemaManager(userResponse)
@@ -76,7 +73,6 @@ public class CinemaTestDataProvider {
 
     public UpdateCinemaRequest generateUpdateCinemaRequest(String name) {
         final var updateAddressRequest = generateUpdateAddressRequest();
-        final var updateImageRequest = generateUpdateImageRequest();
 
         final var cinemaManager = generateSampleCinemaManager();
         saveCinemaManagersToDatabase(List.of(cinemaManager));
@@ -89,13 +85,9 @@ public class CinemaTestDataProvider {
                 .name(name)
                 .description("Description")
                 .address(updateAddressRequest)
-                .image(updateImageRequest)
                 .screeningRooms(screeningRooms)
                 .contactDetails(contactDetails)
                 .cinemaManager(userResponse)
                 .build();
-
     }
-
-
 }
