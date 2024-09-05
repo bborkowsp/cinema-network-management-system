@@ -9,7 +9,10 @@ import org.example.cinemabackend.cinema.core.domain.Cinema;
 import org.example.cinemabackend.cinema.core.domain.ScreeningRoom;
 import org.example.cinemabackend.cinema.core.domain.Seat;
 import org.example.cinemabackend.cinema.core.domain.SeatType;
-import org.example.cinemabackend.cinema.core.port.primary.*;
+import org.example.cinemabackend.cinema.core.port.primary.AddressMapper;
+import org.example.cinemabackend.cinema.core.port.primary.CinemaMapper;
+import org.example.cinemabackend.cinema.core.port.primary.ContactDetailsMapper;
+import org.example.cinemabackend.cinema.core.port.primary.ScreeningRoomMapper;
 import org.example.cinemabackend.user.application.dto.response.UserResponse;
 import org.example.cinemabackend.user.core.domain.User;
 import org.example.cinemabackend.user.core.port.primary.UserMapper;
@@ -24,11 +27,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 class CinemaMapperService implements CinemaMapper {
     private final UserMapper userMapper;
-    private final ImageMapper imageMapper;
     private final AddressMapper addressMapper;
     private final ScreeningRoomMapper screeningRoomMapper;
     private final ContactDetailsMapper contactDetailsMapper;
-
     private final UserRepository userRepository;
 
     @Override

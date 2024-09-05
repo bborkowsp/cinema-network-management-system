@@ -14,13 +14,13 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 class DatabaseSeeder implements CommandLineRunner {
     static final int OBJECTS_TO_SEED = 20;
+    private static final Logger logger = LoggerFactory.getLogger(DatabaseSeeder.class);
     private static final String SEED_FLAG = "--seed";
     private final CinemaSeeder cinemaSeeder;
     private final ProjectionTechnologySeeder projectionTechnologySeeder;
     private final UserSeeder userSeeder;
     private final MovieSeeder movieSeeder;
     private final ScreeningSeeder screeningSeeder;
-    private final Logger logger = LoggerFactory.getLogger(DatabaseSeeder.class);
 
     @Override
     public void run(String... args) {

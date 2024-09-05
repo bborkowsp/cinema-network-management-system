@@ -30,7 +30,9 @@ class ProjectionTechnologySeeder implements Seeder {
     }
 
     private ProjectionTechnology createProjectionTechnology() {
-        increment++;
-        return new ProjectionTechnology(faker.company().buzzword() + increment, faker.lorem().sentence(8));
+        return new ProjectionTechnology(
+                faker.company().buzzword() + increment,
+                faker.lorem().sentence(8)
+        );
     }
 }
