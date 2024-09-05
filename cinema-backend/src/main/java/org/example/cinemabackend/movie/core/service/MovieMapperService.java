@@ -2,14 +2,12 @@ package org.example.cinemabackend.movie.core.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.application.dto.response.ProjectionTechnologyResponse;
-import org.example.cinemabackend.cinema.core.port.primary.ImageMapper;
 import org.example.cinemabackend.cinema.core.port.primary.ProjectionTechnologyMapper;
 import org.example.cinemabackend.cinema.core.port.secondary.ProjectionTechnologyRepository;
 import org.example.cinemabackend.movie.application.dto.request.CreateMovieRequest;
 import org.example.cinemabackend.movie.application.dto.request.UpdateMovieRequest;
 import org.example.cinemabackend.movie.application.dto.response.MovieListResponse;
 import org.example.cinemabackend.movie.application.dto.response.MovieResponse;
-import org.example.cinemabackend.movie.core.domain.Image;
 import org.example.cinemabackend.movie.core.domain.Movie;
 import org.example.cinemabackend.movie.core.domain.ProjectionTechnology;
 import org.example.cinemabackend.movie.core.port.primary.*;
@@ -21,7 +19,6 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 class MovieMapperService implements MovieMapper {
-    private final ImageMapper imageMapper;
     private final VideoFileMapper videoFileMapper;
     private final FilmMemberMapper filmMemberMapper;
     private final ProductionDetailsMapper productionDetailsMapper;
@@ -36,7 +33,7 @@ class MovieMapperService implements MovieMapper {
                 .originalTitle(movie.getOriginalTitle())
                 .duration(movie.getDuration())
                 .releaseDate(movie.getReleaseDate())
-                .image(imageMapper.mapImageToImageResponse(getMoviePoster(movie)))
+                .poster(movie.getPoster())
                 .director(filmMemberMapper.mapFilmMemberToFilmMemberResponse(movie.getProductionDetails().getDirector()))
                 .build();
     }
@@ -50,9 +47,9 @@ class MovieMapperService implements MovieMapper {
                 .releaseDate(movie.getReleaseDate())
                 .productionDetails(productionDetailsMapper.mapProductionDetailsToProductionDetailsResponse(movie.getProductionDetails()))
                 .description(movie.getDescription())
+                .poster(movie.getPoster())
                 .subtitleAndSoundOptions(subtitleAndSoundOptionsMapper.mapSubtitleAndSoundOptionsToSubtitleAndSoundOptionsResponse(movie.getSubtitleAndSoundOptions()))
                 .ageRestriction(movie.getAgeRestriction())
-                .poster(imageMapper.mapImageToImageResponse(getMoviePoster(movie)))
                 .trailer(videoFileMapper.mapVideoFileToVideoFileResponse(movie.getTrailer()))
                 .genres(movie.getGenres())
                 .projectionTechnologies(projectionTechnologyMapper.mapProjectionTechnologiesToProjectionTechnologyResponses(movie.getProjectionTechnologies()))
@@ -70,7 +67,6 @@ class MovieMapperService implements MovieMapper {
                 createMovieRequest.description(),
                 subtitleAndSoundOptionsMapper.mapCreateSubtitleAndSoundOptionsRequestToSubtitleAndSoundOptions(createMovieRequest.subtitleAndSoundOptions()),
                 createMovieRequest.ageRestriction(),
-                imageMapper.mapCreateImageRequestToImage(createMovieRequest.image()),
                 videoFileMapper.mapVideoFileRequestToVideoFile(createMovieRequest.trailer()),
                 createMovieRequest.genres(),
                 getProjectionTechnologies(createMovieRequest.projectionTechnologies())
@@ -87,7 +83,6 @@ class MovieMapperService implements MovieMapper {
         movie.setDescription(updateMovieRequest.description());
         movie.setSubtitleAndSoundOptions(subtitleAndSoundOptionsMapper.mapUpdateSubtitleAndSoundOptionsRequestToSubtitleAndSoundOptions(updateMovieRequest.subtitleAndSoundOptions(), movie.getSubtitleAndSoundOptions()));
         movie.setAgeRestriction(updateMovieRequest.ageRestriction());
-        movie.setPoster(imageMapper.mapUpdateImageRequestToImage(updateMovieRequest.image(), getMoviePoster(movie)));
         movie.setTrailer(videoFileMapper.mapUpdateVideoFileRequestToVideoFile(updateMovieRequest.trailer(), movie.getTrailer()));
         movie.setGenres(updateMovieRequest.genres());
         movie.setProjectionTechnologies(getProjectionTechnologies(updateMovieRequest.projectionTechnologies()));
@@ -100,7 +95,7 @@ class MovieMapperService implements MovieMapper {
                 .collect(Collectors.toSet());
     }
 
-    private Image getMoviePoster(Movie movie) {
+    private String getMoviePoster(Movie movie) {
         return movie.getPoster();
     }
 }

@@ -52,7 +52,8 @@ export class UserFormBuilder {
         this.mainFormGroup.get('firstName')!.value,
         this.mainFormGroup.get('lastName')!.value,
         this.mainFormGroup.get('email')!.value,
-        this.mainFormGroup.get('password')!.value
+        this.mainFormGroup.get('password')!.value,
+        this.mainFormGroup.get('role')!.value,
       )
     }
 

@@ -14,8 +14,8 @@
     <div *ngIf="movie$ | async as movie">
       <div class="movie-main-details-container">
         <div class="movie-main-details-container__image-container">
-          <img [src]="'data:' + movie.poster.type + ';base64,' + movie.poster.data" alt="movie image"
-               class="movie-main-details-container__image-container__image"/>
+          <img alt="movie image" class="movie-main-details-container__image-container__image"
+               src="http://localhost:8080/api/posters/{{ movie.poster }}"/>
         </div>
         <div class="movie-main-details-container__details">
           <app-generic-details-field [content]="movie.title" title="Movie title"></app-generic-details-field>

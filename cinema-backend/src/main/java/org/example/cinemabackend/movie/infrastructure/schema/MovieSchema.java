@@ -3,7 +3,6 @@ package org.example.cinemabackend.movie.infrastructure.schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import org.example.cinemabackend.cinema.infrastructure.schema.ImageSchema;
 import org.example.cinemabackend.cinema.infrastructure.schema.ProjectionTechnologySchema;
 import org.example.cinemabackend.movie.core.domain.AgeRestriction;
 import org.example.cinemabackend.movie.core.domain.Genre;
@@ -31,7 +30,7 @@ public class MovieSchema {
     private String originalTitle;
 
     @Column(nullable = false)
-    private Double duration;
+    private Integer duration;
 
     @Column(nullable = false)
     private LocalDate releaseDate;
@@ -49,9 +48,8 @@ public class MovieSchema {
     @Column(nullable = false)
     private AgeRestriction ageRestriction;
 
-    @Embedded
     @NotNull
-    private ImageSchema poster;
+    private String poster;
 
     @Embedded
     @NotNull
@@ -78,9 +76,9 @@ public class MovieSchema {
                 .releaseDate(movie.getReleaseDate())
                 .productionDetails(ProductionDetailsSchema.fromProductionDetails(movie.getProductionDetails()))
                 .description(movie.getDescription())
+                .poster(movie.getPoster())
                 .subtitleAndSoundOptions(SubtitleAndSoundOptionsSchema.fromSubtitleAndSoundOptions(movie.getSubtitleAndSoundOptions()))
                 .ageRestriction(movie.getAgeRestriction())
-                .poster(ImageSchema.fromImage(movie.getPoster()))
                 .trailer(VideoFileSchema.fromVideoFile(movie.getTrailer()))
                 .genres(movie.getGenres())
                 .projectionTechnologies(projectionTechnologies)
@@ -98,8 +96,8 @@ public class MovieSchema {
                 this.description,
                 this.subtitleAndSoundOptions.toSubtitleAndSoundOptions(),
                 this.ageRestriction,
-                this.poster.toImage(),
                 this.trailer.toVideoFile(),
+                this.poster,
                 this.genres,
                 this.projectionTechnologies.stream().map(ProjectionTechnologySchema::toProjectionTechnology).collect(Collectors.toSet())
         );

@@ -1,4 +1,3 @@
-import {ImageResponse} from "./image.response";
 import {FilmMemberResponse} from "./film-member.response";
 
 export class MovieListResponse {
@@ -7,7 +6,7 @@ export class MovieListResponse {
     readonly originalTitle: string,
     readonly duration: string,
     readonly releaseDate: Date,
-    readonly image: ImageResponse,
+    readonly poster: string,
     readonly director: FilmMemberResponse,
   ) {
   }

@@ -14,10 +14,10 @@
           </th>
           <td *matCellDef="let row" class="options-cell" mat-cell>
             <app-options-table-button
-              [isUserRoleCinemaManager]="isUserRoleCinemaManager"
               (delete)="handleDelete($event)"
               (edit)="handleEdit($event)"
               (showDetails)="handleShowDetails($event)"
+              [isUserRoleCinemaManager]="isUserRoleCinemaManager"
               [row]="row"
             ></app-options-table-button>
           </td>
@@ -28,8 +28,8 @@
             Poster
           </th>
           <td *matCellDef="let row" class="column-cell" mat-cell>
-            <img [src]="'data:' + row.image.type + ';base64,' + row.image.data" alt="movie image"
-                 class="movie-image-list"/>
+            <img alt="movie" class="movie-image-list"
+                 src="http://localhost:8080/api/posters/{{ row.poster }}"/>
           </td>
         </ng-container>
 

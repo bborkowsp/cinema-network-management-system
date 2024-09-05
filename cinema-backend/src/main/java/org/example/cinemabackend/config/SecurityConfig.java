@@ -43,6 +43,7 @@ class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/v1/screenings/repertory/{cinema}").permitAll()
                         .requestMatchers(HttpMethod.GET, "/v1/screenings/repertory/{cinema}/{date}").permitAll()
                         .requestMatchers(HttpMethod.GET, "/v1/verify-account").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/posters/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())

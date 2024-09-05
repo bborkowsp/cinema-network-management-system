@@ -1,4 +1,3 @@
-import {ImageResponse} from "./image.response";
 import {
   ProjectionTechnologyResponse
 } from "../../../projection-technology/dtos/response/projection-technology.response";
@@ -17,7 +16,7 @@ export class MovieResponse {
     readonly description: string,
     readonly subtitleAndSoundOptions: SubtitleAndSoundOptionsResponse,
     readonly ageRestriction: AgeRestrictionResponse,
-    readonly poster: ImageResponse,
+    readonly poster: string,
     readonly trailer: VideoFileResponse,
     readonly genres: string[],
     readonly projectionTechnologies: ProjectionTechnologyResponse[],

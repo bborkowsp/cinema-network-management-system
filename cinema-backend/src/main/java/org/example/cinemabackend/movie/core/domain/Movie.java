@@ -7,18 +7,18 @@ public class Movie {
     private Long id;
     private String title;
     private String originalTitle;
-    private Double duration;
+    private Integer duration;
     private LocalDate releaseDate;
     private ProductionDetails productionDetails;
     private String description;
     private SubtitleAndSoundOptions subtitleAndSoundOptions;
     private AgeRestriction ageRestriction;
-    private Image poster;
+    private String poster;
     private VideoFile trailer;
     private Set<Genre> genres;
     private Set<ProjectionTechnology> projectionTechnologies;
 
-    public Movie(String title, String originalTitle, Double duration, LocalDate releaseDate, ProductionDetails productionDetails, String description, SubtitleAndSoundOptions subtitleAndSoundOptions, AgeRestriction ageRestriction, Image poster, VideoFile trailer, Set<Genre> genres, Set<ProjectionTechnology> projectionTechnologies) {
+    public Movie(String title, String originalTitle, Integer duration, LocalDate releaseDate, ProductionDetails productionDetails, String description, SubtitleAndSoundOptions subtitleAndSoundOptions, AgeRestriction ageRestriction, VideoFile trailer, Set<Genre> genres, Set<ProjectionTechnology> projectionTechnologies) {
         this.title = title;
         this.originalTitle = originalTitle;
         this.duration = duration;
@@ -27,13 +27,12 @@ public class Movie {
         this.description = description;
         this.subtitleAndSoundOptions = subtitleAndSoundOptions;
         this.ageRestriction = ageRestriction;
-        this.poster = poster;
         this.trailer = trailer;
         this.genres = genres;
         this.projectionTechnologies = projectionTechnologies;
     }
 
-    public Movie(Long id, String title, String originalTitle, Double duration, LocalDate releaseDate, ProductionDetails productionDetails, String description, SubtitleAndSoundOptions subtitleAndSoundOptions, AgeRestriction ageRestriction, Image poster, VideoFile trailer, Set<Genre> genres, Set<ProjectionTechnology> projectionTechnologies) {
+    public Movie(Long id, String title, String originalTitle, Integer duration, LocalDate releaseDate, ProductionDetails productionDetails, String description, SubtitleAndSoundOptions subtitleAndSoundOptions, AgeRestriction ageRestriction, VideoFile trailer, Set<Genre> genres, Set<ProjectionTechnology> projectionTechnologies) {
         this.id = id;
         this.title = title;
         this.originalTitle = originalTitle;
@@ -43,11 +42,27 @@ public class Movie {
         this.description = description;
         this.subtitleAndSoundOptions = subtitleAndSoundOptions;
         this.ageRestriction = ageRestriction;
-        this.poster = poster;
         this.trailer = trailer;
         this.genres = genres;
         this.projectionTechnologies = projectionTechnologies;
     }
+
+    public Movie(Long id, String title, String originalTitle, Integer duration, LocalDate releaseDate, ProductionDetails productionDetails, String description, SubtitleAndSoundOptions subtitleAndSoundOptions, AgeRestriction ageRestriction, VideoFile trailer, String poster, Set<Genre> genres, Set<ProjectionTechnology> projectionTechnologies) {
+        this.id = id;
+        this.title = title;
+        this.originalTitle = originalTitle;
+        this.duration = duration;
+        this.releaseDate = releaseDate;
+        this.productionDetails = productionDetails;
+        this.description = description;
+        this.subtitleAndSoundOptions = subtitleAndSoundOptions;
+        this.ageRestriction = ageRestriction;
+        this.trailer = trailer;
+        this.poster = poster;
+        this.genres = genres;
+        this.projectionTechnologies = projectionTechnologies;
+    }
+
 
     public String getTitle() {
         return title;
@@ -65,11 +80,11 @@ public class Movie {
         this.originalTitle = originalTitle;
     }
 
-    public Double getDuration() {
+    public Integer getDuration() {
         return duration;
     }
 
-    public void setDuration(Double duration) {
+    public void setDuration(Integer duration) {
         this.duration = duration;
     }
 
@@ -113,11 +128,11 @@ public class Movie {
         this.ageRestriction = ageRestriction;
     }
 
-    public Image getPoster() {
+    public String getPoster() {
         return poster;
     }
 
-    public void setPoster(Image poster) {
+    public void setPoster(String poster) {
         this.poster = poster;
     }
 

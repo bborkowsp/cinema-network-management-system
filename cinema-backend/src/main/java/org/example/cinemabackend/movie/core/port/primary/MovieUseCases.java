@@ -8,6 +8,7 @@ import org.example.cinemabackend.movie.core.domain.AgeRestriction;
 import org.example.cinemabackend.movie.core.domain.Genre;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -22,9 +23,9 @@ public interface MovieUseCases {
 
     MovieResponse getMovie(String title);
 
-    void createMovie(CreateMovieRequest createMovieRequest);
+    void createMovie(MultipartFile image, CreateMovieRequest createMovieRequest);
 
-    void updateMovie(String title, UpdateMovieRequest updateMovieRequest);
+    void updateMovie(String title, MultipartFile image, UpdateMovieRequest updateMovieRequest);
 
     void deleteMovie(String title);
 }

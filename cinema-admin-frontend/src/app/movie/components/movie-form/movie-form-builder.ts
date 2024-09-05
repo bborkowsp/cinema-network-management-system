@@ -45,6 +45,10 @@ export class MovieFormBuilder {
     return this.form.get('imageAndTrailer') as FormGroup;
   }
 
+  public get imageFormGroup() {
+    return this.form.get('imageAndTrailer')?.get('image') as FormGroup;
+  }
+
   createForm(): FormGroup {
     return this.formBuilder.group({
       title: this.formBuilder.group({
@@ -79,8 +83,6 @@ export class MovieFormBuilder {
   }
 
   fillFormWithMovie(movie: MovieResponse) {
-    const image = new CreateImageRequest(movie.poster.name, movie.poster.type, movie.poster.data);
-
     this.form.setValue({
       title: {
         title: movie.title,
@@ -109,21 +111,22 @@ export class MovieFormBuilder {
         genres: movie.genres
       },
       imageAndTrailer: {
-        image: image,
+        image: movie.poster,
         trailer: movie.trailer.url
       }
     });
   }
 
-  async getUpdateMovieRequestFromForm(): Promise<UpdateMovieRequest> {
-    const imageRequest = await this.createImageRequest();
+  getUpdateMovieRequestFromForm() {
+    const formData = new FormData();
+    formData.append('image', this.imageFormGroup?.value);
+
     const directorRequest = this.createDirectorRequest();
     const actorsRequests = this.createActorsRequests();
     const originalLanguagesRequest = this.extractLanguages();
     const productionCountriesRequest = this.extractProductionCountries();
     const projectionTechnologies = this.createProjectionTechnologies();
-
-    return new UpdateMovieRequest(
+    const movieRequest = new UpdateMovieRequest(
       this.form.get('title')?.value.title,
       this.form.get('title')?.value.originalTitle,
       this.form.get('information')?.value.duration,
@@ -138,24 +141,29 @@ export class MovieFormBuilder {
       ),
       this.createSubtitleAndSoundOptions(),
       this.form.get('ageRestrictionAndGenres')?.value.ageRestriction,
-      imageRequest,
       new VideoFileRequest(
         this.form.get('imageAndTrailer')?.value.trailer
       ),
       this.form.get('ageRestrictionAndGenres')?.value.genres,
       projectionTechnologies
     );
+    formData.append(
+      'updateMovieRequest',
+      new Blob([JSON.stringify(movieRequest)], {type: 'application/json'})
+    );
+    return formData;
   }
 
-  async getCreateMovieRequestFromForm(): Promise<CreateMovieRequest> {
-    const imageRequest = await this.createImageRequest();
+  getCreateMovieRequestFromForm() {
+    const formData = new FormData();
+    formData.append('image', this.imageFormGroup?.value);
     const directorRequest = this.createDirectorRequest();
     const actorsRequests = this.createActorsRequests();
     const originalLanguagesRequest = this.extractLanguages();
     const productionCountriesRequest = this.extractProductionCountries();
     const projectionTechnologies = this.createProjectionTechnologies();
 
-    return new CreateMovieRequest(
+    const movieRequest = new CreateMovieRequest(
       this.form.get('title')?.value.title,
       this.form.get('title')?.value.originalTitle,
       this.form.get('information')?.value.duration,
@@ -170,44 +178,18 @@ export class MovieFormBuilder {
       ),
       this.createSubtitleAndSoundOptions(),
       this.form.get('ageRestrictionAndGenres')?.value.ageRestriction,
-      imageRequest,
+      // imageRequest,
       new VideoFileRequest(
         this.form.get('imageAndTrailer')?.value.trailer
       ),
       this.form.get('ageRestrictionAndGenres')?.value.genres,
       projectionTechnologies
     );
-
-  }
-
-  private async createImageRequest(): Promise<CreateImageRequest> {
-    const selectedImage = this.imageFormGroup?.value;
-    if (selectedImage instanceof CreateImageRequest)
-      return selectedImage;
-
-    const name = selectedImage.name;
-    const type = selectedImage.type;
-    const file = new File([selectedImage], name, {type: type});
-    const data = await this.readFileData(file);
-
-    return new CreateImageRequest(name, type, data);
-  }
-
-  private readFileData(file: File): Promise<string> {
-    return new Promise<string>((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        const dataUrl = reader.result as string;
-        const imageData = dataUrl.split(',')[1];
-        resolve(imageData);
-      };
-      reader.onerror = error => reject(error);
-    });
-  }
-
-  public get imageFormGroup() {
-    return this.form.get('imageAndTrailer')?.get('image') as FormGroup;
+    formData.append(
+      'createMovieRequest',
+      new Blob([JSON.stringify(movieRequest)], {type: 'application/json'})
+    );
+    return formData;
   }
 
   createDirectorRequest(): FilmMemberRequest {
@@ -250,5 +232,31 @@ export class MovieFormBuilder {
   createProjectionTechnologies(): ProjectionTechnologyResponse[] {
     const selectedTechnologies = this.form.get('projectionDetails')?.value.projectionTechnologies || [];
     return selectedTechnologies.map((technology: string) => new ProjectionTechnologyResponse(technology, ''));
+  }
+
+  private async createImageRequest(): Promise<CreateImageRequest> {
+    const selectedImage = this.imageFormGroup?.value;
+    if (selectedImage instanceof CreateImageRequest)
+      return selectedImage;
+
+    const name = selectedImage.name;
+    const type = selectedImage.type;
+    const file = new File([selectedImage], name, {type: type});
+    const data = await this.readFileData(file);
+
+    return new CreateImageRequest(name, type, data);
+  }
+
+  private readFileData(file: File): Promise<string> {
+    return new Promise<string>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        const dataUrl = reader.result as string;
+        const imageData = dataUrl.split(',')[1];
+        resolve(imageData);
+      };
+      reader.onerror = error => reject(error);
+    });
   }
 }

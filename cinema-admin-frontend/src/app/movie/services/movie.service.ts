@@ -5,8 +5,6 @@ import {Injectable} from "@angular/core";
 import {PaginatorRequestParams} from "../../_shared/dtos/paginator-request-params";
 import {MoviePageResponse} from "../dtos/response/movie-page.response";
 import {MovieResponse} from "../dtos/response/movie.response";
-import {CreateMovieRequest} from "../dtos/request/create-movie.request";
-import {UpdateMovieRequest} from "../dtos/request/update-movie.request";
 
 @Injectable({
   providedIn: 'root',
@@ -55,11 +53,11 @@ export class MovieService {
   }
 
 
-  createMovie(createMovieRequest: CreateMovieRequest) {
+  createMovie(createMovieRequest: FormData) {
     return this.httpClient.post<void>(MovieService.MOVIES_API_URL, createMovieRequest);
   }
 
-  updateMovie(title: string, movie: null | UpdateMovieRequest) {
+  updateMovie(title: string, movie: FormData) {
     const url = `${MovieService.MOVIES_API_URL}/${title}`;
     return this.httpClient.patch<void>(url, movie);
   }

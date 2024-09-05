@@ -16,8 +16,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static org.example.cinemabackend._shared.seeder.ImageUtil.createImage;
-import static org.example.cinemabackend.cinema.testdata.ImageTestDataProvider.generateCreateImageRequest;
 import static org.example.cinemabackend.cinema.testdata.ImageTestDataProvider.generateUpdateImageRequest;
 import static org.example.cinemabackend.cinema.testdata.ProjectionTechnologyTestDataProvider.generateProjectionTechnologies;
 import static org.example.cinemabackend.movie.testdata.ProductionDetailsTestDataProvider.generateProductionDetails;
@@ -46,6 +44,22 @@ public class MovieTestDataProvider {
         return movies;
     }
 
+    private Movie generateMovie() {
+        moviesCounter++;
+        return new Movie(
+                "Movie No. " + moviesCounter,
+                "Original Title" + moviesCounter,
+                0.0 + moviesCounter,
+                LocalDate.now(),
+                generateProductionDetails(),
+                "Description" + moviesCounter,
+                generateSubtitleAndSoundOptions(),
+                AgeRestriction.PLUS4,
+                generateVideoFile(),
+                Set.of(Genre.ACTION),
+                new HashSet<>(projectionTechnologyRepository.findAll())
+        );
+    }
 
     public CreateMovieRequest generateCreateMovieRequest() {
         return new CreateMovieRequest(
@@ -57,7 +71,6 @@ public class MovieTestDataProvider {
                 generateProductionDetailsRequest(),
                 generateSubtitleAndSoundOptionsRequest(),
                 AgeRestriction.PLUS12,
-                generateCreateImageRequest(),
                 generateVideoFileRequest(),
                 Set.of(Genre.ADVENTURE),
                 productionDetailsTestDataProvider.generateProjectionTechnologiesResponse()
@@ -78,24 +91,6 @@ public class MovieTestDataProvider {
                 generateVideoFileRequest(),
                 Set.of(Genre.ADVENTURE),
                 productionDetailsTestDataProvider.generateProjectionTechnologiesResponse()
-        );
-    }
-
-    private Movie generateMovie() {
-        moviesCounter++;
-        return new Movie(
-                "Movie No. " + moviesCounter,
-                "Original Title" + moviesCounter,
-                0.0 + moviesCounter,
-                LocalDate.now(),
-                generateProductionDetails(),
-                "Description" + moviesCounter,
-                generateSubtitleAndSoundOptions(),
-                AgeRestriction.PLUS4,
-                createImage(),
-                generateVideoFile(),
-                Set.of(Genre.ACTION),
-                new HashSet<>(projectionTechnologyRepository.findAll())
         );
     }
 }

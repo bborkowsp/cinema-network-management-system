@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -62,15 +63,22 @@ class MovieController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('CINEMA_NETWORK_MANAGER','ADMIN')")
-    ResponseEntity<Void> createMovie(@RequestBody @Valid CreateMovieRequest createMovieRequest) {
-        movieUseCases.createMovie(createMovieRequest);
+    ResponseEntity<Void> createMovie(
+            @RequestPart("image") MultipartFile image,
+            @RequestPart("createMovieRequest") @Valid CreateMovieRequest createMovieRequest
+    ) {
+        movieUseCases.createMovie(image, createMovieRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PatchMapping("/{title}")
     @PreAuthorize("hasAnyRole('CINEMA_NETWORK_MANAGER','ADMIN')")
-    ResponseEntity<Void> updateMovie(@PathVariable String title, @RequestBody @Valid UpdateMovieRequest updateMovieRequest) {
-        movieUseCases.updateMovie(title, updateMovieRequest);
+    ResponseEntity<Void> updateMovie(
+            @PathVariable String title,
+            @RequestPart("image") MultipartFile image,
+            @RequestPart("updateMovieRequest") @Valid UpdateMovieRequest updateMovieRequest
+    ) {
+        movieUseCases.updateMovie(title, image, updateMovieRequest);
         return ResponseEntity.noContent().build();
     }
 

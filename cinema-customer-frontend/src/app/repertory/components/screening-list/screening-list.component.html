@@ -4,11 +4,13 @@
       <ng-container *ngIf="movieTitles.length; else noMovies">
         <div *ngFor="let movieTitle of movieTitles">
           <div class="screening-container">
-            <img
-              [src]="'data:' + repertory[movieTitle][0].movie.poster.type + ';base64,' + repertory[movieTitle][0].movie.poster.data"
-              alt="movie image"
-              class="movie-poster"
-            />
+            <img alt="movie poster" class="movie-poster"
+                 src="http://localhost:8080/api/posters/{{ repertory[movieTitle][0].movie.poster }}"/>
+            <!--            <img-->
+            <!--              [src]="'data:' + repertory[movieTitle][0].movie.poster.type + ';base64,' + repertory[movieTitle][0].movie.poster.data"-->
+            <!--              alt="movie image"-->
+            <!--              class="movie-poster"-->
+            <!--            />-->
             <div class="screening-details">
               <div class="screening-details__header">
                 <h2>{{ movieTitle }}</h2>

@@ -24,4 +24,6 @@ public class ScreeningControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+
 }

@@ -3,8 +3,6 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {FormBuilder} from "@angular/forms";
 import {MovieFormBuilder} from "./movie-form-builder";
 import {MovieService} from "../../services/movie.service";
-import {CreateMovieRequest} from "../../dtos/request/create-movie.request";
-import {UpdateMovieRequest} from "../../dtos/request/update-movie.request";
 
 @Component({
   selector: 'app-movie-form',
@@ -13,11 +11,11 @@ import {UpdateMovieRequest} from "../../dtos/request/update-movie.request";
 })
 export class MovieFormComponent implements OnInit {
   private static readonly GO_BACK_NAVIGATION_PATH = '/movies';
-  private title !: string;
   isEditMode = false;
   isLoading = true;
   pageTitle !: string;
   movieFormBuilder !: MovieFormBuilder;
+  private title !: string;
 
   constructor(
     private router: Router,
@@ -38,6 +36,33 @@ export class MovieFormComponent implements OnInit {
       this.pageTitle = 'Add Movie';
       this.setUpCreateProjectionTechnologyForm();
     }
+  }
+
+  handleCancelClicked() {
+    this.goBack();
+  }
+
+  getInvalidControls(): string[] {
+    const invalidControls: string[] = [];
+    const controls = this.movieFormBuilder.form.controls;
+    for (const name in controls) {
+      if (controls[name].invalid) {
+        invalidControls.push(name);
+      }
+    }
+    return invalidControls;
+  }
+
+  protected onSubmit() {
+    let movieRequestPromise: FormData;
+
+    if (this.isEditMode) {
+      movieRequestPromise = this.movieFormBuilder.getUpdateMovieRequestFromForm();
+    } else {
+      movieRequestPromise = this.movieFormBuilder.getCreateMovieRequestFromForm();
+    }
+
+    this.handleFormSubmission(movieRequestPromise);
   }
 
   private setUpEditProjectionTechnologyForm() {
@@ -63,46 +88,26 @@ export class MovieFormComponent implements OnInit {
     });
   }
 
-  protected onSubmit() {
-    let movieRequestPromise: Promise<CreateMovieRequest | UpdateMovieRequest>;
-
-    if (this.isEditMode) {
-      movieRequestPromise = this.movieFormBuilder.getUpdateMovieRequestFromForm();
-    } else {
-      movieRequestPromise = this.movieFormBuilder.getCreateMovieRequestFromForm();
-    }
-
-    this.handleFormSubmission(movieRequestPromise);
-  }
-
-  private handleFormSubmission(movieRequestPromise: Promise<CreateMovieRequest | UpdateMovieRequest>) {
+  private handleFormSubmission(movieRequestPromise: FormData) {
     this.isLoading = true;
-    movieRequestPromise.then((cinemaRequest) => {
-      let movieServiceObservable;
-      if (this.isEditMode) {
-        movieServiceObservable = this.movieService.updateMovie(this.title, cinemaRequest as UpdateMovieRequest);
-      } else {
-        movieServiceObservable = this.movieService.createMovie(cinemaRequest as CreateMovieRequest);
+    let movieServiceObservable;
+    if (this.isEditMode) {
+      movieServiceObservable = this.movieService.updateMovie(this.title, movieRequestPromise);
+    } else {
+      movieServiceObservable = this.movieService.createMovie(movieRequestPromise);
+    }
+    movieServiceObservable.subscribe({
+      next: () => {
+        this.isLoading = false;
+        this.goBack();
+      },
+      error: () => {
+        this.isLoading = false;
       }
-      movieServiceObservable.subscribe({
-        next: () => {
-          this.isLoading = false;
-          this.goBack();
-        },
-        error: () => {
-          this.isLoading = false;
-        }
-      });
-    }).catch(() => {
-      this.isLoading = false;
     });
   }
 
   private goBack() {
     this.router.navigate([MovieFormComponent.GO_BACK_NAVIGATION_PATH]);
-  }
-
-  handleCancelClicked() {
-    this.goBack();
   }
 }

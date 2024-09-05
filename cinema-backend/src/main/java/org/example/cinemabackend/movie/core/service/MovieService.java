@@ -17,14 +17,21 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 class MovieService implements MovieUseCases {
+    private static final String UPLOAD_DIRECTORY = "posters\\";
     private final MovieRepository movieRepository;
     private final MovieMapper movieMapper;
     private final ScreeningRepository screeningRepository;
@@ -57,17 +64,20 @@ class MovieService implements MovieUseCases {
     }
 
     @Override
-    public void createMovie(CreateMovieRequest createMovieRequest) {
+    public void createMovie(MultipartFile image, CreateMovieRequest createMovieRequest) {
         validateMovieNotExists(createMovieRequest.title());
         final var movie = movieMapper.mapCreateMovieRequestToMovie(createMovieRequest);
+        movie.setPoster(saveImageToFileSystem(image));
         movieRepository.save(movie);
     }
 
     @Override
-    public void updateMovie(String title, UpdateMovieRequest updateMovieRequest) {
+    public void updateMovie(String title, MultipartFile image, UpdateMovieRequest updateMovieRequest) {
         validateMovieTitleIsNotTaken(title, updateMovieRequest.title());
         final var movie = movieRepository.findByTitle(title).orElseThrow();
         movieMapper.updateMovieFromUpdateMovieRequest(updateMovieRequest, movie);
+        deletePosterFromFilSystem(movie.getPoster());
+        movie.setPoster(saveImageToFileSystem(image));
         movieRepository.save(movie);
     }
 
@@ -77,6 +87,12 @@ class MovieService implements MovieUseCases {
         validateMovieExists(title);
         validateMovieIsNotUsedInScreenings(title);
         movieRepository.deleteByTitle(title);
+    }
+
+    private void validateMovieExists(String title) {
+        if (movieRepository.findByTitle(title).isEmpty()) {
+            throw new NoSuchElementException("Movie does not exist");
+        }
     }
 
     private void validateMovieIsNotUsedInScreenings(String title) {
@@ -91,9 +107,10 @@ class MovieService implements MovieUseCases {
         }
     }
 
-    private void validateMovieExists(String title) {
-        if (movieRepository.findByTitle(title).isEmpty()) {
-            throw new NoSuchElementException("Movie does not exist");
+    private void deletePosterFromFilSystem(String poster) {
+        try {
+            Files.deleteIfExists(Paths.get(UPLOAD_DIRECTORY + poster));
+        } catch (IOException e) {
         }
     }
 
@@ -101,5 +118,15 @@ class MovieService implements MovieUseCases {
         if (movieRepository.findByTitle(title).isPresent()) {
             throw new IllegalStateException("Movie with title " + title + " already exists");
         }
+    }
+
+    private String saveImageToFileSystem(MultipartFile image) {
+        String fileName = UUID.randomUUID() + "_" + image.getOriginalFilename();
+        Path filePath = Paths.get(UPLOAD_DIRECTORY + fileName);
+        try {
+            Files.write(filePath, image.getBytes());
+        } catch (IOException e) {
+        }
+        return fileName;
     }
 }

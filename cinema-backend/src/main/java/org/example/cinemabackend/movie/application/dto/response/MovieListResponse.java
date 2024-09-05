@@ -1,7 +1,6 @@
 package org.example.cinemabackend.movie.application.dto.response;
 
 import lombok.Builder;
-import org.example.cinemabackend.cinema.application.dto.response.ImageResponse;
 
 import java.time.LocalDate;
 
@@ -9,9 +8,9 @@ import java.time.LocalDate;
 public record MovieListResponse(
         String title,
         String originalTitle,
-        Double duration,
+        Integer duration,
         LocalDate releaseDate,
-        ImageResponse image,
+        String poster,
         FilmMemberResponse director
 ) {
 }

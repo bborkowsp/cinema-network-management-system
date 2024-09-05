@@ -27,6 +27,7 @@ class MovieSeeder implements Seeder {
         Set<Movie> movies = new HashSet<>();
         while (movies.size() < objectsToSeed) {
             final var movie = createMovie();
+            movie.setPoster("poster.jpg");
             movieRepository.save(movie);
             movies.add(movie);
             increment++;
@@ -37,19 +38,18 @@ class MovieSeeder implements Seeder {
         final var productionDetails = createProductionDetails();
         final var subtitleAndSoundOptions = createSubtitleAndSoundOptions();
         final var ageRestriction = createAgeRestriction();
-        final var image = ImageUtil.createImage();
         final var movieFile = createMovieFile();
         final var genres = createGenres();
         final var projectionTechnologies = getProjectionTechnologies();
-        return new Movie(faker.book().title() + increment, faker.book().title(),
-                faker.number().randomDouble(2, 60, 180),
+        return new Movie(faker.book().title() + increment,
+                faker.book().title(),
+                faker.number().numberBetween(60, 180),
                 faker.date().birthday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
-                productionDetails, faker.lorem().sentence(8), subtitleAndSoundOptions, ageRestriction,
-                image, movieFile, genres, projectionTechnologies);
-    }
-
-    private Set<ProjectionTechnology> getProjectionTechnologies() {
-        return Set.of(projectionTechnologyRepository.findAll().getFirst(), projectionTechnologyRepository.findAll().getLast());
+                productionDetails,
+                faker.lorem().sentence(8),
+                subtitleAndSoundOptions, ageRestriction,
+                movieFile, genres, projectionTechnologies
+        );
     }
 
     private ProductionDetails createProductionDetails() {
@@ -74,11 +74,23 @@ class MovieSeeder implements Seeder {
         return AgeRestriction.values()[faker.number().numberBetween(0, AgeRestriction.values().length)];
     }
 
+    private VideoFile createMovieFile() {
+        return new VideoFile("https://www.youtube.com/embed/ZiGdHLQD300");
+    }
+
     private Set<Genre> createGenres() {
         Set<Genre> genres = new HashSet<>();
         genres.add(Genre.ADVENTURE);
         genres.add(Genre.ACTION);
         return genres;
+    }
+
+    private Set<ProjectionTechnology> getProjectionTechnologies() {
+        return Set.of(projectionTechnologyRepository.findAll().getFirst(), projectionTechnologyRepository.findAll().getLast());
+    }
+
+    private FilmMember createFilmMember() {
+        return new FilmMember(faker.name().firstName(), faker.name().lastName());
     }
 
     private Set<FilmMember> createFilmMembers() {
@@ -87,23 +99,15 @@ class MovieSeeder implements Seeder {
         return actors;
     }
 
-    private FilmMember createFilmMember() {
-        return new FilmMember(faker.name().firstName(), faker.name().lastName());
-    }
-
-    private Set<String> createProductionCountries() {
-        Set<String> productionCountries = new HashSet<>();
-        productionCountries.add(faker.address().country());
-        return productionCountries;
-    }
-
     private Set<String> createOriginalLanguages() {
         Set<String> originalLanguages = new HashSet<>();
         originalLanguages.add(faker.nation().language());
         return originalLanguages;
     }
 
-    private VideoFile createMovieFile() {
-        return new VideoFile("https://www.youtube.com/embed/ZiGdHLQD300");
+    private Set<String> createProductionCountries() {
+        Set<String> productionCountries = new HashSet<>();
+        productionCountries.add(faker.address().country());
+        return productionCountries;
     }
 }

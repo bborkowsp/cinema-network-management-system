@@ -1,6 +1,5 @@
 import {ProductionDetailsRequest} from "./production-details.request";
 import {SubtitleAndSoundOptionsRequest} from "./subtitle-and-sound-options.request";
-import {CreateImageRequest} from "./create-image.request";
 import {VideoFileRequest} from "./video-file.request";
 import {
   ProjectionTechnologyResponse
@@ -16,7 +15,6 @@ export class UpdateMovieRequest {
     readonly productionDetails: ProductionDetailsRequest,
     readonly subtitleAndSoundOptions: SubtitleAndSoundOptionsRequest,
     readonly ageRestriction: string,
-    readonly image: CreateImageRequest,
     readonly trailer: VideoFileRequest,
     readonly genres: string[],
     readonly projectionTechnologies: ProjectionTechnologyResponse[],
