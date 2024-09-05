@@ -1,5 +1,5 @@
 import {environment} from "../../../assets/environment";
-import {HttpClient, HttpParams} from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import {map, Observable} from "rxjs";
 import {Injectable} from "@angular/core";
 import {PaginatorRequestParams} from "../../_shared/dtos/paginator-request-params";

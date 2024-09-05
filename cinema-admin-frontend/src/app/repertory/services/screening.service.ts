@@ -1,6 +1,6 @@
 import {environment} from "../../../assets/environment";
 import {ScreeningResponse} from "../dtos/screening.response";
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {map} from "rxjs";
 import {AuthService} from "../../auth/services/auth.service";

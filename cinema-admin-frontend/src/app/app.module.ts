@@ -8,7 +8,7 @@ import {MatSortModule} from "@angular/material/sort";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatTableModule} from "@angular/material/table";
 import {CinemaModule} from "./cinema/cinema.module";
-import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgIf} from "@angular/common";
 import {MatFormFieldModule} from "@angular/material/form-field";
@@ -28,50 +28,44 @@ import {RepertoryModule} from "./repertory/repertory.module";
 import {AuthService} from "./auth/services/auth.service";
 import {AuthModule} from "./auth/auth.module";
 
-@NgModule({
-  declarations: [
-    AppComponent,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatSortModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    FormsModule,
-    NgIf,
-    MatFormFieldModule,
-    MatButtonModule,
-    MatInputModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatProgressSpinnerModule,
-    SharedModule,
-    CinemaModule,
-    ProjectionTechnologyModule,
-    HomeModule,
-    MovieModule,
-    UserModule,
-    RepertoryModule,
-    AuthModule,
-  ],
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: ErrorHandlerInterceptor,
-      multi: true,
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: JwtInterceptor,
-      multi: true,
-    },
-    AuthService
-  ],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        AppComponent,
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MatTableModule,
+        MatPaginatorModule,
+        MatSortModule,
+        ReactiveFormsModule,
+        FormsModule,
+        NgIf,
+        MatFormFieldModule,
+        MatButtonModule,
+        MatInputModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatProgressSpinnerModule,
+        SharedModule,
+        CinemaModule,
+        ProjectionTechnologyModule,
+        HomeModule,
+        MovieModule,
+        UserModule,
+        RepertoryModule,
+        AuthModule], providers: [
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: ErrorHandlerInterceptor,
+            multi: true,
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: JwtInterceptor,
+            multi: true,
+        },
+        AuthService,
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AppModule {
 }

@@ -3,7 +3,7 @@ import {CinemaTableComponent} from "./components/cinema-table/cinema-table.compo
 import {CommonModule} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {HttpClientModule} from "@angular/common/http";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 import {MatTableModule} from "@angular/material/table";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatButtonModule} from "@angular/material/button";
@@ -51,48 +51,42 @@ import {
 } from "./components/confirm-deletion-cinema-dialog/confirm-deletion-cinema-dialog.component";
 import {SharedModule} from "../_shared/shared.module";
 
-@NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    MatTableModule,
-    MatPaginatorModule,
-    SharedModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatSortModule,
-    MatInputModule,
-    MatSelectModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatDialogModule,
-    MatMenuModule,
-    MatCheckboxModule,
-    MatListModule,
-    MatExpansionModule,
-    MatStepperModule,
-    MatProgressSpinnerModule,
-  ],
-  declarations: [
-    CinemaTableComponent,
-    CinemaDetailsComponent,
-    AboutCinemaComponent,
-    AddressComponent,
-    ScreeningRoomComponent,
-    StepOneComponent,
-    StepTwoComponent,
-    StepThreeComponent,
-    ContactDetailsComponent,
-    StepFourComponent,
-    CinemaManagerComponent,
-    CinemaFormComponent,
-    StepsContainerComponent,
-    ConfirmDeletionCinemaDialog,
-  ],
-})
+@NgModule({ declarations: [
+        CinemaTableComponent,
+        CinemaDetailsComponent,
+        AboutCinemaComponent,
+        AddressComponent,
+        ScreeningRoomComponent,
+        StepOneComponent,
+        StepTwoComponent,
+        StepThreeComponent,
+        ContactDetailsComponent,
+        StepFourComponent,
+        CinemaManagerComponent,
+        CinemaFormComponent,
+        StepsContainerComponent,
+        ConfirmDeletionCinemaDialog,
+    ], imports: [CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        BrowserAnimationsModule,
+        MatTableModule,
+        MatPaginatorModule,
+        SharedModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatSortModule,
+        MatInputModule,
+        MatSelectModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatDialogModule,
+        MatMenuModule,
+        MatCheckboxModule,
+        MatListModule,
+        MatExpansionModule,
+        MatStepperModule,
+        MatProgressSpinnerModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
 
 export class CinemaModule {
 }

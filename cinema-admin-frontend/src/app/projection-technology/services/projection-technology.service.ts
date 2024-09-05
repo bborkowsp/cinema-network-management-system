@@ -1,5 +1,5 @@
 import {environment} from "../../../assets/environment";
-import {HttpClient, HttpParams} from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import {PaginatorRequestParams} from "../../_shared/dtos/paginator-request-params";
 import {map, Observable} from "rxjs";
 import {ProjectionTechnologyPageResponse} from "../dtos/response/projection-technology-page.response";

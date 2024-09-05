@@ -1,4 +1,4 @@
-import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
+import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {catchError, Observable, throwError} from "rxjs";
 import {ErrorNotificationService} from "../services/error-notification.service";
