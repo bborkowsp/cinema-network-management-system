@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {environment} from "../../../assets/environment";
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import {map} from "rxjs";
 
 @Injectable({
