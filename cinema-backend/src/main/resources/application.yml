@@ -1,4 +1,8 @@
 security:
+  config:
+    import:
+      - application-paypal.yml
+      - application-email.yml
   jwt:
     header: X-Authorization
     prefix: "Bearer "

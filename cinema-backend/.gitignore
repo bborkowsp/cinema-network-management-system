@@ -24,5 +24,6 @@ target/
 .vscode/
 
 ### Project files ####
-application.properties
+application-email.yml
 images/
+application-paypal.yml

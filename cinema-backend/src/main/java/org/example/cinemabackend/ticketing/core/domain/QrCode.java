@@ -1,4 +1,4 @@
-package org.example.cinemabackend.reservation.core.domain;
+package org.example.cinemabackend.ticketing.core.domain;
 
 public class QrCode {
     private byte[] qrCode;
