@@ -21,6 +21,7 @@
         <email.version>3.3.3</email.version>
         <jjwt.version>0.12.3</jjwt.version>
         <bouncycastle.version>1.78.1</bouncycastle.version>
+        <paypal.version>1.7.2</paypal.version>
     </properties>
 
     <dependencies>
@@ -121,6 +122,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.paypal.sdk</groupId>
+            <artifactId>paypal-core</artifactId>
+            <version>${paypal.version}</version>
         </dependency>
     </dependencies>
 
