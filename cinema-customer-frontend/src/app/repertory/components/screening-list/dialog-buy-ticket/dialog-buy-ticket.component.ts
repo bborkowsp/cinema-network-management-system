@@ -1,7 +1,7 @@
 import {Component, inject} from '@angular/core';
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 import {Router} from "@angular/router";
-import {ScreeningResponse} from "../../dtos/response/screening.response";
+import {ScreeningResponse} from "../../../dtos/response/screening.response";
 
 export interface ConfirmDialogData {
   id: string;

@@ -1,4 +1,4 @@
-<div [formGroup]="form" class="center">
+<div class="center">
   <h1><strong>ORDER FORM</strong></h1>
 </div>
 <form class="form">
@@ -23,16 +23,7 @@
       E-Mail is required!
     </mat-error>
   </mat-form-field>
-  <mat-form-field class="custom-form-field">
-    <mat-label>Confirm E-Mail</mat-label>
-    <input [formControl]="emailConfirmationControl" matInput required>
-    <mat-error *ngIf="emailConfirmationControl.hasError('required')">
-      Confirm your email!
-    </mat-error>
-  </mat-form-field>
-
-
-  <mat-selection-list [multiple]="false">
+  <mat-selection-list [formControl]="paymentMethodControl" [multiple]="false">
     <mat-list-option *ngFor="let payment of paymentMethods" class="mat-primary">
       <div class="custom-form-field">
         <img [src]="getPaymentIcon(payment)" alt="{{ payment }}-icon" class="option-icon">

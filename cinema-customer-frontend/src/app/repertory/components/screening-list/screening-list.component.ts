@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {ScreeningResponse} from "../../dtos/response/screening.response";
+import {images} from "../../../../assets/environment";
 
 @Component({
   selector: 'app-screening-list',
@@ -7,6 +8,7 @@ import {ScreeningResponse} from "../../dtos/response/screening.response";
   styleUrls: ['./screening-list.component.scss']
 })
 export class ScreeningListComponent {
+  readonly POSTERS_SERVER_DIRECTORY_URL = `${images.IMAGES_SERVER_DIRECTORY_URL}/posters/`;
   @Input() repertory: { [movieTitle: string]: ScreeningResponse[] } = {};
   @Input() isLoading: boolean = false;
   @Input() isCinemaSelected: boolean = false;

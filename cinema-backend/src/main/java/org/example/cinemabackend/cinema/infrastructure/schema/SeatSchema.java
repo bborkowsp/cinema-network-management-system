@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 import org.example.cinemabackend.cinema.core.domain.Seat;
-import org.example.cinemabackend.cinema.core.domain.SeatType;
+import org.example.cinemabackend.cinema.core.domain.SeatStatus;
 import org.example.cinemabackend.cinema.core.domain.SeatZone;
 
 @Data
@@ -29,17 +29,17 @@ public class SeatSchema {
     private SeatZone seatZone;
 
     @Column(nullable = false)
-    private SeatType seatType;
+    private SeatStatus seatStatus;
 
     @JsonCreator
     public SeatSchema(@JsonProperty("seatRow") int seatRow,
                       @JsonProperty("seatColumn") int seatColumn,
                       @JsonProperty("seatZone") SeatZone seatZone,
-                      @JsonProperty("seatType") SeatType seatType) {
+                      @JsonProperty("seatStatus") SeatStatus seatStatus) {
         this.seatRow = seatRow;
         this.seatColumn = seatColumn;
         this.seatZone = seatZone;
-        this.seatType = seatType;
+        this.seatStatus = seatStatus;
     }
 
     public static SeatSchema fromSeat(Seat seat) {
@@ -48,7 +48,7 @@ public class SeatSchema {
                 .seatRow(seat.getSeatRow())
                 .seatColumn(seat.getSeatColumn())
                 .seatZone(seat.getSeatZone())
-                .seatType(seat.getSeatType())
+                .seatStatus(seat.getSeatStatus())
                 .build();
     }
 
@@ -58,7 +58,7 @@ public class SeatSchema {
                 this.seatRow,
                 this.seatColumn,
                 this.seatZone,
-                this.seatType
+                this.seatStatus
         );
     }
 }

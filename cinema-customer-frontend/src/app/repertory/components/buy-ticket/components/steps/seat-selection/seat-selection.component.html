@@ -3,7 +3,7 @@
     <div class="screen-and-seats">
       <div class="image-container">
         <div class="text-over-img">SCREEN</div>
-        <img alt="Screen" class="screen-svg" height="70" src="assets/screen2.svg" width="200"/>
+        <img alt="Screen" class="screen-svg" height="70" src="assets/screen.svg" width="200"/>
       </div>
       <div *ngFor="let rows of data.screeningRoom.seats; let rowIndex = index" class="seat-row">
         <!-- Row number -->
@@ -12,24 +12,28 @@
         <!-- Seats -->
         <div *ngFor="let seat of rows" class="seat">
           <ng-container *ngIf="seat.seatZone !== 'CORRIDOR'; else corridorSpace">
-            <button
-              (click)="selectSeat(seat)"
-              [disabled]="seat.seatType === 'OCCUPIED' || seat.seatType === 'UNAVAILABLE' || seat.seatType === 'RESERVED'"
-              [matTooltip]="seat.seatZone === 'STANDARD' ? '27,90 ZŁ' :
-                     seat.seatZone === 'VIP' ? '35,90 ZŁ' :
-                     seat.seatZone === 'PROMO' ? '19,90 ZŁ' :
-                     seat.seatZone === 'WHEELCHAIR' ? '19,90 ZŁ' : ''"
-              [ngClass]="seat.seatZone === 'STANDARD' ? 'btn selected-standard' :
-                   seat.seatZone === 'VIP' ? 'btn selected-vip' :
-                   seat.seatZone === 'PROMO' ? 'btn selected-promo' :
-                   seat.seatZone === 'WHEELCHAIR' ? 'btn selected-wheelchair' : ''"
-              [ngStyle]="{ 'background-color': getSeatBackgroundColor(seat) }"
-              mat-mini-fab>
-              <mat-icon>{{
-                  seat.seatType === 'AVAILABLE' ? 'event_seat' :
-                    seat.seatType === 'OCCUPIED' ? 'event_busy' :
-                      seat.seatType === 'RESERVED' ? 'bookmark' :
-                        seat.seatType === 'UNAVAILABLE' ? 'block' : 'help_outline'
+            <button (click)="selectSeat(seat)"
+                    [disabled]="seat.seatStatus === 'UNAVAILABLE' || seat.seatStatus === 'RESERVED'"
+                    [matTooltip]="seat.seatZone === 'STANDARD' ? '27,90 ZŁ' :
+           seat.seatZone === 'VIP' ? '35,90 ZŁ' :
+           seat.seatZone === 'PROMO' ? '19,90 ZŁ' :
+           seat.seatZone === 'WHEELCHAIR' ? '19,90 ZŁ' : ''"
+                    [ngClass]="{
+      'btn': true,
+      'selected-standard': seat.seatZone === 'STANDARD' && seat.seatStatus !== 'RESERVED',
+      'selected-vip': seat.seatZone === 'VIP' && seat.seatStatus !== 'RESERVED',
+      'selected-promo': seat.seatZone === 'PROMO' && seat.seatStatus !== 'RESERVED',
+      'selected-wheelchair': seat.seatZone === 'WHEELCHAIR' && seat.seatStatus !== 'RESERVED',
+      'reserved': seat.seatStatus === 'RESERVED'
+    }"
+                    [ngStyle]="{
+      'background-color': getSeatBackgroundColor(seat),
+      'border-color': seat.seatStatus === 'RESERVED' ? 'rgba(0, 0, 0, 0.4)' : ''
+    }"
+                    mat-mini-fab>
+              <mat-icon>
+                {{
+                  seat.seatStatus === 'UNAVAILABLE' ? 'block' : ''
                 }}
               </mat-icon>
             </button>
@@ -45,15 +49,9 @@
 
     <div class="legend">
       <div class="legend-item">
-        <mat-icon class="legend-icon">event_seat</mat-icon>
-        <span class="legend-text">Available</span>
-      </div>
-      <div class="legend-item">
-        <mat-icon class="legend-icon">event_busy</mat-icon>
-        <span class="legend-text">Occupied</span>
-      </div>
-      <div class="legend-item">
-        <mat-icon class="legend-icon">bookmark</mat-icon>
+        <button class=" size reserved selected-legen" mat-mini-fab>
+          <mat-icon class=""></mat-icon>
+        </button>
         <span class="legend-text">Reserved</span>
       </div>
       <div class="legend-item">

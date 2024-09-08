@@ -19,7 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Order(4)
 class ScreeningSeeder implements Seeder {
-    private static final int SCREENINGS_PER_CINEMA = 2;
+    private static final int SCREENINGS_PER_CINEMA = 6;
     private final CinemaRepository cinemaRepository;
     private final MovieRepository movieRepository;
     private final ScreeningRoomRepository screeningRoomRepository;

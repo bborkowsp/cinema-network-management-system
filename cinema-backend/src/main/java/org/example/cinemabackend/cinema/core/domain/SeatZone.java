@@ -1,11 +1,13 @@
 package org.example.cinemabackend.cinema.core.domain;
 
+import java.math.BigDecimal;
+
 public enum SeatZone {
     STANDARD(27.90),
     VIP(35.90),
     PROMO(19.90),
     WHEELCHAIR(19.90),
-    CORRIDOR(-1.0);
+    CORRIDOR(null);
 
     private final Double price;
 
@@ -13,8 +15,8 @@ public enum SeatZone {
         this.price = price;
     }
 
-    public Double getPrice() {
-        return price;
+    public BigDecimal getPrice() {
+        return BigDecimal.valueOf(price);
     }
 }
 

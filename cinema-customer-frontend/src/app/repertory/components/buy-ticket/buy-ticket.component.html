@@ -1,3 +1,13 @@
-<app-steps-container>
+<form
+  #buyTicketForm="ngForm"
+  (ngSubmit)="onSubmit()"
+  [formGroup]="buyTicketFormBuilder.form"
+>
 
-</app-steps-container>
+  <app-steps-container
+    (handlePay)="onPayClicked()"
+    [buyTicketFormBuilder]="buyTicketFormBuilder"
+    [buyTicketForm]="buyTicketForm"
+  >
+  </app-steps-container>
+</form>

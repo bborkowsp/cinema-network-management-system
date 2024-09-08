@@ -8,7 +8,7 @@ import org.example.cinemabackend.cinema.application.dto.response.CinemaTableResp
 import org.example.cinemabackend.cinema.core.domain.Cinema;
 import org.example.cinemabackend.cinema.core.domain.ScreeningRoom;
 import org.example.cinemabackend.cinema.core.domain.Seat;
-import org.example.cinemabackend.cinema.core.domain.SeatType;
+import org.example.cinemabackend.cinema.core.domain.SeatStatus;
 import org.example.cinemabackend.cinema.core.port.primary.AddressMapper;
 import org.example.cinemabackend.cinema.core.port.primary.CinemaMapper;
 import org.example.cinemabackend.cinema.core.port.primary.ContactDetailsMapper;
@@ -117,7 +117,7 @@ class CinemaMapperService implements CinemaMapper {
         for (Seat[][] seatingPlan : seatingPlans) {
             for (Seat[] row : seatingPlan) {
                 for (Seat seat : row) {
-                    if (seat.getSeatType() == SeatType.AVAILABLE) {
+                    if (seat.getSeatStatus() == SeatStatus.AVAILABLE) {
                         numberOfAvailableSeats++;
                     }
                 }
@@ -135,7 +135,7 @@ class CinemaMapperService implements CinemaMapper {
         for (Seat[][] seatingPlan : seatingPlans) {
             for (Seat[] row : seatingPlan) {
                 for (Seat seat : row) {
-                    if (seat.getSeatType() == SeatType.UNAVAILABLE) {
+                    if (seat.getSeatStatus() == SeatStatus.UNAVAILABLE) {
                         numberOfUnavailableSeats++;
                     }
                 }

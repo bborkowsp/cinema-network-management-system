@@ -1,10 +1,11 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Router} from "@angular/router";
 import {ScreeningResponse} from "../../../../../dtos/response/screening.response";
 import {SeatResponse} from "../../../../../dtos/response/seat.response";
 import "../../../../../../_shared/styles/_colors.scss";
 import {SeatLimitDialogComponent} from "./seat-limit-dialog/seat-limit-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
+import {FormArray, FormControl, FormGroupDirective, NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-seat-selection',
@@ -12,6 +13,8 @@ import {MatDialog} from "@angular/material/dialog";
   styleUrls: ['./seat-selection.component.scss']
 })
 export class SeatSelectionComponent {
+  @Input({required: true}) seatSelectionFormGroup!: FormGroupDirective | NgForm;
+  @Input({required: true}) createBuyTicketForm!: FormArray;
   data!: ScreeningResponse;
   selectedSeats: SeatResponse[] = [];
   totalCost: number = 0;
@@ -27,30 +30,53 @@ export class SeatSelectionComponent {
     }
   }
 
+  get selectedSeatsControl(): FormArray {
+    return this.createBuyTicketForm.get('selectedSeats') as FormArray;
+  }
+
   selectSeat(seat: SeatResponse) {
-    if (this.selectedSeats.includes(seat)) {
-      this.selectedSeats = this.selectedSeats.filter(s => s !== seat);
+    const seatIndex = this.selectedSeats.findIndex(s => s === seat);
+
+    if (seatIndex > -1) {
+      this.selectedSeats.splice(seatIndex, 1);
+      this.selectedSeatsControl.removeAt(seatIndex);
       this.totalCost -= this.getPrice(seat);
-      return;
+    } else {
+      if (this.selectedSeats.length >= 9) {
+        this.open();
+        return;
+      }
+      this.selectedSeats.push(seat);
+      this.selectedSeatsControl.push(new FormControl(seat));
+      this.totalCost += this.getPrice(seat);
     }
-    if (this.selectedSeats.length >= 9) {
-      this.open();
-    }
-    this.selectedSeats.push(seat);
-    this.totalCost += this.getPrice(seat);
   }
 
   getSeatBackgroundColor(seat: SeatResponse): string {
+    if (seat.seatStatus === "RESERVED") {
+      switch (seat.seatZone) {
+        case 'STANDARD':
+          return 'rgba(194,141,255,0.4)';
+        case 'VIP':
+          return 'rgba(255,210,77,0.4)';
+        case 'PROMO':
+          return 'rgba(102,255,102,0.4)';
+        case 'WHEELCHAIR':
+          return 'rgba(151,211,241,0.4)';
+        default:
+          return 'white';
+      }
+    }
     if (this.selectedSeats.includes(seat)) {
       switch (seat.seatZone) {
         case 'STANDARD':
-          return '#c28dff';
+          return '#7925d5';
         case 'VIP':
           return '#ffd24d';
         case 'PROMO':
-          return '#66ff66';
+          return '#11b211';
         case 'WHEELCHAIR':
-          return '#97d3f1';
+          return '#4eb0e1';
         default:
           return 'white';
       }

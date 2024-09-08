@@ -3,7 +3,7 @@ package org.example.cinemabackend.cinema.testdata;
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.application.dto.request.create.CreatSeatRequest;
 import org.example.cinemabackend.cinema.application.dto.request.create.CreateScreeningRoomRequest;
-import org.example.cinemabackend.cinema.core.domain.SeatType;
+import org.example.cinemabackend.cinema.core.domain.SeatStatus;
 import org.example.cinemabackend.cinema.core.domain.SeatZone;
 import org.example.cinemabackend.movie.core.domain.ProjectionTechnology;
 import org.example.cinemabackend.projectiontechnology.application.dto.response.ProjectionTechnologyNameResponse;
@@ -72,7 +72,7 @@ public class ScreeningRoomTestDataProvider {
                 seatRow,
                 seatColumn,
                 SeatZone.CORRIDOR,
-                SeatType.AVAILABLE
+                SeatStatus.AVAILABLE
         );
     }
 }

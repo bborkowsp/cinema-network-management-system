@@ -5,8 +5,8 @@ import {ScreeningService} from "../../_shared/services/screening.service";
 import {ScreeningResponse} from "../dtos/response/screening.response";
 import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
-import {DialogBuyTicketComponent} from "./dialog-buy-ticket/dialog-buy-ticket.component";
 import {AuthService} from "../../auth/service/auth.service";
+import {DialogBuyTicketComponent} from "./screening-list/dialog-buy-ticket/dialog-buy-ticket.component";
 
 @Component({
   selector: 'app-repertory',

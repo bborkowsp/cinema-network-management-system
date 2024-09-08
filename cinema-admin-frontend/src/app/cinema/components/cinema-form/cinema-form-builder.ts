@@ -70,7 +70,7 @@ export class CinemaFormBuilder {
               seatRow: [seat.seatRow, Validators.required],
               seatColumn: [seat.seatColumn, Validators.required],
               seatZone: [seat.seatZone, Validators.required],
-              seatType: [seat.seatType, Validators.required],
+              seatStatus: [seat.seatStatus, Validators.required],
             }))
           ))
         ),

@@ -44,6 +44,8 @@ class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/v1/screenings/repertory/{cinema}/{date}").permitAll()
                         .requestMatchers(HttpMethod.GET, "/v1/verify-account").permitAll()
                         .requestMatchers(HttpMethod.GET, "/images/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/v1/paypal/init-payment").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/v1/paypal/capture").permitAll()
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())

@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {BuyTicketFormBuilder} from "../../buy-ticket-form-builder";
+import {FormArray, FormGroup, FormGroupDirective} from "@angular/forms";
 
 @Component({
   selector: 'app-steps-container',
@@ -6,5 +8,19 @@ import { Component } from '@angular/core';
   styleUrls: ['./steps-container.component.scss']
 })
 export class StepsContainerComponent {
+  @Input({required: true}) buyTicketFormBuilder!: BuyTicketFormBuilder;
+  @Input({required: true}) buyTicketForm!: FormGroupDirective;
+  @Output() handlePay = new EventEmitter<any>();
 
+  public get seatSelectionFormGroup() {
+    return this.buyTicketFormBuilder.form.get('seatSelection') as FormArray;
+  }
+
+  public get customerDataFormGroup() {
+    return this.buyTicketFormBuilder.form.get('customerData') as FormGroup;
+  }
+
+  handlePayClicked() {
+    this.handlePay.emit();
+  }
 }

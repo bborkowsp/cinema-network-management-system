@@ -15,7 +15,7 @@ class SeatMapperService implements SeatMapper {
                 seat.rowNumber(),
                 seat.columnNumber(),
                 seat.seatZone(),
-                seat.seatType()
+                seat.seatStatus()
         );
     }
 
@@ -25,7 +25,7 @@ class SeatMapperService implements SeatMapper {
                 seat.getSeatRow(),
                 seat.getSeatColumn(),
                 seat.getSeatZone(),
-                seat.getSeatType()
+                seat.getSeatStatus()
         );
     }
 

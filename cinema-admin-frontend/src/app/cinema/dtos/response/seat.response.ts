@@ -3,7 +3,7 @@ export class SeatResponse {
     readonly seatRow: number,
     readonly seatColumn: number,
     readonly seatZone: string,
-    readonly seatType: string,
+    readonly seatStatus: string,
   ) {
   }
 }

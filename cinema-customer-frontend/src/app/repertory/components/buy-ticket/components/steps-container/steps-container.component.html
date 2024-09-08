@@ -2,6 +2,8 @@
   <mat-step>
     <ng-template matStepLabel>Seat selection</ng-template>
     <app-seat-selection
+      [createBuyTicketForm]="seatSelectionFormGroup"
+      [seatSelectionFormGroup]="buyTicketForm"
     ></app-seat-selection>
     <div>
       <button class="next-button" color="primary" mat-flat-button matStepperNext type="button">Next</button>
@@ -11,9 +13,12 @@
   <mat-step>
     <ng-template matStepLabel>Order form</ng-template>
     <app-order-form
+      [createBuyTicketForm]="customerDataFormGroup"
+      [customerDataFormGroup]="buyTicketForm"
     ></app-order-form>
-    <div>
-      <button class="next-button" color="primary" mat-flat-button matStepperNext type="button">Pay</button>
-    </div>
+    <button (click)="handlePayClicked()" [disabled]="buyTicketForm.form.invalid" class="next-button" color="primary"
+            mat-flat-button>
+      Pay
+    </button>
   </mat-step>
 </mat-stepper>

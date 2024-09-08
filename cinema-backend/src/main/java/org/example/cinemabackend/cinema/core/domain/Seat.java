@@ -5,21 +5,21 @@ public class Seat {
     private Integer seatRow;
     private Integer seatColumn;
     private SeatZone seatZone;
-    private SeatType seatType;
+    private SeatStatus seatStatus;
 
-    public Seat(Integer seatRow, Integer seatColumn, SeatZone seatZone, SeatType seatType) {
+    public Seat(Integer seatRow, Integer seatColumn, SeatZone seatZone, SeatStatus seatStatus) {
         this.seatRow = seatRow;
         this.seatColumn = seatColumn;
         this.seatZone = seatZone;
-        this.seatType = seatType;
+        this.seatStatus = seatStatus;
     }
 
-    public Seat(Long id, Integer seatRow, Integer seatColumn, SeatZone seatZone, SeatType seatType) {
+    public Seat(Long id, Integer seatRow, Integer seatColumn, SeatZone seatZone, SeatStatus seatStatus) {
         this.id = id;
         this.seatRow = seatRow;
         this.seatColumn = seatColumn;
         this.seatZone = seatZone;
-        this.seatType = seatType;
+        this.seatStatus = seatStatus;
     }
 
     public Integer getSeatRow() {
@@ -34,8 +34,8 @@ public class Seat {
         return seatZone;
     }
 
-    public SeatType getSeatType() {
-        return seatType;
+    public SeatStatus getSeatStatus() {
+        return seatStatus;
     }
 
     public Long getId() {

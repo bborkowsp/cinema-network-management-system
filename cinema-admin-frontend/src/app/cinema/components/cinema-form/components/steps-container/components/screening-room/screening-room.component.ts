@@ -36,30 +36,37 @@ export class ScreeningRoomComponent implements OnInit, OnChanges {
   ) {
   }
 
+  get nameControl(): FormControl {
+    if (this.currentEditedContactDetailIndex >= 0) {
+      return this.formArray.at(this.currentEditedContactDetailIndex).get('name') as FormControl;
+    }
+    return this.createScreeningRoomFormGroup.get('name') as FormControl;
+  }
+
+  get supportedTechnologiesControl(): FormGroup {
+    if (this.currentEditedContactDetailIndex >= 0) {
+      return this.formArray.at(this.currentEditedContactDetailIndex).get('supportedTechnologies') as FormGroup;
+    }
+    return this.createScreeningRoomFormGroup.get('supportedTechnologies') as FormGroup;
+  }
+
+  get seatsControl(): FormArray {
+    if (this.currentEditedContactDetailIndex >= 0) {
+      return this.formArray.at(this.currentEditedContactDetailIndex).get('seats') as FormArray;
+    }
+    return this.createScreeningRoomFormGroup.get('seats') as FormArray;
+  }
+
   ngOnInit() {
     this.projectionTechnologies = this.getOnlyTechnologyNames(this.projectionTechnologyService.getAllProjectionTechnologies());
     this.updateScreeningRooms();
     this.createScreeningRoomFormGroup = this.createFormGroup();
   }
 
-  private getOnlyTechnologyNames(allProjectionTechnologies: Observable<ProjectionTechnologyNameResponse[]>) {
-    return allProjectionTechnologies.pipe(
-      map((projectionTechnologies: ProjectionTechnologyNameResponse[]) => {
-        return projectionTechnologies.map((projectionTechnology: ProjectionTechnologyNameResponse) => {
-          return projectionTechnology.technology;
-        });
-      })
-    );
-  }
-
   ngOnChanges(changes: SimpleChanges) {
     if (changes['formArray']) {
       this.updateScreeningRooms();
     }
-  }
-
-  private updateScreeningRooms() {
-    this.allScreeningRooms = this.formArray.value as ScreeningRoomResponse[];
   }
 
   editScreeningRoom(i: number) {
@@ -91,6 +98,48 @@ export class ScreeningRoomComponent implements OnInit, OnChanges {
     this.currentEditedContactDetailIndex = -1;
   }
 
+  createGridOfSeats() {
+    if (this.currentEditedContactDetailIndex >= 0) {
+      this.updateExistingScreeningRoom();
+    } else {
+      this.createInitialScreeningRoom();
+    }
+  }
+
+  handleStandardClicked(cell: any) {
+    cell.seatZone = 'STANDARD';
+  }
+
+  handleVIPClicked(cell: any) {
+    cell.seatZone = 'VIP';
+  }
+
+  handlePromoClicked(cell: any) {
+    cell.seatZone = 'PROMO';
+  }
+
+  handleWheelchairClicked(cell: any) {
+    cell.seatZone = 'WHEELCHAIR';
+  }
+
+  handleCorridorClicked(cell: any) {
+    cell.seatZone = 'CORRIDOR';
+  }
+
+  private getOnlyTechnologyNames(allProjectionTechnologies: Observable<ProjectionTechnologyNameResponse[]>) {
+    return allProjectionTechnologies.pipe(
+      map((projectionTechnologies: ProjectionTechnologyNameResponse[]) => {
+        return projectionTechnologies.map((projectionTechnology: ProjectionTechnologyNameResponse) => {
+          return projectionTechnology.technology;
+        });
+      })
+    );
+  }
+
+  private updateScreeningRooms() {
+    this.allScreeningRooms = this.formArray.value as ScreeningRoomResponse[];
+  }
+
   private emptyGrid() {
     this.currentScreeningRoom = [];
   }
@@ -109,7 +158,7 @@ export class ScreeningRoomComponent implements OnInit, OnChanges {
                   seatRow: new FormControl(seat.seatRow),
                   seatColumn: new FormControl(seat.seatColumn),
                   seatZone: new FormControl(seat.seatZone),
-                  seatType: new FormControl(seat.seatType),
+                  seatStatus: new FormControl(seat.seatStatus),
                 })
               )
             )
@@ -123,7 +172,6 @@ export class ScreeningRoomComponent implements OnInit, OnChanges {
     );
   }
 
-
   private createFormGroup(): FormGroup {
     return new FormGroup({
       name: new FormControl(''),
@@ -133,7 +181,7 @@ export class ScreeningRoomComponent implements OnInit, OnChanges {
             seatRow: new FormControl(''),
             seatColumn: new FormControl(''),
             seatZone: new FormControl(''),
-            seatType: new FormControl(''),
+            seatStatus: new FormControl(''),
           })
         ])
       ]),
@@ -151,35 +199,6 @@ export class ScreeningRoomComponent implements OnInit, OnChanges {
     this.columnsNumberControl.setValue(seatsControl.at(0).value.length);
     const projectionTechnologies = this.supportedTechnologiesControl;
     this.supportedTechnologiesFormControl.setValue(projectionTechnologies.value.map((technology: any) => technology.technology));
-  }
-
-  get nameControl(): FormControl {
-    if (this.currentEditedContactDetailIndex >= 0) {
-      return this.formArray.at(this.currentEditedContactDetailIndex).get('name') as FormControl;
-    }
-    return this.createScreeningRoomFormGroup.get('name') as FormControl;
-  }
-
-  get supportedTechnologiesControl(): FormGroup {
-    if (this.currentEditedContactDetailIndex >= 0) {
-      return this.formArray.at(this.currentEditedContactDetailIndex).get('supportedTechnologies') as FormGroup;
-    }
-    return this.createScreeningRoomFormGroup.get('supportedTechnologies') as FormGroup;
-  }
-
-  get seatsControl(): FormArray {
-    if (this.currentEditedContactDetailIndex >= 0) {
-      return this.formArray.at(this.currentEditedContactDetailIndex).get('seats') as FormArray;
-    }
-    return this.createScreeningRoomFormGroup.get('seats') as FormArray;
-  }
-
-  createGridOfSeats() {
-    if (this.currentEditedContactDetailIndex >= 0) {
-      this.updateExistingScreeningRoom();
-    } else {
-      this.createInitialScreeningRoom();
-    }
   }
 
   private updateExistingScreeningRoom() {
@@ -222,7 +241,7 @@ export class ScreeningRoomComponent implements OnInit, OnChanges {
             seatRow: i + 1,
             seatColumn: j + 1,
             seatZone: 'STANDARD',
-            seatType: 'AVAILABLE'
+            seatStatus: 'AVAILABLE'
           };
           newRow.push(newSeat);
         }
@@ -250,7 +269,7 @@ export class ScreeningRoomComponent implements OnInit, OnChanges {
           seatRow: i + 1,
           seatColumn: j + 1,
           seatZone: 'STANDARD',
-          seatType: 'AVAILABLE'
+          seatStatus: 'AVAILABLE'
         };
         newRow.push(newSeat);
       }
@@ -266,30 +285,10 @@ export class ScreeningRoomComponent implements OnInit, OnChanges {
           seatRow: row.length + 1,
           seatColumn: j + 1,
           seatZone: 'STANDARD',
-          seatType: 'AVAILABLE'
+          seatStatus: 'AVAILABLE'
         };
         row.push(newSeat);
       }
     });
-  }
-
-  handleStandardClicked(cell: any) {
-    cell.seatZone = 'STANDARD';
-  }
-
-  handleVIPClicked(cell: any) {
-    cell.seatZone = 'VIP';
-  }
-
-  handlePromoClicked(cell: any) {
-    cell.seatZone = 'PROMO';
-  }
-
-  handleWheelchairClicked(cell: any) {
-    cell.seatZone = 'WHEELCHAIR';
-  }
-
-  handleCorridorClicked(cell: any) {
-    cell.seatZone = 'CORRIDOR';
   }
 }

@@ -3,7 +3,7 @@ export class CreateSeatRequest {
     readonly rowNumber: number,
     readonly columnNumber: number,
     readonly seatZone: string,
-    readonly seatType = 'AVAILABLE'
+    readonly seatStatus = 'AVAILABLE'
   ) {
   }
 }

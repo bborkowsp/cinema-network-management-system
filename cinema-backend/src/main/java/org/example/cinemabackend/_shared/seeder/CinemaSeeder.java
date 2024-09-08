@@ -142,7 +142,7 @@ class CinemaSeeder implements Seeder {
                 seatRow,
                 seatColumn,
                 getRandomSeatZone(),
-                getRandomSeatType()
+                getRandomSeatStatus()
         );
     }
 
@@ -150,7 +150,7 @@ class CinemaSeeder implements Seeder {
         return SeatZone.values()[new Random().nextInt(SeatZone.values().length)];
     }
 
-    private SeatType getRandomSeatType() {
-        return SeatType.values()[new Random().nextInt(SeatType.values().length)];
+    private SeatStatus getRandomSeatStatus() {
+        return SeatStatus.values()[new Random().nextInt(SeatStatus.values().length)];
     }
 }

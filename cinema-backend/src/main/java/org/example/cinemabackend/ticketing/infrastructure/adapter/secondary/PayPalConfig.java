@@ -19,12 +19,7 @@ public class PayPalConfig {
     private String mode;
 
     @Bean
-    public PayPalEnvironment payPalEnvironment() {
-        return new PayPalEnvironment.Sandbox(clientId, clientSecret);
-    }
-
-    @Bean
-    public PayPalHttpClient payPalHttpClient(PayPalEnvironment environment) {
-        return new PayPalHttpClient(environment);
+    public PayPalHttpClient getPaypalClient() {
+        return new PayPalHttpClient(new PayPalEnvironment.Sandbox(clientId, clientSecret));
     }
 }
