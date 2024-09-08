@@ -4,12 +4,12 @@ import jakarta.validation.constraints.*;
 import lombok.Builder;
 import org.example.cinemabackend.cinema.application.dto.response.SeatResponse;
 
-import java.util.List;
+import java.util.Set;
 
 @Builder
 public record BuyTicketRequest(
         @NotNull Long movieId,
-        @NotEmpty List<@NotBlank SeatResponse> selectedSeats,
+        @NotEmpty Set<@NotBlank SeatResponse> selectedSeats,
         @NotBlank @Size(min = 1, max = 50) String firstName,
         @NotBlank @Size(min = 1, max = 50) String lastName,
         @NotBlank @Email String email,

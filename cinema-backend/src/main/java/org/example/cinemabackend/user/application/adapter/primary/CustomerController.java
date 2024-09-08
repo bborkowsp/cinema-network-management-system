@@ -2,6 +2,7 @@ package org.example.cinemabackend.user.application.adapter.primary;
 
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.user.application.dto.response.UserResponse;
+import org.example.cinemabackend.user.core.port.primary.AuthUseCases;
 import org.example.cinemabackend.user.core.port.primary.UserUseCases;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,9 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class CustomerController {
     private final UserUseCases userUseCases;
+    private final AuthUseCases authUseCases;
 
     @GetMapping("/customer/{email}")
     ResponseEntity<UserResponse> getCustomerProfile(@PathVariable String email) {
+        authUseCases.validateIfEmailFromRequestMatchesEmailInJWT(email);
         final var customerProfile = userUseCases.getCustomerProfile(email);
         return ResponseEntity.ok(customerProfile);
     }

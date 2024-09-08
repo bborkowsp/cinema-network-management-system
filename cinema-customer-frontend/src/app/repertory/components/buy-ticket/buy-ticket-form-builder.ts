@@ -23,13 +23,14 @@ export class BuyTicketFormBuilder {
 
   getBuyTicketRequestFromForm() {
     const movieId = this.activatedRoute.snapshot.params['id'];
+    const paymentMethod = this.customerDataFormGroup.get('paymentMethod')!.value;
     return new BuyTicketRequest(
       movieId,
       this.seatSelectionFormGroup.get('selectedSeats')!.value,
       this.customerDataFormGroup.get('firstName')!.value,
       this.customerDataFormGroup.get('lastName')!.value,
       this.customerDataFormGroup.get('email')!.value,
-      this.customerDataFormGroup.get('paymentMethod')!.value,
+      paymentMethod[0]
     );
   }
 
@@ -38,6 +39,7 @@ export class BuyTicketFormBuilder {
       firstName: customer.firstName,
       lastName: customer.lastName,
       email: customer.email,
+      paymentMethod: '',
     });
   }
 

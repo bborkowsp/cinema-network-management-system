@@ -6,13 +6,13 @@ import org.example.cinemabackend.ticketing.core.port.primary.SeatReservationUseC
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 class SeatReservationService implements SeatReservationUseCases {
     @Override
-    public BigDecimal getOrderFee(List<SeatResponse> seatResponses) {
+    public BigDecimal getOrderFee(Set<SeatResponse> seatResponses) {
         BigDecimal fee = BigDecimal.ZERO;
         for (SeatResponse seatResponse : seatResponses) {
             BigDecimal price = seatResponse.seatZone().getPrice();
@@ -22,7 +22,7 @@ class SeatReservationService implements SeatReservationUseCases {
     }
 
     @Override
-    public void validateSeatsAreAvailable(List<SeatResponse> seatResponses) {
+    public void validateSeatsAreAvailable(Set<SeatResponse> seatResponses) {
 
     }
 }

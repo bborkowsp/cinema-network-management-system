@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {Role} from "../../../auth/role";
 import {Router} from "@angular/router";
 import {RegisterUserRequest} from "../../../auth/dto/register-user.request";
 import {AuthService} from "../../../auth/service/auth.service";
+import {Role} from "../../../auth/enums/role";
 
 @Component({
   selector: 'app-register',

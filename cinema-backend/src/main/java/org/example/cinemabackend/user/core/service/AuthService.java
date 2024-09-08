@@ -15,6 +15,8 @@ import org.example.cinemabackend.user.core.port.primary.AuthUseCases;
 import org.example.cinemabackend.user.core.port.primary.EmailUseCases;
 import org.example.cinemabackend.user.core.port.primary.TokenUseCases;
 import org.example.cinemabackend.user.core.port.secondary.UserRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -33,13 +35,22 @@ class AuthService implements AuthUseCases, UserDetailsService {
     private static final String USER_NOT_FOUND_ERROR_MESSAGE = "User not found";
     private static final String PASSWORD_DOES_NOT_MATCH_ERROR_MESSAGE = "Invalid login credentials";
     private static final String USER_ALREADY_EXISTS_ERROR_MESSAGE = "User already exists";
-    private static final String ACCOUNT_VERIFICATION_URL_PREFIX = "http://localhost:4200/registration/verify-user?token=";
-    private static final String RESET_PASSWORD_URL_PREFIX = "http://localhost:4200/reset-password-form?token=";
+    private static final String FRONTEND_BASE_URL = "http://localhost:4200";
+    private static final String ACCOUNT_VERIFICATION_URL_PREFIX = FRONTEND_BASE_URL + "/registration/verify-user?token=";
+    private static final String RESET_PASSWORD_URL_PREFIX = FRONTEND_BASE_URL + "/reset-password-form?token=";
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final JwtConfig jwtConfig;
     private final EmailUseCases emailUseCases;
     private final TokenUseCases tokenUseCases;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtConfig jwtConfig;
+
+    @Override
+    public void validateIfEmailFromRequestMatchesEmailInJWT(String email) {
+        final var currentUserEmail = getCurrentUserEmail();
+        if (!currentUserEmail.isEmpty() && !currentUserEmail.equals(email)) {
+            throw new IllegalStateException("Email from request does not match email in JWT");
+        }
+    }
 
     @Override
     public JwtDto login(LoginUserRequest loginUserDto) {
@@ -122,6 +133,11 @@ class AuthService implements AuthUseCases, UserDetailsService {
                 .expiration(new Date(System.currentTimeMillis() + jwtConfig.getExpiration()))
                 .signWith(jwtConfig.getSecretKey())
                 .compact();
+    }
+
+    private String getCurrentUserEmail() {
+        Authentication authenticationToken = SecurityContextHolder.getContext().getAuthentication();
+        return (String) authenticationToken.getPrincipal();
     }
 
     @Override

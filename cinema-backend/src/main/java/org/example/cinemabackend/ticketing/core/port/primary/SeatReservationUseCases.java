@@ -3,10 +3,10 @@ package org.example.cinemabackend.ticketing.core.port.primary;
 import org.example.cinemabackend.cinema.application.dto.response.SeatResponse;
 
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.Set;
 
 public interface SeatReservationUseCases {
-    BigDecimal getOrderFee(List<SeatResponse> buyTicketRequest);
+    BigDecimal getOrderFee(Set<SeatResponse> buyTicketRequest);
 
-    void validateSeatsAreAvailable(List<SeatResponse> seatResponses);
+    void validateSeatsAreAvailable(Set<SeatResponse> seatResponses);
 }

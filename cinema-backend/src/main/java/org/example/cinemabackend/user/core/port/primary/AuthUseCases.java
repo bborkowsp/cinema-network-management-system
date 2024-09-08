@@ -7,6 +7,8 @@ import org.example.cinemabackend.user.application.dto.request.ResetPasswordReque
 
 public interface AuthUseCases {
 
+    void validateIfEmailFromRequestMatchesEmailInJWT(String email);
+
     JwtDto login(LoginUserRequest loginUserRequest);
 
     void register(RegisterUserRequest registerUserRequest);

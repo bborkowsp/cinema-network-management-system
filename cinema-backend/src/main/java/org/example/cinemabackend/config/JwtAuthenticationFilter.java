@@ -27,13 +27,6 @@ class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtConfig jwtConfig;
     private JwtParser jwtParser;
 
-    @PostConstruct
-    private void init() {
-        jwtParser = Jwts.parser()
-                .verifyWith(jwtConfig.getSecretKey())
-                .build();
-    }
-
     @Override
     protected void doFilterInternal(
             HttpServletRequest request,
@@ -70,5 +63,12 @@ class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         filterChain.doFilter(request, response);
+    }
+
+    @PostConstruct
+    private void init() {
+        jwtParser = Jwts.parser()
+                .verifyWith(jwtConfig.getSecretKey())
+                .build();
     }
 }

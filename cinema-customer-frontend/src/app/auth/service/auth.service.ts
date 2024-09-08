@@ -31,9 +31,6 @@ export class AuthService {
       next: (response) => {
         const token = response.token;
         this.setToken(token);
-        console.log("------")
-        console.log(token);
-        console.log("------")
         this.loggedIn.next(true);
         this.loggedInUserSubject.next(loginUserRequest.email);
         this.router.navigate(['/account']);
@@ -46,6 +43,7 @@ export class AuthService {
   }
 
   register(registerUserRequest: RegisterUserRequest) {
+    this.removeTokenFromLocalStorage();
     const url = `${AuthService.authUrl}/register`;
     return this.httpClient.post<any>(url, registerUserRequest);
   }

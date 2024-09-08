@@ -20,6 +20,9 @@ import java.util.NoSuchElementException;
 @Service
 @RequiredArgsConstructor
 class PayPalService implements PayPalUseCases {
+    private final static String FRONTEND_BASE_URL = "https://localhost:4200";
+    private final static String CANCEL_URL = FRONTEND_BASE_URL + "/cancel";
+    private final static String RETURN_URL = FRONTEND_BASE_URL + "/capture";
     private final PayPalHttpClient payPalHttpClient;
     private final SeatReservationUseCases seatReservationUseCases;
 
@@ -70,8 +73,8 @@ class PayPalService implements PayPalUseCases {
 
 
         ApplicationContext applicationContext = new ApplicationContext()
-                .returnUrl("https://localhost:4200/capture")
-                .cancelUrl("https://localhost:4200/cancel");
+                .returnUrl(RETURN_URL)
+                .cancelUrl(CANCEL_URL);
 
         return new OrderRequest()
                 .checkoutPaymentIntent("CAPTURE")

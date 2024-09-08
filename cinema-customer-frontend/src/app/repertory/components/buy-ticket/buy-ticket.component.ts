@@ -51,7 +51,9 @@ export class BuyTicketComponent implements OnInit {
   private payWithPayPal(buyTicketForm: BuyTicketRequest) {
     this.ticketingService.payWithPayPal(buyTicketForm).subscribe({
       next: () => {
-        this.router.navigate(['/tickets']);
+
+      }, error: () => {
+
       }
     });
   }

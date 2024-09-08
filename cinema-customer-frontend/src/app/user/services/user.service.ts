@@ -16,7 +16,7 @@ export class UserService {
   }
 
   getCustomer(email: string): Observable<UserResponse> {
-    const url = `${UserService.USERS_API_URL}/${email}`;
+    const url = `${UserService.USERS_API_URL}/customer/${email}`;
     return this.httpClient.get<UserResponse>(url);
   }
 }

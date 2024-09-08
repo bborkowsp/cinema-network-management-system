@@ -54,7 +54,8 @@ class UserService implements UserUseCases {
 
     @Override
     public UserResponse getCustomerProfile(String email) {
-        return null;
+        final var user = userRepository.findByEmail(email).orElseThrow();
+        return userMapper.mapUserToUserResponse(user);
     }
 
     @Override

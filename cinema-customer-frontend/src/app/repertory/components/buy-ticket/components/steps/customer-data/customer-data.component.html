@@ -24,7 +24,7 @@
     </mat-error>
   </mat-form-field>
   <mat-selection-list [formControl]="paymentMethodControl" [multiple]="false">
-    <mat-list-option *ngFor="let payment of paymentMethods" class="mat-primary">
+    <mat-list-option *ngFor="let payment of paymentMethods" [value]="payment" class="mat-primary">
       <div class="custom-form-field">
         <img [src]="getPaymentIcon(payment)" alt="{{ payment }}-icon" class="option-icon">
         {{ payment }}
