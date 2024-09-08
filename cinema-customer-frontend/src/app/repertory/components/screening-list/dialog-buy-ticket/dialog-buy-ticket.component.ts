@@ -14,6 +14,7 @@ export interface ConfirmDialogData {
 })
 export class DialogBuyTicketComponent {
   readonly data = inject<ScreeningResponse>(MAT_DIALOG_DATA);
+  readonly loginUrl: string = '/login'
 
   constructor(
     private readonly router: Router

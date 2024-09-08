@@ -20,7 +20,7 @@ public interface UserUseCases {
 
     CinemaManagerResponse getCinemaManager(String email);
 
-    UserResponse getCustomerProfile();
+    UserResponse getCustomerProfile(String email);
 
     void createCinemaManager(CreateCinemaManagerRequest createCinemaManagerRequest);
 

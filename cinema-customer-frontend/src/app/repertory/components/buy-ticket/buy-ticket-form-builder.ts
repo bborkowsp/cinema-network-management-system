@@ -1,6 +1,7 @@
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {BuyTicketRequest} from "../../dtos/request/BuyTicketRequest";
 import {ActivatedRoute} from "@angular/router";
+import {UserResponse} from "../../../user/dtos/response/user.response";
 
 export class BuyTicketFormBuilder {
   form: FormGroup;
@@ -30,6 +31,14 @@ export class BuyTicketFormBuilder {
       this.customerDataFormGroup.get('email')!.value,
       this.customerDataFormGroup.get('paymentMethod')!.value,
     );
+  }
+
+  fillFormWithCustomerData(customer: UserResponse) {
+    this.customerDataFormGroup.setValue({
+      firstName: customer.firstName,
+      lastName: customer.lastName,
+      email: customer.email,
+    });
   }
 
   private createForm() {

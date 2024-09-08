@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {BehaviorSubject} from "rxjs";
 import * as moment from "moment";
@@ -31,6 +31,9 @@ export class AuthService {
       next: (response) => {
         const token = response.token;
         this.setToken(token);
+        console.log("------")
+        console.log(token);
+        console.log("------")
         this.loggedIn.next(true);
         this.loggedInUserSubject.next(loginUserRequest.email);
         this.router.navigate(['/account']);
@@ -68,6 +71,15 @@ export class AuthService {
   resetPassword(resetPasswordRequest: ResetPasswordRequest) {
     const url = `${AuthService.authUrl}/reset-password`;
     return this.httpClient.post<void>(url, resetPasswordRequest);
+  }
+
+  getLoggedInUserEmail(): string {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decodedToken = this.getDecodedAccessToken(token);
+      return decodedToken.sub;
+    }
+    return '';
   }
 
   private getExpiration(): moment.Moment {

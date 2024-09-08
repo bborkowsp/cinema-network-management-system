@@ -53,7 +53,7 @@ class UserService implements UserUseCases {
     }
 
     @Override
-    public UserResponse getCustomerProfile() {
+    public UserResponse getCustomerProfile(String email) {
         return null;
     }
 

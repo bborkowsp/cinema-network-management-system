@@ -25,6 +25,7 @@ import {SharedModule} from "../_shared/shared.module";
 import {ScreeningListComponent} from './components/screening-list/screening-list.component';
 import {CustomerDataComponent} from "./components/buy-ticket/components/steps/customer-data/customer-data.component";
 import {DialogBuyTicketComponent} from "./components/screening-list/dialog-buy-ticket/dialog-buy-ticket.component";
+import {RouterLink} from "@angular/router";
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import {DialogBuyTicketComponent} from "./components/screening-list/dialog-buy-t
     SharedModule,
     ReactiveFormsModule,
     FormsModule,
+    RouterLink,
   ],
 })
 export class RepertoryModule {
