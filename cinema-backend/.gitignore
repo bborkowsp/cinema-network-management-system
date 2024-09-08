@@ -24,7 +24,6 @@ target/
 .vscode/
 
 ### Project files ####
-application.properties
-application.yml
+src/main/resources/application.yml
 src/main/resources/application.properties
 images/

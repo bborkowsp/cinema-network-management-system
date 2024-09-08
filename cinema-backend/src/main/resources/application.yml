@@ -30,3 +30,7 @@ server:
 seeders:
   enabled: true
 
+paypal:
+  clientId: AcaNONs5LZmMmO_giskmyCmilm5QUoNKkcFdfpEvCDOe4J9LJtr68hyIlEU5SMzKHgxHaKStBYMV2zj3
+  clientSecret: EPbfzf6P9NZ_ohCaghA9lSyYzmmO_ywkpTzi4aFhs8ZivdQCLA1DaihV5Gh2fPTs8SQP359zdjKGcNwh
+  mode: sandbox
