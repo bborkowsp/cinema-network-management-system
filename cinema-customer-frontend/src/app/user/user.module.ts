@@ -14,32 +14,16 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatIconModule} from "@angular/material/icon";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatDialogModule} from "@angular/material/dialog";
-import {RegisterComponent} from './components/register/register.component';
-import {LoginComponent} from "./components/login/login.component";
 import {SharedModule} from "../_shared/shared.module";
 import {AccountPageComponent} from './components/account-page/account-page.component';
 import {MatTabsModule} from "@angular/material/tabs";
 import {RouterLink} from "@angular/router";
-import {ResetPasswordComponent} from './components/reset-password/reset-password.component';
 import {MatCardModule} from "@angular/material/card";
-import {
-  ResetPasswordFormComponent
-} from './components/reset-password/reset-password-form/reset-password-form.component';
-import {VerifyUserComponent} from "./components/register/verify-user/verify-user.component";
-import {CheckEmailComponent} from "./components/reset-password/check-email/check-email.component";
-import {ActivateAccountComponent} from "./components/register/activate-account/activate-account.component";
-import { MyProfileComponent } from './components/account-page/tabs/my-profile/my-profile.component';
+import {MyProfileComponent} from './components/account-page/tabs/my-profile/my-profile.component';
 
 @NgModule({
   declarations: [
-    LoginComponent,
-    RegisterComponent,
-    VerifyUserComponent,
     AccountPageComponent,
-    CheckEmailComponent,
-    ResetPasswordComponent,
-    ActivateAccountComponent,
-    ResetPasswordFormComponent,
     MyProfileComponent
   ],
   imports: [

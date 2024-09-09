@@ -11,6 +11,7 @@ import {DatePipe} from "@angular/common";
 import {MatDialogModule} from "@angular/material/dialog";
 import {UserModule} from "./user/user.module";
 import {JwtInterceptor} from "./_shared/interceptors/jwt.interceptor";
+import {AuthModule} from "./auth/auth.module";
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import {JwtInterceptor} from "./_shared/interceptors/jwt.interceptor";
     SharedModule,
     RepertoryModule,
     MatDialogModule,
-    UserModule
+    UserModule,
+    AuthModule,
   ],
   providers: [
     DatePipe,

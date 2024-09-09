@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
-import {ResetPasswordRequest} from "../../../dtos/request/reset-password.request";
-import {AuthService} from "../../../../auth/service/auth.service";
+import {AuthService} from "../../../service/auth.service";
+import {ResetPasswordRequest} from "../../../dto/reset-password.request";
 
 @Component({
   selector: 'app-reset-password-form',

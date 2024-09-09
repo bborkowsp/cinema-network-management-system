@@ -18,7 +18,6 @@ export class TicketingService {
 
   payWithPayPal(buyTicketForm: BuyTicketRequest) {
     const url = `${TicketingService.PAYPAL_PAYMENT_METHOD_URL}/init-payment`;
-    console.log(buyTicketForm)
     return this.httpClient.post<PaypalResponse>(url, buyTicketForm);
   }
 }

@@ -7,7 +7,7 @@ import {jwtDecode} from 'jwt-decode';
 import {environment} from "../../../assets/environment";
 import {LoginUserRequest} from "../dto/login-user.request";
 import {RegisterUserRequest} from "../dto/register-user.request";
-import {ResetPasswordRequest} from "../../user/dtos/request/reset-password.request";
+import {ResetPasswordRequest} from "../dto/reset-password.request";
 
 @Injectable({
   providedIn: 'root'
