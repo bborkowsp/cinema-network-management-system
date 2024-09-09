@@ -21,6 +21,7 @@
 <hr>
 <app-screening-list
   (buyTicket)="handleBuyTicket($event)"
+  [date]="dateControl.value"
   [isCinemaSelected]="isCinemaSelected"
   [isLoading]="isLoading"
   [movieTitles]="getMovieTitles()"

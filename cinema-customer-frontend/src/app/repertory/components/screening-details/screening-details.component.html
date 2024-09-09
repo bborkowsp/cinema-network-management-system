@@ -1,0 +1,12 @@
+<ng-container *ngIf="screeningDetailsResponse">
+  <app-movie-details
+    [movie]="screeningDetailsResponse.movie"
+  ></app-movie-details>
+
+  <app-screening-times
+    [screeningTimes]="screeningDetailsResponse.screenings"
+  ></app-screening-times>
+</ng-container>
+
+
+<app-page-bottom-section></app-page-bottom-section>

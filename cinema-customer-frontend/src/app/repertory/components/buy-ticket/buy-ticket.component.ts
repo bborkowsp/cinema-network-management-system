@@ -4,10 +4,10 @@ import {FormBuilder} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {PaymentMethod} from "./enums/payment-method";
 import {TicketingService} from "../../services/ticketing.service";
-import {BuyTicketRequest} from "../../dtos/request/BuyTicketRequest";
 import {AuthService} from "../../../auth/service/auth.service";
 import {UserService} from "../../../user/services/user.service";
 import {UserResponse} from "../../../user/dtos/response/user.response";
+import {BuyTicketRequest} from "../../dtos/request/buy-ticket.request";
 
 
 @Component({

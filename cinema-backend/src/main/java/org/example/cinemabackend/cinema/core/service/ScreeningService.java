@@ -2,7 +2,9 @@ package org.example.cinemabackend.cinema.core.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.application.dto.request.create.CreateScreeningRequest;
+import org.example.cinemabackend.cinema.application.dto.response.ScreeningDetailsResponse;
 import org.example.cinemabackend.cinema.application.dto.response.ScreeningResponse;
+import org.example.cinemabackend.cinema.core.domain.Cinema;
 import org.example.cinemabackend.cinema.core.domain.Screening;
 import org.example.cinemabackend.cinema.core.domain.ScreeningRoom;
 import org.example.cinemabackend.cinema.core.port.primary.ScreeningMapper;
@@ -10,6 +12,7 @@ import org.example.cinemabackend.cinema.core.port.primary.ScreeningUseCases;
 import org.example.cinemabackend.cinema.core.port.secondary.CinemaRepository;
 import org.example.cinemabackend.cinema.core.port.secondary.ScreeningRepository;
 import org.example.cinemabackend.cinema.core.port.secondary.ScreeningRoomRepository;
+import org.example.cinemabackend.movie.core.port.primary.MovieMapper;
 import org.example.cinemabackend.movie.core.port.secondary.MovieRepository;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +29,23 @@ class ScreeningService implements ScreeningUseCases {
     private final CinemaRepository cinemaRepository;
     private final ScreeningRepository screeningRepository;
     private final ScreeningRoomRepository screeningRoomRepository;
+    private final MovieMapper movieMapper;
+
+    @Override
+    public ScreeningDetailsResponse getScreeningDetails(String title, LocalDate date) {
+        final var movie = movieRepository.findByTitle(title).orElseThrow();
+        final var screenings = cinemaRepository.findAll().stream()
+                .collect(Collectors.toMap(
+                        Cinema::getName,
+                        cinema -> cinema.getScreeningRooms().stream()
+                                .flatMap(screeningRoom -> screeningRoom.getRepertory().stream()
+                                        .filter(screening -> screening.getMovie().getTitle().equals(title) &&
+                                                screening.getStartTime().toLocalDate().equals(date))
+                                        .map(screening -> screeningMapper.mapScreeningToScreeningResponse(screening, screeningRoom)))
+                                .collect(Collectors.toList())
+                ));
+        return new ScreeningDetailsResponse(movieMapper.mapMovieToMovieResponse(movie), screenings);
+    }
 
     @Override
     public List<ScreeningResponse> getScreenings(String email) {
@@ -94,23 +114,23 @@ class ScreeningService implements ScreeningUseCases {
         screeningRoomRepository.save(screeningRoom);
     }
 
-    private ScreeningRoom getScreeningRoomWhichContainsScreening(Screening screening) {
-        return screeningRoomRepository.findByRepertoryContains(screening).orElseThrow();
+    private void updateScreeningDetails(Screening screeningToUpdate, CreateScreeningRequest createScreeningRequest) {
+        screeningToUpdate.setMovie(movieRepository.findByTitle(createScreeningRequest.movieTitle()).orElseThrow());
+        screeningToUpdate.setStartTime(createScreeningRequest.startTime());
+        screeningToUpdate.setEndTime(createScreeningRequest.endTime());
     }
 
     private Screening getScreeningById(Long id) {
         return screeningRepository.findById(id).orElseThrow();
     }
 
+    private ScreeningRoom getScreeningRoomWhichContainsScreening(Screening screening) {
+        return screeningRoomRepository.findByRepertoryContains(screening).orElseThrow();
+    }
+
     private void validateCinemaManagerIsManagingACinema(String email) {
         if (!cinemaRepository.existsByCinemaManagerEmail(email)) {
             throw new IllegalStateException("You are not assigned to any cinema");
         }
-    }
-
-    private void updateScreeningDetails(Screening screeningToUpdate, CreateScreeningRequest createScreeningRequest) {
-        screeningToUpdate.setMovie(movieRepository.findByTitle(createScreeningRequest.movieTitle()).orElseThrow());
-        screeningToUpdate.setStartTime(createScreeningRequest.startTime());
-        screeningToUpdate.setEndTime(createScreeningRequest.endTime());
     }
 }

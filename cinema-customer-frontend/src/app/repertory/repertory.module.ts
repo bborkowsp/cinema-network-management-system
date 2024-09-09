@@ -26,6 +26,11 @@ import {ScreeningListComponent} from './components/screening-list/screening-list
 import {CustomerDataComponent} from "./components/buy-ticket/components/steps/customer-data/customer-data.component";
 import {DialogBuyTicketComponent} from "./components/screening-list/dialog-buy-ticket/dialog-buy-ticket.component";
 import {RouterLink} from "@angular/router";
+import {ScreeningDetailsComponent} from "./components/screening-details/screening-details.component";
+import {MovieDetailsComponent} from "./components/screening-details/components/movie-details/movie-details.component";
+import {
+  ScreeningTimesComponent
+} from "./components/screening-details/components/screening-times/screening-times.component";
 
 @NgModule({
   declarations: [
@@ -37,6 +42,7 @@ import {RouterLink} from "@angular/router";
     DialogBuyTicketComponent,
     SeatLimitDialogComponent,
     ScreeningListComponent,
+    ScreeningDetailsComponent
   ],
   imports: [
     CommonModule,
@@ -59,6 +65,8 @@ import {RouterLink} from "@angular/router";
     ReactiveFormsModule,
     FormsModule,
     RouterLink,
+    MovieDetailsComponent,
+    ScreeningTimesComponent,
   ],
 })
 export class RepertoryModule {

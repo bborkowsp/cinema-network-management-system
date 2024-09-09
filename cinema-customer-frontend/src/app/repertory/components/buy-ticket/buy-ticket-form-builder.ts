@@ -1,7 +1,7 @@
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {BuyTicketRequest} from "../../dtos/request/BuyTicketRequest";
 import {ActivatedRoute} from "@angular/router";
 import {UserResponse} from "../../../user/dtos/response/user.response";
+import {BuyTicketRequest} from "../../dtos/request/buy-ticket.request";
 
 export class BuyTicketFormBuilder {
   form: FormGroup;

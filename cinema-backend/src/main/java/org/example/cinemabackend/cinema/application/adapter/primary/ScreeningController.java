@@ -3,6 +3,7 @@ package org.example.cinemabackend.cinema.application.adapter.primary;
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend._shared.dto.ResponseList;
 import org.example.cinemabackend.cinema.application.dto.request.create.CreateScreeningRequest;
+import org.example.cinemabackend.cinema.application.dto.response.ScreeningDetailsResponse;
 import org.example.cinemabackend.cinema.application.dto.response.ScreeningResponse;
 import org.example.cinemabackend.cinema.core.port.primary.ScreeningUseCases;
 import org.springframework.http.ResponseEntity;
@@ -62,5 +63,11 @@ class ScreeningController {
     ResponseEntity<Void> deleteScreening(@PathVariable("id") Long id) {
         screeningUseCases.deleteScreening(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/details/{title}/{date}")
+    ResponseEntity<ScreeningDetailsResponse> getScreeningDetails(@PathVariable("title") String title, @PathVariable("date") LocalDate date) {
+        final var screeningDetails = screeningUseCases.getScreeningDetails(title, date);
+        return ResponseEntity.ok(screeningDetails);
     }
 }

@@ -8,7 +8,9 @@
                  src="{{POSTERS_SERVER_DIRECTORY_URL}}{{ repertory[movieTitle][0].movie.poster }}"/>
             <div class="screening-details">
               <div class="screening-details__header">
-                <h2>{{ movieTitle }}</h2>
+                <a class="title" href="/movie-details/{{movieTitle}}/{{formattedDate}}">
+                  <h2>{{ movieTitle }}</h2>
+                </a>
                 <p>| {{ repertory[movieTitle][0].movie.duration }} min</p>
               </div>
               <p>{{ repertory[movieTitle][0].movie.description }}</p>

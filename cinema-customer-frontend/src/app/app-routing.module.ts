@@ -13,6 +13,13 @@ import {ActivateAccountComponent} from "./user/components/register/activate-acco
 import {CheckEmailComponent} from "./user/components/reset-password/check-email/check-email.component";
 import {AuthGuard} from "./auth/service/permission.service";
 import {VerifyUserComponent} from "./user/components/register/verify-user/verify-user.component";
+import {
+  CancelPaypalPaymentComponent
+} from "./repertory/components/cancel-paypal-payment/cancel-paypal-payment.component";
+import {
+  CapturePaypalPaymentComponent
+} from "./repertory/components/capture-paypal-payment/capture-paypal-payment.component";
+import {ScreeningDetailsComponent} from "./repertory/components/screening-details/screening-details.component";
 
 const routes: Routes = [
   {path: '', component: RepertoryComponent},
@@ -25,7 +32,10 @@ const routes: Routes = [
   {path: 'check-email', component: CheckEmailComponent},
   {path: 'reset-password', component: ResetPasswordComponent},
   {path: 'activate-account', component: ActivateAccountComponent},
-  {path: 'reset-password-form', component: ResetPasswordFormComponent}
+  {path: 'reset-password-form', component: ResetPasswordFormComponent},
+  {path: 'cancel-paypal-payment', component: CancelPaypalPaymentComponent},
+  {path: 'capture-paypal-payment', component: CapturePaypalPaymentComponent},
+  {path: 'movie-details/:title/:date', component: ScreeningDetailsComponent},
 ];
 
 @NgModule({

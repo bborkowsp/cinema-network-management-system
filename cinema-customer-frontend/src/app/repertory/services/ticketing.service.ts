@@ -1,8 +1,8 @@
 import {environment} from "../../../assets/environment";
 import {Injectable} from "@angular/core";
-import {BuyTicketRequest} from "../dtos/request/BuyTicketRequest";
 import {HttpClient} from "@angular/common/http";
 import {PaypalResponse} from "../dtos/response/paypal.response";
+import {BuyTicketRequest} from "../dtos/request/buy-ticket.request";
 
 @Injectable({
   providedIn: 'root',

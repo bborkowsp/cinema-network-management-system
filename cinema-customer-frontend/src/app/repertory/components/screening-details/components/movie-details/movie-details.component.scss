@@ -1,0 +1,52 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 2rem;
+  background-color: black;
+}
+
+h1 {
+  font-size: 64px;
+  color: white;
+}
+
+.content {
+  display: flex;
+  align-items: flex-start;
+}
+
+.movie-poster {
+  max-width: 12.75rem;
+  border-radius: 8px;
+  overflow: hidden;
+  height: auto;
+  display: flex;
+}
+
+.image {
+  padding-right: 2rem;
+}
+
+.right-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+}
+
+.description {
+  color: white;
+  font-size: 12px;
+}
+
+p {
+  color: white;
+}
+
+.details {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
