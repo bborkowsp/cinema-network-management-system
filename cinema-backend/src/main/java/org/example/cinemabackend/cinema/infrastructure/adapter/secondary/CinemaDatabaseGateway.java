@@ -5,7 +5,7 @@ import org.example.cinemabackend.cinema.core.domain.Cinema;
 import org.example.cinemabackend.cinema.core.port.secondary.CinemaRepository;
 import org.example.cinemabackend.cinema.infrastructure.schema.CinemaSchema;
 import org.example.cinemabackend.user.core.domain.User;
-import org.example.cinemabackend.user.infrastructure.scheme.UserSchema;
+import org.example.cinemabackend.user.infrastructure.schema.UserSchema;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

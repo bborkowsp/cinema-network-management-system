@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.example.cinemabackend.cinema.core.domain.Cinema;
-import org.example.cinemabackend.user.infrastructure.scheme.UserSchema;
+import org.example.cinemabackend.user.infrastructure.schema.UserSchema;
 
 import java.util.HashSet;
 import java.util.Set;

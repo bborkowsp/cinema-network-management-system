@@ -27,6 +27,7 @@ import static org.example.cinemabackend.movie.testdata.SubtitleAndSoundOptionTes
 public class MovieTestDataProvider {
     private static final int NUMBER_OF_MOVIES_TO_GENERATE = 3;
     private static final String TRAILER_URL = "https://www.youtube.com/embed/ZiGdHLQD300";
+    private static final String POSTER_FILENAME = "poster.jpg";
     private static int moviesCounter = -1;
     private final ProjectionTechnologyTestDataProvider productionDetailsTestDataProvider;
     private final ProjectionTechnologyRepository projectionTechnologyRepository;
@@ -38,7 +39,7 @@ public class MovieTestDataProvider {
 
         for (int i = 0; i < NUMBER_OF_MOVIES_TO_GENERATE; i++) {
             final var movie = generateMovie();
-            movie.setPoster("poster.jpg");
+            movie.setPoster(POSTER_FILENAME);
             movies.add(generateMovie());
         }
         return movies;

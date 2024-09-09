@@ -3,7 +3,7 @@ package org.example.cinemabackend.user.infrastructure.adapter.secondary;
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.user.core.domain.User;
 import org.example.cinemabackend.user.core.port.secondary.UserRepository;
-import org.example.cinemabackend.user.infrastructure.scheme.UserSchema;
+import org.example.cinemabackend.user.infrastructure.schema.UserSchema;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

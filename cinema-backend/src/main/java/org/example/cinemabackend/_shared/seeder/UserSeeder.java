@@ -17,6 +17,10 @@ import java.util.Set;
 @Order(2)
 public class UserSeeder implements Seeder {
     private static final String PASSWORD = "password";
+    private static final String EMAIL_DOMAIN = "@email.com";
+    private static final String CINEMA_MANAGER_EMAIL_USERNAME = "cinemaMgr";
+    private static final String CINEMA_NETWORK_MANAGER_EMAIL_USERNAME = "cinemaNetMgr";
+    private static final String ADMIN_EMAIL = "admin" + EMAIL_DOMAIN;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final Faker faker;
@@ -24,26 +28,26 @@ public class UserSeeder implements Seeder {
 
     @Override
     public void seedDatabase(int objectsToSeed) {
-        createUsers(objectsToSeed, Role.CINEMA_MANAGER, "cinemaMgr");
-        createUsers(objectsToSeed, Role.CINEMA_NETWORK_MANAGER, "cinemaNetMgr");
+        createUsers(objectsToSeed, Role.CINEMA_MANAGER, CINEMA_MANAGER_EMAIL_USERNAME);
+        createUsers(objectsToSeed, Role.CINEMA_NETWORK_MANAGER, CINEMA_NETWORK_MANAGER_EMAIL_USERNAME);
         createAdmin();
-    }
-
-    private void createAdmin() {
-        final var user = createUser(Role.ADMIN, "admin@admin.com");
-        userRepository.save(user);
     }
 
     private void createUsers(int objectsToSeed, Role role, String emailPrefix) {
         Set<User> users = new HashSet<>();
         while (users.size() < objectsToSeed) {
-            final var email = emailPrefix + increment + "@email.com";
+            final var email = emailPrefix + increment + EMAIL_DOMAIN;
             final var user = createUser(role, email);
             userRepository.save(user);
             users.add(user);
             increment++;
         }
         increment = 0;
+    }
+
+    private void createAdmin() {
+        final var user = createUser(Role.ADMIN, ADMIN_EMAIL);
+        userRepository.save(user);
     }
 
     private User createUser(Role role, String email) {

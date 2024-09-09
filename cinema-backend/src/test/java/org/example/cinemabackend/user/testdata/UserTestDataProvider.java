@@ -14,6 +14,10 @@ public class UserTestDataProvider {
         return new User("Username", "Password", getNewEmail(), "Role", Role.CINEMA_MANAGER);
     }
 
+    private static String getNewEmail() {
+        return "Email " + emailCounter++;
+    }
+
     public static List<User> generateSampleCinemaManagers() {
         List<User> users = new ArrayList<>();
 
@@ -27,10 +31,6 @@ public class UserTestDataProvider {
         }
 
         return users;
-    }
-
-    private static String getNewEmail() {
-        return "Email " + emailCounter++;
     }
 
 }

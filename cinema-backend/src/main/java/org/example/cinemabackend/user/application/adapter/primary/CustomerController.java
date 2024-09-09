@@ -1,8 +1,8 @@
 package org.example.cinemabackend.user.application.adapter.primary;
 
 import lombok.RequiredArgsConstructor;
+import org.example.cinemabackend.auth.core.port.primary.AuthUseCases;
 import org.example.cinemabackend.user.application.dto.response.UserResponse;
-import org.example.cinemabackend.user.core.port.primary.AuthUseCases;
 import org.example.cinemabackend.user.core.port.primary.UserUseCases;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

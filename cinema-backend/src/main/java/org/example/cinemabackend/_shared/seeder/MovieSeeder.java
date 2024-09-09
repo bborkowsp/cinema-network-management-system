@@ -18,6 +18,7 @@ import java.util.Set;
 @Order(1)
 class MovieSeeder implements Seeder {
     private static final String TRAILER_URL = "https://www.youtube.com/embed/ZiGdHLQD300";
+    private static final String POSTER_FILENAME = "poster.jpg";
     private final MovieRepository movieRepository;
     private final ProjectionTechnologyRepository projectionTechnologyRepository;
     private final Faker faker;
@@ -28,7 +29,7 @@ class MovieSeeder implements Seeder {
         Set<Movie> movies = new HashSet<>();
         while (movies.size() < objectsToSeed) {
             final var movie = createMovie();
-            movie.setPoster("poster.jpg");
+            movie.setPoster(POSTER_FILENAME);
             movieRepository.save(movie);
             movies.add(movie);
             increment++;
