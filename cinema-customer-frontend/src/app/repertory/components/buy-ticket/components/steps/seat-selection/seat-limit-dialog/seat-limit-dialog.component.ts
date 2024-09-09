@@ -7,7 +7,7 @@ import {MatDialogRef} from "@angular/material/dialog";
   styleUrls: ['./seat-limit-dialog.component.scss']
 })
 export class SeatLimitDialogComponent {
-  constructor(public dialogRef: MatDialogRef<SeatLimitDialogComponent>) {
+  constructor(dialogRef: MatDialogRef<SeatLimitDialogComponent>) {
   }
 
 }

@@ -12,11 +12,11 @@ export class StepsContainerComponent {
   @Input({required: true}) buyTicketForm!: FormGroupDirective;
   @Output() handlePay = new EventEmitter<any>();
 
-  public get seatSelectionFormGroup() {
+  get seatSelectionFormGroup() {
     return this.buyTicketFormBuilder.form.get('seatSelection') as FormArray;
   }
 
-  public get customerDataFormGroup() {
+  get customerDataFormGroup() {
     return this.buyTicketFormBuilder.form.get('customerData') as FormGroup;
   }
 
