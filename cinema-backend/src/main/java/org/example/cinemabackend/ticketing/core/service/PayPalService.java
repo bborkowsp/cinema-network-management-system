@@ -65,8 +65,9 @@ class PayPalService implements PayPalUseCases {
         final BigDecimal fee = seatReservationUseCases.getOrderFee(buyTicketRequest.selectedSeats());
 
         AmountWithBreakdown amountBreakdown = new AmountWithBreakdown()
-                .currencyCode("USD")
-                .value(fee.toString());
+                .currencyCode("PLN")
+//                .value(fee.toString())
+                .value("0.01");
 
         PurchaseUnitRequest purchaseUnitRequest = new PurchaseUnitRequest()
                 .amountWithBreakdown(amountBreakdown);

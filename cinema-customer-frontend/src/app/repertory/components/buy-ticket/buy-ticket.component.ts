@@ -77,12 +77,7 @@ export class BuyTicketComponent implements OnInit {
   }
 
   private openSafeWindow(redirectUrl: string) {
-    const safeWindow = window.open(redirectUrl, '_blank', 'noopener,noreferrer');
-    if (safeWindow) {
-      safeWindow.focus();
-    } else {
-      console.error('Failed to open payment window');
-    }
+    window.open(redirectUrl, '_blank', 'noopener,noreferrer');
   }
 
   private saveReturnLinkToCurrentPageInLocalStorage() {
