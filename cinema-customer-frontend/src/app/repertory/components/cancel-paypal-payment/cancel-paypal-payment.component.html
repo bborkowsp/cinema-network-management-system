@@ -1,1 +1,7 @@
-<p>cancel-paypal-payment works!</p>
+<div class="container">
+  <mat-icon class="icon color-error">attach_money</mat-icon>
+  <h1>Payment was canceled!</h1>
+  <p>Your Paypal payment was canceled. Click the button below to go back to buying ticket process!</p>
+  <button (click)="navigateAndReload()" color="accent" mat-flat-button>Buy ticket here</button>
+</div>
+<app-page-bottom-section></app-page-bottom-section>

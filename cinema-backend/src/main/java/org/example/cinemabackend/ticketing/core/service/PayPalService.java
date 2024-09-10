@@ -20,7 +20,7 @@ import java.util.NoSuchElementException;
 @Service
 @RequiredArgsConstructor
 class PayPalService implements PayPalUseCases {
-    private final static String FRONTEND_BASE_URL = "https://localhost:4200";
+    private final static String FRONTEND_BASE_URL = "http://localhost:4200";
     private final static String CANCEL_URL = FRONTEND_BASE_URL + "/cancel-paypal-payment";
     private final static String RETURN_URL = FRONTEND_BASE_URL + "/capture-paypal-payment";
     private final PayPalHttpClient payPalHttpClient;

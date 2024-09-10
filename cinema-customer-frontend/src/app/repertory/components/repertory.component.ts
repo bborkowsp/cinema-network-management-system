@@ -48,8 +48,10 @@ export class RepertoryComponent implements OnInit {
 
   handleBuyTicket(screening: ScreeningResponse) {
     if (this.authService.isLoggedIn()) {
+      this.saveScreeningToLocalStorage(screening);
       this.router.navigateByUrl(`buy-ticket/${screening.id}`, {state: {data: screening}});
     } else {
+      this.saveScreeningToLocalStorage(screening);
       this.dialog.open(DialogBuyTicketComponent, {
         data: screening
       })
@@ -107,5 +109,9 @@ export class RepertoryComponent implements OnInit {
         )
       }
     );
+  }
+
+  private saveScreeningToLocalStorage(screening: ScreeningResponse) {
+    localStorage.setItem('screening', JSON.stringify(screening));
   }
 }

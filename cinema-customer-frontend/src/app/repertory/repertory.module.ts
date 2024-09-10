@@ -31,6 +31,8 @@ import {MovieDetailsComponent} from "./components/screening-details/components/m
 import {
   ScreeningTimesComponent
 } from "./components/screening-details/components/screening-times/screening-times.component";
+import {CancelPaypalPaymentComponent} from "./components/cancel-paypal-payment/cancel-paypal-payment.component";
+import {MatCard} from "@angular/material/card";
 
 @NgModule({
   declarations: [
@@ -42,7 +44,8 @@ import {
     DialogBuyTicketComponent,
     SeatLimitDialogComponent,
     ScreeningListComponent,
-    ScreeningDetailsComponent
+    ScreeningDetailsComponent,
+    CancelPaypalPaymentComponent
   ],
   imports: [
     CommonModule,
@@ -67,6 +70,7 @@ import {
     RouterLink,
     MovieDetailsComponent,
     ScreeningTimesComponent,
+    MatCard,
   ],
 })
 export class RepertoryModule {

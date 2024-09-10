@@ -8,6 +8,7 @@ import {AuthService} from "../../../auth/service/auth.service";
 import {UserService} from "../../../user/services/user.service";
 import {UserResponse} from "../../../user/dtos/response/user.response";
 import {BuyTicketRequest} from "../../dtos/request/buy-ticket.request";
+import {PaypalResponse} from "../../dtos/response/paypal.response";
 
 
 @Component({
@@ -29,6 +30,7 @@ export class BuyTicketComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.deleteReturnLinkFromLocalStorage();
     this.createBuyTicketForm();
   }
 
@@ -49,9 +51,10 @@ export class BuyTicketComponent implements OnInit {
   }
 
   private payWithPayPal(buyTicketForm: BuyTicketRequest) {
+    this.saveReturnLinkToCurrentPageInLocalStorage();
     this.ticketingService.payWithPayPal(buyTicketForm).subscribe({
-      next: () => {
-
+      next: (paypalResponse: PaypalResponse) => {
+        this.openSafeWindow(paypalResponse.redirectUrl)
       }, error: () => {
 
       }
@@ -71,5 +74,22 @@ export class BuyTicketComponent implements OnInit {
 
   private getLoggedInUserEmail(): string {
     return this.authService.getLoggedInUserEmail();
+  }
+
+  private openSafeWindow(redirectUrl: string) {
+    const safeWindow = window.open(redirectUrl, '_blank', 'noopener,noreferrer');
+    if (safeWindow) {
+      safeWindow.focus();
+    } else {
+      console.error('Failed to open payment window');
+    }
+  }
+
+  private saveReturnLinkToCurrentPageInLocalStorage() {
+    localStorage.setItem('returnLink', this.router.url);
+  }
+
+  private deleteReturnLinkFromLocalStorage() {
+    localStorage.removeItem('returnLink');
   }
 }

@@ -26,7 +26,8 @@ export class SeatSelectionComponent {
     const navigation = this.router.getCurrentNavigation();
     if (navigation?.extras.state) {
       this.data = navigation.extras.state['data'] as ScreeningResponse;
-      console.log(this.data);
+    } else {
+      this.getScreeningRoomFromLocalStorage();
     }
   }
 
@@ -102,5 +103,14 @@ export class SeatSelectionComponent {
 
   private open() {
     this.dialogRef.open(SeatLimitDialogComponent);
+  }
+
+  private getScreeningRoomFromLocalStorage() {
+    const screening = localStorage.getItem('screening');
+    if (screening) {
+      this.data = JSON.parse(screening);
+    } else {
+      this.router.navigate(['/repertory']);
+    }
   }
 }

@@ -56,9 +56,7 @@ export class AuthService {
 
   isLoggedIn(): boolean {
     const expiration = this.getExpiration();
-    const isLoggedIn = expiration && moment().isBefore(expiration);
-    console.log('isLoggedIn fun', isLoggedIn);
-    return isLoggedIn;
+    return expiration && moment().isBefore(expiration);
   }
 
   requestForPasswordReset(email: string) {
