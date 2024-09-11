@@ -4,7 +4,13 @@ import org.example.cinemabackend.cinema.application.dto.request.create.CreatSeat
 import org.example.cinemabackend.cinema.application.dto.response.SeatResponse;
 import org.example.cinemabackend.cinema.core.domain.Seat;
 
+import java.util.Set;
+
 public interface SeatMapper {
+
+    Set<Seat> mapSeatResponsesToSeat(Set<SeatResponse> seatResponses);
+
+    Seat mapSeatResponseToSeat(SeatResponse seatResponse);
 
     Seat mapCreateSeatToSeat(CreatSeatRequest seat);
 

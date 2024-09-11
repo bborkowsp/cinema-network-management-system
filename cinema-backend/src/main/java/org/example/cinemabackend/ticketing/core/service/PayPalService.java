@@ -9,7 +9,7 @@ import org.example.cinemabackend.ticketing.core.domain.PayPalCompletedOrder;
 import org.example.cinemabackend.ticketing.core.domain.PayPalPaymentOrder;
 import org.example.cinemabackend.ticketing.core.domain.PayPalPaymentStatus;
 import org.example.cinemabackend.ticketing.core.port.primary.PayPalUseCases;
-import org.example.cinemabackend.ticketing.core.port.primary.SeatReservationUseCases;
+import org.example.cinemabackend.ticketing.core.port.primary.TicketUseCases;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -24,7 +24,7 @@ class PayPalService implements PayPalUseCases {
     private final static String CANCEL_URL = FRONTEND_BASE_URL + "/cancel-paypal-payment";
     private final static String RETURN_URL = FRONTEND_BASE_URL + "/capture-paypal-payment";
     private final PayPalHttpClient payPalHttpClient;
-    private final SeatReservationUseCases seatReservationUseCases;
+    private final TicketUseCases ticketUseCases;
 
     @Override
     public PayPalCompletedOrder completePayment(String token) {
@@ -41,7 +41,9 @@ class PayPalService implements PayPalUseCases {
 
     @Override
     public PayPalPaymentOrder createPayment(BuyTicketRequest buyTicketRequest) {
-        seatReservationUseCases.validateSeatsAreAvailable(buyTicketRequest.selectedSeats());
+        final var screeningRoom = ticketUseCases.validateSeatsAreAvailable(buyTicketRequest);
+        ticketUseCases.changeSeatsStatusToReserved(buyTicketRequest.selectedSeats(), screeningRoom);
+
         OrderRequest orderRequest = createOrderRequest(buyTicketRequest);
         OrdersCreateRequest ordersCreateRequest = new OrdersCreateRequest().requestBody(orderRequest);
 
@@ -62,7 +64,7 @@ class PayPalService implements PayPalUseCases {
     }
 
     private OrderRequest createOrderRequest(BuyTicketRequest buyTicketRequest) {
-        final BigDecimal fee = seatReservationUseCases.getOrderFee(buyTicketRequest.selectedSeats());
+        final BigDecimal fee = ticketUseCases.getOrderFee(buyTicketRequest.selectedSeats());
 
         AmountWithBreakdown amountBreakdown = new AmountWithBreakdown()
                 .currencyCode("PLN")

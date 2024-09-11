@@ -22,10 +22,10 @@ export class BuyTicketFormBuilder {
   }
 
   getBuyTicketRequestFromForm() {
-    const movieId = this.activatedRoute.snapshot.params['id'];
+    const screeningId = this.activatedRoute.snapshot.params['id'];
     const paymentMethod = this.customerDataFormGroup.get('paymentMethod')!.value;
     return new BuyTicketRequest(
-      movieId,
+      screeningId,
       this.seatSelectionFormGroup.get('selectedSeats')!.value,
       this.customerDataFormGroup.get('firstName')!.value,
       this.customerDataFormGroup.get('lastName')!.value,

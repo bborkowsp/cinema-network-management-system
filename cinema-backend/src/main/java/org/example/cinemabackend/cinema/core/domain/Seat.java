@@ -38,6 +38,10 @@ public class Seat {
         return seatStatus;
     }
 
+    public void setSeatStatus(SeatStatus seatStatus) {
+        this.seatStatus = seatStatus;
+    }
+
     public Long getId() {
         return id;
     }

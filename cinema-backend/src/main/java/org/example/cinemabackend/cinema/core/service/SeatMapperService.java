@@ -6,8 +6,29 @@ import org.example.cinemabackend.cinema.core.domain.Seat;
 import org.example.cinemabackend.cinema.core.port.primary.SeatMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
 @Service
 class SeatMapperService implements SeatMapper {
+
+    @Override
+    public Set<Seat> mapSeatResponsesToSeat(Set<SeatResponse> seatResponses) {
+        return seatResponses.stream()
+                .map(this::mapSeatResponseToSeat)
+                .collect(Collectors.toSet());
+    }
+
+    @Override
+    public Seat mapSeatResponseToSeat(SeatResponse seatResponse) {
+        return new Seat(
+                seatResponse.id(),
+                seatResponse.seatRow(),
+                seatResponse.seatColumn(),
+                seatResponse.seatZone(),
+                seatResponse.seatStatus()
+        );
+    }
 
     @Override
     public Seat mapCreateSeatToSeat(CreatSeatRequest seat) {
@@ -22,6 +43,7 @@ class SeatMapperService implements SeatMapper {
     @Override
     public SeatResponse mapSeatToSeatResponse(Seat seat) {
         return new SeatResponse(
+                seat.getId(),
                 seat.getSeatRow(),
                 seat.getSeatColumn(),
                 seat.getSeatZone(),

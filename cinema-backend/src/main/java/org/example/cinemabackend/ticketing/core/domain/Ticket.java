@@ -8,17 +8,18 @@ import org.example.cinemabackend.user.core.domain.User;
 import java.util.Set;
 
 public class Ticket {
+    private Long id;
     private String ticketNumber;
-    private org.example.cinemabackend.ticketing.core.domain.QrCode qrCode;
-    private User client;
+    private QrCode qrCode;
+    private User customer;
     private Set<Seat> bookedSeats;
     private Screening screening;
     private Cinema cinema;
 
-    public Ticket(String ticketNumber, org.example.cinemabackend.ticketing.core.domain.QrCode qrCode, User client, Set<Seat> bookedSeats, Screening screening, Cinema cinema) {
+    public Ticket(String ticketNumber, org.example.cinemabackend.ticketing.core.domain.QrCode qrCode, User customer, Set<Seat> bookedSeats, Screening screening, Cinema cinema) {
         this.ticketNumber = ticketNumber;
         this.qrCode = qrCode;
-        this.client = client;
+        this.customer = customer;
         this.bookedSeats = bookedSeats;
         this.screening = screening;
         this.cinema = cinema;
@@ -32,8 +33,8 @@ public class Ticket {
         return qrCode;
     }
 
-    public User getClient() {
-        return client;
+    public User getCustomer() {
+        return customer;
     }
 
     public Set<Seat> getBookedSeats() {
