@@ -7,6 +7,7 @@ import org.example.cinemabackend.cinema.application.dto.response.ScreeningRoomRe
 import org.example.cinemabackend.cinema.core.domain.ScreeningRoom;
 import org.example.cinemabackend.cinema.core.port.primary.ScreeningRoomMapper;
 import org.example.cinemabackend.cinema.core.port.primary.SeatMapper;
+import org.example.cinemabackend.cinema.core.port.primary.SeatRowMapper;
 import org.example.cinemabackend.projectiontechnology.core.port.primary.ProjectionTechnologyMapper;
 import org.example.cinemabackend.projectiontechnology.core.port.secondary.ProjectionTechnologyRepository;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ class ScreeningRoomMapperService implements ScreeningRoomMapper {
     private final SeatMapper seatMapper;
     private final ProjectionTechnologyMapper projectionTechnologyMapper;
     private final ProjectionTechnologyRepository projectionTechnologyRepository;
+    private final SeatRowMapper seatRowMapper;
 
     @Override
     public Set<ScreeningRoom> mapCreateScreeningRoomToScreeningRoom(Set<CreateScreeningRoomRequest> createScreeningRoomRequests) {
@@ -37,7 +39,7 @@ class ScreeningRoomMapperService implements ScreeningRoomMapper {
 
         return new ScreeningRoom(
                 createScreeningRoomRequest.name(),
-                seatMapper.mapCreateSeatRequestToSeat(createScreeningRoomRequest.seats()),
+                seatRowMapper.mapCreateSeatRowToSeatRow(createScreeningRoomRequest.seats()),
                 supportedTechnologies
         );
     }
@@ -47,7 +49,7 @@ class ScreeningRoomMapperService implements ScreeningRoomMapper {
         return ScreeningRoomResponse.builder()
                 .id(screeningRoom.getId())
                 .name(screeningRoom.getName())
-                .seats(seatMapper.mapSeatToSeatResponses(screeningRoom.getSeatingPlan()))
+                .seats(seatMapper.mapSeatRowsToSeatResponses(screeningRoom.getSeatRows()))
                 .supportedTechnologies(projectionTechnologyMapper.mapProjectionTechnologiesToProjectionTechnologyResponses(screeningRoom.getSupportedTechnologies()))
                 .build();
     }

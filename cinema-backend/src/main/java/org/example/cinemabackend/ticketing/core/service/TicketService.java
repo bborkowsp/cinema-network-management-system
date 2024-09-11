@@ -44,7 +44,6 @@ class TicketService implements TicketUseCases {
     public ScreeningRoom validateSeatsAreAvailable(BuyTicketRequest seatResponses) {
         final var screening = screeningRepository.findById(seatResponses.movieId());
         final var screeningRoom = screeningRoomRepository.findByContainsScreening(screening.get());
-        validateIfSeatIsAvailable(screeningRoom.get().getSeatingPlan());
         return screeningRoom.get();
     }
 

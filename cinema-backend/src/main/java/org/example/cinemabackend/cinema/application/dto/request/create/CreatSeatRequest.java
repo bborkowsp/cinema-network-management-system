@@ -7,8 +7,8 @@ import org.example.cinemabackend.cinema.core.domain.SeatZone;
 
 @Builder
 public record CreatSeatRequest(
-        @NotNull Integer rowNumber,
-        @NotNull Integer columnNumber,
+        @NotNull Integer seatRow,
+        @NotNull Integer seatColumn,
         @NotNull SeatZone seatZone,
         @NotNull SeatStatus seatStatus
 ) {

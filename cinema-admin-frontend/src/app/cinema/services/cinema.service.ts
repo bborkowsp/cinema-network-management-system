@@ -1,5 +1,5 @@
 import {environment} from "../../../assets/environment";
-import { HttpClient } from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {CinemaListResponse} from "../dtos/response/cinema-list.response";
 import {map, Observable} from "rxjs";
 import {Injectable} from "@angular/core";

@@ -1,7 +1,7 @@
 export class CreateSeatRequest {
   constructor(
-    readonly rowNumber: number,
-    readonly columnNumber: number,
+    readonly seatRow: number,
+    readonly seatColumn: number,
     readonly seatZone: string,
     readonly seatStatus = 'AVAILABLE'
   ) {

@@ -5,10 +5,7 @@ import org.example.cinemabackend.cinema.application.dto.request.create.CreateCin
 import org.example.cinemabackend.cinema.application.dto.request.update.UpdateCinemaRequest;
 import org.example.cinemabackend.cinema.application.dto.response.CinemaResponse;
 import org.example.cinemabackend.cinema.application.dto.response.CinemaTableResponse;
-import org.example.cinemabackend.cinema.core.domain.Cinema;
-import org.example.cinemabackend.cinema.core.domain.ScreeningRoom;
-import org.example.cinemabackend.cinema.core.domain.Seat;
-import org.example.cinemabackend.cinema.core.domain.SeatStatus;
+import org.example.cinemabackend.cinema.core.domain.*;
 import org.example.cinemabackend.cinema.core.port.primary.AddressMapper;
 import org.example.cinemabackend.cinema.core.port.primary.CinemaMapper;
 import org.example.cinemabackend.cinema.core.port.primary.ContactDetailsMapper;
@@ -20,8 +17,7 @@ import org.example.cinemabackend.user.core.port.secondary.UserRepository;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -34,8 +30,8 @@ class CinemaMapperService implements CinemaMapper {
 
     @Override
     public CinemaTableResponse mapCinemaToCinemaTableRow(Cinema cinema) {
-        final var numberOfAvailableSeats = getNumberOfAvailableSeats(cinema);
-        final var numberOfUnavailableSeats = getNumberOfUnavailableSeats(cinema);
+        final var numberOfAvailableSeats = getNumberOfSeatsBySeatStatus(cinema, SeatStatus.AVAILABLE);
+        final var numberOfUnavailableSeats = getNumberOfSeatsBySeatStatus(cinema, SeatStatus.UNAVAILABLE);
         return CinemaTableResponse.builder()
                 .name(cinema.getName())
                 .cinemaManager(cinema.getCinemaManager() != null ? cinema.getCinemaManager().getFirstName() + " " + cinema.getCinemaManager().getLastName() : "N/A")
@@ -108,39 +104,21 @@ class CinemaMapperService implements CinemaMapper {
         return userMapper.mapUserToUserResponse(cinema.getCinemaManager());
     }
 
-    private int getNumberOfAvailableSeats(Cinema cinema) {
-        Set<Seat[][]> seatingPlans = cinema.getScreeningRooms().stream()
-                .map(ScreeningRoom::getSeatingPlan)
-                .collect(Collectors.toSet());
+    private int getNumberOfSeatsBySeatStatus(Cinema cinema, SeatStatus seatStatus) {
+        List<List<SeatRow>> seatingPlans = cinema.getScreeningRooms().stream()
+                .map(ScreeningRoom::getSeatRows)
+                .toList();
 
         int numberOfAvailableSeats = 0;
-        for (Seat[][] seatingPlan : seatingPlans) {
-            for (Seat[] row : seatingPlan) {
-                for (Seat seat : row) {
-                    if (seat.getSeatStatus() == SeatStatus.AVAILABLE) {
+        for (List<SeatRow> seatingPlan : seatingPlans) {
+            for (SeatRow row : seatingPlan) {
+                for (Seat seat : row.getSeats()) {
+                    if (seat.getSeatStatus() == seatStatus) {
                         numberOfAvailableSeats++;
                     }
                 }
             }
         }
         return numberOfAvailableSeats;
-    }
-
-    private int getNumberOfUnavailableSeats(Cinema cinema) {
-        Set<Seat[][]> seatingPlans = cinema.getScreeningRooms().stream()
-                .map(ScreeningRoom::getSeatingPlan)
-                .collect(Collectors.toSet());
-        int numberOfUnavailableSeats = 0;
-
-        for (Seat[][] seatingPlan : seatingPlans) {
-            for (Seat[] row : seatingPlan) {
-                for (Seat seat : row) {
-                    if (seat.getSeatStatus() == SeatStatus.UNAVAILABLE) {
-                        numberOfUnavailableSeats++;
-                    }
-                }
-            }
-        }
-        return numberOfUnavailableSeats;
     }
 }

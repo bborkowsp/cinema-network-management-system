@@ -11,17 +11,15 @@ import org.example.cinemabackend.user.core.port.secondary.UserRepository;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 @Component
 @RequiredArgsConstructor
 @Order(3)
 class CinemaSeeder implements Seeder {
     private static final int NUMBER_OF_SCREENING_ROOMS = 3;
-    private static final int NUMBER_OF_ROWS_IN_SCREENING_ROOM = 12;
-    private static final int NUMBER_OF_COLUMNS_IN_SCREENING_ROOM = 15;
+    private static final int NUMBER_OF_ROWS_IN_SCREENING_ROOM = 4;
+    private static final int NUMBER_OF_COLUMNS_IN_SCREENING_ROOM = 5;
     private final CinemaRepository cinemaRepository;
     private final ProjectionTechnologyRepository projectionTechnologyRepository;
     private final UserRepository userRepository;
@@ -105,7 +103,7 @@ class CinemaSeeder implements Seeder {
     }
 
     private ScreeningRoom createScreeningRoom() {
-        final var seats = createSeats();
+        final var seats = createSeatRows();
         final var projectionTechnologies = getProjectionTechnologies();
         return new ScreeningRoom(
                 faker.lorem().fixedString(10),
@@ -121,13 +119,12 @@ class CinemaSeeder implements Seeder {
         );
     }
 
-    private Seat[][] createSeats() {
-        Seat[][] seats = new Seat[NUMBER_OF_ROWS_IN_SCREENING_ROOM][NUMBER_OF_COLUMNS_IN_SCREENING_ROOM];
+    private List<SeatRow> createSeatRows() {
+        List<SeatRow> seatRows = new ArrayList<>();
         for (int i = 0; i < NUMBER_OF_ROWS_IN_SCREENING_ROOM; i++) {
-            for (int j = 0; j < NUMBER_OF_COLUMNS_IN_SCREENING_ROOM; j++)
-                seats[i][j] = createSeat(i, j);
+            seatRows.add(createSeatRow(i));
         }
-        return seats;
+        return seatRows;
     }
 
     Set<ProjectionTechnology> getProjectionTechnologies() {
@@ -135,6 +132,14 @@ class CinemaSeeder implements Seeder {
                 projectionTechnologyRepository.findAll().getFirst(),
                 projectionTechnologyRepository.findAll().getLast()
         );
+    }
+
+    private SeatRow createSeatRow(int row) {
+        List<Seat> seats = new ArrayList<>();
+        for (int i = 0; i < NUMBER_OF_COLUMNS_IN_SCREENING_ROOM; i++) {
+            seats.add(createSeat(row, i));
+        }
+        return new SeatRow(seats);
     }
 
     private Seat createSeat(int seatRow, int seatColumn) {

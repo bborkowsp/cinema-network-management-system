@@ -6,7 +6,6 @@ import org.example.cinemabackend.cinema.core.domain.SeatZone;
 
 @Builder
 public record SeatResponse(
-        Long id,
         Integer seatRow,
         Integer seatColumn,
         SeatZone seatZone,

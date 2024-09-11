@@ -120,6 +120,7 @@ export class CinemaFormBuilder {
       commonFields.contactDetails,
       cinemaManager
     );
+    console.log(cinemaRequest);
     formData.append(
       'cinemaRequest',
       new Blob([JSON.stringify(cinemaRequest)], {type: 'application/json'})
