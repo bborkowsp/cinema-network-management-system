@@ -4,10 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.cinemabackend.cinema.core.domain.Cinema;
 import org.example.cinemabackend.cinema.core.port.secondary.CinemaRepository;
 import org.example.cinemabackend.cinema.testdata.CinemaTestDataProvider;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -45,6 +42,11 @@ class CinemaControllerTest {
     @Autowired
     private CinemaTestDataProvider cinemaTestDataProvider;
 
+    @BeforeAll
+    static void setUp() {
+
+    }
+
 
     @Test
     @Order(1)
@@ -61,16 +63,25 @@ class CinemaControllerTest {
                         jsonPath("$.content").isNotEmpty(),
                         jsonPath("$.content[0].name").value(cinemas.get(0).getName()),
                         jsonPath("$.content[1].name").value(cinemas.get(1).getName()),
-                        jsonPath("$.content[2].name").value(cinemas.get(2).getName())
+                        jsonPath("$.content[2].name").value(cinemas.get(2).getName()),
+                        jsonPath("$.content[0].cinemaManager").value(cinemas.get(0).getCinemaManager().getEmail()),
+                        jsonPath("$.content[1].cinemaManager").value(cinemas.get(1).getCinemaManager().getEmail()),
+                        jsonPath("$.content[2].cinemaManager").value(cinemas.get(2).getCinemaManager().getEmail()),
+                        jsonPath("$.content[0].numberOfScreeningRooms").value(cinemas.get(0).getScreeningRooms().size()),
+                        jsonPath("$.content[1].numberOfScreeningRooms").value(cinemas.get(1).getScreeningRooms().size()),
+                        jsonPath("$.content[2].numberOfScreeningRooms").value(cinemas.get(2).getScreeningRooms().size()),
+                        jsonPath("$.content[0].numberOfAvailableSeats").isNumber(),
+                        jsonPath("$.content[1].numberOfAvailableSeats").isNumber(),
+                        jsonPath("$.content[2].numberOfAvailableSeats").isNumber(),
+                        jsonPath("$.content[0].numberOfUnavailableSeats").isNumber(),
+                        jsonPath("$.content[1].numberOfUnavailableSeats").isNumber(),
+                        jsonPath("$.content[2].numberOfUnavailableSeats").isNumber()
                 );
     }
 
     @Test
     @Order(2)
     void givenCinemasInDatabase_whenGetCinema_thenReturnCinema() throws Exception {
-        // Given
-        // Cinemas are in database thanks to previous test
-
         // When, Then
         final Cinema cinema = cinemaRepository.findAll().getFirst();
         final var url = CINEMAS_ENDPOINT_PATH + "/" + cinema.getName();

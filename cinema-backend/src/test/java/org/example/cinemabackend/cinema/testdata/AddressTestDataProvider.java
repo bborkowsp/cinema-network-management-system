@@ -4,41 +4,36 @@ import org.example.cinemabackend.cinema.application.dto.request.create.CreateAdd
 import org.example.cinemabackend.cinema.application.dto.request.update.UpdateAddressRequest;
 import org.example.cinemabackend.cinema.core.domain.Address;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class AddressTestDataProvider {
+    private static final String STREET = "Street";
+    private static final String CITY = "City";
+    private static final String POSTAL_CODE = "Postal Code";
+    private static final String COUNTRY = "Country";
 
-    public static List<Address> generateSampleAddresses() {
-        List<Address> addresses = new ArrayList<>();
-
-        String[] streets = {"Street 1", "Street 2", "Street 3"};
-        String[] cities = {"City 1", "City 2", "City 3"};
-        String[] postalCodes = {"Postal Code 1", "Postal Code 2", "Postal Code 3"};
-        String[] countries = {"Country 1", "Country 2", "Country 3"};
-
-        for (int i = 0; i < streets.length; i++) {
-            addresses.add(new Address(streets[i], cities[i], postalCodes[i], countries[i]));
-        }
-
-        return addresses;
+    public static Address generateAddress() {
+        return new Address(
+                STREET,
+                CITY,
+                POSTAL_CODE,
+                COUNTRY
+        );
     }
 
     public static CreateAddressRequest generateCreateAddressRequest() {
         return CreateAddressRequest.builder()
-                .streetAndBuildingNumber("Street")
-                .city("City")
-                .postalCode("Postal Code")
-                .country("Country")
+                .streetAndBuildingNumber(STREET)
+                .city(CITY)
+                .postalCode(POSTAL_CODE)
+                .country(COUNTRY)
                 .build();
     }
 
     public static UpdateAddressRequest generateUpdateAddressRequest() {
         return UpdateAddressRequest.builder()
-                .streetAndBuildingNumber("Street")
-                .city("City")
-                .postalCode("Postal Code")
-                .country("Country")
+                .streetAndBuildingNumber(STREET)
+                .city(CITY)
+                .postalCode(POSTAL_CODE)
+                .country(COUNTRY)
                 .build();
     }
 }

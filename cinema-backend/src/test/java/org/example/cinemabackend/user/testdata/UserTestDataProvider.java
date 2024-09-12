@@ -7,30 +7,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserTestDataProvider {
-
-    private static int emailCounter = 0;
-
-    public static User generateSampleCinemaManager() {
-        return new User("Username", "Password", getNewEmail(), "Role", Role.CINEMA_MANAGER);
-    }
-
-    private static String getNewEmail() {
-        return "Email " + emailCounter++;
-    }
+    private static final int NUMBER_OF_USERS_TO_GENERATE = 3;
+    private static final String EMAIL = "email@example.com";
+    private static final String FIRST_NAME = "First Name";
+    private static final String LAST_NAME = "Last Name";
+    private static final String PASSWORD = "Password";
+    private static int userCounter = 0;
 
     public static List<User> generateSampleCinemaManagers() {
         List<User> users = new ArrayList<>();
 
-        String[] usernames = {"Username 1", "Username 2", "Username 3"};
-        String[] passwords = {"Password 1", "Password 2", "Password 3"};
-        String[] emails = {getNewEmail(), getNewEmail(), getNewEmail()};
-        String[] roles = {"Role 1", "Role 2", "Role 3"};
-
-        for (int i = 0; i < usernames.length; i++) {
-            users.add(new User(usernames[i], passwords[i], emails[i], roles[i], Role.CINEMA_MANAGER));
+        for (int i = 0; i < NUMBER_OF_USERS_TO_GENERATE; i++) {
+            final var movie = generateSampleCinemaManager();
+            users.add(movie);
         }
-
         return users;
     }
 
+    public static User generateSampleCinemaManager() {
+        userCounter++;
+        return new User(
+                FIRST_NAME,
+                LAST_NAME,
+                EMAIL + userCounter,
+                PASSWORD,
+                Role.CINEMA_MANAGER
+        );
+    }
 }

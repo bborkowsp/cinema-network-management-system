@@ -15,31 +15,31 @@ import java.util.List;
 
 import static org.example.cinemabackend.cinema.testdata.AddressTestDataProvider.*;
 import static org.example.cinemabackend.cinema.testdata.ContactDetailTestDataProvider.generateContactDetailRequests;
+import static org.example.cinemabackend.cinema.testdata.ContactDetailTestDataProvider.generateContactDetails;
 import static org.example.cinemabackend.user.testdata.UserTestDataProvider.generateSampleCinemaManager;
 
 @Component
 @RequiredArgsConstructor
 public class CinemaTestDataProvider {
 
+    private static final String CINEMA_IMAGE = "cinema.jpg";
+    private static final String CINEMA_NAME = "Cinema Name";
+    private static final String CINEMA_DESCRIPTION = "Cinema Description";
+    private static final int NUMBER_OF_CINEMAS_TO_GENERATE = 3;
+    private static int cinemaCounter = 0;
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final ScreeningRoomTestDataProvider screeningRoomTestDataProvider;
 
     public List<Cinema> generateSampleCinemas() {
         List<Cinema> cinemas = new ArrayList<>();
-
-        String[] names = {"Name 1", "Name 2", "Name 3"};
-        String[] descriptions = {"Description 1", "Description 2", "Description 3"};
-        final var addresses = generateSampleAddresses();
-        final var image = "cinema.jpg";
-
         final var cinemaManagers = UserTestDataProvider.generateSampleCinemaManagers();
         saveCinemaManagersToDatabase(cinemaManagers);
 
-        for (int i = 0; i < names.length; i++) {
-            final var cinema = new Cinema(names[i], descriptions[i], addresses.get(i), getCinemaManager(i));
-            cinema.setImage(image);
+        for (int i = 0; i < NUMBER_OF_CINEMAS_TO_GENERATE; i++) {
+            final var cinema = generateCinema();
             cinemas.add(cinema);
+            cinemaCounter++;
         }
         return cinemas;
     }
@@ -48,8 +48,20 @@ public class CinemaTestDataProvider {
         cinemaManagers.forEach(userRepository::save);
     }
 
-    private User getCinemaManager(int index) {
-        return this.userRepository.findAllCinemaManagers().get(index);
+    private Cinema generateCinema() {
+        return new Cinema(
+                CINEMA_NAME + cinemaCounter,
+                CINEMA_DESCRIPTION,
+                generateAddress(),
+                CINEMA_IMAGE,
+                screeningRoomTestDataProvider.generateSampleScreeningRooms(),
+                generateContactDetails(),
+                getCinemaManager()
+        );
+    }
+
+    private User getCinemaManager() {
+        return this.userRepository.findAllCinemaManagers().get(cinemaCounter);
     }
 
     public CreateCinemaRequest generateCreateCinemaRequest() {

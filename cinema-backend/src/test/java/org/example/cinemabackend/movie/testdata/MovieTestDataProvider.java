@@ -25,8 +25,8 @@ import static org.example.cinemabackend.movie.testdata.SubtitleAndSoundOptionTes
 @Component
 @RequiredArgsConstructor
 public class MovieTestDataProvider {
+    public static final String MOVIE_TITLE = "Movie Title";
     private static final int NUMBER_OF_MOVIES_TO_GENERATE = 3;
-    private static final String MOVIE_TITLE = "Movie Title";
     private static final String UPDATED_MOVIE_TITLE = "Updated Movie Title";
     private static final String ORIGINAL_MOVIE_TITLE = "Original Movie Title";
     private static final String UPDATED_ORIGINAL_MOVIE_TITLE = "Updated Original Movie Title";
@@ -41,7 +41,7 @@ public class MovieTestDataProvider {
     private static final String UPDATED_DESCRIPTION = "Updated Description";
     private final ProjectionTechnologyTestDataProvider productionDetailsTestDataProvider;
     private final ProjectionTechnologyRepository projectionTechnologyRepository;
-    private int moviesCounter = -1;
+    private int moviesCounter = 0;
 
     public List<Movie> generateMovies() {
         List<Movie> movies = new ArrayList<>();
@@ -52,12 +52,12 @@ public class MovieTestDataProvider {
             final var movie = generateMovie();
             movie.setPoster(POSTER_FILENAME);
             movies.add(movie);
+            moviesCounter++;
         }
         return movies;
     }
 
     private Movie generateMovie() {
-        moviesCounter++;
         return new Movie(
                 MOVIE_TITLE + moviesCounter,
                 ORIGINAL_MOVIE_TITLE,

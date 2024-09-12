@@ -18,8 +18,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/v1/movies")
 @RequiredArgsConstructor
@@ -42,16 +40,16 @@ class MovieController {
 
     @GetMapping("/genres")
     @PreAuthorize("hasAnyRole('CINEMA_NETWORK_MANAGER','CINEMA_MANAGER','ADMIN')")
-    ResponseEntity<List<Genre>> getGenres() {
+    ResponseEntity<ResponseList<Genre>> getGenres() {
         final var genres = movieUseCases.getGenres();
-        return ResponseEntity.ok(genres);
+        return ResponseEntity.ok(new ResponseList<>(genres));
     }
 
     @GetMapping("/age-restrictions")
     @PreAuthorize("hasAnyRole('CINEMA_NETWORK_MANAGER','CINEMA_MANAGER','ADMIN')")
-    ResponseEntity<List<AgeRestriction>> getAgeRestrictions() {
+    ResponseEntity<ResponseList<AgeRestriction>> getAgeRestrictions() {
         final var ageRestrictions = movieUseCases.getAgeRestrictions();
-        return ResponseEntity.ok(ageRestrictions);
+        return ResponseEntity.ok(new ResponseList<>(ageRestrictions));
     }
 
     @GetMapping("/{title}")

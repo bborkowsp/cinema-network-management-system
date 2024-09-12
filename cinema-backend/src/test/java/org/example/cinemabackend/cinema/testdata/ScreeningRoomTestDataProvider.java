@@ -3,6 +3,7 @@ package org.example.cinemabackend.cinema.testdata;
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.application.dto.request.create.CreatSeatRequest;
 import org.example.cinemabackend.cinema.application.dto.request.create.CreateScreeningRoomRequest;
+import org.example.cinemabackend.cinema.core.domain.ScreeningRoom;
 import org.example.cinemabackend.cinema.core.domain.SeatStatus;
 import org.example.cinemabackend.cinema.core.domain.SeatZone;
 import org.example.cinemabackend.movie.core.domain.ProjectionTechnology;
@@ -21,12 +22,13 @@ import static org.example.cinemabackend.cinema.testdata.ProjectionTechnologyTest
 @RequiredArgsConstructor
 public class ScreeningRoomTestDataProvider {
     private static final int NUMBER_OF_SCREENING_ROOMS = 6;
+    private static final String SCREENING_ROOM_NAME = "Screening Room Name";
     private final ProjectionTechnologyRepository projectionTechnologyRepository;
 
-    public Set<CreateScreeningRoomRequest> generateCreateScreeningRoomRequests() {
+    public Set<ScreeningRoom> generateSampleScreeningRooms() {
         saveProjectionTechnologiesToDatabase(generateProjectionTechnologiesList());
 
-        Set<CreateScreeningRoomRequest> screeningRooms = new HashSet<>();
+        Set<ScreeningRoom> screeningRooms = new HashSet<>();
         while (screeningRooms.size() < NUMBER_OF_SCREENING_ROOMS) {
             screeningRooms.add(createScreeningRoom());
         }
@@ -37,7 +39,28 @@ public class ScreeningRoomTestDataProvider {
         projectionTechnologies.forEach(projectionTechnologyRepository::save);
     }
 
-    private CreateScreeningRoomRequest createScreeningRoom() {
+    private static ScreeningRoom createScreeningRoom() {
+        return null;
+//        return new ScreeningRoom(
+//                SCREENING_ROOM_NAME,
+//                generateSeatRows(),
+//                null,
+//                null,
+//                null
+//        );
+    }
+
+    public Set<CreateScreeningRoomRequest> generateCreateScreeningRoomRequests() {
+        saveProjectionTechnologiesToDatabase(generateProjectionTechnologiesList());
+
+        Set<CreateScreeningRoomRequest> screeningRooms = new HashSet<>();
+        while (screeningRooms.size() < NUMBER_OF_SCREENING_ROOMS) {
+            screeningRooms.add(createScreeningRoomRequest());
+        }
+        return screeningRooms;
+    }
+
+    private CreateScreeningRoomRequest createScreeningRoomRequest() {
         final var seats = createSeats();
         final var projectionTechnologies = getProjectionTechnologiesNameResponses();
         return CreateScreeningRoomRequest.builder()
@@ -47,7 +70,7 @@ public class ScreeningRoomTestDataProvider {
                 .build();
     }
 
-    private CreatSeatRequest[][] createSeats() {
+    private static CreatSeatRequest[][] createSeats() {
         final var rows = 3;
         final var columns = 6;
         CreatSeatRequest[][] seats = new CreatSeatRequest[rows][columns];
@@ -67,7 +90,7 @@ public class ScreeningRoomTestDataProvider {
                 .collect(Collectors.toSet());
     }
 
-    private CreatSeatRequest createSeat(int seatRow, int seatColumn) {
+    private static CreatSeatRequest createSeat(int seatRow, int seatColumn) {
         return new CreatSeatRequest(
                 seatRow,
                 seatColumn,

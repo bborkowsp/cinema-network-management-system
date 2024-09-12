@@ -1,6 +1,8 @@
 package org.example.cinemabackend.movie;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.cinemabackend.movie.core.domain.AgeRestriction;
+import org.example.cinemabackend.movie.core.domain.Genre;
 import org.example.cinemabackend.movie.core.domain.Movie;
 import org.example.cinemabackend.movie.core.port.secondary.MovieRepository;
 import org.example.cinemabackend.movie.testdata.MovieTestDataProvider;
@@ -47,6 +49,7 @@ public class MovieControllerTest {
     @Autowired
     private MovieTestDataProvider movieTestDataProvider;
 
+
     @Test
     @Order(1)
     void givenNoMoviesInDatabase_whenGetMoviesPage_thenStatusIsOkAndEmptyPageIsReturned() throws Exception {
@@ -92,6 +95,51 @@ public class MovieControllerTest {
 
     @Test
     @Order(3)
+    public void givenMoviesInDatabase_whenGetMovie_thenStatusIsOkAndMovieIsReturned() throws Exception {
+        // Given
+        final var movie = movieRepository.findAll().stream().findFirst().orElseThrow();
+
+        // When, Then
+        mockMvc.perform(get(MOVIES_ENDPOINT_PATH + "/" + movie.getTitle()))
+                .andExpectAll(
+                        status().isOk(),
+                        content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON),
+                        jsonPath("$.title").value(movie.getTitle()),
+                        jsonPath("$.originalTitle").value(movie.getOriginalTitle()),
+                        jsonPath("$.duration").value(movie.getDuration()),
+                        jsonPath("$.releaseDate").value(movie.getReleaseDate().toString()),
+                        jsonPath("$.description").value(movie.getDescription()),
+                        jsonPath("$.poster").isString(),
+                        jsonPath("$.ageRestriction").value(String.valueOf(movie.getAgeRestriction())),
+                        jsonPath("$.productionDetails.worldPremiereDate")
+                                .value(movie.getProductionDetails().getWorldPremiereDate().toString()),
+                        jsonPath("$.productionDetails.actors").isArray(),
+                        jsonPath("$.productionDetails.actors.length()").value(movie.getProductionDetails().getActors().size()),
+                        jsonPath("$.productionDetails.originalLanguages").isArray(),
+                        jsonPath("$.productionDetails.originalLanguages.length()")
+                                .value(movie.getProductionDetails().getOriginalLanguages().size()),
+                        jsonPath("$.productionDetails.productionCountries").isArray(),
+                        jsonPath("$.productionDetails.productionCountries.length()")
+                                .value(movie.getProductionDetails().getProductionCountries().size()),
+                        jsonPath("$.productionDetails.director.firstName")
+                                .value(movie.getProductionDetails().getDirector().getFirstName()),
+                        jsonPath("$.productionDetails.director.lastName")
+                                .value(movie.getProductionDetails().getDirector().getLastName()),
+                        jsonPath("$.subtitleAndSoundOptions.subtitles").value(movie.getSubtitleAndSoundOptions().isSubtitles()),
+                        jsonPath("$.subtitleAndSoundOptions.dubbing").value(movie.getSubtitleAndSoundOptions().isDubbing()),
+                        jsonPath("$.subtitleAndSoundOptions.voiceOver").value(movie.getSubtitleAndSoundOptions().isVoiceOver()),
+                        jsonPath("$.subtitleAndSoundOptions.originalLanguage")
+                                .value(movie.getSubtitleAndSoundOptions().isOriginalLanguage()),
+                        jsonPath("$.trailer").value(movie.getTrailer()),
+                        jsonPath("$.genres").isArray(),
+                        jsonPath("$.genres.length()").value(movie.getGenres().size()),
+                        jsonPath("$.projectionTechnologies").isArray(),
+                        jsonPath("$.projectionTechnologies.length()").value(movie.getProjectionTechnologies().size())
+                );
+    }
+
+    @Test
+    @Order(4)
     public void givenMoviesInDatabase_whenCreateMovie_thenStatusIsCreatedAndMovieIsInDatabase() throws Exception {
         // Given
         final var createMovieRequest = movieTestDataProvider.generateCreateMovieRequest();
@@ -150,7 +198,97 @@ public class MovieControllerTest {
     }
 
     @Test
-    @Order(4)
+    @Order(5)
+    public void givenMovieInDatabase_whenDeleteMovie_thenStatusIsNoContentAndMovieIsDeleted() throws Exception {
+        // Given
+        Movie movieToDelete = movieRepository.findAll().stream().findFirst().orElseThrow();
+        final int movieRepositorySize = movieRepository.findAll().size();
+
+        // When
+        final var url = MOVIES_ENDPOINT_PATH + "/" + movieToDelete.getTitle();
+        mockMvc.perform(MockMvcRequestBuilders.delete(url))
+                .andExpect(status().isNoContent());
+
+        // Then
+        assertThat(movieRepository.findByTitle(movieToDelete.getTitle())).isEmpty();
+        assertEquals(movieRepositorySize - 1, movieRepository.findAll().size());
+    }
+
+    @Test
+    @Order(6)
+    public void givenMoviesInDatabase_WhenGetMovieTitles_ThenStatusIsOkAndMovieTitlesAreReturned() throws Exception {
+        // When, Then
+        mockMvc.perform(get(MOVIES_ENDPOINT_PATH + "/titles"))
+                .andExpectAll(
+                        status().isOk(),
+                        content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON),
+                        jsonPath("$.content").isNotEmpty(),
+                        jsonPath("$.content").isArray(),
+                        jsonPath("$.content.length()").value(movieRepository.findAll().size()),
+                        jsonPath("$.content[0]").isString()
+                );
+    }
+
+    @Test
+    @Order(7)
+    public void givenMoviesInDatabase_WhenGetAgeRestrictions_ThenStatusIsOkAndMovieTitlesAreReturned() throws Exception {
+        // When, Then
+        mockMvc.perform(get(MOVIES_ENDPOINT_PATH + "/age-restrictions"))
+                .andExpectAll(
+                        status().isOk(),
+                        content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON),
+                        jsonPath("$.content").isNotEmpty(),
+                        jsonPath("$.content").isArray(),
+                        jsonPath("$.content.length()").value(AgeRestriction.values().length)
+                );
+    }
+
+    @Test
+    @Order(7)
+    @DirtiesContext
+    public void givenMoviesInDatabase_WhenGetGenres_ThenStatusIsOkAndMovieTitlesAreReturned() throws Exception {
+        // When, Then
+        mockMvc.perform(get(MOVIES_ENDPOINT_PATH + "/genres"))
+                .andExpectAll(
+                        status().isOk(),
+                        content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON),
+                        jsonPath("$.content").isNotEmpty(),
+                        jsonPath("$.content").isArray(),
+                        jsonPath("$.content.length()").value(Genre.values().length)
+                );
+    }
+
+    @Test
+    @Order(8)
+    @DirtiesContext
+    public void givenNoMoviesInDatabase_whenCreateMovieWithTheSameTitleTwice_thenBadRequestIsReturned() throws Exception {
+        // Given
+        movieTestDataProvider.generateMovies().forEach(movieRepository::save);
+        final var createMovieRequest = movieTestDataProvider.generateCreateMovieRequest();
+        MockMultipartFile image = new MockMultipartFile(
+                "image", "poster.jpg", MediaType.IMAGE_JPEG_VALUE, "image data".getBytes());
+        MockMultipartFile movieRequest = new MockMultipartFile(
+                "movieRequest", "", MediaType.APPLICATION_JSON_VALUE,
+                objectMapper.writeValueAsBytes(createMovieRequest)
+        );
+
+        // When
+        mockMvc.perform(MockMvcRequestBuilders.multipart(MOVIES_ENDPOINT_PATH)
+                        .file(image)
+                        .file(movieRequest)
+                        .contentType(MediaType.MULTIPART_FORM_DATA))
+                .andExpect(status().isCreated());
+
+        // Then
+        mockMvc.perform(MockMvcRequestBuilders.multipart(MOVIES_ENDPOINT_PATH)
+                        .file(image)
+                        .file(movieRequest)
+                        .contentType(MediaType.MULTIPART_FORM_DATA))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @Order(9)
     @DirtiesContext
     public void givenMoviesInDatabase_whenUpdateMovie_thenStatusIsNoContentAndMovieIsUpdated() throws Exception {
         // Given
@@ -193,5 +331,27 @@ public class MovieControllerTest {
                 () -> assertEquals(updateMovieRequest.description(), updatedMovie.getDescription()),
                 () -> assertEquals(updateMovieRequest.ageRestriction(), updatedMovie.getAgeRestriction())
         );
+    }
+
+    @Test
+    @Order(10)
+    @DirtiesContext
+    public void whenMoviesInDatabase_whenDeleteSameMovieTwice_thenStatusIsNotFound() throws Exception {
+        // Given
+        final var movies = movieTestDataProvider.generateMovies();
+        movies.forEach(movieRepository::save);
+
+        final var movie = movieRepository.findAll().stream().findFirst().orElseThrow();
+
+        // When
+        final var url = MOVIES_ENDPOINT_PATH + "/" + movie.getTitle();
+        mockMvc.perform(MockMvcRequestBuilders.delete(url))
+                .andExpect(status().isNoContent());
+
+        // Then
+        mockMvc.perform(MockMvcRequestBuilders.delete(url))
+                .andExpect(status().isNotFound());
+
+        assertThat(movieRepository.findByTitle(movie.getTitle())).isEmpty();
     }
 }
