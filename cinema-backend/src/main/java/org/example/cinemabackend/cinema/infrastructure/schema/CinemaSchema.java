@@ -45,6 +45,7 @@ public class CinemaSchema {
     private UserSchema cinemaManager;
 
     public static CinemaSchema fromCinema(Cinema cinema) {
+        final var screeningRooms = cinema.getScreeningRooms().stream().map(ScreeningRoomSchema::fromScreeningRoom).collect(Collectors.toSet());
         return new CinemaSchema(
                 cinema.getId(),
                 cinema.getName(),

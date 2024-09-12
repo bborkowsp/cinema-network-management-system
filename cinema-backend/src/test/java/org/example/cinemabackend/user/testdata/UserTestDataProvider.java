@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserTestDataProvider {
-    private static final int NUMBER_OF_USERS_TO_GENERATE = 3;
+    private static final int NUMBER_OF_USERS_TO_GENERATE = 6;
     private static final String EMAIL = "email@example.com";
     private static final String FIRST_NAME = "First Name";
     private static final String LAST_NAME = "Last Name";

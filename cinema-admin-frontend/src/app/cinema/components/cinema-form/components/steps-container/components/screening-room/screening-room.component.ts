@@ -238,6 +238,7 @@ export class ScreeningRoomComponent implements OnInit, OnChanges {
         const newRow: SeatResponse[] = [];
         for (let j = 0; j < newNumberOfColumns; j++) {
           const newSeat: SeatResponse = {
+            id: 0,
             seatRow: i + 1,
             seatColumn: j + 1,
             seatZone: 'STANDARD',
@@ -266,6 +267,7 @@ export class ScreeningRoomComponent implements OnInit, OnChanges {
       const newRow: SeatResponse[] = [];
       for (let j = 0; j < newNumberOfColumns; j++) {
         const newSeat: SeatResponse = {
+          id: 0,
           seatRow: i + 1,
           seatColumn: j + 1,
           seatZone: 'STANDARD',
@@ -282,6 +284,7 @@ export class ScreeningRoomComponent implements OnInit, OnChanges {
     this.currentScreeningRoom.forEach(row => {
       for (let j = numberOfColumnsInOldScreeningRoom; j < newNumberOfColumns; j++) {
         const newSeat: SeatResponse = {
+          id: 0,
           seatRow: row.length + 1,
           seatColumn: j + 1,
           seatZone: 'STANDARD',

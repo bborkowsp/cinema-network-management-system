@@ -103,12 +103,10 @@ class CinemaSeeder implements Seeder {
     }
 
     private ScreeningRoom createScreeningRoom() {
-        final var seats = createSeatRows();
-        final var projectionTechnologies = getProjectionTechnologies();
         return new ScreeningRoom(
                 faker.lorem().fixedString(10),
-                seats,
-                projectionTechnologies
+                createSeatRows(),
+                getProjectionTechnologies()
         );
     }
 
@@ -121,8 +119,8 @@ class CinemaSeeder implements Seeder {
 
     private List<SeatRow> createSeatRows() {
         List<SeatRow> seatRows = new ArrayList<>();
-        for (int i = 0; i < NUMBER_OF_ROWS_IN_SCREENING_ROOM; i++) {
-            seatRows.add(createSeatRow(i));
+        for (int row = 0; row < NUMBER_OF_ROWS_IN_SCREENING_ROOM; row++) {
+            seatRows.add(createSeatRow(row));
         }
         return seatRows;
     }
@@ -136,8 +134,8 @@ class CinemaSeeder implements Seeder {
 
     private SeatRow createSeatRow(int row) {
         List<Seat> seats = new ArrayList<>();
-        for (int i = 0; i < NUMBER_OF_COLUMNS_IN_SCREENING_ROOM; i++) {
-            seats.add(createSeat(row, i));
+        for (int column = 0; column < NUMBER_OF_COLUMNS_IN_SCREENING_ROOM; column++) {
+            seats.add(createSeat(row, column));
         }
         return new SeatRow(seats);
     }

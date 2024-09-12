@@ -7,7 +7,6 @@ import org.example.cinemabackend.cinema.core.domain.Cinema;
 import org.example.cinemabackend.user.core.domain.User;
 import org.example.cinemabackend.user.core.port.primary.UserMapper;
 import org.example.cinemabackend.user.core.port.secondary.UserRepository;
-import org.example.cinemabackend.user.testdata.UserTestDataProvider;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -16,27 +15,23 @@ import java.util.List;
 import static org.example.cinemabackend.cinema.testdata.AddressTestDataProvider.*;
 import static org.example.cinemabackend.cinema.testdata.ContactDetailTestDataProvider.generateContactDetailRequests;
 import static org.example.cinemabackend.cinema.testdata.ContactDetailTestDataProvider.generateContactDetails;
-import static org.example.cinemabackend.user.testdata.UserTestDataProvider.generateSampleCinemaManager;
 
 @Component
 @RequiredArgsConstructor
 public class CinemaTestDataProvider {
-
     private static final String CINEMA_IMAGE = "cinema.jpg";
     private static final String CINEMA_NAME = "Cinema Name";
     private static final String CINEMA_DESCRIPTION = "Cinema Description";
     private static final int NUMBER_OF_CINEMAS_TO_GENERATE = 3;
     private static int cinemaCounter = 0;
+    private static int assignedCinemaManagerCounter = -1;
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final ScreeningRoomTestDataProvider screeningRoomTestDataProvider;
 
-    public List<Cinema> generateSampleCinemas() {
+    public List<Cinema> generateCinemas() {
         List<Cinema> cinemas = new ArrayList<>();
-        final var cinemaManagers = UserTestDataProvider.generateSampleCinemaManagers();
-        saveCinemaManagersToDatabase(cinemaManagers);
-
-        for (int i = 0; i < NUMBER_OF_CINEMAS_TO_GENERATE; i++) {
+        while (cinemas.size() < NUMBER_OF_CINEMAS_TO_GENERATE) {
             final var cinema = generateCinema();
             cinemas.add(cinema);
             cinemaCounter++;
@@ -44,33 +39,29 @@ public class CinemaTestDataProvider {
         return cinemas;
     }
 
-    private void saveCinemaManagersToDatabase(List<User> cinemaManagers) {
-        cinemaManagers.forEach(userRepository::save);
-    }
-
     private Cinema generateCinema() {
-        return new Cinema(
+        Cinema cinema = new Cinema(
                 CINEMA_NAME + cinemaCounter,
                 CINEMA_DESCRIPTION,
                 generateAddress(),
-                CINEMA_IMAGE,
-                screeningRoomTestDataProvider.generateSampleScreeningRooms(),
-                generateContactDetails(),
                 getCinemaManager()
         );
+        final var screeningRooms = screeningRoomTestDataProvider.generateScreeningRooms();
+        screeningRooms.forEach(cinema::addScreeningRoom);
+        final var contactDetails = generateContactDetails();
+        contactDetails.forEach(cinema::addContactDetails);
+        cinema.setImage(CINEMA_IMAGE);
+        return cinema;
     }
 
     private User getCinemaManager() {
-        return this.userRepository.findAllCinemaManagers().get(cinemaCounter);
+        assignedCinemaManagerCounter++;
+        return this.userRepository.findAllCinemaManagers().get(assignedCinemaManagerCounter);
     }
 
     public CreateCinemaRequest generateCreateCinemaRequest() {
         final var createAddressRequest = generateCreateAddressRequest();
-
-        final var cinemaManager = generateSampleCinemaManager();
-        saveCinemaManagersToDatabase(List.of(cinemaManager));
-
-        final var userResponse = userMapper.mapUserToUserResponse(cinemaManager);
+        final var userResponse = userMapper.mapUserToUserResponse(getCinemaManager());
         final var screeningRooms = screeningRoomTestDataProvider.generateCreateScreeningRoomRequests();
         final var contactDetails = generateContactDetailRequests();
         return CreateCinemaRequest.builder()
@@ -83,15 +74,12 @@ public class CinemaTestDataProvider {
                 .build();
     }
 
+
     public UpdateCinemaRequest generateUpdateCinemaRequest(String name) {
         final var updateAddressRequest = generateUpdateAddressRequest();
-
-        final var cinemaManager = generateSampleCinemaManager();
-        saveCinemaManagersToDatabase(List.of(cinemaManager));
-
         final var screeningRooms = screeningRoomTestDataProvider.generateCreateScreeningRoomRequests();
         final var contactDetails = generateContactDetailRequests();
-        final var userResponse = userMapper.mapUserToUserResponse(cinemaManager);
+        final var userResponse = userMapper.mapUserToUserResponse(getCinemaManager());
 
         return UpdateCinemaRequest.builder()
                 .name(name)

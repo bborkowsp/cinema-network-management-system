@@ -17,20 +17,43 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.example.cinemabackend.cinema.testdata.ProjectionTechnologyTestDataProvider.generateProjectionTechnologiesList;
+import static org.example.cinemabackend.cinema.testdata.SeatRowTestDataProvider.generateSeatRows;
 
 @Component
 @RequiredArgsConstructor
 public class ScreeningRoomTestDataProvider {
     private static final int NUMBER_OF_SCREENING_ROOMS = 6;
     private static final String SCREENING_ROOM_NAME = "Screening Room Name";
+    private static final String CREATE_SCREENING_ROOM_NAME = "Create Screening Room Name";
     private final ProjectionTechnologyRepository projectionTechnologyRepository;
 
-    public Set<ScreeningRoom> generateSampleScreeningRooms() {
+    public Set<ScreeningRoom> generateScreeningRooms() {
+        Set<ScreeningRoom> screeningRooms = new HashSet<>();
+        for (int i = 0; i < NUMBER_OF_SCREENING_ROOMS; i++) {
+            screeningRooms.add(createScreeningRoom(i));
+        }
+        return screeningRooms;
+    }
+
+    private ScreeningRoom createScreeningRoom(int i) {
+        return new ScreeningRoom(
+                SCREENING_ROOM_NAME + i,
+                generateSeatRows(),
+                getProjectionTechnologies()
+        );
+    }
+
+    private Set<ProjectionTechnology> getProjectionTechnologies() {
+        final var projectionTechnologies = projectionTechnologyRepository.findAll();
+        return new HashSet<>(projectionTechnologies);
+    }
+
+    public Set<CreateScreeningRoomRequest> generateCreateScreeningRoomRequests() {
         saveProjectionTechnologiesToDatabase(generateProjectionTechnologiesList());
 
-        Set<ScreeningRoom> screeningRooms = new HashSet<>();
-        while (screeningRooms.size() < NUMBER_OF_SCREENING_ROOMS) {
-            screeningRooms.add(createScreeningRoom());
+        Set<CreateScreeningRoomRequest> screeningRooms = new HashSet<>();
+        for (int i = 0; i < NUMBER_OF_SCREENING_ROOMS; i++) {
+            screeningRooms.add(createScreeningRoomRequest(i));
         }
         return screeningRooms;
     }
@@ -39,32 +62,11 @@ public class ScreeningRoomTestDataProvider {
         projectionTechnologies.forEach(projectionTechnologyRepository::save);
     }
 
-    private static ScreeningRoom createScreeningRoom() {
-        return null;
-//        return new ScreeningRoom(
-//                SCREENING_ROOM_NAME,
-//                generateSeatRows(),
-//                null,
-//                null,
-//                null
-//        );
-    }
-
-    public Set<CreateScreeningRoomRequest> generateCreateScreeningRoomRequests() {
-        saveProjectionTechnologiesToDatabase(generateProjectionTechnologiesList());
-
-        Set<CreateScreeningRoomRequest> screeningRooms = new HashSet<>();
-        while (screeningRooms.size() < NUMBER_OF_SCREENING_ROOMS) {
-            screeningRooms.add(createScreeningRoomRequest());
-        }
-        return screeningRooms;
-    }
-
-    private CreateScreeningRoomRequest createScreeningRoomRequest() {
+    private CreateScreeningRoomRequest createScreeningRoomRequest(int i) {
         final var seats = createSeats();
         final var projectionTechnologies = getProjectionTechnologiesNameResponses();
         return CreateScreeningRoomRequest.builder()
-                .name("Create Screening Room Request")
+                .name(CREATE_SCREENING_ROOM_NAME + i)
                 .seats(seats)
                 .supportedTechnologies(projectionTechnologies)
                 .build();

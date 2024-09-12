@@ -70,5 +70,4 @@ public class ScreeningRoomSchema {
         return Objects.equals(id, screeningRoomSchema.getId()) &&
                 Objects.equals(name, screeningRoomSchema.getName());
     }
-
 }
