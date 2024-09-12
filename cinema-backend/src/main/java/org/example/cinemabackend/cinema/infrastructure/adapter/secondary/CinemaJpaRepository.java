@@ -1,6 +1,7 @@
 package org.example.cinemabackend.cinema.infrastructure.adapter.secondary;
 
 import org.example.cinemabackend.cinema.infrastructure.schema.CinemaSchema;
+import org.example.cinemabackend.cinema.infrastructure.schema.ScreeningRoomSchema;
 import org.example.cinemabackend.user.infrastructure.schema.UserSchema;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -13,6 +14,8 @@ import java.util.Optional;
 
 @Repository
 public interface CinemaJpaRepository extends JpaRepository<CinemaSchema, Long> {
+    Optional<CinemaSchema> findByScreeningRoomsContains(ScreeningRoomSchema screeningRoomSchema);
+
     Optional<CinemaSchema> findByName(String name);
 
     Optional<CinemaSchema> findByCinemaManager(UserSchema user);

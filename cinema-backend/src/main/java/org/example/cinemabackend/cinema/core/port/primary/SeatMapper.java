@@ -16,6 +16,8 @@ public interface SeatMapper {
 
     Set<Seat> mapSeatResponsesToSeat(Set<SeatResponse> seatResponses);
 
+    List<Seat> mapSeatResponsesToSeat(List<SeatResponse> seatResponses);
+
     Seat mapSeatResponseToSeat(SeatResponse seatResponse);
 
     Seat mapCreateSeatToSeat(CreatSeatRequest seat);

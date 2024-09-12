@@ -43,6 +43,13 @@ class SeatMapperService implements SeatMapper {
     }
 
     @Override
+    public List<Seat> mapSeatResponsesToSeat(List<SeatResponse> seatResponses) {
+        return seatResponses.stream()
+                .map(this::mapSeatResponseToSeat)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public Seat mapSeatResponseToSeat(SeatResponse seatResponse) {
         return new Seat(
                 seatResponse.seatRow(),
@@ -65,6 +72,7 @@ class SeatMapperService implements SeatMapper {
     @Override
     public SeatResponse mapSeatToSeatResponse(Seat seat) {
         return new SeatResponse(
+                seat.getId(),
                 seat.getSeatRow(),
                 seat.getSeatColumn(),
                 seat.getSeatZone(),

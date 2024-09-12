@@ -4,12 +4,16 @@ import com.paypal.core.PayPalHttpClient;
 import com.paypal.http.HttpResponse;
 import com.paypal.orders.*;
 import lombok.RequiredArgsConstructor;
+import org.example.cinemabackend.auth.core.port.primary.EmailUseCases;
+import org.example.cinemabackend.cinema.core.domain.SeatStatus;
+import org.example.cinemabackend.cinema.core.port.primary.SeatMapper;
 import org.example.cinemabackend.ticketing.application.dto.request.BuyTicketRequest;
 import org.example.cinemabackend.ticketing.core.domain.PayPalCompletedOrder;
 import org.example.cinemabackend.ticketing.core.domain.PayPalPaymentOrder;
 import org.example.cinemabackend.ticketing.core.domain.PayPalPaymentStatus;
 import org.example.cinemabackend.ticketing.core.port.primary.PayPalUseCases;
 import org.example.cinemabackend.ticketing.core.port.primary.TicketUseCases;
+import org.example.cinemabackend.ticketing.core.port.secondary.TicketRepository;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -25,6 +29,9 @@ class PayPalService implements PayPalUseCases {
     private final static String RETURN_URL = FRONTEND_BASE_URL + "/capture-paypal-payment";
     private final PayPalHttpClient payPalHttpClient;
     private final TicketUseCases ticketUseCases;
+    private final TicketRepository ticketRepository;
+    private final EmailUseCases emailUseCases;
+    private final SeatMapper seatMapper;
 
     @Override
     public PayPalCompletedOrder completePayment(String token) {
@@ -32,6 +39,9 @@ class PayPalService implements PayPalUseCases {
         try {
             HttpResponse<Order> httpResponse = payPalHttpClient.execute(ordersCaptureRequest);
             if (httpResponse.result().status() != null) {
+                final var ticket = ticketRepository.findByOrderId(token);
+                emailUseCases.sendTicketToUser(ticket);
+                ticketUseCases.changeSeatStatus(ticket.getBookedSeats(), SeatStatus.SOLD);
                 return new PayPalCompletedOrder(PayPalPaymentStatus.SUCCESS, token);
             }
         } catch (IOException e) {
@@ -41,8 +51,9 @@ class PayPalService implements PayPalUseCases {
 
     @Override
     public PayPalPaymentOrder createPayment(BuyTicketRequest buyTicketRequest) {
-        final var screeningRoom = ticketUseCases.validateSeatsAreAvailable(buyTicketRequest);
-        ticketUseCases.changeSeatsStatusToReserved(buyTicketRequest.selectedSeats(), screeningRoom);
+        ticketUseCases.validateSeatsAreAvailable(buyTicketRequest.selectedSeats());
+        final var bookedSeats = seatMapper.mapSeatResponsesToSeat(buyTicketRequest.selectedSeats());
+        ticketUseCases.changeSeatStatus(bookedSeats, SeatStatus.RESERVED);
 
         OrderRequest orderRequest = createOrderRequest(buyTicketRequest);
         OrdersCreateRequest ordersCreateRequest = new OrdersCreateRequest().requestBody(orderRequest);
@@ -57,8 +68,10 @@ class PayPalService implements PayPalUseCases {
                     .orElseThrow(NoSuchElementException::new)
                     .href();
 
+            ticketUseCases.generateTickets(buyTicketRequest, order.id());
             return new PayPalPaymentOrder(PayPalPaymentStatus.SUCCESS, order.id(), redirectUrl);
         } catch (IOException e) {
+            ticketUseCases.changeSeatStatus(bookedSeats, SeatStatus.AVAILABLE);
             return new PayPalPaymentOrder(PayPalPaymentStatus.FAILED);
         }
     }

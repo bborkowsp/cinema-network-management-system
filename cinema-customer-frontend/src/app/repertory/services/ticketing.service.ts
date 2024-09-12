@@ -20,4 +20,9 @@ export class TicketingService {
     const url = `${TicketingService.PAYPAL_PAYMENT_METHOD_URL}/init-payment`;
     return this.httpClient.post<PaypalResponse>(url, buyTicketForm);
   }
+
+  sendCompletePayPalPaymentRequest(token: string) {
+    const url = `${TicketingService.PAYPAL_PAYMENT_METHOD_URL}/capture?token=${encodeURIComponent(token)}`;
+    return this.httpClient.post<void>(url, {});
+  }
 }

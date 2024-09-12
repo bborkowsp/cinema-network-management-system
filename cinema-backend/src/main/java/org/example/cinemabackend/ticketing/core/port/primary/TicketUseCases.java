@@ -1,16 +1,19 @@
 package org.example.cinemabackend.ticketing.core.port.primary;
 
 import org.example.cinemabackend.cinema.application.dto.response.SeatResponse;
-import org.example.cinemabackend.cinema.core.domain.ScreeningRoom;
+import org.example.cinemabackend.cinema.core.domain.Seat;
+import org.example.cinemabackend.cinema.core.domain.SeatStatus;
 import org.example.cinemabackend.ticketing.application.dto.request.BuyTicketRequest;
 
 import java.math.BigDecimal;
-import java.util.Set;
+import java.util.List;
 
 public interface TicketUseCases {
-    void changeSeatsStatusToReserved(Set<SeatResponse> seat, ScreeningRoom screeningRoom);
+    void generateTickets(BuyTicketRequest buyTicketRequest, String orderId);
 
-    BigDecimal getOrderFee(Set<SeatResponse> buyTicketRequest);
+    void changeSeatStatus(List<Seat> seatResponses, SeatStatus seatStatus);
 
-    ScreeningRoom validateSeatsAreAvailable(BuyTicketRequest seatResponses);
+    void validateSeatsAreAvailable(List<SeatResponse> seatResponses);
+
+    BigDecimal getOrderFee(List<SeatResponse> buyTicketRequest);
 }

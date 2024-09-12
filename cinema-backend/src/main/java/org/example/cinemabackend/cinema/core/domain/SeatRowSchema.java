@@ -17,7 +17,7 @@ public class SeatRowSchema {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<SeatSchema> seats;
 
     public static SeatRowSchema fromSeatRow(SeatRow seatRow) {

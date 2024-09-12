@@ -23,7 +23,7 @@ public class ScreeningRoomSchema {
     @Column(nullable = false, length = 50)
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<SeatRowSchema> seatRows;
 
     @ManyToMany(fetch = FetchType.EAGER)

@@ -2,8 +2,10 @@ package org.example.cinemabackend.cinema.infrastructure.adapter.secondary;
 
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.core.domain.Cinema;
+import org.example.cinemabackend.cinema.core.domain.ScreeningRoom;
 import org.example.cinemabackend.cinema.core.port.secondary.CinemaRepository;
 import org.example.cinemabackend.cinema.infrastructure.schema.CinemaSchema;
+import org.example.cinemabackend.cinema.infrastructure.schema.ScreeningRoomSchema;
 import org.example.cinemabackend.user.core.domain.User;
 import org.example.cinemabackend.user.infrastructure.schema.UserSchema;
 import org.springframework.lang.NonNull;
@@ -17,6 +19,11 @@ import java.util.Optional;
 @RequiredArgsConstructor
 class CinemaDatabaseGateway implements CinemaRepository {
     private final CinemaJpaRepository cinemaJpaRepository;
+
+    @Override
+    public Optional<Cinema> findByScreeningRoom(ScreeningRoom screeningRoom) {
+        return cinemaJpaRepository.findByScreeningRoomsContains(ScreeningRoomSchema.fromScreeningRoom(screeningRoom)).map(CinemaSchema::toCinema);
+    }
 
     @Override
     @Transactional(readOnly = true)

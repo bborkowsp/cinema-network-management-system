@@ -1,12 +1,15 @@
 package org.example.cinemabackend.cinema.core.port.secondary;
 
 import org.example.cinemabackend.cinema.core.domain.Cinema;
+import org.example.cinemabackend.cinema.core.domain.ScreeningRoom;
 import org.example.cinemabackend.user.core.domain.User;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface CinemaRepository {
+
+    Optional<Cinema> findByScreeningRoom(ScreeningRoom screeningRoom);
 
     List<Cinema> findAll();
 

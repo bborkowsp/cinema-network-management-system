@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.example.cinemabackend.cinema.core.domain.Cinema;
 import org.example.cinemabackend.user.infrastructure.schema.UserSchema;
+import org.hibernate.Hibernate;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -34,10 +35,10 @@ public class CinemaSchema {
     @NotNull
     private String image;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<ScreeningRoomSchema> screeningRooms = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<ContactDetailsSchema> contactDetails = new HashSet<>();
 
     @OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
@@ -57,16 +58,29 @@ public class CinemaSchema {
     }
 
     public Cinema toCinema() {
-        final var user = this.cinemaManager == null ? null : this.cinemaManager.toUser();
-        return new Cinema(
-                this.id,
-                this.name,
-                this.description,
-                this.address.toAddress(),
-                this.image,
-                this.screeningRooms.stream().map(ScreeningRoomSchema::toScreeningRoom).collect(Collectors.toSet()),
-                this.contactDetails.stream().map(ContactDetailsSchema::toContactDetails).collect(Collectors.toSet()),
-                user
-        );
+        if (cinemaManager != null && Hibernate.isInitialized(cinemaManager)) {
+            final var user = cinemaManager.toUser();
+            return new Cinema(
+                    this.id,
+                    this.name,
+                    this.description,
+                    this.address.toAddress(),
+                    this.image,
+                    this.screeningRooms.stream().map(ScreeningRoomSchema::toScreeningRoom).collect(Collectors.toSet()),
+                    this.contactDetails.stream().map(ContactDetailsSchema::toContactDetails).collect(Collectors.toSet()),
+                    user
+            );
+        } else {
+            return new Cinema(
+                    this.id,
+                    this.name,
+                    this.description,
+                    this.address.toAddress(),
+                    this.image,
+                    this.screeningRooms.stream().map(ScreeningRoomSchema::toScreeningRoom).collect(Collectors.toSet()),
+                    this.contactDetails.stream().map(ContactDetailsSchema::toContactDetails).collect(Collectors.toSet()),
+                    null
+            );
+        }
     }
 }

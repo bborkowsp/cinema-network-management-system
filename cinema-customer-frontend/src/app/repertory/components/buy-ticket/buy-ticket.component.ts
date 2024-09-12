@@ -54,6 +54,7 @@ export class BuyTicketComponent implements OnInit {
     this.saveReturnLinkToCurrentPageInLocalStorage();
     this.ticketingService.payWithPayPal(buyTicketForm).subscribe({
       next: (paypalResponse: PaypalResponse) => {
+        console.log(paypalResponse);
         this.openSafeWindow(paypalResponse.redirectUrl)
       }, error: () => {
 
