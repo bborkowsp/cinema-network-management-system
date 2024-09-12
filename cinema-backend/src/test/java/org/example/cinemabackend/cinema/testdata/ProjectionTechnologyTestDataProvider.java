@@ -15,31 +15,33 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class ProjectionTechnologyTestDataProvider {
 
+    private static final String PROJECTION_TECHNOLOGY = "Projection technology No. ";
+    private static final String DESCRIPTION = "Description";
     private static int projectionTechnologyCounter = 0;
     private final ProjectionTechnologyRepository projectionTechnologyRepository;
     private final ProjectionTechnologyMapper projectionTechnologyMapper;
 
     public static CreateProjectionTechnologyRequest generateCreateProjectionTechnologyRequest() {
-        return new CreateProjectionTechnologyRequest(getTechnology(), "Description");
+        return new CreateProjectionTechnologyRequest(getTechnology(), DESCRIPTION);
     }
 
     private static String getTechnology() {
-        return "Projection technology No. " + projectionTechnologyCounter++;
+        return PROJECTION_TECHNOLOGY + projectionTechnologyCounter++;
     }
 
     public static Set<ProjectionTechnology> generateProjectionTechnologies() {
         return Set.of(
-                new ProjectionTechnology(getTechnology(), "Description 1"),
-                new ProjectionTechnology(getTechnology(), "Description 2"),
-                new ProjectionTechnology(getTechnology(), "Description 3")
+                new ProjectionTechnology(getTechnology(), DESCRIPTION),
+                new ProjectionTechnology(getTechnology(), DESCRIPTION),
+                new ProjectionTechnology(getTechnology(), DESCRIPTION)
         );
     }
 
     public static List<ProjectionTechnology> generateProjectionTechnologiesList() {
         return List.of(
-                new ProjectionTechnology(getTechnology(), "Description 1"),
-                new ProjectionTechnology(getTechnology(), "Description 2"),
-                new ProjectionTechnology(getTechnology(), "Description 3")
+                new ProjectionTechnology(getTechnology(), DESCRIPTION),
+                new ProjectionTechnology(getTechnology(), DESCRIPTION),
+                new ProjectionTechnology(getTechnology(), DESCRIPTION)
         );
     }
 

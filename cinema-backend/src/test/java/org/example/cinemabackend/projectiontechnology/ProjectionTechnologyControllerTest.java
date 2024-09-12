@@ -1,4 +1,4 @@
-package org.example.cinemabackend.cinema;
+package org.example.cinemabackend.projectiontechnology;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.cinemabackend.projectiontechnology.application.dto.request.create.CreateProjectionTechnologyRequest;
@@ -79,13 +79,13 @@ public class ProjectionTechnologyControllerTest {
         final var projectionTechnologies = generateProjectionTechnologiesList();
         projectionTechnologies.forEach(projectionTechnologyRepository::save);
 
-        final var pageNumber = "1";
-        final var pageSize = "3";
+        final int pageNumber = 1;
+        final int pageSize = 3;
 
         //When, Then
         mockMvc.perform(get(PROJECTION_TECHNOLOGIES_ENDPOINT_PATH)
-                        .param("page", pageNumber)
-                        .param("size", pageSize))
+                        .param("page", String.valueOf(pageNumber))
+                        .param("size", String.valueOf(pageSize)))
                 .andExpectAll(
                         status().isOk(),
                         content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON),
@@ -179,6 +179,4 @@ public class ProjectionTechnologyControllerTest {
         //Then
         assertThat(projectionTechnologyRepository.findByTechnology(technology.getTechnology())).isEmpty();
     }
-
-
 }

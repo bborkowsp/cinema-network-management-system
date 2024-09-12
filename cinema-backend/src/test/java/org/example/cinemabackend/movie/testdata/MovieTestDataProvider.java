@@ -26,11 +26,22 @@ import static org.example.cinemabackend.movie.testdata.SubtitleAndSoundOptionTes
 @RequiredArgsConstructor
 public class MovieTestDataProvider {
     private static final int NUMBER_OF_MOVIES_TO_GENERATE = 3;
+    private static final String MOVIE_TITLE = "Movie Title";
+    private static final String UPDATED_MOVIE_TITLE = "Updated Movie Title";
+    private static final String ORIGINAL_MOVIE_TITLE = "Original Movie Title";
+    private static final String UPDATED_ORIGINAL_MOVIE_TITLE = "Updated Original Movie Title";
+    private static final Integer DURATION = 120;
+    private static final Integer UPDATED_DURATION = 130;
+    private static final LocalDate RELEASE_DATE = LocalDate.of(2024, 10, 5);
+    private static final LocalDate UPDATED_RELEASE_DATE = LocalDate.of(2025, 11, 6);
     private static final String TRAILER_URL = "https://www.youtube.com/embed/ZiGdHLQD300";
+    private static final String UPDATED_TRAILER_URL = "https://www.youtube.com/embed/XXXXXXXX";
     private static final String POSTER_FILENAME = "poster.jpg";
-    private static int moviesCounter = -1;
+    private static final String DESCRIPTION = "Description";
+    private static final String UPDATED_DESCRIPTION = "Updated Description";
     private final ProjectionTechnologyTestDataProvider productionDetailsTestDataProvider;
     private final ProjectionTechnologyRepository projectionTechnologyRepository;
+    private int moviesCounter = -1;
 
     public List<Movie> generateMovies() {
         List<Movie> movies = new ArrayList<>();
@@ -40,7 +51,7 @@ public class MovieTestDataProvider {
         for (int i = 0; i < NUMBER_OF_MOVIES_TO_GENERATE; i++) {
             final var movie = generateMovie();
             movie.setPoster(POSTER_FILENAME);
-            movies.add(generateMovie());
+            movies.add(movie);
         }
         return movies;
     }
@@ -48,12 +59,12 @@ public class MovieTestDataProvider {
     private Movie generateMovie() {
         moviesCounter++;
         return new Movie(
-                "Movie No. " + moviesCounter,
-                "Original Title" + moviesCounter,
-                moviesCounter,
-                LocalDate.now(),
+                MOVIE_TITLE + moviesCounter,
+                ORIGINAL_MOVIE_TITLE,
+                DURATION,
+                RELEASE_DATE,
                 generateProductionDetails(),
-                "Description" + moviesCounter,
+                DESCRIPTION + moviesCounter,
                 generateSubtitleAndSoundOptions(),
                 AgeRestriction.PLUS4,
                 TRAILER_URL,
@@ -64,31 +75,31 @@ public class MovieTestDataProvider {
 
     public CreateMovieRequest generateCreateMovieRequest() {
         return new CreateMovieRequest(
-                "Create Title",
-                "Create Original Title",
-                10,
-                LocalDate.now(),
-                "Create Description",
+                MOVIE_TITLE,
+                ORIGINAL_MOVIE_TITLE,
+                DURATION,
+                RELEASE_DATE,
+                DESCRIPTION,
                 generateProductionDetailsRequest(),
                 generateSubtitleAndSoundOptionsRequest(),
-                AgeRestriction.PLUS12,
+                AgeRestriction.PLUS7,
                 TRAILER_URL,
-                Set.of(Genre.ADVENTURE),
+                Set.of(Genre.CRIME),
                 productionDetailsTestDataProvider.generateProjectionTechnologiesResponse()
         );
     }
 
     public UpdateMovieRequest generateUpdateMovieRequest() {
         return new UpdateMovieRequest(
-                "Updated Title",
-                "Updated Original Title",
-                10,
-                LocalDate.now(),
-                "Updated Description",
+                UPDATED_MOVIE_TITLE,
+                UPDATED_ORIGINAL_MOVIE_TITLE,
+                UPDATED_DURATION,
+                UPDATED_RELEASE_DATE,
+                UPDATED_DESCRIPTION,
                 generateProductionDetailsRequest(),
                 generateSubtitleAndSoundOptionsRequest(),
                 AgeRestriction.PLUS12,
-                TRAILER_URL,
+                UPDATED_TRAILER_URL,
                 Set.of(Genre.ADVENTURE),
                 productionDetailsTestDataProvider.generateProjectionTechnologiesResponse()
         );
