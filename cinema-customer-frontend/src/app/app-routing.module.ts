@@ -23,6 +23,7 @@ import {
 
 const routes: Routes = [
   {path: '', component: RepertoryComponent},
+  {path: '**', component: RepertoryComponent},
   {path: 'repertory', component: RepertoryComponent},
   {path: 'buy-ticket/:id', component: BuyTicketComponent},
   {path: 'login', component: LoginComponent},

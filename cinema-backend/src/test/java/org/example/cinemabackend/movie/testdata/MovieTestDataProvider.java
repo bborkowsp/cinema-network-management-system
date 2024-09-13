@@ -36,7 +36,7 @@ public class MovieTestDataProvider {
     private static final LocalDate UPDATED_RELEASE_DATE = LocalDate.of(2025, 11, 6);
     private static final String TRAILER_URL = "https://www.youtube.com/embed/ZiGdHLQD300";
     private static final String UPDATED_TRAILER_URL = "https://www.youtube.com/embed/XXXXXXXX";
-    private static final String POSTER_FILENAME = "poster.jpg";
+    private static final String POSTER_FILENAME = "poster-test.jpg";
     private static final String DESCRIPTION = "Description";
     private static final String UPDATED_DESCRIPTION = "Updated Description";
     private final ProjectionTechnologyTestDataProvider productionDetailsTestDataProvider;

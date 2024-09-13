@@ -52,9 +52,9 @@ class PayPalService implements PayPalUseCases {
     }
 
     private Ticket findTicket(String token) {
-        ticketRepository.findByOrderId(token).orElseThrow();
+        return ticketRepository.findByOrderId(token).orElseThrow();
     }
-
+ 
     @Override
     public PayPalPaymentOrder createPayment(BuyTicketRequest buyTicketRequest) {
         ticketUseCases.validateSeatsAreAvailable(buyTicketRequest.selectedSeats());

@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {CinemaService} from "../../_shared/services/cinema.service";
 import {FormControl} from "@angular/forms";
-import {ScreeningService} from "../../_shared/services/screening.service";
 import {ScreeningResponse} from "../dtos/response/screening.response";
 import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {AuthService} from "../../auth/service/auth.service";
 import {DialogBuyTicketComponent} from "./screening-list/dialog-buy-ticket/dialog-buy-ticket.component";
+import {ScreeningService} from "../services/screening.service";
+import {CinemaService} from "../services/cinema.service";
 
 @Component({
   selector: 'app-repertory',

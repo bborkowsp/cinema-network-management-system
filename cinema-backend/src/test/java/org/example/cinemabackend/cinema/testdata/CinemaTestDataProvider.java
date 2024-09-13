@@ -19,7 +19,7 @@ import static org.example.cinemabackend.cinema.testdata.ContactDetailTestDataPro
 @Component
 @RequiredArgsConstructor
 public class CinemaTestDataProvider {
-    private static final String CINEMA_IMAGE = "cinema.jpg";
+    private static final String CINEMA_IMAGE = "cinema-test.jpg";
     private static final String CINEMA_NAME = "Cinema Name";
     private static final String CINEMA_DESCRIPTION = "Cinema Description";
     private static final int NUMBER_OF_CINEMAS_TO_GENERATE = 3;
