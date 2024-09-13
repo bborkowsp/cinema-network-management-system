@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.cinemabackend.auth.application.dto.request.LoginUserRequest;
 import org.example.cinemabackend.auth.application.dto.request.RegisterUserRequest;
 import org.example.cinemabackend.user.core.domain.Role;
+import org.example.cinemabackend.user.core.domain.User;
+import org.example.cinemabackend.user.core.port.secondary.UserRepository;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -15,9 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-import org.testcontainers.shaded.org.apache.commons.lang3.RandomStringUtils;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -30,14 +32,21 @@ public class AuthControllerTest {
     private static final String AUTH_ENDPOINT_URL = "/v1/auth";
     private static final String REGISTER_ENDPOINT_URL = AUTH_ENDPOINT_URL + "/register";
     private static final String LOGIN_ENDPOINT_URL = AUTH_ENDPOINT_URL + "/login";
+    private static final String RESET_PASSWORD_REQUEST_ENDPOINT_URL = AUTH_ENDPOINT_URL + "/reset-password-request";
     private static final String FIRST_NAME = "John";
     private static final String LAST_NAME = "Doe";
     private static final String EMAIL = "user@example.com";
     private static final String PASSWORD = "password";
-    private static final String INVALID_PASSWORD = RandomStringUtils.random(5);
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private MockMvc mockMvc;
+    
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -137,4 +146,34 @@ public class AuthControllerTest {
                 .andExpect(status().isNotFound());
     }
 
+    @Order(8)
+    @ParameterizedTest
+    @ValueSource(strings = {"usernotfound@example.com", "nonexistent@domain.com"})
+    void givenEmailNotInDb_whenResetPassword_thenReturnIsNotFound(String emailNotInDb) throws Exception {
+        // When, Then
+        final var url = RESET_PASSWORD_REQUEST_ENDPOINT_URL + "?email=" + emailNotInDb;
+        mockMvc.perform(post(url)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
+    @Order(9)
+    @ParameterizedTest
+    @EnumSource(value = Role.class, names = {"CINEMA_MANAGER", "CINEMA_NETWORK_MANAGER", "ADMIN"})
+    void givenUserWithRoleDifferentThanCustomerInDb_whenLogin_thenReturnIsOk(Role role) throws Exception {
+        // Given
+        final var email = EMAIL + role;
+        userRepository.save(new User(FIRST_NAME, LAST_NAME, email, encodePassword(), role));
+        final var loginUserRequest = new LoginUserRequest(email, PASSWORD);
+
+        // When, Then
+        mockMvc.perform(post(LOGIN_ENDPOINT_URL)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(loginUserRequest)))
+                .andExpect(status().isOk());
+    }
+
+    private String encodePassword() {
+        return passwordEncoder.encode(PASSWORD);
+    }
 }
