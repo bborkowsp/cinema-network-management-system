@@ -20,6 +20,7 @@ class ScreeningController {
     private final ScreeningUseCases screeningUseCases;
 
     @GetMapping("/{email}")
+    @PreAuthorize("hasAnyRole('CINEMA_MANAGER','ADMIN')")
     ResponseEntity<ResponseList<ScreeningResponse>> getScreenings(@PathVariable("email") String email) {
         final var screenings = screeningUseCases.getScreenings(email);
         return ResponseEntity.ok(new ResponseList<>(screenings));
@@ -45,12 +46,14 @@ class ScreeningController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('CINEMA_MANAGER','ADMIN')")
     ResponseEntity<Void> createScreening(@RequestBody CreateScreeningRequest screening) {
         screeningUseCases.createScreening(screening);
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("/{id}")
+    @PreAuthorize("hasAnyRole('CINEMA_MANAGER','ADMIN')")
     ResponseEntity<ScreeningResponse> updateScreening(
             @PathVariable("id") Long id,
             @RequestBody CreateScreeningRequest screening
@@ -60,6 +63,7 @@ class ScreeningController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('CINEMA_MANAGER','ADMIN')")
     ResponseEntity<Void> deleteScreening(@PathVariable("id") Long id) {
         screeningUseCases.deleteScreening(id);
         return ResponseEntity.noContent().build();
