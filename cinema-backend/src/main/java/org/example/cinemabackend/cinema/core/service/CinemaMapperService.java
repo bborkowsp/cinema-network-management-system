@@ -3,9 +3,10 @@ package org.example.cinemabackend.cinema.core.service;
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.application.dto.request.create.CreateCinemaRequest;
 import org.example.cinemabackend.cinema.application.dto.request.update.UpdateCinemaRequest;
+import org.example.cinemabackend.cinema.application.dto.response.CinemaListResponse;
 import org.example.cinemabackend.cinema.application.dto.response.CinemaResponse;
-import org.example.cinemabackend.cinema.application.dto.response.CinemaTableResponse;
-import org.example.cinemabackend.cinema.core.domain.*;
+import org.example.cinemabackend.cinema.core.domain.Cinema;
+import org.example.cinemabackend.cinema.core.domain.SeatStatus;
 import org.example.cinemabackend.cinema.core.port.primary.AddressMapper;
 import org.example.cinemabackend.cinema.core.port.primary.CinemaMapper;
 import org.example.cinemabackend.cinema.core.port.primary.ContactDetailsMapper;
@@ -17,8 +18,6 @@ import org.example.cinemabackend.user.core.port.secondary.UserRepository;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 class CinemaMapperService implements CinemaMapper {
@@ -29,10 +28,10 @@ class CinemaMapperService implements CinemaMapper {
     private final UserRepository userRepository;
 
     @Override
-    public CinemaTableResponse mapCinemaToCinemaTableRow(Cinema cinema) {
+    public CinemaListResponse mapCinemaToCinemaListResponse(Cinema cinema) {
         final var numberOfAvailableSeats = getNumberOfSeatsBySeatStatus(cinema, SeatStatus.AVAILABLE);
         final var numberOfUnavailableSeats = getNumberOfSeatsBySeatStatus(cinema, SeatStatus.UNAVAILABLE);
-        return CinemaTableResponse.builder()
+        return CinemaListResponse.builder()
                 .name(cinema.getName())
                 .cinemaManager(cinema.getCinemaManager() != null ? cinema.getCinemaManager().getFirstName() + " " + cinema.getCinemaManager().getLastName() : "N/A")
                 .numberOfScreeningRooms(cinema.getScreeningRooms().size())
@@ -104,21 +103,12 @@ class CinemaMapperService implements CinemaMapper {
         return userMapper.mapUserToUserResponse(cinema.getCinemaManager());
     }
 
-    private int getNumberOfSeatsBySeatStatus(Cinema cinema, SeatStatus seatStatus) {
-        List<List<SeatRow>> seatingPlans = cinema.getScreeningRooms().stream()
-                .map(ScreeningRoom::getSeatRows)
-                .toList();
-
-        int numberOfAvailableSeats = 0;
-        for (List<SeatRow> seatingPlan : seatingPlans) {
-            for (SeatRow row : seatingPlan) {
-                for (Seat seat : row.getSeats()) {
-                    if (seat.getSeatStatus() == seatStatus) {
-                        numberOfAvailableSeats++;
-                    }
-                }
-            }
-        }
-        return numberOfAvailableSeats;
+    private Integer getNumberOfSeatsBySeatStatus(Cinema cinema, SeatStatus seatStatus) {
+        return cinema.getScreeningRooms().stream()
+                .flatMap(screeningRoom -> screeningRoom.getSeatRows().stream())
+                .flatMap(seatRow -> seatRow.getSeats().stream())
+                .filter(seat -> seat.getSeatStatus() == seatStatus)
+                .mapToInt(seat -> 1)
+                .sum();
     }
 }

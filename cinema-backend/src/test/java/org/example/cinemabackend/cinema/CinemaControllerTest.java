@@ -198,7 +198,7 @@ class CinemaControllerTest {
                 objectMapper.writeValueAsBytes(cinemaRequest)
         );
     }
-  
+
     @Test
     @Order(4)
     void givenCinemasInDatabase_whenCreateCinemaWithExistingName_thenBadRequest() throws Exception {
@@ -268,5 +268,17 @@ class CinemaControllerTest {
 
         // Then
         assertThat(cinemaRepository.findByName(cinema.getName())).isEmpty();
+    }
+
+    @Test
+    @Order(7)
+    void givenCinemasInDatabase_whenGetCinemasNames_thenReturnCinemasNames() throws Exception {
+        // When, Then
+        mockMvc.perform(get(CINEMAS_ENDPOINT_PATH + "/names"))
+                .andExpectAll(
+                        status().isOk(),
+                        content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON),
+                        jsonPath("$.content").isNotEmpty()
+                );
     }
 }

@@ -21,17 +21,13 @@ class CinemaDatabaseGateway implements CinemaRepository {
     private final CinemaJpaRepository cinemaJpaRepository;
 
     @Override
-    public Optional<Cinema> findByScreeningRoom(ScreeningRoom screeningRoom) {
-        return cinemaJpaRepository.findByScreeningRoomsContains(ScreeningRoomSchema.fromScreeningRoom(screeningRoom)).map(CinemaSchema::toCinema);
-    }
-
-    @Override
     @Transactional(readOnly = true)
     public List<Cinema> findAll() {
         return cinemaJpaRepository.findAll().stream().map(CinemaSchema::toCinema).toList();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<String> findAllCinemaNames() {
         return cinemaJpaRepository.findAllCinemaNames();
     }
@@ -55,7 +51,14 @@ class CinemaDatabaseGateway implements CinemaRepository {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
+    public Optional<Cinema> findByScreeningRoom(ScreeningRoom screeningRoom) {
+        return cinemaJpaRepository.findByScreeningRoomsContains(ScreeningRoomSchema.fromScreeningRoom(screeningRoom))
+                .map(CinemaSchema::toCinema);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public boolean existsByName(String name) {
         return cinemaJpaRepository.existsByName(name);
     }

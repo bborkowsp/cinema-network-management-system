@@ -7,13 +7,16 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface CinemaJpaRepository extends JpaRepository<CinemaSchema, Long> {
+
+    @Query("SELECT cinema.name FROM CinemaSchema cinema")
+    List<String> findAllCinemaNames();
+
     Optional<CinemaSchema> findByScreeningRoomsContains(ScreeningRoomSchema screeningRoomSchema);
 
     Optional<CinemaSchema> findByName(String name);
@@ -22,21 +25,16 @@ public interface CinemaJpaRepository extends JpaRepository<CinemaSchema, Long> {
 
     Optional<CinemaSchema> findByCinemaManagerEmail(String email);
 
-    @Query("SELECT c.name FROM CinemaSchema c")
-    List<String> findAllCinemaNames();
-
     boolean existsByName(String name);
 
     boolean existsByCinemaManagerEmail(String email);
 
     @Modifying
-    @Transactional
-    @Query("update CinemaSchema c set c.cinemaManager.id = :cinemaManagerId where c.id = :cinemaId")
+    @Query("update CinemaSchema cinema set cinema.cinemaManager.id = :cinemaManagerId where cinema.id = :cinemaId")
     void updateCinemaManager(Long cinemaId, Long cinemaManagerId);
 
     @Modifying
-    @Transactional
-    @Query("update CinemaSchema c set c.cinemaManager = null where c.id = :cinemaId")
+    @Query("update CinemaSchema cinema set cinema.cinemaManager = null where cinema.id = :cinemaId")
     void updateCinemaManagerToNull(Long cinemaId);
 
     void deleteByName(String name);

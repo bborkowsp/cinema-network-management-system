@@ -3,10 +3,9 @@ package org.example.cinemabackend.cinema.core.service;
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.application.dto.request.create.CreateCinemaRequest;
 import org.example.cinemabackend.cinema.application.dto.request.update.UpdateCinemaRequest;
+import org.example.cinemabackend.cinema.application.dto.response.CinemaListResponse;
 import org.example.cinemabackend.cinema.application.dto.response.CinemaResponse;
-import org.example.cinemabackend.cinema.application.dto.response.CinemaTableResponse;
 import org.example.cinemabackend.cinema.core.domain.Cinema;
-import org.example.cinemabackend.cinema.core.domain.ScreeningRoom;
 import org.example.cinemabackend.cinema.core.port.primary.CinemaMapper;
 import org.example.cinemabackend.cinema.core.port.primary.CinemaUseCases;
 import org.example.cinemabackend.cinema.core.port.secondary.CinemaRepository;
@@ -24,24 +23,18 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 class CinemaService implements CinemaUseCases {
-    private static final String UPLOAD_DIRECTORY = "cinemas-images\\";
+    private static final String CINEMA_IMAGES_DIRECTORY = "images\\cinemas-images\\";
     private final CinemaRepository cinemaRepository;
     private final CinemaMapper cinemaMapper;
 
     @Override
-    public List<CinemaTableResponse> getCinemas() {
-        return cinemaRepository.findAll().stream().map(cinemaMapper::mapCinemaToCinemaTableRow).toList();
+    public List<CinemaListResponse> getCinemas() {
+        return cinemaRepository.findAll().stream().map(cinemaMapper::mapCinemaToCinemaListResponse).toList();
     }
 
     @Override
     public List<String> getCinemaNames() {
         return cinemaRepository.findAllCinemaNames();
-    }
-
-    @Override
-    public List<String> getScreeningRoomsNames(String email) {
-        final var cinema = getCinemaByUserEmail(email);
-        return cinema.getScreeningRooms().stream().map(ScreeningRoom::getName).toList();
     }
 
     @Override
@@ -52,8 +45,8 @@ class CinemaService implements CinemaUseCases {
 
     @Override
     public void createCinema(MultipartFile image, CreateCinemaRequest createCinemaRequest) {
-        validateCinemaDoesntExist(createCinemaRequest.name());
-        validateCinemaManagerIsNotAssigned(createCinemaRequest.cinemaManager().email());
+        validateCinemaDoesNotExist(createCinemaRequest.name());
+        validateCinemaManagerIsNotAssignedToAnyCinema(createCinemaRequest.cinemaManager().email());
         final var cinema = cinemaMapper.mapCreateCinemaRequestToCinema(createCinemaRequest);
         cinema.setImage(saveImageToFileSystem(image));
         cinemaRepository.save(cinema);
@@ -65,10 +58,7 @@ class CinemaService implements CinemaUseCases {
         final var cinema = cinemaRepository.findByName(name).orElseThrow();
         validateCinemaManagerIsNotAssignedWhenUpdate(cinema, updateCinemaRequest.cinemaManager().email());
         cinemaMapper.updateCinemaFromUpdateCinemaRequest(updateCinemaRequest, cinema);
-        if (image != null && !image.isEmpty()) {
-            deleteOldImageFromFileSystem(cinema.getImage());
-            cinema.setImage(saveImageToFileSystem(image));
-        }
+        handleImageUpdate(image, cinema);
         cinemaRepository.save(cinema);
     }
 
@@ -96,36 +86,41 @@ class CinemaService implements CinemaUseCases {
         }
     }
 
-    private void deleteOldImageFromFileSystem(String image) {
-        try {
-            Files.deleteIfExists(Paths.get(UPLOAD_DIRECTORY + image));
-        } catch (IOException e) {
+    private void handleImageUpdate(MultipartFile image, Cinema cinema) {
+        if (image != null && !image.isEmpty()) {
+            deleteOldImageFromFileSystem(cinema.getImage());
+            cinema.setImage(saveImageToFileSystem(image));
         }
     }
 
-    private void validateCinemaDoesntExist(String name) {
+    private void deleteOldImageFromFileSystem(String image) {
+        try {
+            Files.deleteIfExists(Paths.get(CINEMA_IMAGES_DIRECTORY + image));
+        } catch (IOException e) {
+            throw new IllegalStateException("Failed to delete image " + image);
+        }
+    }
+
+    private void validateCinemaDoesNotExist(String name) {
         if (cinemaRepository.existsByName(name)) {
             throw new IllegalStateException("Cinema with name " + name + " already exists.");
         }
     }
 
-    private void validateCinemaManagerIsNotAssigned(String email) {
+    private void validateCinemaManagerIsNotAssignedToAnyCinema(String email) {
         if (cinemaRepository.existsByCinemaManagerEmail(email)) {
             throw new IllegalStateException("Cinema manager with email " + email + " is already assigned to a cinema.");
         }
     }
 
     private String saveImageToFileSystem(MultipartFile image) {
-        String fileName = UUID.randomUUID() + "_" + image.getOriginalFilename();
-        Path filePath = Paths.get(UPLOAD_DIRECTORY + fileName);
+        final String fileName = UUID.randomUUID() + "_" + image.getOriginalFilename();
+        Path filePath = Paths.get(CINEMA_IMAGES_DIRECTORY + fileName);
         try {
             Files.write(filePath, image.getBytes());
         } catch (IOException e) {
+            throw new IllegalStateException("Failed to save image " + fileName);
         }
         return fileName;
-    }
-
-    private Cinema getCinemaByUserEmail(String email) {
-        return cinemaRepository.findByUserEmail(email).orElseThrow();
     }
 }

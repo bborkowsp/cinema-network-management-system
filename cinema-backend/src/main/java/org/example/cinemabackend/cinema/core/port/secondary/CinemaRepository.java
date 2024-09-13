@@ -9,8 +9,6 @@ import java.util.Optional;
 
 public interface CinemaRepository {
 
-    Optional<Cinema> findByScreeningRoom(ScreeningRoom screeningRoom);
-
     List<Cinema> findAll();
 
     List<String> findAllCinemaNames();
@@ -21,6 +19,8 @@ public interface CinemaRepository {
 
     Optional<Cinema> findByCinemaManager(User user);
 
+    Optional<Cinema> findByScreeningRoom(ScreeningRoom screeningRoom);
+
     boolean existsByName(String name);
 
     boolean existsByCinemaManagerEmail(String email);
@@ -30,5 +30,4 @@ public interface CinemaRepository {
     void updateCinemaManager(Cinema cinemaId, Long cinemaManagerId);
 
     void deleteByName(String name);
-
 }

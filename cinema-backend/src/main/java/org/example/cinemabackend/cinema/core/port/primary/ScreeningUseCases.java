@@ -8,7 +8,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface ScreeningUseCases {
-    ScreeningDetailsResponse getScreeningDetails(String title, LocalDate date);
 
     List<ScreeningResponse> getScreenings(String email);
 
@@ -17,6 +16,8 @@ public interface ScreeningUseCases {
     List<ScreeningResponse> getRepertoryAtSpecificDate(String cinema, LocalDate date);
 
     ScreeningResponse getScreening(Long id);
+
+    ScreeningDetailsResponse getScreeningDetails(String title, LocalDate date);
 
     void createScreening(CreateScreeningRequest screening);
 

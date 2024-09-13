@@ -16,7 +16,6 @@ import java.time.LocalDate;
 @RequestMapping("/v1/screenings")
 @RequiredArgsConstructor
 class ScreeningController {
-
     private final ScreeningUseCases screeningUseCases;
 
     @GetMapping("/{email}")

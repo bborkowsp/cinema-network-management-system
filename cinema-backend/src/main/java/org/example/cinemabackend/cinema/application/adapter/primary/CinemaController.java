@@ -5,8 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend._shared.dto.ResponseList;
 import org.example.cinemabackend.cinema.application.dto.request.create.CreateCinemaRequest;
 import org.example.cinemabackend.cinema.application.dto.request.update.UpdateCinemaRequest;
+import org.example.cinemabackend.cinema.application.dto.response.CinemaListResponse;
 import org.example.cinemabackend.cinema.application.dto.response.CinemaResponse;
-import org.example.cinemabackend.cinema.application.dto.response.CinemaTableResponse;
 import org.example.cinemabackend.cinema.core.port.primary.CinemaUseCases;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +22,7 @@ class CinemaController {
 
     @GetMapping
     @PreAuthorize("hasAnyRole('CINEMA_NETWORK_MANAGER','ADMIN')")
-    ResponseEntity<ResponseList<CinemaTableResponse>> getCinemas() {
+    ResponseEntity<ResponseList<CinemaListResponse>> getCinemas() {
         final var cinemas = cinemaUseCases.getCinemas();
         return ResponseEntity.ok(new ResponseList<>(cinemas));
     }
@@ -31,12 +31,6 @@ class CinemaController {
     ResponseEntity<ResponseList<String>> getCinemaNames() {
         final var cinemaNames = cinemaUseCases.getCinemaNames();
         return ResponseEntity.ok(new ResponseList<>(cinemaNames));
-    }
-
-    @GetMapping("/screening-rooms/{email}")
-    ResponseEntity<ResponseList<String>> getScreeningRoomsNames(@PathVariable String email) {
-        final var screeningRoomsNames = cinemaUseCases.getScreeningRoomsNames(email);
-        return ResponseEntity.ok(new ResponseList<>(screeningRoomsNames));
     }
 
     @GetMapping("/{name}")

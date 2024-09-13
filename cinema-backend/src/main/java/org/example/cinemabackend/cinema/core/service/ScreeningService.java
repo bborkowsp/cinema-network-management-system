@@ -32,22 +32,6 @@ class ScreeningService implements ScreeningUseCases {
     private final MovieMapper movieMapper;
 
     @Override
-    public ScreeningDetailsResponse getScreeningDetails(String title, LocalDate date) {
-        final var movie = movieRepository.findByTitle(title).orElseThrow();
-        final var screenings = cinemaRepository.findAll().stream()
-                .collect(Collectors.toMap(
-                        Cinema::getName,
-                        cinema -> cinema.getScreeningRooms().stream()
-                                .flatMap(screeningRoom -> screeningRoom.getRepertory().stream()
-                                        .filter(screening -> screening.getMovie().getTitle().equals(title) &&
-                                                screening.getStartTime().toLocalDate().equals(date))
-                                        .map(screening -> screeningMapper.mapScreeningToScreeningResponse(screening, screeningRoom)))
-                                .collect(Collectors.toList())
-                ));
-        return new ScreeningDetailsResponse(movieMapper.mapMovieToMovieResponse(movie), screenings);
-    }
-
-    @Override
     public List<ScreeningResponse> getScreenings(String email) {
         validateCinemaManagerIsManagingACinema(email);
         return cinemaRepository.findByUserEmail(email)
@@ -84,6 +68,22 @@ class ScreeningService implements ScreeningUseCases {
         final var screening = getScreeningById(id);
         final var screeningRoom = getScreeningRoomWhichContainsScreening(screening);
         return screeningMapper.mapScreeningToScreeningResponse(screening, screeningRoom);
+    }
+
+    @Override
+    public ScreeningDetailsResponse getScreeningDetails(String title, LocalDate date) {
+        final var movie = movieRepository.findByTitle(title).orElseThrow();
+        final var screenings = cinemaRepository.findAll().stream()
+                .collect(Collectors.toMap(
+                        Cinema::getName,
+                        cinema -> cinema.getScreeningRooms().stream()
+                                .flatMap(screeningRoom -> screeningRoom.getRepertory().stream()
+                                        .filter(screening -> screening.getMovie().getTitle().equals(title) &&
+                                                screening.getStartTime().toLocalDate().equals(date))
+                                        .map(screening -> screeningMapper.mapScreeningToScreeningResponse(screening, screeningRoom)))
+                                .collect(Collectors.toList())
+                ));
+        return new ScreeningDetailsResponse(movieMapper.mapMovieToMovieResponse(movie), screenings);
     }
 
     @Override
