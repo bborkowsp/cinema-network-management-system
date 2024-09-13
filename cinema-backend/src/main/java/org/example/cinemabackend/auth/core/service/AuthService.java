@@ -64,6 +64,7 @@ class AuthService implements AuthUseCases, UserDetailsService {
     @Override
     public void register(RegisterUserRequest registerUserRequest) {
         checkIfUserAlreadyExists(registerUserRequest.email());
+        checkIfUserRoleIsCustomer(registerUserRequest.role());
         final var encodedPassword = passwordEncoder.encode(registerUserRequest.password());
         final var user = new User(
                 registerUserRequest.firstName(),
@@ -105,6 +106,12 @@ class AuthService implements AuthUseCases, UserDetailsService {
     private void checkIfUserAlreadyExists(String username) {
         if (userRepository.existsByEmail(username)) {
             throw new IllegalStateException(USER_ALREADY_EXISTS_ERROR_MESSAGE);
+        }
+    }
+
+    private void checkIfUserRoleIsCustomer(Role role) {
+        if (!role.equals(Role.CUSTOMER)) {
+            throw new IllegalStateException("Only customers can register");
         }
     }
 

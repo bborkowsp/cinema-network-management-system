@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/v1/auth")
 @RequiredArgsConstructor
-class AuthController {
+public class AuthController {
 
     private static final Logger LOGGER = LogManager.getLogger(AuthController.class);
     private final AuthUseCases authUseCases;
