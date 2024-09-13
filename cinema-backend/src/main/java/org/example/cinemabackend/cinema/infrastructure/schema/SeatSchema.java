@@ -1,7 +1,5 @@
 package org.example.cinemabackend.cinema.infrastructure.schema;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 import org.example.cinemabackend.cinema.core.domain.Seat;
@@ -30,17 +28,6 @@ public class SeatSchema {
 
     @Column(nullable = false)
     private SeatStatus seatStatus;
-
-    @JsonCreator
-    public SeatSchema(@JsonProperty("seatRow") int seatRow,
-                      @JsonProperty("seatColumn") int seatColumn,
-                      @JsonProperty("seatZone") SeatZone seatZone,
-                      @JsonProperty("seatStatus") SeatStatus seatStatus) {
-        this.seatRow = seatRow;
-        this.seatColumn = seatColumn;
-        this.seatZone = seatZone;
-        this.seatStatus = seatStatus;
-    }
 
     public static SeatSchema fromSeat(Seat seat) {
         return SeatSchema.builder()

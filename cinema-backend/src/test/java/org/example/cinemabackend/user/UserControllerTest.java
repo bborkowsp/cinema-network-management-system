@@ -122,9 +122,9 @@ public class UserControllerTest {
                         content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON),
                         jsonPath("$.content").isNotEmpty(),
                         jsonPath("$.content").isArray(),
-                        jsonPath("$.content[0].email").value(EMAIL + Role.CINEMA_MANAGER),
+                        jsonPath("$.content[0].email").value(EMAIL + Role.ADMIN),
                         jsonPath("$.content[0].firstName").value(FIRST_NAME),
-                        jsonPath("$.content[3].email").value(EMAIL + Role.ADMIN),
+                        jsonPath("$.content[3].email").value(EMAIL + Role.CUSTOMER),
                         jsonPath("$.content[3].firstName").value(FIRST_NAME)
                 );
     }

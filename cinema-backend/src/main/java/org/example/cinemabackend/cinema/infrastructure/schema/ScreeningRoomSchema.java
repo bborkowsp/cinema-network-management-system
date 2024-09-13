@@ -6,7 +6,10 @@ import org.example.cinemabackend.cinema.core.domain.ScreeningRoom;
 import org.example.cinemabackend.cinema.core.domain.SeatRowSchema;
 import org.example.cinemabackend.projectiontechnology.infrastructure.schema.ProjectionTechnologySchema;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Data
@@ -27,7 +30,7 @@ public class ScreeningRoomSchema {
     private List<SeatRowSchema> seatRows;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private Set<ProjectionTechnologySchema> supportedTechnologies = new HashSet<>();
+    private Set<ProjectionTechnologySchema> supportedTechnologies;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<ScreeningSchema> repertory;

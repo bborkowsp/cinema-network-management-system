@@ -14,8 +14,8 @@ import java.util.stream.Collectors;
 
 @Data
 @Entity
-@AllArgsConstructor
 @Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MovieSchema {
 
@@ -35,24 +35,21 @@ public class MovieSchema {
     @Column(nullable = false)
     private LocalDate releaseDate;
 
-    @OneToOne(cascade = CascadeType.ALL, optional = false, orphanRemoval = true, fetch = FetchType.EAGER)
-    private ProductionDetailsSchema productionDetails;
-
     @Column(nullable = false)
     private String description;
 
-    @Embedded
-    @NotNull
-    private SubtitleAndSoundOptionsSchema subtitleAndSoundOptions;
+    @Column(nullable = false)
+    private String poster;
+
+    @Column(nullable = false)
+    private String trailer;
 
     @Column(nullable = false)
     private AgeRestriction ageRestriction;
 
     @NotNull
-    private String poster;
-
-    @NotNull
-    private String trailer;
+    @Embedded
+    private SubtitleAndSoundOptionsSchema subtitleAndSoundOptions;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
@@ -61,6 +58,9 @@ public class MovieSchema {
 
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     private Set<ProjectionTechnologySchema> projectionTechnologies;
+
+    @OneToOne(cascade = CascadeType.ALL, optional = false, orphanRemoval = true, fetch = FetchType.EAGER)
+    private ProductionDetailsSchema productionDetails;
 
     public static MovieSchema fromMovie(Movie movie) {
         final var projectionTechnologies = movie.getProjectionTechnologies().stream()
@@ -85,7 +85,7 @@ public class MovieSchema {
     }
 
     public Movie toMovie() {
-        Movie movie = new Movie(
+        return new Movie(
                 this.id,
                 this.title,
                 this.originalTitle,
@@ -100,6 +100,5 @@ public class MovieSchema {
                 this.genres,
                 this.projectionTechnologies.stream().map(ProjectionTechnologySchema::toProjectionTechnology).collect(Collectors.toSet())
         );
-        return movie;
     }
 }

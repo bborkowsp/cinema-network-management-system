@@ -19,21 +19,25 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TicketSchema {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(nullable = false)
     private String email;
-    @Column
+
+    @Column(nullable = false)
     private String orderId;
-    @Column
+
+    @Column(nullable = false)
     private String firstName;
-    @Column
+
+    @Column(nullable = false)
     private String lastName;
 
     @Lob
-    @Column
+    @Column(nullable = false)
     private byte[] qrCode;
 
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})

@@ -1,24 +1,24 @@
 package org.example.cinemabackend.movie.infrastructure.schema;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import org.example.cinemabackend.movie.core.domain.FilmMember;
 
 @Data
 @Entity
-@AllArgsConstructor
 @Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class FilmMemberSchema {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String firstName;
-    
+
+    @Column(nullable = false)
     private String lastName;
 
     public static FilmMemberSchema fromFilmMember(FilmMember filmMember) {

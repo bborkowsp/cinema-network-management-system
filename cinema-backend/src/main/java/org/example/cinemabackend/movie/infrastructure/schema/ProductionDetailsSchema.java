@@ -10,30 +10,29 @@ import java.util.stream.Collectors;
 
 @Data
 @Entity
-@AllArgsConstructor
 @Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ProductionDetailsSchema {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @Column(nullable = false)
-    LocalDate worldPremiereDate;
+    private LocalDate worldPremiereDate;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    FilmMemberSchema director;
+    private FilmMemberSchema director;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    Set<FilmMemberSchema> actors;
+    private Set<FilmMemberSchema> actors;
 
     @ElementCollection(fetch = FetchType.EAGER)
-    Set<String> originalLanguages;
+    private Set<String> originalLanguages;
 
     @ElementCollection(fetch = FetchType.EAGER)
-    Set<String> productionCountries;
-
+    private Set<String> productionCountries;
 
     public static ProductionDetailsSchema fromProductionDetails(ProductionDetails productionDetails) {
         return ProductionDetailsSchema.builder()

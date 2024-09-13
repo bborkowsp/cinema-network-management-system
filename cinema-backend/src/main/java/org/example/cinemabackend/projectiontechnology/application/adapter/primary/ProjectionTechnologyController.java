@@ -21,7 +21,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @PreAuthorize("hasRole('CINEMA_MANAGER')")
 class ProjectionTechnologyController {
-
     private final ProjectionTechnologyUseCases projectionTechnologyUseCases;
 
     @GetMapping

@@ -1,10 +1,7 @@
 package org.example.cinemabackend.user.infrastructure.schema;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.example.cinemabackend.user.core.domain.Role;
 import org.example.cinemabackend.user.core.domain.User;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Set;
 
+@Data
 @Entity
 @Builder
 @AllArgsConstructor
@@ -41,7 +39,8 @@ public class UserSchema implements UserDetails {
     @Column(nullable = false)
     private Role role;
 
-    private boolean isAccountVerified = false;
+    @Column()
+    private Boolean isAccountVerified = false;
 
     public static UserSchema fromUser(User user) {
         return UserSchema.builder()
@@ -57,7 +56,7 @@ public class UserSchema implements UserDetails {
 
 
     public User toUser() {
-        User user = new User(
+        return new User(
                 this.id,
                 this.firstName,
                 this.lastName,
@@ -66,7 +65,6 @@ public class UserSchema implements UserDetails {
                 this.role,
                 this.isAccountVerified
         );
-        return user;
     }
 
     @Override
@@ -105,6 +103,4 @@ public class UserSchema implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
 }
-
