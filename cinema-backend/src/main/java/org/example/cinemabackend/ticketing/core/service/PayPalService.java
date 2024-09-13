@@ -11,6 +11,7 @@ import org.example.cinemabackend.ticketing.application.dto.request.BuyTicketRequ
 import org.example.cinemabackend.ticketing.core.domain.PayPalCompletedOrder;
 import org.example.cinemabackend.ticketing.core.domain.PayPalPaymentOrder;
 import org.example.cinemabackend.ticketing.core.domain.PayPalPaymentStatus;
+import org.example.cinemabackend.ticketing.core.domain.Ticket;
 import org.example.cinemabackend.ticketing.core.port.primary.PayPalUseCases;
 import org.example.cinemabackend.ticketing.core.port.primary.TicketUseCases;
 import org.example.cinemabackend.ticketing.core.port.secondary.TicketRepository;
@@ -39,14 +40,19 @@ class PayPalService implements PayPalUseCases {
         try {
             HttpResponse<Order> httpResponse = payPalHttpClient.execute(ordersCaptureRequest);
             if (httpResponse.result().status() != null) {
-                final var ticket = ticketRepository.findByOrderId(token);
+                final var ticket = findTicket(token);
                 emailUseCases.sendTicketToUser(ticket);
                 ticketUseCases.changeSeatStatus(ticket.getBookedSeats(), SeatStatus.SOLD);
                 return new PayPalCompletedOrder(PayPalPaymentStatus.SUCCESS, token);
             }
         } catch (IOException e) {
+            throw new IllegalStateException("Failed to capture payment");
         }
         return new PayPalCompletedOrder(PayPalPaymentStatus.FAILED);
+    }
+
+    private Ticket findTicket(String token) {
+        ticketRepository.findByOrderId(token).orElseThrow();
     }
 
     @Override
@@ -54,20 +60,13 @@ class PayPalService implements PayPalUseCases {
         ticketUseCases.validateSeatsAreAvailable(buyTicketRequest.selectedSeats());
         final var bookedSeats = seatMapper.mapSeatResponsesToSeat(buyTicketRequest.selectedSeats());
         ticketUseCases.changeSeatStatus(bookedSeats, SeatStatus.RESERVED);
-
         OrderRequest orderRequest = createOrderRequest(buyTicketRequest);
         OrdersCreateRequest ordersCreateRequest = new OrdersCreateRequest().requestBody(orderRequest);
 
         try {
             HttpResponse<Order> orderHttpResponse = payPalHttpClient.execute(ordersCreateRequest);
             Order order = orderHttpResponse.result();
-
-            String redirectUrl = order.links().stream()
-                    .filter(link -> "approve".equals(link.rel()))
-                    .findFirst()
-                    .orElseThrow(NoSuchElementException::new)
-                    .href();
-
+            String redirectUrl = getRedirectUrl(order);
             ticketUseCases.generateTickets(buyTicketRequest, order.id());
             return new PayPalPaymentOrder(PayPalPaymentStatus.SUCCESS, order.id(), redirectUrl);
         } catch (IOException e) {
@@ -96,5 +95,13 @@ class PayPalService implements PayPalUseCases {
                 .checkoutPaymentIntent("CAPTURE")
                 .purchaseUnits(List.of(purchaseUnitRequest))
                 .applicationContext(applicationContext);
+    }
+
+    private String getRedirectUrl(Order order) {
+        return order.links().stream()
+                .filter(link -> "approve".equals(link.rel()))
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException("Approval link not found"))
+                .href();
     }
 }

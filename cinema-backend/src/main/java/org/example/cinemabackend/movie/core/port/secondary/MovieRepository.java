@@ -9,11 +9,11 @@ import java.util.Optional;
 
 public interface MovieRepository {
 
-    Optional<Movie> findByTitle(String title);
-
     Page<Movie> findAll(Pageable pageable);
 
     List<Movie> findAll();
+
+    Optional<Movie> findByTitle(String title);
 
     boolean existsByProjectionTechnology(String technology);
 

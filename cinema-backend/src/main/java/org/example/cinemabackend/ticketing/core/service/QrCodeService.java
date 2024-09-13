@@ -22,13 +22,13 @@ class QrCodeService implements QrCodeUseCases {
 
     @Override
     public byte[] convertBufferedImageToByteArray(BufferedImage qrImage) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         try {
-            ImageIO.write(qrImage, "png", baos);
+            ImageIO.write(qrImage, "png", byteArrayOutputStream);
         } catch (IOException e) {
             throw new IllegalStateException("Could not convert buffered image to byte array", e);
         }
-        return baos.toByteArray();
+        return byteArrayOutputStream.toByteArray();
     }
 
     @Override

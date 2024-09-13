@@ -1,6 +1,7 @@
 package org.example.cinemabackend.cinema.core.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.cinemabackend._shared.service.FileService;
 import org.example.cinemabackend.cinema.application.dto.request.create.CreateCinemaRequest;
 import org.example.cinemabackend.cinema.application.dto.request.update.UpdateCinemaRequest;
 import org.example.cinemabackend.cinema.application.dto.response.CinemaListResponse;
@@ -12,13 +13,8 @@ import org.example.cinemabackend.cinema.core.port.secondary.CinemaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +22,7 @@ class CinemaService implements CinemaUseCases {
     private static final String CINEMA_IMAGES_DIRECTORY = "images\\cinemas-images\\";
     private final CinemaRepository cinemaRepository;
     private final CinemaMapper cinemaMapper;
+    private final FileService fileService;
 
     @Override
     public List<CinemaListResponse> getCinemas() {
@@ -48,7 +45,7 @@ class CinemaService implements CinemaUseCases {
         validateCinemaDoesNotExist(createCinemaRequest.name());
         validateCinemaManagerIsNotAssignedToAnyCinema(createCinemaRequest.cinemaManager().email());
         final var cinema = cinemaMapper.mapCreateCinemaRequestToCinema(createCinemaRequest);
-        cinema.setImage(saveImageToFileSystem(image));
+        cinema.setImage(fileService.saveImageToFileSystem(image, CINEMA_IMAGES_DIRECTORY));
         cinemaRepository.save(cinema);
     }
 
@@ -88,18 +85,11 @@ class CinemaService implements CinemaUseCases {
 
     private void handleImageUpdate(MultipartFile image, Cinema cinema) {
         if (image != null && !image.isEmpty()) {
-            deleteOldImageFromFileSystem(cinema.getImage());
-            cinema.setImage(saveImageToFileSystem(image));
+            fileService.deleteOldImageFromFileSystem(cinema.getImage(), CINEMA_IMAGES_DIRECTORY);
+            cinema.setImage(fileService.saveImageToFileSystem(image, CINEMA_IMAGES_DIRECTORY));
         }
     }
 
-    private void deleteOldImageFromFileSystem(String image) {
-        try {
-            Files.deleteIfExists(Paths.get(CINEMA_IMAGES_DIRECTORY + image));
-        } catch (IOException e) {
-            throw new IllegalStateException("Failed to delete image " + image);
-        }
-    }
 
     private void validateCinemaDoesNotExist(String name) {
         if (cinemaRepository.existsByName(name)) {
@@ -111,16 +101,5 @@ class CinemaService implements CinemaUseCases {
         if (cinemaRepository.existsByCinemaManagerEmail(email)) {
             throw new IllegalStateException("Cinema manager with email " + email + " is already assigned to a cinema.");
         }
-    }
-
-    private String saveImageToFileSystem(MultipartFile image) {
-        final String fileName = UUID.randomUUID() + "_" + image.getOriginalFilename();
-        Path filePath = Paths.get(CINEMA_IMAGES_DIRECTORY + fileName);
-        try {
-            Files.write(filePath, image.getBytes());
-        } catch (IOException e) {
-            throw new IllegalStateException("Failed to save image " + fileName);
-        }
-        return fileName;
     }
 }

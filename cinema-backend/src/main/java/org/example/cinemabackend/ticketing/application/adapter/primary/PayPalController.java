@@ -16,8 +16,8 @@ public class PayPalController {
     private final PayPalUseCases payPalUseCases;
 
     @PostMapping("/init-payment")
-    ResponseEntity<PayPalPaymentOrder> createPayment(@RequestBody BuyTicketRequest sum) {
-        final var payPalPaymentOrder = payPalUseCases.createPayment(sum);
+    ResponseEntity<PayPalPaymentOrder> createPayment(@RequestBody BuyTicketRequest buyTicketRequest) {
+        final var payPalPaymentOrder = payPalUseCases.createPayment(buyTicketRequest);
         return ResponseEntity.ok(payPalPaymentOrder);
     }
 

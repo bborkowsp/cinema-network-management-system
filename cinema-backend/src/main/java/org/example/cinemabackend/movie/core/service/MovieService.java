@@ -2,6 +2,7 @@ package org.example.cinemabackend.movie.core.service;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import org.example.cinemabackend._shared.service.FileService;
 import org.example.cinemabackend.cinema.core.port.secondary.ScreeningRepository;
 import org.example.cinemabackend.movie.application.dto.request.CreateMovieRequest;
 import org.example.cinemabackend.movie.application.dto.request.UpdateMovieRequest;
@@ -19,22 +20,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 class MovieService implements MovieUseCases {
-    private static final String UPLOAD_DIRECTORY = "posters\\";
+    private static final String POSTERS_UPLOAD_DIRECTORY = "images\\posters\\";
     private final MovieRepository movieRepository;
     private final MovieMapper movieMapper;
     private final ScreeningRepository screeningRepository;
+    private final FileService fileService;
 
     @Override
     public Page<MovieListResponse> getMovies(Pageable pageable) {
@@ -67,7 +64,7 @@ class MovieService implements MovieUseCases {
     public void createMovie(MultipartFile image, CreateMovieRequest createMovieRequest) {
         validateMovieNotExists(createMovieRequest.title());
         final var movie = movieMapper.mapCreateMovieRequestToMovie(createMovieRequest);
-        movie.setPoster(saveImageToFileSystem(image));
+        movie.setPoster(fileService.saveImageToFileSystem(image, POSTERS_UPLOAD_DIRECTORY));
         movieRepository.save(movie);
     }
 
@@ -76,10 +73,7 @@ class MovieService implements MovieUseCases {
         validateMovieTitleIsNotTaken(title, updateMovieRequest.title());
         final var movie = movieRepository.findByTitle(title).orElseThrow();
         movieMapper.updateMovieFromUpdateMovieRequest(updateMovieRequest, movie);
-        if (image != null && !image.isEmpty()) {
-            deleteOldPosterFromFileSystem(movie.getPoster());
-            movie.setPoster(saveImageToFileSystem(image));
-        }
+        handleImageUpdate(image, movie);
         movieRepository.save(movie);
     }
 
@@ -109,10 +103,10 @@ class MovieService implements MovieUseCases {
         }
     }
 
-    private void deleteOldPosterFromFileSystem(String poster) {
-        try {
-            Files.deleteIfExists(Paths.get(UPLOAD_DIRECTORY + poster));
-        } catch (IOException e) {
+    private void handleImageUpdate(MultipartFile image, Movie movie) {
+        if (image != null && !image.isEmpty()) {
+            fileService.deleteOldImageFromFileSystem(movie.getPoster(), POSTERS_UPLOAD_DIRECTORY);
+            movie.setPoster(fileService.saveImageToFileSystem(image, POSTERS_UPLOAD_DIRECTORY));
         }
     }
 
@@ -120,15 +114,5 @@ class MovieService implements MovieUseCases {
         if (movieRepository.findByTitle(title).isPresent()) {
             throw new IllegalStateException("Movie with title " + title + " already exists");
         }
-    }
-
-    private String saveImageToFileSystem(MultipartFile image) {
-        String fileName = UUID.randomUUID() + "_" + image.getOriginalFilename();
-        Path filePath = Paths.get(UPLOAD_DIRECTORY + fileName);
-        try {
-            Files.write(filePath, image.getBytes());
-        } catch (IOException e) {
-        }
-        return fileName;
     }
 }

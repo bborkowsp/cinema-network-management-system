@@ -13,8 +13,8 @@ public interface MovieJpaRepository extends JpaRepository<MovieSchema, Long> {
 
     Optional<MovieSchema> findByTitle(String title);
 
-    void deleteByTitle(String title);
-
     @Query("SELECT COUNT(m) > 0 FROM MovieSchema m JOIN m.projectionTechnologies pt WHERE pt.technology = :technology")
     boolean existsByProjectionTechnologyTechnology(@Param("technology") String technology);
+
+    void deleteByTitle(String title);
 }

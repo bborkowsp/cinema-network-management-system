@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserTestDataProvider {
-    private static final int NUMBER_OF_USERS_TO_GENERATE = 6;
+    private static final int NUMBER_OF_USERS_TO_GENERATE = 10;
     private static final String EMAIL = "email@example.com";
     private static final String FIRST_NAME = "First Name";
     private static final String LAST_NAME = "Last Name";
@@ -16,7 +16,6 @@ public class UserTestDataProvider {
 
     public static List<User> generateSampleCinemaManagers() {
         List<User> users = new ArrayList<>();
-
         for (int i = 0; i < NUMBER_OF_USERS_TO_GENERATE; i++) {
             final var movie = generateSampleCinemaManager();
             users.add(movie);

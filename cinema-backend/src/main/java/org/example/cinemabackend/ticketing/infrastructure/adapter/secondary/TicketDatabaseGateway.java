@@ -7,6 +7,8 @@ import org.example.cinemabackend.ticketing.infrastructure.schema.TicketSchema;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 class TicketDatabaseGateway implements TicketRepository {
@@ -14,8 +16,8 @@ class TicketDatabaseGateway implements TicketRepository {
 
     @Override
     @Transactional(readOnly = true)
-    public Ticket findByOrderId(String token) {
-        return ticketJpaRepository.findByOrderId(token).get().toTicket();
+    public Optional<Ticket> findByOrderId(String token) {
+        return ticketJpaRepository.findByOrderId(token).map(TicketSchema::toTicket);
     }
 
     @Override
