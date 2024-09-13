@@ -18,12 +18,6 @@ import java.time.LocalDate;
 class ScreeningController {
     private final ScreeningUseCases screeningUseCases;
 
-    @GetMapping("/repertory/{cinema}")
-    ResponseEntity<ResponseList<ScreeningResponse>> getRepertory(@PathVariable("cinema") String cinema) {
-        final var screenings = screeningUseCases.getRepertory(cinema);
-        return ResponseEntity.ok(new ResponseList<>(screenings));
-    }
-
     @GetMapping("/repertory/{cinema}/{date}")
     ResponseEntity<ResponseList<ScreeningResponse>> getRepertoryAtSpecificDate(@PathVariable String cinema, @PathVariable LocalDate date) {
         final var screenings = screeningUseCases.getRepertoryAtSpecificDate(cinema, date);

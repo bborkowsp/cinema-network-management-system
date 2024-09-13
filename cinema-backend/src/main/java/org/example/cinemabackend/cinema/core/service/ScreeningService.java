@@ -42,13 +42,6 @@ class ScreeningService implements ScreeningUseCases {
     }
 
     @Override
-    public List<ScreeningResponse> getRepertory(String cinema) {
-        return cinemaRepository.findByName(cinema)
-                .map(this::mapScreeningsFromCinema)
-                .orElse(Collections.emptyList());
-    }
-
-    @Override
     public List<ScreeningResponse> getRepertoryAtSpecificDate(String cinema, LocalDate date) {
         return cinemaRepository.findByName(cinema)
                 .map(cinemaSchema -> mapScreeningsFromCinemaAtSpecificDate(cinemaSchema, date))
@@ -72,7 +65,6 @@ class ScreeningService implements ScreeningUseCases {
                 ));
         return new ScreeningDetailsResponse(movieMapper.mapMovieToMovieResponse(movie), screenings);
     }
-
 
     @Override
     public void createScreening(CreateScreeningRequest createScreeningRequest) {

@@ -11,8 +11,6 @@ public interface ScreeningUseCases {
 
     List<ScreeningResponse> getScreenings(String email);
 
-    List<ScreeningResponse> getRepertory(String cinema);
-
     List<ScreeningResponse> getRepertoryAtSpecificDate(String cinema, LocalDate date);
 
     ScreeningResponse getScreening(Long id);

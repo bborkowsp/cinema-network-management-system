@@ -15,7 +15,6 @@ export class ScreeningService {
   ) {
   }
 
-
   getScreeningDetails(title: string, date: string): Observable<ScreeningDetailsResponse> {
     const url = `${ScreeningService.SCREENING_SERVICE_API_URL}/details/${title}/${date}`;
     return this.httpClient.get<ScreeningDetailsResponse>(url);
