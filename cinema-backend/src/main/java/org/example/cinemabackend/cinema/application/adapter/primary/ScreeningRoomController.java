@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ScreeningRoomController {
     private final ScreeningRoomUseCases screeningRoomUseCases;
 
-    @GetMapping("/screening-rooms/{email}")
+    @GetMapping("/{email}")
     ResponseEntity<ResponseList<String>> getScreeningRoomsNames(@PathVariable String email) {
         final var screeningRoomsNames = screeningRoomUseCases.getScreeningRoomsNames(email);
         return ResponseEntity.ok(new ResponseList<>(screeningRoomsNames));

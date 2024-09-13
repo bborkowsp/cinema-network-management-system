@@ -47,7 +47,8 @@ class AuthService implements AuthUseCases, UserDetailsService {
     @Override
     public void validateIfEmailFromRequestMatchesEmailInJWT(String email) {
         final var currentUserEmail = getCurrentUserEmail();
-        if (!currentUserEmail.isEmpty() && !currentUserEmail.equals(email)) {
+        final var user = userRepository.findByEmail(currentUserEmail).orElseThrow();
+        if (!currentUserEmail.isEmpty() && !currentUserEmail.equals(email) && !user.getRole().equals(Role.ADMIN)) {
             throw new IllegalStateException("Email from request does not match email in JWT");
         }
     }

@@ -23,13 +23,6 @@ class ScreeningDatabaseGateway implements ScreeningRepository {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Screening> findByScreeningRoomId(Long id) {
-        //      return screeningJpaRepository.findByScreeningRoomId(id).stream().map(ScreeningSchema::toScreening).toList();
-        return null;
-    }
-
-    @Override
-    @Transactional(readOnly = true)
     public Optional<Screening> findById(Long id) {
         return screeningJpaRepository.findById(id).map(ScreeningSchema::toScreening);
     }
@@ -41,6 +34,7 @@ class ScreeningDatabaseGateway implements ScreeningRepository {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public boolean existsByMovieTitle(String title) {
         return screeningJpaRepository.existsByMovieTitle(title);
     }

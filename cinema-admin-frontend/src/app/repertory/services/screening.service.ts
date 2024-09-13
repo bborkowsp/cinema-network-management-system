@@ -1,8 +1,8 @@
 import {environment} from "../../../assets/environment";
 import {ScreeningResponse} from "../dtos/screening.response";
-import { HttpClient } from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {Injectable} from "@angular/core";
-import {map} from "rxjs";
+import {map, Observable} from "rxjs";
 import {AuthService} from "../../auth/services/auth.service";
 import {CreateScreeningRequest} from "../dtos/create-screening-request";
 
@@ -25,14 +25,14 @@ export class ScreeningService {
       .pipe(map((response) => response.content));
   }
 
-  deleteScreening(id: number) {
-    const url = `${ScreeningService.SCREENINGS_API_URL}/${id}`;
-    return this.httpClient.delete<void>(url);
+  getScreening(id: number): Observable<ScreeningResponse> {
+    const url = `${ScreeningService.SCREENINGS_API_URL}/id/${id}`;
+    console.log(url)
+    return this.httpClient.get<ScreeningResponse>(url);
   }
 
-  getScreening(id: number) {
-    const url = `${ScreeningService.SCREENINGS_API_URL}/id/${id}`;
-    return this.httpClient.get<ScreeningResponse>(url);
+  createScreening(screening: CreateScreeningRequest) {
+    return this.httpClient.post<void>(ScreeningService.SCREENINGS_API_URL, screening);
   }
 
   updateScreening(id: number, screening: CreateScreeningRequest) {
@@ -40,7 +40,8 @@ export class ScreeningService {
     return this.httpClient.patch(url, screening);
   }
 
-  createScreening(screening: CreateScreeningRequest) {
-    return this.httpClient.post<void>(ScreeningService.SCREENINGS_API_URL, screening);
+  deleteScreening(id: number) {
+    const url = `${ScreeningService.SCREENINGS_API_URL}/${id}`;
+    return this.httpClient.delete<void>(url);
   }
 }

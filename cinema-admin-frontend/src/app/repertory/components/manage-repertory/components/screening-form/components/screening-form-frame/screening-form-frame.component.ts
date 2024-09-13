@@ -3,6 +3,7 @@ import {FormControl, FormGroup, FormGroupDirective, NgForm} from "@angular/forms
 import {map, Observable, startWith} from "rxjs";
 import {MovieService} from "../../../../../../../movie/services/movie.service";
 import {CinemaService} from "../../../../../../../cinema/services/cinema.service";
+import {ScreeningRoomService} from "../../../../../../../cinema/services/screening-room.service";
 
 @Component({
   selector: 'app-screening-form-frame',
@@ -20,6 +21,7 @@ export class ScreeningFormFrameComponent implements OnInit {
 
   constructor(
     private readonly movieService: MovieService,
+    private readonly screeningRoomService: ScreeningRoomService,
     private readonly cinemaService: CinemaService
   ) {
   }
@@ -48,7 +50,7 @@ export class ScreeningFormFrameComponent implements OnInit {
       }
     );
 
-    this.cinemaService.getAllScreeningRoomNames().subscribe(
+    this.screeningRoomService.getAllScreeningRoomNames().subscribe(
       screeningRooms => {
         this.screeningRoomsNames = screeningRooms;
         this.setupFilteredScreeningRoomsObservable();

@@ -18,13 +18,6 @@ import java.time.LocalDate;
 class ScreeningController {
     private final ScreeningUseCases screeningUseCases;
 
-    @GetMapping("/{email}")
-    @PreAuthorize("hasAnyRole('CINEMA_MANAGER','ADMIN')")
-    ResponseEntity<ResponseList<ScreeningResponse>> getScreenings(@PathVariable("email") String email) {
-        final var screenings = screeningUseCases.getScreenings(email);
-        return ResponseEntity.ok(new ResponseList<>(screenings));
-    }
-
     @GetMapping("/repertory/{cinema}")
     ResponseEntity<ResponseList<ScreeningResponse>> getRepertory(@PathVariable("cinema") String cinema) {
         final var screenings = screeningUseCases.getRepertory(cinema);
@@ -37,6 +30,19 @@ class ScreeningController {
         return ResponseEntity.ok(new ResponseList<>(screenings));
     }
 
+    @GetMapping("/details/{title}/{date}")
+    ResponseEntity<ScreeningDetailsResponse> getScreeningDetails(@PathVariable("title") String title, @PathVariable("date") LocalDate date) {
+        final var screeningDetails = screeningUseCases.getScreeningDetails(title, date);
+        return ResponseEntity.ok(screeningDetails);
+    }
+
+    @GetMapping("/{email}")
+    @PreAuthorize("hasAnyRole('CINEMA_MANAGER','ADMIN')")
+    ResponseEntity<ResponseList<ScreeningResponse>> getScreenings(@PathVariable("email") String email) {
+        final var screenings = screeningUseCases.getScreenings(email);
+        return ResponseEntity.ok(new ResponseList<>(screenings));
+    }
+
     @GetMapping("/id/{id}")
     @PreAuthorize("hasAnyRole('CINEMA_MANAGER','ADMIN')")
     ResponseEntity<ScreeningResponse> getScreening(@PathVariable("id") Long id) {
@@ -46,8 +52,8 @@ class ScreeningController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('CINEMA_MANAGER','ADMIN')")
-    ResponseEntity<Void> createScreening(@RequestBody CreateScreeningRequest screening) {
-        screeningUseCases.createScreening(screening);
+    ResponseEntity<Void> createScreening(@RequestBody CreateScreeningRequest createScreeningRequest) {
+        screeningUseCases.createScreening(createScreeningRequest);
         return ResponseEntity.noContent().build();
     }
 
@@ -55,9 +61,9 @@ class ScreeningController {
     @PreAuthorize("hasAnyRole('CINEMA_MANAGER','ADMIN')")
     ResponseEntity<ScreeningResponse> updateScreening(
             @PathVariable("id") Long id,
-            @RequestBody CreateScreeningRequest screening
+            @RequestBody CreateScreeningRequest createScreeningRequest
     ) {
-        screeningUseCases.updateScreening(id, screening);
+        screeningUseCases.updateScreening(id, createScreeningRequest);
         return ResponseEntity.noContent().build();
     }
 
@@ -66,11 +72,5 @@ class ScreeningController {
     ResponseEntity<Void> deleteScreening(@PathVariable("id") Long id) {
         screeningUseCases.deleteScreening(id);
         return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping("/details/{title}/{date}")
-    ResponseEntity<ScreeningDetailsResponse> getScreeningDetails(@PathVariable("title") String title, @PathVariable("date") LocalDate date) {
-        final var screeningDetails = screeningUseCases.getScreeningDetails(title, date);
-        return ResponseEntity.ok(screeningDetails);
     }
 }

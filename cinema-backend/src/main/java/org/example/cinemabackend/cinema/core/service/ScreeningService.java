@@ -1,6 +1,7 @@
 package org.example.cinemabackend.cinema.core.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.cinemabackend.auth.core.port.primary.AuthUseCases;
 import org.example.cinemabackend.cinema.application.dto.request.create.CreateScreeningRequest;
 import org.example.cinemabackend.cinema.application.dto.response.ScreeningDetailsResponse;
 import org.example.cinemabackend.cinema.application.dto.response.ScreeningResponse;
@@ -20,46 +21,37 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
 class ScreeningService implements ScreeningUseCases {
+    private final MovieMapper movieMapper;
     private final ScreeningMapper screeningMapper;
     private final MovieRepository movieRepository;
     private final CinemaRepository cinemaRepository;
     private final ScreeningRepository screeningRepository;
     private final ScreeningRoomRepository screeningRoomRepository;
-    private final MovieMapper movieMapper;
+    private final AuthUseCases authUseCases;
 
     @Override
     public List<ScreeningResponse> getScreenings(String email) {
-        validateCinemaManagerIsManagingACinema(email);
-        return cinemaRepository.findByUserEmail(email)
-                .map(cinema -> cinema.getScreeningRooms().stream()
-                        .flatMap(screeningRoom -> screeningRoom.getRepertory().stream()
-                                .map(screening -> screeningMapper.mapScreeningToScreeningResponse(screening, screeningRoom)))
-                        .collect(Collectors.toList()))
-                .orElse(Collections.emptyList());
+        validateCinemaExistsByCinemaManager(email);
+        authUseCases.validateIfEmailFromRequestMatchesEmailInJWT(email);
+        return getScreeningsForCinemaManager(email);
     }
 
     @Override
     public List<ScreeningResponse> getRepertory(String cinema) {
         return cinemaRepository.findByName(cinema)
-                .map(cinemaSchema -> cinemaSchema.getScreeningRooms().stream()
-                        .flatMap(screeningRoom -> screeningRoom.getRepertory().stream()
-                                .map(screening -> screeningMapper.mapScreeningToScreeningResponse(screening, screeningRoom)))
-                        .collect(Collectors.toList()))
+                .map(this::mapScreeningsFromCinema)
                 .orElse(Collections.emptyList());
     }
 
     @Override
     public List<ScreeningResponse> getRepertoryAtSpecificDate(String cinema, LocalDate date) {
         return cinemaRepository.findByName(cinema)
-                .map(cinemaSchema -> cinemaSchema.getScreeningRooms().stream()
-                        .flatMap(screeningRoom -> screeningRoom.getRepertory().stream()
-                                .filter(screening -> screening.getStartTime().toLocalDate().equals(date))
-                                .map(screening -> screeningMapper.mapScreeningToScreeningResponse(screening, screeningRoom)))
-                        .collect(Collectors.toList()))
+                .map(cinemaSchema -> mapScreeningsFromCinemaAtSpecificDate(cinemaSchema, date))
                 .orElse(Collections.emptyList());
     }
 
@@ -76,32 +68,28 @@ class ScreeningService implements ScreeningUseCases {
         final var screenings = cinemaRepository.findAll().stream()
                 .collect(Collectors.toMap(
                         Cinema::getName,
-                        cinema -> cinema.getScreeningRooms().stream()
-                                .flatMap(screeningRoom -> screeningRoom.getRepertory().stream()
-                                        .filter(screening -> screening.getMovie().getTitle().equals(title) &&
-                                                screening.getStartTime().toLocalDate().equals(date))
-                                        .map(screening -> screeningMapper.mapScreeningToScreeningResponse(screening, screeningRoom)))
-                                .collect(Collectors.toList())
+                        cinema -> mapScreeningsFromCinemaForTitleAndDate(cinema, title, date)
                 ));
         return new ScreeningDetailsResponse(movieMapper.mapMovieToMovieResponse(movie), screenings);
     }
 
+
     @Override
-    public void createScreening(CreateScreeningRequest screening) {
-        validateCinemaManagerIsManagingACinema(screening.email());
-        final var newScreening = screeningMapper.mapScreeningRequestToScreening(screening);
-        final var screeningRoom = screeningRoomRepository.findByName(screening.screeningRoom()).orElseThrow();
+    public void createScreening(CreateScreeningRequest createScreeningRequest) {
+        validateCinemaExistsByCinemaManager(createScreeningRequest.email());
+        final var newScreening = screeningMapper.mapScreeningRequestToScreening(createScreeningRequest);
+        final var screeningRoom = getScreeningRoom(createScreeningRequest);
         screeningRoom.addScreening(newScreening);
         screeningRoomRepository.save(screeningRoom);
     }
 
     @Override
-    public void updateScreening(Long id, CreateScreeningRequest screening) {
-        validateCinemaManagerIsManagingACinema(screening.email());
-        final var screeningRoom = screeningRoomRepository.findByName(screening.screeningRoom()).orElseThrow();
+    public void updateScreening(Long id, CreateScreeningRequest createScreeningRequest) {
+        validateCinemaExistsByCinemaManager(createScreeningRequest.email());
+        final var screeningRoom = getScreeningRoom(createScreeningRequest);
         final var screeningToUpdate = getScreeningById(id);
         screeningRoom.getRepertory().remove(screeningToUpdate);
-        updateScreeningDetails(screeningToUpdate, screening);
+        updateScreeningDetails(screeningToUpdate, createScreeningRequest);
         screeningRoom.getRepertory().add(screeningToUpdate);
         screeningRoomRepository.save(screeningRoom);
     }
@@ -120,6 +108,27 @@ class ScreeningService implements ScreeningUseCases {
         screeningToUpdate.setEndTime(createScreeningRequest.endTime());
     }
 
+    private ScreeningRoom getScreeningRoom(CreateScreeningRequest createScreeningRequest) {
+        final var cinema = cinemaRepository.findByUserEmail(createScreeningRequest.email()).orElseThrow();
+        return cinema.getScreeningRooms().stream()
+                .filter(screeningRoom -> screeningRoom.getName().equals(createScreeningRequest.screeningRoom()))
+                .findFirst()
+                .orElseThrow();
+    }
+
+    private List<ScreeningResponse> mapScreeningsFromCinemaForTitleAndDate(Cinema cinema, String title, LocalDate date) {
+        return cinema.getScreeningRooms().stream()
+                .flatMap(screeningRoom -> mapScreeningsFromScreeningRoomForTitleAndDate(screeningRoom, title, date))
+                .collect(Collectors.toList());
+    }
+
+    private Stream<ScreeningResponse> mapScreeningsFromScreeningRoomForTitleAndDate(ScreeningRoom screeningRoom, String title, LocalDate date) {
+        return screeningRoom.getRepertory().stream()
+                .filter(screening -> screening.getMovie().getTitle().equals(title) &&
+                        screening.getStartTime().toLocalDate().equals(date))
+                .map(screening -> screeningMapper.mapScreeningToScreeningResponse(screening, screeningRoom));
+    }
+
     private Screening getScreeningById(Long id) {
         return screeningRepository.findById(id).orElseThrow();
     }
@@ -128,9 +137,38 @@ class ScreeningService implements ScreeningUseCases {
         return screeningRoomRepository.findByRepertoryContains(screening).orElseThrow();
     }
 
-    private void validateCinemaManagerIsManagingACinema(String email) {
+    private List<ScreeningResponse> mapScreeningsFromCinemaAtSpecificDate(Cinema cinema, LocalDate date) {
+        return cinema.getScreeningRooms().stream()
+                .flatMap(screeningRoom -> mapScreeningsFromScreeningRoomAtSpecificDate(screeningRoom, date))
+                .collect(Collectors.toList());
+    }
+
+    private Stream<ScreeningResponse> mapScreeningsFromScreeningRoomAtSpecificDate(ScreeningRoom screeningRoom, LocalDate date) {
+        return screeningRoom.getRepertory().stream()
+                .filter(screening -> screening.getStartTime().toLocalDate().equals(date))
+                .map(screening -> screeningMapper.mapScreeningToScreeningResponse(screening, screeningRoom));
+    }
+
+    private void validateCinemaExistsByCinemaManager(String email) {
         if (!cinemaRepository.existsByCinemaManagerEmail(email)) {
             throw new IllegalStateException("You are not assigned to any cinema");
         }
+    }
+
+    private List<ScreeningResponse> getScreeningsForCinemaManager(String email) {
+        return cinemaRepository.findByUserEmail(email)
+                .map(this::mapScreeningsFromCinema)
+                .orElse(Collections.emptyList());
+    }
+
+    private List<ScreeningResponse> mapScreeningsFromCinema(Cinema cinema) {
+        return cinema.getScreeningRooms().stream()
+                .flatMap(this::mapScreeningsFromScreeningRoom)
+                .collect(Collectors.toList());
+    }
+
+    private Stream<ScreeningResponse> mapScreeningsFromScreeningRoom(ScreeningRoom screeningRoom) {
+        return screeningRoom.getRepertory().stream()
+                .map(screening -> screeningMapper.mapScreeningToScreeningResponse(screening, screeningRoom));
     }
 }

@@ -34,14 +34,6 @@ export class CinemaService {
     );
   }
 
-  getAllScreeningRoomNames() {
-    const email = this.authService.getLoggedInUserEmail();
-    const url = `${CinemaService.CINEMAS_API_URL}/screening-rooms/${email}`;
-    return this.httpClient.get<{ content: string[] }>(url).pipe(
-      map((response) => response.content),
-    );
-  }
-
   getCinema(name: string): Observable<CinemaResponse> {
     const url = `${CinemaService.CINEMAS_API_URL}/${name}`;
     return this.httpClient.get<CinemaResponse>(url);
