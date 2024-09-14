@@ -4,11 +4,12 @@
       <ng-container *ngIf="movieTitles.length; else noMovies">
         <div *ngFor="let movieTitle of movieTitles">
           <div class="screening-container">
-            <img alt="movie poster" class="movie-poster"
-                 src="{{POSTERS_SERVER_DIRECTORY_URL}}{{ repertory[movieTitle][0].movie.poster }}"/>
+            <img alt="poster" class="poster"
+                 src="{{POSTERS_SERVER_DIRECTORY_URL}}{{ repertory[movieTitle][0].movie.poster }}"
+            />
             <div class="screening-details">
               <div class="screening-details__header">
-                <a class="title" href="/movie-details/{{movieTitle}}/{{formattedDate}}">
+                <a href="/movie-details/{{movieTitle}}/{{formattedDate}}">
                   <h2>{{ movieTitle }}</h2>
                 </a>
                 <p>| {{ repertory[movieTitle][0].movie.duration }} min</p>
@@ -20,10 +21,10 @@
                     {{ screening.startTime | date:'HH:mm' }}
                   </button>
                 </div>
-                <a *ngIf="repertory[movieTitle].length > 4" class="more-info" href="https://www.google.com/"
+                <a *ngIf="repertory[movieTitle].length > 4" class="more-info"
+                   href="/movie-details/{{movieTitle}}/{{formattedDate}}"
                    mat-flat-button
-                   target="_blank">
-                  Show more
+                >Show more
                 </a>
               </div>
             </div>
