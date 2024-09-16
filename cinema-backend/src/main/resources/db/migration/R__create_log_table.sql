@@ -1,1 +1,0 @@
-ALTER TABLE application_logs DROP COLUMN new_column;

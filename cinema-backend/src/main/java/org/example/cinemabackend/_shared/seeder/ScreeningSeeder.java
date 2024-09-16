@@ -32,13 +32,11 @@ class ScreeningSeeder implements Seeder {
 
     private void createAndSaveRepertory(Cinema cinema, List<Movie> movies) {
         List<ScreeningRoom> updatedScreeningRooms = new ArrayList<>();
-
         cinema.getScreeningRooms().forEach(screeningRoom -> {
             final var repertory = createRepertory(movies);
             screeningRoom.setRepertory(repertory);
             updatedScreeningRooms.add(screeningRoom);
         });
-
         screeningRoomRepository.saveAll(updatedScreeningRooms);
     }
 

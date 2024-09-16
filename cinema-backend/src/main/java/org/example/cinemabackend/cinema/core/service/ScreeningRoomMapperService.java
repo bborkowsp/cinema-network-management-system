@@ -8,8 +8,6 @@ import org.example.cinemabackend.cinema.core.domain.ScreeningRoom;
 import org.example.cinemabackend.cinema.core.port.primary.ScreeningRoomMapper;
 import org.example.cinemabackend.cinema.core.port.primary.SeatMapper;
 import org.example.cinemabackend.cinema.core.port.primary.SeatRowMapper;
-import org.example.cinemabackend.projectiontechnology.core.port.primary.ProjectionTechnologyMapper;
-import org.example.cinemabackend.projectiontechnology.core.port.secondary.ProjectionTechnologyRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -19,8 +17,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 class ScreeningRoomMapperService implements ScreeningRoomMapper {
     private final SeatMapper seatMapper;
-    private final ProjectionTechnologyMapper projectionTechnologyMapper;
-    private final ProjectionTechnologyRepository projectionTechnologyRepository;
     private final SeatRowMapper seatRowMapper;
 
     @Override
@@ -30,17 +26,9 @@ class ScreeningRoomMapperService implements ScreeningRoomMapper {
 
     @Override
     public ScreeningRoom mapCreateScreeningRoomToScreeningRoom(CreateScreeningRoomRequest createScreeningRoomRequest) {
-        final var supportedTechnologies = createScreeningRoomRequest.supportedTechnologies().stream()
-                .map(projectionTechnologyResponse ->
-                        projectionTechnologyRepository.findByTechnology(
-                                projectionTechnologyResponse.technology()).orElseThrow()
-                )
-                .collect(Collectors.toSet());
-
         return new ScreeningRoom(
                 createScreeningRoomRequest.name(),
-                seatRowMapper.mapCreateSeatRowToSeatRow(createScreeningRoomRequest.seats()),
-                supportedTechnologies
+                seatRowMapper.mapCreateSeatRowToSeatRow(createScreeningRoomRequest.seats())
         );
     }
 
@@ -50,7 +38,6 @@ class ScreeningRoomMapperService implements ScreeningRoomMapper {
                 .id(screeningRoom.getId())
                 .name(screeningRoom.getName())
                 .seats(seatMapper.mapSeatRowsToSeatResponses(screeningRoom.getSeatRows()))
-                .supportedTechnologies(projectionTechnologyMapper.mapProjectionTechnologiesToProjectionTechnologyResponses(screeningRoom.getSupportedTechnologies()))
                 .build();
     }
 
@@ -61,13 +48,7 @@ class ScreeningRoomMapperService implements ScreeningRoomMapper {
 
     @Override
     public ScreeningRoom mapUpdateScreeningRoomToScreeningRoom(UpdateScreeningRoomRequest updateScreeningRoomRequest, ScreeningRoom screeningRoom) {
-        final var supportedTechnologies = updateScreeningRoomRequest.supportedTechnologies().stream()
-                .map(projectionTechnologyResponse -> projectionTechnologyRepository.findByTechnology(projectionTechnologyResponse.technology()).orElseThrow())
-                .collect(Collectors.toSet());
-
         screeningRoom.setName(updateScreeningRoomRequest.name());
-        screeningRoom.setSupportedTechnologies(supportedTechnologies);
-
         return screeningRoom;
     }
 

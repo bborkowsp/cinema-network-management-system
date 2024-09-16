@@ -1,12 +1,10 @@
 package org.example.cinemabackend.movie.infrastructure.schema;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.example.cinemabackend.movie.core.domain.AgeRestriction;
 import org.example.cinemabackend.movie.core.domain.Genre;
 import org.example.cinemabackend.movie.core.domain.Movie;
-import org.example.cinemabackend.projectiontechnology.infrastructure.schema.ProjectionTechnologySchema;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -47,26 +45,18 @@ public class MovieSchema {
     @Column(nullable = false)
     private AgeRestriction ageRestriction;
 
-    @NotNull
-    @Embedded
-    private SubtitleAndSoundOptionsSchema subtitleAndSoundOptions;
-
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "movie_genres")
     private Set<Genre> genres;
 
-    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
-    private Set<ProjectionTechnologySchema> projectionTechnologies;
-
     @OneToOne(cascade = CascadeType.ALL, optional = false, orphanRemoval = true, fetch = FetchType.EAGER)
     private ProductionDetailsSchema productionDetails;
 
-    public static MovieSchema fromMovie(Movie movie) {
-        final var projectionTechnologies = movie.getProjectionTechnologies().stream()
-                .map(ProjectionTechnologySchema::fromProjectionTechnology)
-                .collect(Collectors.toSet());
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Set<MovieVariantSchema> movieVariants;
 
+    public static MovieSchema fromMovie(Movie movie) {
         return MovieSchema.builder()
                 .id(movie.getId())
                 .title(movie.getTitle())
@@ -76,11 +66,10 @@ public class MovieSchema {
                 .productionDetails(ProductionDetailsSchema.fromProductionDetails(movie.getProductionDetails()))
                 .description(movie.getDescription())
                 .poster(movie.getPoster())
-                .subtitleAndSoundOptions(SubtitleAndSoundOptionsSchema.fromSubtitleAndSoundOptions(movie.getSubtitleAndSoundOptions()))
                 .ageRestriction(movie.getAgeRestriction())
                 .trailer(movie.getTrailer())
                 .genres(movie.getGenres())
-                .projectionTechnologies(projectionTechnologies)
+                .movieVariants(movie.getMovieVariants().stream().map(MovieVariantSchema::fromMovieVariant).collect(Collectors.toSet()))
                 .build();
     }
 
@@ -93,12 +82,11 @@ public class MovieSchema {
                 this.releaseDate,
                 this.productionDetails.toProductionDetails(),
                 this.description,
-                this.subtitleAndSoundOptions.toSubtitleAndSoundOptions(),
                 this.ageRestriction,
-                this.trailer,
                 this.poster,
+                this.trailer,
                 this.genres,
-                this.projectionTechnologies.stream().map(ProjectionTechnologySchema::toProjectionTechnology).collect(Collectors.toSet())
+                this.movieVariants.stream().map(MovieVariantSchema::toMovieVariant).collect(java.util.stream.Collectors.toSet())
         );
     }
 }

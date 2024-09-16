@@ -4,9 +4,9 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
+import org.example.cinemabackend.movie.application.dto.response.MovieVariantResponse;
 import org.example.cinemabackend.movie.core.domain.AgeRestriction;
 import org.example.cinemabackend.movie.core.domain.Genre;
-import org.example.cinemabackend.projectiontechnology.application.dto.response.ProjectionTechnologyResponse;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -19,10 +19,9 @@ public record UpdateMovieRequest(
         @NotNull LocalDate releaseDate,
         @NotBlank String description,
         @NotNull @Valid ProductionDetailsRequest productionDetails,
-        @NotNull @Valid SubtitleAndSoundOptionsRequest subtitleAndSoundOptions,
         @NotNull AgeRestriction ageRestriction,
         @NotNull String trailer,
         @NotNull Set<Genre> genres,
-        @NotNull Set<@NotNull @Valid ProjectionTechnologyResponse> projectionTechnologies
+        @NotNull Set<@NotNull @Valid MovieVariantResponse> movieVariants
 ) {
 }

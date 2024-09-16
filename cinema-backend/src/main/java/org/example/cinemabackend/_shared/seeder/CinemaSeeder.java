@@ -4,8 +4,6 @@ import com.github.javafaker.Faker;
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.core.domain.*;
 import org.example.cinemabackend.cinema.core.port.secondary.CinemaRepository;
-import org.example.cinemabackend.movie.core.domain.ProjectionTechnology;
-import org.example.cinemabackend.projectiontechnology.core.port.secondary.ProjectionTechnologyRepository;
 import org.example.cinemabackend.user.core.domain.User;
 import org.example.cinemabackend.user.core.port.secondary.UserRepository;
 import org.springframework.core.annotation.Order;
@@ -21,7 +19,6 @@ class CinemaSeeder implements Seeder {
     private static final int NUMBER_OF_ROWS_IN_SCREENING_ROOM = 4;
     private static final int NUMBER_OF_COLUMNS_IN_SCREENING_ROOM = 5;
     private final CinemaRepository cinemaRepository;
-    private final ProjectionTechnologyRepository projectionTechnologyRepository;
     private final UserRepository userRepository;
     private final Faker faker;
     private int increment = 0;
@@ -86,34 +83,10 @@ class CinemaSeeder implements Seeder {
         return screeningRooms;
     }
 
-    private Set<ContactDetails> createContactDetails() {
-        Set<ContactDetails> contactDetails = new HashSet<>();
-        for (int i = 0; i < 4; i++) {
-            final var contactType = createContactType();
-            contactDetails.add(new ContactDetails(
-                    faker.lorem().fixedString(10),
-                    contactType
-            ));
-        }
-        return contactDetails;
-    }
-
-    private User getCinemaManager() {
-        return this.userRepository.findAllCinemaManagers().get(increment);
-    }
-
     private ScreeningRoom createScreeningRoom() {
         return new ScreeningRoom(
                 faker.lorem().fixedString(10),
-                createSeatRows(),
-                getProjectionTechnologies()
-        );
-    }
-
-    private ContactType createContactType() {
-        return new ContactType(
-                "+48 123 123 123",
-                faker.internet().emailAddress()
+                createSeatRows()
         );
     }
 
@@ -123,13 +96,6 @@ class CinemaSeeder implements Seeder {
             seatRows.add(createSeatRow(row));
         }
         return seatRows;
-    }
-
-    Set<ProjectionTechnology> getProjectionTechnologies() {
-        return Set.of(
-                projectionTechnologyRepository.findAll().getFirst(),
-                projectionTechnologyRepository.findAll().getLast()
-        );
     }
 
     private SeatRow createSeatRow(int row) {
@@ -155,5 +121,28 @@ class CinemaSeeder implements Seeder {
 
     private SeatStatus getRandomSeatStatus() {
         return SeatStatus.values()[new Random().nextInt(SeatStatus.values().length)];
+    }
+
+    private Set<ContactDetails> createContactDetails() {
+        Set<ContactDetails> contactDetails = new HashSet<>();
+        for (int i = 0; i < 4; i++) {
+            final var contactType = createContactType();
+            contactDetails.add(new ContactDetails(
+                    faker.lorem().fixedString(10),
+                    contactType
+            ));
+        }
+        return contactDetails;
+    }
+
+    private ContactType createContactType() {
+        return new ContactType(
+                "+48 123 123 123",
+                faker.internet().emailAddress()
+        );
+    }
+
+    private User getCinemaManager() {
+        return this.userRepository.findAllCinemaManagers().get(increment);
     }
 }

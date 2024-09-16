@@ -4,10 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.cinemabackend.cinema.core.domain.Cinema;
 import org.example.cinemabackend.cinema.core.port.secondary.CinemaRepository;
 import org.example.cinemabackend.cinema.testdata.CinemaTestDataProvider;
-import org.example.cinemabackend.cinema.testdata.ProjectionTechnologyTestDataProvider;
 import org.example.cinemabackend.movie.core.port.secondary.MovieRepository;
 import org.example.cinemabackend.movie.testdata.MovieTestDataProvider;
-import org.example.cinemabackend.projectiontechnology.core.port.secondary.ProjectionTechnologyRepository;
 import org.example.cinemabackend.user.core.port.secondary.UserRepository;
 import org.example.cinemabackend.user.testdata.UserTestDataProvider;
 import org.junit.jupiter.api.*;
@@ -25,8 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -57,9 +54,6 @@ class CinemaControllerTest {
     private UserRepository userRepository;
 
     @Autowired
-    private ProjectionTechnologyRepository projectionTechnologyRepository;
-
-    @Autowired
     private MovieTestDataProvider movieTestDataProvider;
 
     @Autowired
@@ -68,18 +62,12 @@ class CinemaControllerTest {
     @BeforeAll
     void setUp() {
         saveCinemaManagersToDatabase();
-        saveProjectionTechnologiesToDatabase();
         saveMoviesToDatabase();
     }
 
     private void saveCinemaManagersToDatabase() {
         final var cinemaManagers = UserTestDataProvider.generateSampleCinemaManagers();
         cinemaManagers.forEach(userRepository::save);
-    }
-
-    private void saveProjectionTechnologiesToDatabase() {
-        final var projectionTechnologies = ProjectionTechnologyTestDataProvider.generateProjectionTechnologiesList();
-        projectionTechnologies.forEach(projectionTechnologyRepository::save);
     }
 
     private void saveMoviesToDatabase() {
@@ -181,7 +169,8 @@ class CinemaControllerTest {
                 () -> assertEquals(createCinemaRequest.address().country(), cinema.getAddress().getCountry()),
                 () -> assertEquals(createCinemaRequest.screeningRooms().size(), cinema.getScreeningRooms().size()),
                 () -> assertEquals(createCinemaRequest.contactDetails().size(), cinema.getContactDetails().size()),
-                () -> assertEquals(createCinemaRequest.cinemaManager().email(), cinema.getCinemaManager().getEmail())
+                () -> assertEquals(createCinemaRequest.cinemaManager().email(), cinema.getCinemaManager().getEmail()),
+                () -> assertTrue(cinema.getImage().toLowerCase().contains(image.getOriginalFilename().toLowerCase().trim()))
         );
     }
 

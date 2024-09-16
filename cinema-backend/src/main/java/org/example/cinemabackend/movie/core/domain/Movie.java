@@ -11,28 +11,13 @@ public class Movie {
     private LocalDate releaseDate;
     private ProductionDetails productionDetails;
     private String description;
-    private SubtitleAndSoundOptions subtitleAndSoundOptions;
     private AgeRestriction ageRestriction;
     private String poster;
     private String trailer;
     private Set<Genre> genres;
-    private Set<ProjectionTechnology> projectionTechnologies;
+    private Set<MovieVariant> movieVariants;
 
-    public Movie(String title, String originalTitle, Integer duration, LocalDate releaseDate, ProductionDetails productionDetails, String description, SubtitleAndSoundOptions subtitleAndSoundOptions, AgeRestriction ageRestriction, String trailer, Set<Genre> genres, Set<ProjectionTechnology> projectionTechnologies) {
-        this.title = title;
-        this.originalTitle = originalTitle;
-        this.duration = duration;
-        this.releaseDate = releaseDate;
-        this.productionDetails = productionDetails;
-        this.description = description;
-        this.subtitleAndSoundOptions = subtitleAndSoundOptions;
-        this.ageRestriction = ageRestriction;
-        this.trailer = trailer;
-        this.genres = genres;
-        this.projectionTechnologies = projectionTechnologies;
-    }
-
-    public Movie(Long id, String title, String originalTitle, Integer duration, LocalDate releaseDate, ProductionDetails productionDetails, String description, SubtitleAndSoundOptions subtitleAndSoundOptions, AgeRestriction ageRestriction, String trailer, Set<Genre> genres, Set<ProjectionTechnology> projectionTechnologies) {
+    public Movie(Long id, String title, String originalTitle, Integer duration, LocalDate releaseDate, ProductionDetails productionDetails, String description, AgeRestriction ageRestriction, String trailer, Set<Genre> genres, Set<MovieVariant> movieVariants) {
         this.id = id;
         this.title = title;
         this.originalTitle = originalTitle;
@@ -40,14 +25,26 @@ public class Movie {
         this.releaseDate = releaseDate;
         this.productionDetails = productionDetails;
         this.description = description;
-        this.subtitleAndSoundOptions = subtitleAndSoundOptions;
         this.ageRestriction = ageRestriction;
         this.trailer = trailer;
         this.genres = genres;
-        this.projectionTechnologies = projectionTechnologies;
+        this.movieVariants = movieVariants;
     }
 
-    public Movie(Long id, String title, String originalTitle, Integer duration, LocalDate releaseDate, ProductionDetails productionDetails, String description, SubtitleAndSoundOptions subtitleAndSoundOptions, AgeRestriction ageRestriction, String trailer, String poster, Set<Genre> genres, Set<ProjectionTechnology> projectionTechnologies) {
+    public Movie(String title, String originalTitle, Integer duration, LocalDate releaseDate, ProductionDetails productionDetails, String description, AgeRestriction ageRestriction, String trailer, Set<Genre> genres, Set<MovieVariant> movieVariants) {
+        this.title = title;
+        this.originalTitle = originalTitle;
+        this.duration = duration;
+        this.releaseDate = releaseDate;
+        this.productionDetails = productionDetails;
+        this.description = description;
+        this.ageRestriction = ageRestriction;
+        this.trailer = trailer;
+        this.genres = genres;
+        this.movieVariants = movieVariants;
+    }
+
+    public Movie(Long id, String title, String originalTitle, Integer duration, LocalDate releaseDate, ProductionDetails productionDetails, String description, AgeRestriction ageRestriction, String poster, String trailer, Set<Genre> genres, Set<MovieVariant> movieVariants) {
         this.id = id;
         this.title = title;
         this.originalTitle = originalTitle;
@@ -55,14 +52,20 @@ public class Movie {
         this.releaseDate = releaseDate;
         this.productionDetails = productionDetails;
         this.description = description;
-        this.subtitleAndSoundOptions = subtitleAndSoundOptions;
         this.ageRestriction = ageRestriction;
-        this.trailer = trailer;
         this.poster = poster;
+        this.trailer = trailer;
         this.genres = genres;
-        this.projectionTechnologies = projectionTechnologies;
+        this.movieVariants = movieVariants;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;
@@ -112,14 +115,6 @@ public class Movie {
         this.description = description;
     }
 
-    public SubtitleAndSoundOptions getSubtitleAndSoundOptions() {
-        return subtitleAndSoundOptions;
-    }
-
-    public void setSubtitleAndSoundOptions(SubtitleAndSoundOptions subtitleAndSoundOptions) {
-        this.subtitleAndSoundOptions = subtitleAndSoundOptions;
-    }
-
     public AgeRestriction getAgeRestriction() {
         return ageRestriction;
     }
@@ -152,21 +147,11 @@ public class Movie {
         this.genres = genres;
     }
 
-    public Set<ProjectionTechnology> getProjectionTechnologies() {
-        return projectionTechnologies;
+    public Set<MovieVariant> getMovieVariants() {
+        return movieVariants;
     }
 
-    public void setProjectionTechnologies(Set<ProjectionTechnology> projectionTechnologies) {
-        this.projectionTechnologies = projectionTechnologies;
+    public void setMovieVariants(Set<MovieVariant> movieVariants) {
+        this.movieVariants = movieVariants;
     }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-
 }

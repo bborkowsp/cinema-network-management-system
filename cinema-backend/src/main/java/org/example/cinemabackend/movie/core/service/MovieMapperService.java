@@ -6,27 +6,18 @@ import org.example.cinemabackend.movie.application.dto.request.UpdateMovieReques
 import org.example.cinemabackend.movie.application.dto.response.MovieListResponse;
 import org.example.cinemabackend.movie.application.dto.response.MovieResponse;
 import org.example.cinemabackend.movie.core.domain.Movie;
-import org.example.cinemabackend.movie.core.domain.ProjectionTechnology;
 import org.example.cinemabackend.movie.core.port.primary.FilmMemberMapper;
 import org.example.cinemabackend.movie.core.port.primary.MovieMapper;
+import org.example.cinemabackend.movie.core.port.primary.MovieVariantMapper;
 import org.example.cinemabackend.movie.core.port.primary.ProductionDetailsMapper;
-import org.example.cinemabackend.movie.core.port.primary.SubtitleAndSoundOptionsMapper;
-import org.example.cinemabackend.projectiontechnology.application.dto.response.ProjectionTechnologyResponse;
-import org.example.cinemabackend.projectiontechnology.core.port.primary.ProjectionTechnologyMapper;
-import org.example.cinemabackend.projectiontechnology.core.port.secondary.ProjectionTechnologyRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 class MovieMapperService implements MovieMapper {
     private final FilmMemberMapper filmMemberMapper;
     private final ProductionDetailsMapper productionDetailsMapper;
-    private final ProjectionTechnologyMapper projectionTechnologyMapper;
-    private final SubtitleAndSoundOptionsMapper subtitleAndSoundOptionsMapper;
-    private final ProjectionTechnologyRepository projectionTechnologyRepository;
+    private final MovieVariantMapper movieVariantMapper;
 
     @Override
     public MovieListResponse mapMovieToMovieListResponse(Movie movie) {
@@ -50,11 +41,10 @@ class MovieMapperService implements MovieMapper {
                 .productionDetails(productionDetailsMapper.mapProductionDetailsToProductionDetailsResponse(movie.getProductionDetails()))
                 .description(movie.getDescription())
                 .poster(movie.getPoster())
-                .subtitleAndSoundOptions(subtitleAndSoundOptionsMapper.mapSubtitleAndSoundOptionsToSubtitleAndSoundOptionsResponse(movie.getSubtitleAndSoundOptions()))
                 .ageRestriction(movie.getAgeRestriction())
                 .trailer(movie.getTrailer())
                 .genres(movie.getGenres())
-                .projectionTechnologies(projectionTechnologyMapper.mapProjectionTechnologiesToProjectionTechnologyResponses(movie.getProjectionTechnologies()))
+
                 .build();
     }
 
@@ -67,11 +57,10 @@ class MovieMapperService implements MovieMapper {
                 createMovieRequest.releaseDate(),
                 productionDetailsMapper.mapCreateProductionDetailsRequestToProductionDetails(createMovieRequest.productionDetails()),
                 createMovieRequest.description(),
-                subtitleAndSoundOptionsMapper.mapCreateSubtitleAndSoundOptionsRequestToSubtitleAndSoundOptions(createMovieRequest.subtitleAndSoundOptions()),
                 createMovieRequest.ageRestriction(),
                 createMovieRequest.trailer(),
                 createMovieRequest.genres(),
-                getProjectionTechnologies(createMovieRequest.projectionTechnologies())
+                movieVariantMapper.mapMovieVariantResponsesToMovieVariants(createMovieRequest.movieVariants())
         );
     }
 
@@ -83,21 +72,9 @@ class MovieMapperService implements MovieMapper {
         movie.setReleaseDate(updateMovieRequest.releaseDate());
         movie.setProductionDetails(productionDetailsMapper.mapUpdateProductionDetailsRequestToProductionDetails(updateMovieRequest.productionDetails(), movie.getProductionDetails()));
         movie.setDescription(updateMovieRequest.description());
-        movie.setSubtitleAndSoundOptions(subtitleAndSoundOptionsMapper.mapUpdateSubtitleAndSoundOptionsRequestToSubtitleAndSoundOptions(updateMovieRequest.subtitleAndSoundOptions(), movie.getSubtitleAndSoundOptions()));
         movie.setAgeRestriction(updateMovieRequest.ageRestriction());
         movie.setTrailer(movie.getTrailer());
         movie.setGenres(updateMovieRequest.genres());
-        movie.setProjectionTechnologies(getProjectionTechnologies(updateMovieRequest.projectionTechnologies()));
-    }
-
-
-    private Set<ProjectionTechnology> getProjectionTechnologies(Set<ProjectionTechnologyResponse> projectionTechnologyResponses) {
-        return projectionTechnologyResponses.stream()
-                .map(projectionTechnologyResponse -> projectionTechnologyRepository.findByTechnology(projectionTechnologyResponse.technology()).orElseThrow())
-                .collect(Collectors.toSet());
-    }
-
-    private String getMoviePoster(Movie movie) {
-        return movie.getPoster();
+        movie.setMovieVariants(movieVariantMapper.mapMovieVariantResponsesToMovieVariants(updateMovieRequest.movieVariants()));
     }
 }

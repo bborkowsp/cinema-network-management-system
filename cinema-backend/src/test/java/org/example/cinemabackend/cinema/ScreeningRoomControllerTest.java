@@ -3,8 +3,6 @@ package org.example.cinemabackend.cinema;
 import org.example.cinemabackend.cinema.core.domain.Cinema;
 import org.example.cinemabackend.cinema.core.port.secondary.CinemaRepository;
 import org.example.cinemabackend.cinema.testdata.CinemaTestDataProvider;
-import org.example.cinemabackend.cinema.testdata.ProjectionTechnologyTestDataProvider;
-import org.example.cinemabackend.projectiontechnology.core.port.secondary.ProjectionTechnologyRepository;
 import org.example.cinemabackend.user.core.port.secondary.UserRepository;
 import org.example.cinemabackend.user.testdata.UserTestDataProvider;
 import org.junit.jupiter.api.*;
@@ -39,9 +37,6 @@ public class ScreeningRoomControllerTest {
     private CinemaRepository cinemaRepository;
 
     @Autowired
-    private ProjectionTechnologyRepository projectionTechnologyRepository;
-
-    @Autowired
     private CinemaTestDataProvider cinemaTestDataProvider;
 
     @Autowired
@@ -51,18 +46,12 @@ public class ScreeningRoomControllerTest {
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.BEFORE_METHOD)
     void setUp() {
         saveCinemaManagersToDatabase();
-        saveProjectionTechnologiesToDatabase();
         saveCinemasToDatabase();
     }
 
     private void saveCinemaManagersToDatabase() {
         final var cinemaManagers = UserTestDataProvider.generateSampleCinemaManagers();
         cinemaManagers.forEach(userRepository::save);
-    }
-
-    private void saveProjectionTechnologiesToDatabase() {
-        final var projectionTechnologies = ProjectionTechnologyTestDataProvider.generateProjectionTechnologiesList();
-        projectionTechnologies.forEach(projectionTechnologyRepository::save);
     }
 
     private void saveCinemasToDatabase() {

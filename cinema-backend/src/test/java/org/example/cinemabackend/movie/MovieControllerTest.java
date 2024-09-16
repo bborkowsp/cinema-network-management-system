@@ -125,16 +125,9 @@ public class MovieControllerTest {
                                 .value(movie.getProductionDetails().getDirector().getFirstName()),
                         jsonPath("$.productionDetails.director.lastName")
                                 .value(movie.getProductionDetails().getDirector().getLastName()),
-                        jsonPath("$.subtitleAndSoundOptions.subtitles").value(movie.getSubtitleAndSoundOptions().isSubtitles()),
-                        jsonPath("$.subtitleAndSoundOptions.dubbing").value(movie.getSubtitleAndSoundOptions().isDubbing()),
-                        jsonPath("$.subtitleAndSoundOptions.voiceOver").value(movie.getSubtitleAndSoundOptions().isVoiceOver()),
-                        jsonPath("$.subtitleAndSoundOptions.originalLanguage")
-                                .value(movie.getSubtitleAndSoundOptions().isOriginalLanguage()),
                         jsonPath("$.trailer").value(movie.getTrailer()),
                         jsonPath("$.genres").isArray(),
-                        jsonPath("$.genres.length()").value(movie.getGenres().size()),
-                        jsonPath("$.projectionTechnologies").isArray(),
-                        jsonPath("$.projectionTechnologies.length()").value(movie.getProjectionTechnologies().size())
+                        jsonPath("$.genres.length()").value(movie.getGenres().size())
                 );
     }
 
@@ -144,7 +137,7 @@ public class MovieControllerTest {
         // Given
         final var createMovieRequest = movieTestDataProvider.generateCreateMovieRequest();
         MockMultipartFile image = new MockMultipartFile(
-                "image", "poster.jpg", MediaType.IMAGE_JPEG_VALUE, "image data".getBytes());
+                "image", "poster-test.jpg", MediaType.IMAGE_JPEG_VALUE, "image data".getBytes());
         MockMultipartFile movieRequest = new MockMultipartFile(
                 "movieRequest", "", MediaType.APPLICATION_JSON_VALUE,
                 objectMapper.writeValueAsBytes(createMovieRequest)
@@ -181,19 +174,12 @@ public class MovieControllerTest {
                         movie.getProductionDetails().getDirector().getFirstName()),
                 () -> assertEquals(createMovieRequest.productionDetails().director().lastName(),
                         movie.getProductionDetails().getDirector().getLastName()),
-                () -> assertEquals(createMovieRequest.subtitleAndSoundOptions().subtitles(),
-                        movie.getSubtitleAndSoundOptions().isSubtitles()),
-                () -> assertEquals(createMovieRequest.subtitleAndSoundOptions().dubbing(),
-                        movie.getSubtitleAndSoundOptions().isDubbing()),
-                () -> assertEquals(createMovieRequest.subtitleAndSoundOptions().voiceOver(),
-                        movie.getSubtitleAndSoundOptions().isVoiceOver()),
-                () -> assertEquals(createMovieRequest.subtitleAndSoundOptions().originalLanguage(),
-                        movie.getSubtitleAndSoundOptions().isOriginalLanguage()),
                 () -> assertEquals(createMovieRequest.trailer(), movie.getTrailer()),
                 () -> assertTrue(movie.getPoster().toLowerCase().contains(image.getOriginalFilename().toLowerCase().trim())),
                 () -> assertEquals(createMovieRequest.genres().size(), movie.getGenres().size()),
-                () -> assertEquals(createMovieRequest.projectionTechnologies().size(),
-                        movie.getProjectionTechnologies().size())
+                () -> assertEquals(createMovieRequest.movieVariants().size(), movie.getMovieVariants().size()),
+                () -> assertEquals(createMovieRequest.movieVariants().stream().findFirst().get().language(),
+                        movie.getMovieVariants().stream().findFirst().get().getLanguage())
         );
     }
 
@@ -266,7 +252,7 @@ public class MovieControllerTest {
         movieTestDataProvider.generateMovies().forEach(movieRepository::save);
         final var createMovieRequest = movieTestDataProvider.generateCreateMovieRequest();
         MockMultipartFile image = new MockMultipartFile(
-                "image", "poster.jpg", MediaType.IMAGE_JPEG_VALUE, "image data".getBytes());
+                "image", "poster-test.jpg", MediaType.IMAGE_JPEG_VALUE, "image data".getBytes());
         MockMultipartFile movieRequest = new MockMultipartFile(
                 "movieRequest", "", MediaType.APPLICATION_JSON_VALUE,
                 objectMapper.writeValueAsBytes(createMovieRequest)

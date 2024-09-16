@@ -4,12 +4,10 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.example.cinemabackend.cinema.core.domain.ScreeningRoom;
 import org.example.cinemabackend.cinema.core.domain.SeatRowSchema;
-import org.example.cinemabackend.projectiontechnology.infrastructure.schema.ProjectionTechnologySchema;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Data
@@ -29,9 +27,6 @@ public class ScreeningRoomSchema {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<SeatRowSchema> seatRows;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<ProjectionTechnologySchema> supportedTechnologies;
-
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<ScreeningSchema> repertory;
 
@@ -40,7 +35,6 @@ public class ScreeningRoomSchema {
                 .id(screeningRoom.getId())
                 .name(screeningRoom.getName())
                 .seatRows(screeningRoom.getSeatRows().stream().map(SeatRowSchema::fromSeatRow).collect(Collectors.toList()))
-                .supportedTechnologies(screeningRoom.getSupportedTechnologies().stream().map(ProjectionTechnologySchema::fromProjectionTechnology).collect(Collectors.toSet()))
                 .repertory(screeningRoom.getRepertory() == null ? new ArrayList<>() : screeningRoom.getRepertory().stream().map(ScreeningSchema::fromScreening).collect(Collectors.toList()))
                 .build();
     }
@@ -50,7 +44,6 @@ public class ScreeningRoomSchema {
                 this.id,
                 this.name,
                 this.seatRows.stream().map(SeatRowSchema::toSeatRow).collect(Collectors.toList()),
-                this.supportedTechnologies.stream().map(ProjectionTechnologySchema::toProjectionTechnology).collect(Collectors.toSet()),
                 this.repertory.stream().map(ScreeningSchema::toScreening).collect(Collectors.toList())
         );
     }

@@ -4,7 +4,6 @@ import com.github.javafaker.Faker;
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.movie.core.domain.*;
 import org.example.cinemabackend.movie.core.port.secondary.MovieRepository;
-import org.example.cinemabackend.projectiontechnology.core.port.secondary.ProjectionTechnologyRepository;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +19,6 @@ class MovieSeeder implements Seeder {
     private static final String TRAILER_URL = "https://www.youtube.com/embed/ZiGdHLQD300";
     private static final String POSTER_FILENAME = "poster.jpg";
     private final MovieRepository movieRepository;
-    private final ProjectionTechnologyRepository projectionTechnologyRepository;
     private final Faker faker;
     private int increment = 0;
 
@@ -38,10 +36,9 @@ class MovieSeeder implements Seeder {
 
     private Movie createMovie() {
         final var productionDetails = createProductionDetails();
-        final var subtitleAndSoundOptions = createSubtitleAndSoundOptions();
         final var ageRestriction = createAgeRestriction();
         final var genres = createGenres();
-        final var projectionTechnologies = getProjectionTechnologies();
+        final var movieVariants = createMovieVariants();
         return new Movie(
                 faker.book().title() + increment,
                 faker.book().title(),
@@ -49,11 +46,23 @@ class MovieSeeder implements Seeder {
                 faker.date().birthday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
                 productionDetails,
                 faker.lorem().sentence(8),
-                subtitleAndSoundOptions,
                 ageRestriction,
                 TRAILER_URL,
                 genres,
-                projectionTechnologies
+                movieVariants
+        );
+    }
+
+    private Set<MovieVariant> createMovieVariants() {
+        Set<MovieVariant> movieVariants = new HashSet<>();
+        movieVariants.add(createMovieVariant());
+        return movieVariants;
+    }
+
+    private MovieVariant createMovieVariant() {
+        return new MovieVariant(
+                ProjectionTechnologyEnum._2D,
+                Language.DUBBING
         );
     }
 
@@ -67,30 +76,6 @@ class MovieSeeder implements Seeder {
                 createOriginalLanguages(),
                 createProductionCountries()
         );
-    }
-
-    private SubtitleAndSoundOptions createSubtitleAndSoundOptions() {
-        return new SubtitleAndSoundOptions(
-                faker.bool().bool(),
-                faker.bool().bool(),
-                faker.bool().bool(),
-                faker.bool().bool()
-        );
-    }
-
-    private AgeRestriction createAgeRestriction() {
-        return AgeRestriction.values()[faker.number().numberBetween(0, AgeRestriction.values().length)];
-    }
-
-    private Set<Genre> createGenres() {
-        Set<Genre> genres = new HashSet<>();
-        genres.add(Genre.ADVENTURE);
-        genres.add(Genre.ACTION);
-        return genres;
-    }
-
-    private Set<ProjectionTechnology> getProjectionTechnologies() {
-        return Set.of(projectionTechnologyRepository.findAll().getFirst(), projectionTechnologyRepository.findAll().getLast());
     }
 
     private FilmMember createFilmMember() {
@@ -113,5 +98,16 @@ class MovieSeeder implements Seeder {
         Set<String> productionCountries = new HashSet<>();
         productionCountries.add(faker.address().country());
         return productionCountries;
+    }
+
+    private AgeRestriction createAgeRestriction() {
+        return AgeRestriction.values()[faker.number().numberBetween(0, AgeRestriction.values().length)];
+    }
+
+    private Set<Genre> createGenres() {
+        Set<Genre> genres = new HashSet<>();
+        genres.add(Genre.ADVENTURE);
+        genres.add(Genre.ACTION);
+        return genres;
     }
 }

@@ -36,12 +36,6 @@ class MovieDatabaseGateway implements MovieRepository {
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public boolean existsByProjectionTechnology(String technology) {
-        return this.movieJpaRepository.existsByProjectionTechnologyTechnology(technology);
-    }
-
-    @Override
     @Transactional
     public void save(Movie movie) {
         final var movieSchema = MovieSchema.fromMovie(movie);

@@ -3,7 +3,6 @@ package org.example.cinemabackend.movie.application.dto.response;
 import lombok.Builder;
 import org.example.cinemabackend.movie.core.domain.AgeRestriction;
 import org.example.cinemabackend.movie.core.domain.Genre;
-import org.example.cinemabackend.projectiontechnology.application.dto.response.ProjectionTechnologyResponse;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -17,10 +16,9 @@ public record MovieResponse(
         String description,
         String poster,
         ProductionDetailsResponse productionDetails,
-        SubtitleAndSoundOptionsResponse subtitleAndSoundOptions,
         AgeRestriction ageRestriction,
         String trailer,
         Set<Genre> genres,
-        Set<ProjectionTechnologyResponse> projectionTechnologies
+        Set<MovieVariantResponse> movieVariants
 ) {
 }

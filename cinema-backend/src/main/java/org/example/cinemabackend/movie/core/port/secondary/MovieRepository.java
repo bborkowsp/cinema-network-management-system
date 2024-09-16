@@ -15,8 +15,6 @@ public interface MovieRepository {
 
     Optional<Movie> findByTitle(String title);
 
-    boolean existsByProjectionTechnology(String technology);
-
     void save(Movie movie);
 
     void deleteByTitle(String title);

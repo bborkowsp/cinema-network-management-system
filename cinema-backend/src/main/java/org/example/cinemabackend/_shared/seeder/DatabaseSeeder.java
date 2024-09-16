@@ -17,7 +17,6 @@ class DatabaseSeeder implements CommandLineRunner {
     private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseSeeder.class);
     private static final String SEED_FLAG = "--seed";
     private final CinemaSeeder cinemaSeeder;
-    private final ProjectionTechnologySeeder projectionTechnologySeeder;
     private final UserSeeder userSeeder;
     private final MovieSeeder movieSeeder;
     private final ScreeningSeeder screeningSeeder;
@@ -25,9 +24,6 @@ class DatabaseSeeder implements CommandLineRunner {
     @Override
     public void run(String... args) {
         if (Arrays.asList(args).contains(SEED_FLAG)) {
-            projectionTechnologySeeder.seedDatabase(OBJECTS_TO_SEED);
-            LOGGER.info("Projection technologies seeded");
-
             movieSeeder.seedDatabase(OBJECTS_TO_SEED);
             LOGGER.info("Movies seeded");
 

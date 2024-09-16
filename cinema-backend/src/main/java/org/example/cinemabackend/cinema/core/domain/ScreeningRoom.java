@@ -1,53 +1,30 @@
 package org.example.cinemabackend.cinema.core.domain;
 
-import org.example.cinemabackend.movie.core.domain.ProjectionTechnology;
-
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 public class ScreeningRoom {
     private Long id;
     private String name;
     private List<SeatRow> seatRows;
-    private Set<ProjectionTechnology> supportedTechnologies;
     private List<Screening> repertory;
 
-    public ScreeningRoom(String name, List<SeatRow> seatRows, Set<ProjectionTechnology> supportedTechnologies, List<Screening> repertory) {
+    public ScreeningRoom(String name, List<SeatRow> seatRows, List<Screening> repertory) {
         this.name = name;
         this.seatRows = seatRows;
-        this.supportedTechnologies = supportedTechnologies;
         this.repertory = repertory;
     }
 
-    public ScreeningRoom(String name, List<SeatRow> seatRows, Set<ProjectionTechnology> supportedTechnologies) {
+    public ScreeningRoom(String name, List<SeatRow> seatRows) {
         this.name = name;
         this.seatRows = seatRows;
-        this.supportedTechnologies = supportedTechnologies;
     }
 
-    public ScreeningRoom(Long id, String name, List<SeatRow> seatRows, Set<ProjectionTechnology> supportedTechnologies, List<Screening> repertory) {
+    public ScreeningRoom(Long id, String name, List<SeatRow> seatRows, List<Screening> repertory) {
         this.id = id;
         this.name = name;
         this.seatRows = seatRows;
-        this.supportedTechnologies = supportedTechnologies;
         this.repertory = repertory;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Set<ProjectionTechnology> getSupportedTechnologies() {
-        return supportedTechnologies;
-    }
-
-    public void setSupportedTechnologies(Set<ProjectionTechnology> supportedTechnologies) {
-        this.supportedTechnologies = supportedTechnologies;
     }
 
     public Long getId() {
@@ -58,8 +35,20 @@ public class ScreeningRoom {
         this.id = id;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public List<SeatRow> getSeatRows() {
         return seatRows;
+    }
+
+    public void setSeatRows(List<SeatRow> seatRows) {
+        this.seatRows = seatRows;
     }
 
     public List<Screening> getRepertory() {
