@@ -18,6 +18,7 @@ import org.example.cinemabackend.movie.core.port.secondary.MovieRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -71,6 +72,7 @@ class ScreeningService implements ScreeningUseCases {
         validateCinemaExistsByCinemaManager(createScreeningRequest.email());
         final var newScreening = screeningMapper.mapScreeningRequestToScreening(createScreeningRequest);
         final var screeningRoom = getNewScreeningRoom(createScreeningRequest);
+        validateNoScreeningIsPlayedAtTheSameTime(screeningRoom, newScreening);
         screeningRoom.addScreening(newScreening);
         screeningRoomRepository.save(screeningRoom);
     }
@@ -84,11 +86,13 @@ class ScreeningService implements ScreeningUseCases {
         if (!oldScreeningRoom.equals(newScreeningRoom)) {
             oldScreeningRoom.getRepertory().remove(screeningToUpdate);
             updateScreeningDetails(screeningToUpdate, createScreeningRequest);
+            validateNoScreeningIsPlayedAtTheSameTime(newScreeningRoom, screeningToUpdate);
             newScreeningRoom.addScreening(screeningToUpdate);
             screeningRoomRepository.save(oldScreeningRoom);
             screeningRoomRepository.save(newScreeningRoom);
         } else {
             updateScreeningDetails(screeningToUpdate, createScreeningRequest);
+            validateNoScreeningIsPlayedAtTheSameTime(oldScreeningRoom, screeningToUpdate);
             screeningRepository.save(screeningToUpdate);
         }
     }
@@ -105,6 +109,24 @@ class ScreeningService implements ScreeningUseCases {
         screeningToUpdate.setMovie(movieRepository.findByTitle(createScreeningRequest.movieTitle()).orElseThrow());
         screeningToUpdate.setStartTime(createScreeningRequest.startTime());
         screeningToUpdate.setEndTime(createScreeningRequest.endTime());
+    }
+
+    private void validateNoScreeningIsPlayedAtTheSameTime(ScreeningRoom screeningRoom, Screening screening) {
+        screeningRoom.getRepertory().stream()
+                .filter(existingScreening -> !existingScreening.getId().equals(screening.getId()))
+                .filter(existingScreening -> timesOverlap(existingScreening, screening))
+                .findAny()
+                .ifPresent(existingScreening -> {
+                    throw new IllegalStateException("Screening overlaps with another screening in the same room.");
+                });
+    }
+
+    private boolean timesOverlap(Screening screening1, Screening screening2) {
+        LocalDateTime start1 = screening1.getStartTime();
+        LocalDateTime end1 = screening1.getEndTime();
+        LocalDateTime start2 = screening2.getStartTime();
+        LocalDateTime end2 = screening2.getEndTime();
+        return start1.isBefore(end2) && end1.isAfter(start2);
     }
 
     private ScreeningRoom getNewScreeningRoom(CreateScreeningRequest createScreeningRequest) {
