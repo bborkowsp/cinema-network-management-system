@@ -29,15 +29,15 @@
         [form]="movieForm"
       ></app-age-restriction-and-genres-form-frame-component>
 
-      <app-projection-details-form-frame-component
-        [formGroup]="movieFormBuilder.projectionDetailsFormGroup"
-        [form]="movieForm"
-      ></app-projection-details-form-frame-component>
-
       <app-image-and-trailer-form-frame-component
         [formGroup]="movieFormBuilder.imageAndTrailerFormGroup"
         [form]="movieForm"
       ></app-image-and-trailer-form-frame-component>
+
+      <app-movie-variants-form-frame-component
+        [formGroup]="movieFormBuilder.movieVariantsFormGroup"
+        [form]="movieForm"
+      ></app-movie-variants-form-frame-component>
     </ng-container>
   </app-page-content-container>
 

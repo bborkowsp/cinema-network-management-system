@@ -3,7 +3,6 @@ import {map, Observable, switchMap, tap} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
 import {CinemaService} from "../../services/cinema.service";
 import {CinemaResponse} from "../../dtos/response/cinema.response";
-import {ScreeningRoomResponse} from "../../../repertory/dtos/screening-room.response";
 import {images} from "../../../../assets/environment";
 
 @Component({
@@ -41,12 +40,6 @@ export class CinemaDetailsComponent implements OnInit {
 
   handleGoBackButton() {
     this.router.navigateByUrl('/cinemas');
-  }
-
-  getSupportedTechnologiesAsString(screeningRoom: ScreeningRoomResponse) {
-    return screeningRoom.supportedTechnologies
-      .map(supportedTechnology => supportedTechnology.technology)
-      .join(', ');
   }
 
   private getCinema() {

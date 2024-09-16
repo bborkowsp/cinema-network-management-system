@@ -24,9 +24,6 @@ import {
   ImageAndTrailerFormFrameComponentComponent
 } from "./components/movie-form/components/image-and-trailer-form-frame-component/image-and-trailer-form-frame-component.component";
 import {
-  ProjectionDetailsFormFrameComponentComponent
-} from "./components/movie-form/components/projection-details-form-frame-component/projection-details-form-frame-component.component";
-import {
   AgeRestrictionAndGenresFormFrameComponentComponent
 } from "./components/movie-form/components/age-restriction-and-genres-form-frame-component/age-restriction-and-genres-form-frame-component.component";
 import {MatDatepickerModule} from "@angular/material/datepicker";
@@ -36,6 +33,10 @@ import {
   ConfirmDeletionMovieDialog
 } from "./components/confirm-deletion-movie-dialog/confirm-deletion-movie-dialog.component";
 import {SharedModule} from "../_shared/shared.module";
+import {
+  MovieVariantsFormFrameComponentComponent
+} from "./components/movie-form/components/movie-variants-form-frame-component/movie-variants-form-frame-component.component";
+import {MatList, MatListItem} from "@angular/material/list";
 
 
 @NgModule({
@@ -47,7 +48,7 @@ import {SharedModule} from "../_shared/shared.module";
     ProductionDetailsFormFrameComponentComponent,
     ImageAndTrailerFormFrameComponentComponent,
     AgeRestrictionAndGenresFormFrameComponentComponent,
-    ProjectionDetailsFormFrameComponentComponent,
+    MovieVariantsFormFrameComponentComponent,
     MovieFormComponent,
     ConfirmDeletionMovieDialog,
   ],
@@ -65,6 +66,8 @@ import {SharedModule} from "../_shared/shared.module";
     MatIconModule,
     MatSelectModule,
     MatNativeDateModule,
+    MatListItem,
+    MatList,
   ]
 })
 export class MovieModule {

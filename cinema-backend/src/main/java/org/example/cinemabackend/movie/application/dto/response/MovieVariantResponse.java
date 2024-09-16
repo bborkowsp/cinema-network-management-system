@@ -1,10 +1,10 @@
 package org.example.cinemabackend.movie.application.dto.response;
 
 import org.example.cinemabackend.movie.core.domain.Language;
-import org.example.cinemabackend.movie.core.domain.ProjectionTechnologyEnum;
+import org.example.cinemabackend.movie.core.domain.ProjectionTechnology;
 
 public record MovieVariantResponse(
-        ProjectionTechnologyEnum projectionTechnologyEnum,
+        ProjectionTechnology projectionTechnology,
         Language language
 ) {
 }

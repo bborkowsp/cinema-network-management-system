@@ -2,17 +2,17 @@ package org.example.cinemabackend.movie.core.domain;
 
 public class MovieVariant {
     private Long id;
-    private ProjectionTechnologyEnum projectionTechnologyEnum;
+    private ProjectionTechnology projectionTechnology;
     private Language language;
 
-    public MovieVariant(Long id, ProjectionTechnologyEnum projectionTechnologyEnum, Language language) {
+    public MovieVariant(Long id, ProjectionTechnology projectionTechnology, Language language) {
         this.id = id;
-        this.projectionTechnologyEnum = projectionTechnologyEnum;
+        this.projectionTechnology = projectionTechnology;
         this.language = language;
     }
 
-    public MovieVariant(ProjectionTechnologyEnum projectionTechnologyEnum, Language language) {
-        this.projectionTechnologyEnum = projectionTechnologyEnum;
+    public MovieVariant(ProjectionTechnology projectionTechnology, Language language) {
+        this.projectionTechnology = projectionTechnology;
         this.language = language;
     }
 
@@ -24,12 +24,12 @@ public class MovieVariant {
         this.id = id;
     }
 
-    public ProjectionTechnologyEnum getProjectionTechnologyEnum() {
-        return projectionTechnologyEnum;
+    public ProjectionTechnology getProjectionTechnology() {
+        return projectionTechnology;
     }
 
-    public void setProjectionTechnologyEnum(ProjectionTechnologyEnum projectionTechnologyEnum) {
-        this.projectionTechnologyEnum = projectionTechnologyEnum;
+    public void setProjectionTechnology(ProjectionTechnology projectionTechnology) {
+        this.projectionTechnology = projectionTechnology;
     }
 
     public Language getLanguage() {

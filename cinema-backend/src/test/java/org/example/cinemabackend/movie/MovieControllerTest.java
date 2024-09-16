@@ -127,7 +127,9 @@ public class MovieControllerTest {
                                 .value(movie.getProductionDetails().getDirector().getLastName()),
                         jsonPath("$.trailer").value(movie.getTrailer()),
                         jsonPath("$.genres").isArray(),
-                        jsonPath("$.genres.length()").value(movie.getGenres().size())
+                        jsonPath("$.genres.length()").value(movie.getGenres().size()),
+                        jsonPath("$.movieVariants").isArray(),
+                        jsonPath("$.movieVariants.length()").value(movie.getMovieVariants().size())
                 );
     }
 

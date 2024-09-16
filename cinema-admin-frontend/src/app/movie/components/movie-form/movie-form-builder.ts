@@ -1,14 +1,12 @@
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MovieResponse} from "../../dtos/response/movie.response";
 import {UpdateMovieRequest} from "../../dtos/request/update-movie.request";
 import {ProductionDetailsRequest} from "../../dtos/request/production-details.request";
 import {FilmMemberRequest} from "../../dtos/request/film-member.request";
-import {SubtitleAndSoundOptionsRequest} from "../../dtos/request/subtitle-and-sound-options.request";
-import {
-  ProjectionTechnologyResponse
-} from "../../../projection-technology/dtos/response/projection-technology.response";
 import {CreateMovieRequest} from "../../dtos/request/create-movie.request";
 import FormValidatorPatterns from "../../../_shared/validators/form-validators-patterns";
+import {getEnumKeyByValue, getEnumValueByKey} from "../../dtos/response/projection-technology";
+import {MovieVariantResponse} from "../../dtos/response/movie-variant.response";
 
 export class MovieFormBuilder {
   form: FormGroup;
@@ -19,35 +17,89 @@ export class MovieFormBuilder {
     this.form = this.createForm();
   }
 
-  public get titleFormGroup() {
+  get titleFormGroup() {
     return this.form.get('title') as FormGroup;
   }
 
-  public get informationFormGroup() {
+  get informationFormGroup() {
     return this.form.get('information') as FormGroup;
   }
 
-  public get productionDetailsFormGroup() {
+  get productionDetailsFormGroup() {
     return this.form.get('productionDetails') as FormGroup;
   }
 
-  public get projectionDetailsFormGroup() {
-    return this.form.get('projectionDetails') as FormGroup;
-  }
-
-  public get ageRestrictionAndGenresFormGroup() {
+  get ageRestrictionAndGenresFormGroup() {
     return this.form.get('ageRestrictionAndGenres') as FormGroup;
   }
 
-  public get imageAndTrailerFormGroup() {
+  get imageAndTrailerFormGroup() {
     return this.form.get('imageAndTrailer') as FormGroup;
   }
 
-  public get imageFormGroup() {
+  get imageFormGroup() {
     return this.form.get('imageAndTrailer')?.get('image') as FormGroup;
   }
 
-  createForm(): FormGroup {
+  get movieVariantsFormGroup() {
+    return this.form.get('movieVariants') as FormGroup;
+  }
+
+  get variants() {
+    return this.movieVariantsFormGroup.get('variants') as FormArray;
+  }
+
+  fillFormWithMovie(movie: MovieResponse) {
+    const variants = this.mapVariantsWhenFillForm(movie.movieVariants);
+    variants.forEach(variant => {
+      this.variants.push(this.formBuilder.group({
+        projectionTechnology: [variant.projectionTechnology],
+        language: [variant.language]
+      }));
+    });
+    console.log(movie);
+    this.form.setValue({
+      title: {
+        title: movie.title,
+        originalTitle: movie.originalTitle
+      },
+      information: {
+        duration: movie.duration,
+        releaseDate: movie.releaseDate,
+        description: movie.description
+      },
+      productionDetails: {
+        worldPremiereDate: movie.productionDetails.worldPremiereDate,
+        director: `${movie.productionDetails.director.firstName} ${movie.productionDetails.director.lastName}`,
+        actors: movie.productionDetails.actors.map(actor => `${actor.firstName} ${actor.lastName}`).join(', '),
+        originalLanguages: movie.productionDetails.originalLanguages.join(', '),
+        productionCountries: movie.productionDetails.productionCountries.join(', ')
+      },
+      ageRestrictionAndGenres: {
+        ageRestriction: movie.ageRestriction,
+        genres: movie.genres
+      },
+      imageAndTrailer: {
+        image: movie.poster,
+        trailer: movie.trailer
+      },
+      movieVariants: {
+        projectionTechnology: ' ',
+        language: ' ',
+        variants: variants
+      }
+    });
+  }
+
+  getUpdateMovieRequestFromForm() {
+    return this.getMovieRequestFromForm(UpdateMovieRequest);
+  }
+
+  getCreateMovieRequestFromForm() {
+    return this.getMovieRequestFromForm(CreateMovieRequest);
+  }
+ 
+  private createForm() {
     return this.formBuilder.group({
       title: this.formBuilder.group({
         title: ['', [Validators.required, Validators.maxLength(255)]],
@@ -73,62 +125,23 @@ export class MovieFormBuilder {
         ageRestriction: ['', [Validators.required]],
         genres: ['', [Validators.required]],
       }),
-      projectionDetails: this.formBuilder.group({
-        subtitlesAndSoundOptions: ['', [Validators.required]],
-        projectionTechnologies: ['', [Validators.required]],
-      }),
+      movieVariants: this.formBuilder.group({
+        projectionTechnology: ['',],
+        language: ['',],
+        variants: this.formBuilder.array([], Validators.required)
+      })
     });
-  }
-
-  fillFormWithMovie(movie: MovieResponse) {
-    this.form.setValue({
-      title: {
-        title: movie.title,
-        originalTitle: movie.originalTitle
-      },
-      information: {
-        duration: movie.duration,
-        releaseDate: movie.releaseDate,
-        description: movie.description
-      },
-      productionDetails: {
-        worldPremiereDate: movie.productionDetails.worldPremiereDate,
-        director: `${movie.productionDetails.director.firstName} ${movie.productionDetails.director.lastName}`,
-        actors: movie.productionDetails.actors.map(actor => `${actor.firstName} ${actor.lastName}`).join(', '),
-        originalLanguages: movie.productionDetails.originalLanguages.join(', '),
-        productionCountries: movie.productionDetails.productionCountries.join(', ')
-      },
-      projectionDetails: {
-        projectionTechnologies: movie.projectionTechnologies.map(technology => technology.technology),
-        subtitlesAndSoundOptions: movie.subtitleAndSoundOptions.subtitles ? 'Subtitles'
-          : movie.subtitleAndSoundOptions.dubbing ? 'Dubbing'
-            : movie.subtitleAndSoundOptions.voiceOver ? 'Voice Over' : 'Original Language'
-      },
-      ageRestrictionAndGenres: {
-        ageRestriction: movie.ageRestriction,
-        genres: movie.genres
-      },
-      imageAndTrailer: {
-        image: movie.poster,
-        trailer: movie.trailer
-      }
-    });
-  }
-
-  getUpdateMovieRequestFromForm() {
-    return this.getMovieRequestFromForm(UpdateMovieRequest);
-  }
-
-  getCreateMovieRequestFromForm() {
-    return this.getMovieRequestFromForm(CreateMovieRequest);
   }
 
   private getMovieRequestFromForm(requestType: any) {
     const formData = new FormData();
+
     const image = this.imageFormGroup?.value;
     if (image instanceof File) {
       formData.append('image', image);
     }
+
+    const mappedVariants = this.mapVariantsWhenCreatingRequest(this.form.get('movieVariants')?.value.variants);
 
     const movieRequest = new requestType(
       this.form.get('title')?.value.title,
@@ -137,11 +150,10 @@ export class MovieFormBuilder {
       this.form.get('information')?.value.releaseDate,
       this.form.get('information')?.value.description,
       this.createProductionDetailsRequest(),
-      this.createSubtitleAndSoundOptions(),
       this.form.get('ageRestrictionAndGenres')?.value.ageRestriction,
       this.form.get('imageAndTrailer')?.value.trailer,
       this.form.get('ageRestrictionAndGenres')?.value.genres,
-      this.createProjectionTechnologies()
+      mappedVariants
     );
 
     formData.append(
@@ -189,18 +201,17 @@ export class MovieFormBuilder {
     return countriesString.split(',');
   }
 
-  private createSubtitleAndSoundOptions(): SubtitleAndSoundOptionsRequest {
-    const subtitlesAndSoundOptions = this.form.get('projectionDetails')?.value.subtitlesAndSoundOptions;
-    return new SubtitleAndSoundOptionsRequest(
-      subtitlesAndSoundOptions === 'Subtitles',
-      subtitlesAndSoundOptions === 'Dubbing',
-      subtitlesAndSoundOptions === 'Voice Over',
-      subtitlesAndSoundOptions === 'Original Language'
-    );
+  private mapVariantsWhenCreatingRequest(variants: any) {
+    return variants.map((variant: any) => ({
+      projectionTechnology: getEnumKeyByValue(variant.projectionTechnology),
+      language: variant.language
+    }));
   }
 
-  private createProjectionTechnologies(): ProjectionTechnologyResponse[] {
-    const selectedTechnologies = this.form.get('projectionDetails')?.value.projectionTechnologies || [];
-    return selectedTechnologies.map((technology: string) => new ProjectionTechnologyResponse(technology, ''));
+  private mapVariantsWhenFillForm(variants: MovieVariantResponse[]) {
+    return variants.map((variant: MovieVariantResponse) => ({
+      projectionTechnology: getEnumValueByKey(variant.projectionTechnology),
+      language: variant.language
+    }));
   }
 }

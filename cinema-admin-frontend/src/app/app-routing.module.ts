@@ -2,12 +2,6 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {CinemaTableComponent} from "./cinema/components/cinema-table/cinema-table.component";
 import {CinemaDetailsComponent} from "./cinema/components/cinema-details/cinema-details.component";
-import {
-  ProjectionTechnologyTableComponent
-} from "./projection-technology/components/projection-technology-table/projection-technology-table.component";
-import {
-  ProjectionTechnologyDetailsComponent
-} from "./projection-technology/components/projection-technology-details/projection-technology-details.component";
 import {HomeComponent} from "./home/home.component";
 import {MovieTableComponent} from "./movie/components/movie-table/movie-table.component";
 import {MovieDetailsComponent} from "./movie/components/movie-details/movie-details.component";
@@ -15,9 +9,6 @@ import {ManageRepertoryComponent} from "./repertory/components/manage-repertory/
 import {
   ScreeningFormComponent
 } from "./repertory/components/manage-repertory/components/screening-form/screening-form.component";
-import {
-  ProjectionTechnologyFormComponent
-} from "./projection-technology/components/projection-technology-form/projection-technology-form.component";
 import {CinemaFormComponent} from "./cinema/components/cinema-form/cinema-form.component";
 import {MovieFormComponent} from "./movie/components/movie-form/movie-form.component";
 import {LoginFormComponent} from "./auth/components/login-form/login-form.component";
@@ -52,30 +43,6 @@ const routes: Routes = [
     component: CinemaDetailsComponent,
     canActivate: [AuthGuard],
     data: {roles: [Role.ROLE_CINEMA_NETWORK_MANAGER, Role.ROLE_ADMIN]}
-  },
-  {
-    path: 'projection-technologies',
-    component: ProjectionTechnologyTableComponent,
-    canActivate: [AuthGuard],
-    data: {roles: [Role.ROLE_CINEMA_NETWORK_MANAGER, Role.ROLE_CINEMA_MANAGER, Role.ROLE_ADMIN]}
-  },
-  {
-    path: 'projection-technologies/create',
-    component: ProjectionTechnologyFormComponent,
-    canActivate: [AuthGuard],
-    data: {roles: [Role.ROLE_CINEMA_NETWORK_MANAGER, Role.ROLE_ADMIN]}
-  },
-  {
-    path: 'projection-technologies/edit/:technology',
-    component: ProjectionTechnologyFormComponent,
-    canActivate: [AuthGuard],
-    data: {roles: [Role.ROLE_CINEMA_NETWORK_MANAGER, Role.ROLE_ADMIN]}
-  },
-  {
-    path: 'projection-technologies/details/:technology',
-    component: ProjectionTechnologyDetailsComponent,
-    canActivate: [AuthGuard],
-    data: {roles: [Role.ROLE_CINEMA_NETWORK_MANAGER, Role.ROLE_CINEMA_MANAGER, Role.ROLE_ADMIN]}
   },
   {
     path: 'movies',

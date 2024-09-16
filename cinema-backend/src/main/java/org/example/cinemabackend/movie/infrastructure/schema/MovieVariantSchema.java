@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.example.cinemabackend.movie.core.domain.Language;
 import org.example.cinemabackend.movie.core.domain.MovieVariant;
-import org.example.cinemabackend.movie.core.domain.ProjectionTechnologyEnum;
+import org.example.cinemabackend.movie.core.domain.ProjectionTechnology;
 
 @Data
 @Entity
@@ -19,7 +19,7 @@ public class MovieVariantSchema {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private ProjectionTechnologyEnum projectionTechnologyEnum;
+    private ProjectionTechnology projectionTechnology;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -28,12 +28,12 @@ public class MovieVariantSchema {
     public static MovieVariantSchema fromMovieVariant(MovieVariant movieVariant) {
         return MovieVariantSchema.builder()
                 .id(movieVariant.getId())
-                .projectionTechnologyEnum(movieVariant.getProjectionTechnologyEnum())
+                .projectionTechnology(movieVariant.getProjectionTechnology())
                 .language(movieVariant.getLanguage())
                 .build();
     }
 
     public MovieVariant toMovieVariant() {
-        return new MovieVariant(id, projectionTechnologyEnum, language);
+        return new MovieVariant(id, projectionTechnology, language);
     }
 }

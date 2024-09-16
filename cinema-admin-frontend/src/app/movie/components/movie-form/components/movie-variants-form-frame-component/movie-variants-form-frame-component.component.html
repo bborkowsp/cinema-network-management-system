@@ -1,0 +1,33 @@
+<app-generic-form-frame title="Movie variants">
+  <ng-container content>
+    <div class="inputs-form-container">
+      <form [formGroup]="formGroup">
+        <mat-form-field>
+          <mat-label>Projection Technology</mat-label>
+          <mat-select formControlName="projectionTechnology" required>
+            <mat-option *ngFor="let tech of projectionTechnologies" [value]="tech">{{ tech }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Language</mat-label>
+          <mat-select formControlName="language" required>
+            <mat-option *ngFor="let lang of languages" [value]="lang">{{ lang }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <button (click)="addVariant()" color="primary" mat-raised-button>Add Variant</button>
+        <div *ngIf="variants.length > 0">
+          <mat-list>
+            <mat-list-item *ngFor="let variant of variants.controls; let i = index">
+              {{ variant.get('projectionTechnology')?.value }} | {{ variant.get('language')?.value }}
+              <button (click)="removeVariant(i)" color="warn" mat-icon-button>
+                <mat-icon>delete</mat-icon>
+              </button>
+            </mat-list-item>
+          </mat-list>
+        </div>
+      </form>
+    </div>
+  </ng-container>
+</app-generic-form-frame>

@@ -73,12 +73,7 @@ export class CinemaFormBuilder {
               seatStatus: [seat.seatStatus, Validators.required],
             }))
           ))
-        ),
-        supportedTechnologies: this.formBuilder.array(
-          screeningRoom.supportedTechnologies.map(technology => this.formBuilder.group({
-            technology: [technology.technology, Validators.required],
-            description: [technology.description, Validators.required],
-          })))
+        )
       })));
 
     this.stepTwoFormGroup.setControl('screeningRooms', screeningRoomsFormArray);
@@ -120,7 +115,7 @@ export class CinemaFormBuilder {
       commonFields.contactDetails,
       cinemaManager
     );
-    console.log(cinemaRequest);
+
     formData.append(
       'cinemaRequest',
       new Blob([JSON.stringify(cinemaRequest)], {type: 'application/json'})

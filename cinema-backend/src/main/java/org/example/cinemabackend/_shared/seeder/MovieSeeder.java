@@ -61,7 +61,7 @@ class MovieSeeder implements Seeder {
 
     private MovieVariant createMovieVariant() {
         return new MovieVariant(
-                ProjectionTechnologyEnum._2D,
+                ProjectionTechnology._2D,
                 Language.DUBBING
         );
     }

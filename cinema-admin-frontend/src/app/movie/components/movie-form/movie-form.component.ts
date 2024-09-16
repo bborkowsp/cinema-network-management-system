@@ -42,17 +42,6 @@ export class MovieFormComponent implements OnInit {
     this.goBack();
   }
 
-  getInvalidControls(): string[] {
-    const invalidControls: string[] = [];
-    const controls = this.movieFormBuilder.form.controls;
-    for (const name in controls) {
-      if (controls[name].invalid) {
-        invalidControls.push(name);
-      }
-    }
-    return invalidControls;
-  }
-
   protected onSubmit() {
     let movieRequestPromise: FormData;
 

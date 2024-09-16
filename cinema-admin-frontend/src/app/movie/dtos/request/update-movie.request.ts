@@ -1,8 +1,5 @@
 import {ProductionDetailsRequest} from "./production-details.request";
-import {SubtitleAndSoundOptionsRequest} from "./subtitle-and-sound-options.request";
-import {
-  ProjectionTechnologyResponse
-} from "../../../projection-technology/dtos/response/projection-technology.response";
+import {MovieVariantResponse} from "../response/movie-variant.response";
 
 export class UpdateMovieRequest {
   constructor(
@@ -12,11 +9,11 @@ export class UpdateMovieRequest {
     readonly releaseDate: Date,
     readonly description: string,
     readonly productionDetails: ProductionDetailsRequest,
-    readonly subtitleAndSoundOptions: SubtitleAndSoundOptionsRequest,
     readonly ageRestriction: string,
     readonly trailer: string,
     readonly genres: string[],
-    readonly projectionTechnologies: ProjectionTechnologyResponse[],
+    readonly movieVariants: MovieVariantResponse[],
   ) {
   }
 }
+

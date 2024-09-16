@@ -65,11 +65,6 @@ export class ScaffoldComponent {
         label: 'Movies',
         path: '/movies',
         icon: 'movie'
-      },
-      {
-        label: 'Projection technologies',
-        path: '/projection-technologies',
-        icon: 'settings'
       }
     ];
   }

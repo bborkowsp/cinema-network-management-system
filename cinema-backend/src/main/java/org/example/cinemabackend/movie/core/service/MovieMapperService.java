@@ -44,7 +44,7 @@ class MovieMapperService implements MovieMapper {
                 .ageRestriction(movie.getAgeRestriction())
                 .trailer(movie.getTrailer())
                 .genres(movie.getGenres())
-
+                .movieVariants(movieVariantMapper.mapMovieVariantsToMovieVariantResponses(movie.getMovieVariants()))
                 .build();
     }
 

@@ -1,5 +1,5 @@
 import {environment} from "../../../assets/environment";
-import { HttpClient, HttpParams } from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {map, Observable} from "rxjs";
 import {Injectable} from "@angular/core";
 import {PaginatorRequestParams} from "../../_shared/dtos/paginator-request-params";
@@ -40,11 +40,17 @@ export class MovieService {
   }
 
   getGenres(): Observable<string[]> {
-    return this.httpClient.get<string[]>(`${MovieService.MOVIES_API_URL}/genres`);
+    const url = `${MovieService.MOVIES_API_URL}/genres`;
+    return this.httpClient.get<{ content: string[] }>(url).pipe(
+      map((response) => response.content),
+    );
   }
 
   getAgeRestrictions() {
-    return this.httpClient.get<string[]>(`${MovieService.MOVIES_API_URL}/age-restrictions`);
+    const url = `${MovieService.MOVIES_API_URL}/age-restrictions`;
+    return this.httpClient.get<{ content: string[] }>(url).pipe(
+      map((response) => response.content),
+    );
   }
 
   getMovie(title: string): Observable<MovieResponse> {
