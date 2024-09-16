@@ -32,7 +32,7 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 class AuthService implements AuthUseCases, UserDetailsService {
     private static final Logger LOGGER = LogManager.getLogger(AuthService.class);
-    private static final String USER_NOT_FOUND_ERROR_MESSAGE = "User not found";
+    private static final String USER_NOT_FOUND_ERROR_MESSAGE = "Invalid login credentials";
     private static final String PASSWORD_DOES_NOT_MATCH_ERROR_MESSAGE = "Invalid login credentials";
     private static final String USER_ALREADY_EXISTS_ERROR_MESSAGE = "User already exists";
     private static final String FRONTEND_BASE_URL = "http://localhost:4200";
