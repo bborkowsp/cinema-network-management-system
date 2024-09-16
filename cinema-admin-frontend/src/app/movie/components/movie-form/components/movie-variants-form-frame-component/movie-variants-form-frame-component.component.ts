@@ -30,17 +30,31 @@ export class MovieVariantsFormFrameComponentComponent {
   }
 
   addVariant(): void {
-    if (this.projectionTechnologyControl?.value && this.languageControl?.value) {
-      const variantGroup = this.formBuilder.group({
-        projectionTechnology: [this.projectionTechnologyControl?.value],
-        language: [this.languageControl?.value]
-      });
+    const projectionTechnology = this.projectionTechnologyControl?.value;
+    const language = this.languageControl?.value;
 
-      this.variants.push(variantGroup);
+    if (projectionTechnology && language) {
+      if (!this.isDuplicateVariant(projectionTechnology, language)) {
+        const variantGroup = this.formBuilder.group({
+          projectionTechnology: [projectionTechnology],
+          language: [language]
+        });
+        this.variants.push(variantGroup);
+      } else {
+        console.warn('Duplicate variant detected');
+      }
     }
   }
 
   removeVariant(index: number): void {
     this.variants.removeAt(index);
+  }
+
+  isDuplicateVariant(projectionTechnology: string, language: string): boolean {
+    return this.variants.controls.some((control) => {
+      const currentProjectionTechnology = control.get('projectionTechnology')?.value;
+      const currentLanguage = control.get('language')?.value;
+      return currentProjectionTechnology === projectionTechnology && currentLanguage === language;
+    });
   }
 }

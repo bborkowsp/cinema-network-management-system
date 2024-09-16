@@ -1,0 +1,24 @@
+.inputs-form-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-control-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-form-field {
+  width: 100%;
+}
+
+.add-variant-button {
+  margin-top: 8px;
+  align-self: flex-start;
+}
+
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 9px;
+}

@@ -2,28 +2,36 @@
   <ng-container content>
     <div class="inputs-form-container">
       <form [formGroup]="formGroup">
-        <mat-form-field>
-          <mat-label>Projection Technology</mat-label>
-          <mat-select formControlName="projectionTechnology" required>
-            <mat-option *ngFor="let tech of projectionTechnologies" [value]="tech">{{ tech }}</mat-option>
-          </mat-select>
-        </mat-form-field>
+        <div class="form-control-container">
+          <mat-form-field class="input-form-field">
+            <mat-label>Projection Technology</mat-label>
+            <mat-select formControlName="projectionTechnology" required>
+              <mat-option *ngFor="let tech of projectionTechnologies" [value]="tech">{{ tech }}</mat-option>
+            </mat-select>
+          </mat-form-field>
 
-        <mat-form-field>
-          <mat-label>Language</mat-label>
-          <mat-select formControlName="language" required>
-            <mat-option *ngFor="let lang of languages" [value]="lang">{{ lang }}</mat-option>
-          </mat-select>
-        </mat-form-field>
+          <mat-form-field class="input-form-field">
+            <mat-label>Language</mat-label>
+            <mat-select formControlName="language" required>
+              <mat-option *ngFor="let lang of languages" [value]="lang">{{ lang }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
 
-        <button (click)="addVariant()" color="primary" mat-raised-button>Add Variant</button>
+        <!-- Add Variant Button -->
+        <button (click)="addVariant()" class="add-variant-button" color="primary" mat-raised-button>Add Variant</button>
+        <div *ngIf="isDuplicateVariant(projectionTechnologyControl?.value, languageControl?.value)">
+          <p class="error-message">This combination of Projection Technology and Language already exists!</p>
+        </div>
+
+        <!-- Variant List -->
         <div *ngIf="variants.length > 0">
           <mat-list>
             <mat-list-item *ngFor="let variant of variants.controls; let i = index">
-              {{ variant.get('projectionTechnology')?.value }} | {{ variant.get('language')?.value }}
               <button (click)="removeVariant(i)" color="warn" mat-icon-button>
                 <mat-icon>delete</mat-icon>
               </button>
+              {{ variant.get('projectionTechnology')?.value }} | {{ variant.get('language')?.value }}
             </mat-list-item>
           </mat-list>
         </div>
