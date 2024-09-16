@@ -70,7 +70,7 @@ class ScreeningService implements ScreeningUseCases {
     public void createScreening(CreateScreeningRequest createScreeningRequest) {
         validateCinemaExistsByCinemaManager(createScreeningRequest.email());
         final var newScreening = screeningMapper.mapScreeningRequestToScreening(createScreeningRequest);
-        final var screeningRoom = getScreeningRoom(createScreeningRequest);
+        final var screeningRoom = getNewScreeningRoom(createScreeningRequest);
         screeningRoom.addScreening(newScreening);
         screeningRoomRepository.save(screeningRoom);
     }
@@ -78,12 +78,19 @@ class ScreeningService implements ScreeningUseCases {
     @Override
     public void updateScreening(Long id, CreateScreeningRequest createScreeningRequest) {
         validateCinemaExistsByCinemaManager(createScreeningRequest.email());
-        final var screeningRoom = getScreeningRoom(createScreeningRequest);
         final var screeningToUpdate = getScreeningById(id);
-        screeningRoom.getRepertory().remove(screeningToUpdate);
-        updateScreeningDetails(screeningToUpdate, createScreeningRequest);
-        screeningRoom.getRepertory().add(screeningToUpdate);
-        screeningRoomRepository.save(screeningRoom);
+        final var oldScreeningRoom = screeningRoomRepository.findByScreeningId(id).orElseThrow();
+        final var newScreeningRoom = getNewScreeningRoom(createScreeningRequest);
+        if (!oldScreeningRoom.equals(newScreeningRoom)) {
+            oldScreeningRoom.getRepertory().remove(screeningToUpdate);
+            updateScreeningDetails(screeningToUpdate, createScreeningRequest);
+            newScreeningRoom.addScreening(screeningToUpdate);
+            screeningRoomRepository.save(oldScreeningRoom);
+            screeningRoomRepository.save(newScreeningRoom);
+        } else {
+            updateScreeningDetails(screeningToUpdate, createScreeningRequest);
+            screeningRepository.save(screeningToUpdate);
+        }
     }
 
     @Override
@@ -100,7 +107,7 @@ class ScreeningService implements ScreeningUseCases {
         screeningToUpdate.setEndTime(createScreeningRequest.endTime());
     }
 
-    private ScreeningRoom getScreeningRoom(CreateScreeningRequest createScreeningRequest) {
+    private ScreeningRoom getNewScreeningRoom(CreateScreeningRequest createScreeningRequest) {
         final var cinema = cinemaRepository.findByUserEmail(createScreeningRequest.email()).orElseThrow();
         return cinema.getScreeningRooms().stream()
                 .filter(screeningRoom -> screeningRoom.getName().equals(createScreeningRequest.screeningRoom()))

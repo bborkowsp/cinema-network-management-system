@@ -8,11 +8,13 @@ import java.util.Optional;
 
 public interface ScreeningRoomRepository {
 
+    Optional<ScreeningRoom> findById(Long id);
+
+    Optional<ScreeningRoom> findByScreeningId(Long id);
+
     Optional<ScreeningRoom> findByName(String screeningRoomName);
 
     void save(ScreeningRoom screeningRoom);
-
-    Optional<ScreeningRoom> findByContainsScreening(Screening screening);
 
     Optional<ScreeningRoom> findByRepertoryContains(Screening screening);
 

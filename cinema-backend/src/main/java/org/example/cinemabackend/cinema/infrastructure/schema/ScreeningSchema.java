@@ -6,6 +6,7 @@ import org.example.cinemabackend.cinema.core.domain.Screening;
 import org.example.cinemabackend.movie.infrastructure.schema.MovieSchema;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Data
 @Entity
@@ -43,5 +44,18 @@ public class ScreeningSchema {
                 startTime,
                 endTime
         );
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, movie, startTime, endTime);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ScreeningSchema that = (ScreeningSchema) o;
+        return Objects.equals(id, that.id) && Objects.equals(movie, that.movie) && Objects.equals(startTime, that.startTime) && Objects.equals(endTime, that.endTime);
     }
 }
