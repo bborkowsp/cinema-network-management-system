@@ -41,7 +41,7 @@ class MovieSeeder implements Seeder {
         final var movieVariants = createMovieVariants();
         return new Movie(
                 faker.book().title() + increment,
-                faker.book().title(),
+                faker.lorem().sentence(50),
                 faker.number().numberBetween(60, 180),
                 faker.date().birthday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
                 productionDetails,

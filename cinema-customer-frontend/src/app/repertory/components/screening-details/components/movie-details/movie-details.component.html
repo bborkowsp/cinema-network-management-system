@@ -44,6 +44,29 @@
           </div>
           <mat-divider></mat-divider>
         </div>
+        <div class="detail-container">
+          <div class="detail">
+            <span class="label">WORLD PREMIERE DATE:</span>
+            <span class="value">{{ movie.productionDetails.worldPremiereDate | date }}</span>
+          </div>
+          <mat-divider></mat-divider>
+        </div>
+        <div class="detail-container">
+          <div class="detail">
+            <span class="label">DIRECTOR:</span>
+            <span
+              class="value">{{ movie.productionDetails.director.firstName }} {{ movie.productionDetails.director.lastName }}</span>
+          </div>
+          <mat-divider></mat-divider>
+        </div>
+        <div class="detail-container">
+          <div class="detail">
+            <span class="label">ORIGINAL LANGUAGES:</span>
+            <span *ngFor="let language of movie.productionDetails.originalLanguages; "
+                  class="value">{{ language }} </span>
+          </div>
+          <mat-divider></mat-divider>
+        </div>
       </div>
     </div>
     <div class="image">
