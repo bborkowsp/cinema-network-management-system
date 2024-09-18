@@ -1,17 +1,53 @@
 <div class="container">
   <div class="content">
-    <div class="image">
-      <img alt="movie poster" class="movie-poster"
-           src="{{POSTERS_SERVER_DIRECTORY_URL}}{{ movie.poster }}"/>
+    <div class="description">
+      <div class="title">
+        <h1>{{ movie.title }}</h1>
+        <button (click)="openTrailer()" class="play-button mat-accent" mat-icon-button>
+          <mat-icon class="play-icon">play_circle_filled</mat-icon>
+        </button>
+      </div>
+      <h3>{{ movie.description }}</h3>
+      <div class="movie-details">
+        <div class="detail-container">
+          <div class="detail">
+            <span class="label">ORIGINAL TITLE:</span>
+            <span class="value">{{ movie.originalTitle }}</span>
+          </div>
+          <mat-divider></mat-divider>
+        </div>
+        <div class="detail-container">
+          <div class="detail">
+            <span class="label">DURATION:</span>
+            <span class="value">{{ movie.duration }} minutes</span>
+          </div>
+          <mat-divider></mat-divider>
+        </div>
+        <div class="detail-container">
+          <div class="detail">
+            <span class="label">Release Date:</span>
+            <span class="value">{{ movie.releaseDate | date }}</span>
+          </div>
+          <mat-divider></mat-divider>
+        </div>
+        <div class="detail-container">
+          <div class="detail">
+            <span class="label">AGE RESTRICTION:</span>
+            <span class="value">{{ movie.ageRestriction }}</span>
+          </div>
+          <mat-divider></mat-divider>
+        </div>
+        <div class="detail-container">
+          <div class="detail">
+            <span class="label">GENRES:</span>
+            <span class="value">{{ movie.genres.join(', ') }}</span>
+          </div>
+          <mat-divider></mat-divider>
+        </div>
+      </div>
     </div>
-    <div class="right-column">
-      <h1>{{ movie.title }}</h1>
-      <div class="description">
-        <p>{{ movie.description }}</p>
-      </div>
-      <div class="details">
-        <p>Director: {{ movie.duration }}</p>
-      </div>
+    <div class="image">
+      <img alt="movie poster" class="movie-poster" src="{{POSTERS_SERVER_DIRECTORY_URL}}{{ movie.poster }}"/>
     </div>
   </div>
 </div>

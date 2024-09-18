@@ -1,4 +1,4 @@
-<ng-container *ngIf="screeningDetailsResponse">
+<ng-container *ngIf="screeningDetailsResponse;else spinner">
   <app-movie-details
     [movie]="screeningDetailsResponse.movie"
   ></app-movie-details>
@@ -7,6 +7,10 @@
     [screeningTimes]="screeningDetailsResponse.screenings"
   ></app-screening-times>
 </ng-container>
-
-
 <app-page-bottom-section></app-page-bottom-section>
+
+<ng-template #spinner>
+  <div class="spinner">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>

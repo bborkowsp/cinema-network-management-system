@@ -32,7 +32,7 @@ import {
   ScreeningTimesComponent
 } from "./components/screening-details/components/screening-times/screening-times.component";
 import {CancelPaypalPaymentComponent} from "./components/cancel-paypal-payment/cancel-paypal-payment.component";
-import {MatCard} from "@angular/material/card";
+import {MatCard, MatCardContent, MatCardHeader, MatCardImage, MatCardTitle} from "@angular/material/card";
 
 @NgModule({
   declarations: [
@@ -45,7 +45,9 @@ import {MatCard} from "@angular/material/card";
     SeatLimitDialogComponent,
     ScreeningListComponent,
     ScreeningDetailsComponent,
-    CancelPaypalPaymentComponent
+    CancelPaypalPaymentComponent,
+    MovieDetailsComponent,
+    ScreeningTimesComponent,
   ],
   imports: [
     CommonModule,
@@ -68,9 +70,11 @@ import {MatCard} from "@angular/material/card";
     ReactiveFormsModule,
     FormsModule,
     RouterLink,
-    MovieDetailsComponent,
-    ScreeningTimesComponent,
     MatCard,
+    MatCardTitle,
+    MatCardHeader,
+    MatCardContent,
+    MatCardImage,
   ],
 })
 export class RepertoryModule {
