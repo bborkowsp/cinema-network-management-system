@@ -32,6 +32,13 @@ export class MovieService {
       .pipe(map((response) => response));
   }
 
+  getAllMovies() {
+    const url = `${MovieService.MOVIES_API_URL}/all`;
+    return this.httpClient.get<{ content: MovieResponse[] }>(url).pipe(
+      map((response) => response.content),
+    );
+  }
+
   getAllMovieTitles() {
     const url = `${MovieService.MOVIES_API_URL}/titles`;
     return this.httpClient.get<{ content: string[] }>(url).pipe(

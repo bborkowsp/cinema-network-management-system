@@ -1,6 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ScreeningResponse} from "../../dtos/response/screening.response";
 import {images} from "../../../../assets/environment";
+import {MovieVariantResponse} from "../../dtos/response/movie-variant.response";
+import {getEnumValueByKey} from "../../enums/projection-technology";
 
 @Component({
   selector: 'app-screening-list',
@@ -16,6 +18,7 @@ export class ScreeningListComponent implements OnInit {
   @Output() buyTicket = new EventEmitter<ScreeningResponse>();
   @Input() date!: Date;
   formattedDate = '';
+  protected readonly getEnumValueByKey = getEnumValueByKey;
 
   ngOnInit() {
     this.formatDate();
@@ -23,6 +26,27 @@ export class ScreeningListComponent implements OnInit {
 
   handleBuyTicket(screening: ScreeningResponse) {
     this.buyTicket.emit(screening);
+  }
+
+  getMovieVariants(screenings: ScreeningResponse[]): MovieVariantResponse[] {
+    const uniqueVariants = new Map<string, MovieVariantResponse>();
+
+    screenings.forEach(screening => {
+      const key = `${screening.movieVariant.projectionTechnology}-${screening.movieVariant.language}`;
+      if (!uniqueVariants.has(key)) {
+        uniqueVariants.set(key, screening.movieVariant);
+      }
+    });
+
+    return Array.from(uniqueVariants.values());
+  }
+
+  // Pobierz seanse dla danego wariantu
+  getScreeningsByVariant(screenings: ScreeningResponse[], variant: MovieVariantResponse): ScreeningResponse[] {
+    return screenings.filter(screening =>
+      screening.movieVariant.projectionTechnology === variant.projectionTechnology &&
+      screening.movieVariant.language === variant.language
+    );
   }
 
   private formatDate() {

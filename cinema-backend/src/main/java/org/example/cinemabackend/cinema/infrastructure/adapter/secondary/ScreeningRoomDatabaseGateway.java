@@ -18,6 +18,7 @@ class ScreeningRoomDatabaseGateway implements ScreeningRoomRepository {
     private final ScreeningRoomJpaRepository screeningRoomJpaRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<ScreeningRoom> findById(Long id) {
         return screeningRoomJpaRepository.findById(id).map(ScreeningRoomSchema::toScreeningRoom);
     }
@@ -37,16 +38,19 @@ class ScreeningRoomDatabaseGateway implements ScreeningRoomRepository {
     @Override
     @Transactional
     public void save(ScreeningRoom screeningRoom) {
-        this.screeningRoomJpaRepository.save(ScreeningRoomSchema.fromScreeningRoom(screeningRoom));
+        final var screeningRoomSchema = ScreeningRoomSchema.fromScreeningRoom(screeningRoom);
+        this.screeningRoomJpaRepository.save(screeningRoomSchema);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<ScreeningRoom> findByRepertoryContains(Screening screening) {
         return screeningRoomJpaRepository.findByRepertoryContains(ScreeningSchema.fromScreening(screening))
                 .map(ScreeningRoomSchema::toScreeningRoom);
     }
 
     @Override
+    @Transactional
     public void saveAll(List<ScreeningRoom> updatedScreeningRooms) {
         screeningRoomJpaRepository.saveAll(updatedScreeningRooms.stream()
                 .map(ScreeningRoomSchema::fromScreeningRoom)

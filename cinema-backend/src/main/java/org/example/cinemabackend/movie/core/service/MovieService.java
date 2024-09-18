@@ -39,6 +39,12 @@ class MovieService implements MovieUseCases {
     }
 
     @Override
+    public List<MovieResponse> getAllMovies() {
+        final var movies = movieRepository.findAll();
+        return movies.stream().map(movieMapper::mapMovieToMovieResponse).collect(Collectors.toList());
+    }
+
+    @Override
     public List<Genre> getGenres() {
         return List.of(Genre.values());
     }

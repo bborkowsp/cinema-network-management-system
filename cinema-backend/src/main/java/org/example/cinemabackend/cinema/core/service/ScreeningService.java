@@ -14,6 +14,7 @@ import org.example.cinemabackend.cinema.core.port.secondary.CinemaRepository;
 import org.example.cinemabackend.cinema.core.port.secondary.ScreeningRepository;
 import org.example.cinemabackend.cinema.core.port.secondary.ScreeningRoomRepository;
 import org.example.cinemabackend.movie.core.port.primary.MovieMapper;
+import org.example.cinemabackend.movie.core.port.primary.MovieVariantMapper;
 import org.example.cinemabackend.movie.core.port.secondary.MovieRepository;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +30,7 @@ import java.util.stream.Stream;
 class ScreeningService implements ScreeningUseCases {
     private final MovieMapper movieMapper;
     private final ScreeningMapper screeningMapper;
+    private final MovieVariantMapper movieVariantMapper;
     private final MovieRepository movieRepository;
     private final CinemaRepository cinemaRepository;
     private final ScreeningRepository screeningRepository;
@@ -109,6 +111,7 @@ class ScreeningService implements ScreeningUseCases {
         screeningToUpdate.setMovie(movieRepository.findByTitle(createScreeningRequest.movieTitle()).orElseThrow());
         screeningToUpdate.setStartTime(createScreeningRequest.startTime());
         screeningToUpdate.setEndTime(createScreeningRequest.endTime());
+        screeningToUpdate.setMovieVariant(movieVariantMapper.mapMovieVariantResponseToMovieVariant(createScreeningRequest.movieVariant()));
     }
 
     private void validateNoScreeningIsPlayedAtTheSameTime(ScreeningRoom screeningRoom, Screening screening) {

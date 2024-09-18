@@ -15,17 +15,22 @@
                 <p>| {{ repertory[movieTitle][0].movie.duration }} min</p>
               </div>
               <p>{{ repertory[movieTitle][0].movie.description }}</p>
-              <div class="screening-hours-container">
-                <div *ngFor="let screening of repertory[movieTitle] | slice:0:4" class="screening-hours">
-                  <button (click)="handleBuyTicket(screening)" color="accent" mat-flat-button>
-                    {{ screening.startTime | date:'HH:mm' }}
-                  </button>
+
+              <div *ngFor="let variant of getMovieVariants(repertory[movieTitle])">
+                <h3><strong>{{ getEnumValueByKey(variant.projectionTechnology) }}</strong>
+                  |<strong> {{ variant.language }}</strong></h3>
+                <div class="screening-hours-container">
+                  <div *ngFor="let screening of getScreeningsByVariant(repertory[movieTitle], variant) | slice:0:4"
+                       class="screening-hours">
+                    <button (click)="handleBuyTicket(screening)" color="accent" mat-flat-button>
+                      {{ screening.startTime | date:'HH:mm' }}
+                    </button>
+                  </div>
+                  <a *ngIf="getScreeningsByVariant(repertory[movieTitle], variant).length > 4" class="more-info"
+                     href="/movie-details/{{movieTitle}}/{{formattedDate}}"
+                     mat-flat-button
+                  >Show more</a>
                 </div>
-                <a *ngIf="repertory[movieTitle].length > 4" class="more-info"
-                   href="/movie-details/{{movieTitle}}/{{formattedDate}}"
-                   mat-flat-button
-                >Show more
-                </a>
               </div>
             </div>
           </div>

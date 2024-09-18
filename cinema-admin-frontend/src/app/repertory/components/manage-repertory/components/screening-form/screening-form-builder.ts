@@ -13,7 +13,7 @@ export class ScreeningFormBuilder {
     this.form = this.createForm();
   }
 
-  public get mainFormGroup() {
+  get mainFormGroup() {
     return this.form.get('main') as FormGroup;
   }
 
@@ -23,7 +23,8 @@ export class ScreeningFormBuilder {
         movieTitle: screening.movie.title,
         startTime: this.formatDate(screening.startTime),
         endTime: this.formatDate(screening.endTime),
-        screeningRoom: screening.screeningRoom.name
+        screeningRoom: screening.screeningRoom.name,
+        movieVariant: screening.movieVariant
       }
     })
   }
@@ -35,7 +36,8 @@ export class ScreeningFormBuilder {
       this.mainFormGroup.get('startTime')!.value,
       this.mainFormGroup.get('endTime')!.value,
       this.mainFormGroup.get('screeningRoom')!.value,
-      email
+      email,
+      this.mainFormGroup.get('movieVariant')!.value,
     )
   }
 
@@ -58,6 +60,7 @@ export class ScreeningFormBuilder {
         startTime: ['', [Validators.required]],
         endTime: ['', [Validators.required]],
         screeningRoom: ['', [Validators.required]],
+        movieVariant: ['', [Validators.required]],
       })
     });
   }

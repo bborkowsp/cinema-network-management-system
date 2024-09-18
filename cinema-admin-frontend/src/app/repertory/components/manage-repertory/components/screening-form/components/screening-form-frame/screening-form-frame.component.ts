@@ -2,8 +2,9 @@ import {Component, Input, OnInit} from '@angular/core';
 import {FormControl, FormGroup, FormGroupDirective, NgForm} from "@angular/forms";
 import {map, Observable, startWith} from "rxjs";
 import {MovieService} from "../../../../../../../movie/services/movie.service";
-import {CinemaService} from "../../../../../../../cinema/services/cinema.service";
 import {ScreeningRoomService} from "../../../../../../../cinema/services/screening-room.service";
+import {MovieResponse} from "../../../../../../../movie/dtos/response/movie.response";
+import {MovieVariantResponse} from "../../../../../../../movie/dtos/response/movie-variant.response";
 
 @Component({
   selector: 'app-screening-form-frame',
@@ -15,14 +16,14 @@ export class ScreeningFormFrameComponent implements OnInit {
   @Input({required: true}) formGroup!: FormGroup;
   movieTitles !: string[];
   screeningRoomsNames !: string[];
-
   filteredTitles!: Observable<string[]>;
   filteredScreeningRooms!: Observable<string[]>;
+  allMovies!: MovieResponse[];
+  filteredMovieVariants!: MovieVariantResponse[];
 
   constructor(
     private readonly movieService: MovieService,
     private readonly screeningRoomService: ScreeningRoomService,
-    private readonly cinemaService: CinemaService
   ) {
   }
 
@@ -42,11 +43,28 @@ export class ScreeningFormFrameComponent implements OnInit {
     return this.formGroup.get('screeningRoom') as FormControl;
   }
 
+  get movieVariantControl(): FormControl {
+    return this.formGroup.get('movieVariant') as FormControl;
+  }
+
   ngOnInit() {
     this.movieService.getAllMovieTitles().subscribe(
       titles => {
         this.movieTitles = titles;
         this.setupFilteredTitlesObservable();
+      }
+    );
+
+    this.movieService.getAllMovies().subscribe(
+      movies => {
+        this.allMovies = movies;
+        if (this.movieTitleControl.value) {
+          this.subscribeToMovieTitleControl();
+          this.updateMovieVariants(this.movieTitleControl.value);
+          this.movieVariantControl.setValue(this.filteredMovieVariants[0]);
+        } else {
+          this.subscribeToMovieTitleControl();
+        }
       }
     );
 
@@ -64,6 +82,15 @@ export class ScreeningFormFrameComponent implements OnInit {
 
   displayScreeningRoomNameFn(screeningRooName: string): string {
     return screeningRooName && screeningRooName ? screeningRooName : '';
+  }
+
+  private updateMovieVariants(selectedTitle: string) {
+    const selectedMovie = this.allMovies.find(movie => movie.title === selectedTitle);
+    if (selectedMovie) {
+      this.filteredMovieVariants = selectedMovie.movieVariants;
+    } else {
+      this.filteredMovieVariants = [];
+    }
   }
 
   private setupFilteredTitlesObservable() {
@@ -94,5 +121,11 @@ export class ScreeningFormFrameComponent implements OnInit {
   private _filter_screeningRoomNames(name: string): string[] {
     const filterValue = name.toLowerCase();
     return this.screeningRoomsNames.filter(option => option.toLowerCase().includes(filterValue));
+  }
+
+  private subscribeToMovieTitleControl() {
+    this.movieTitleControl.valueChanges.subscribe(selectedTitle => {
+      this.updateMovieVariants(selectedTitle);
+    });
   }
 }

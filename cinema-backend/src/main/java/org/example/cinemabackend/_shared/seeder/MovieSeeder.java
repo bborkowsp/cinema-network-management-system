@@ -54,17 +54,12 @@ class MovieSeeder implements Seeder {
     }
 
     private Set<MovieVariant> createMovieVariants() {
-        Set<MovieVariant> movieVariants = new HashSet<>();
-        movieVariants.add(createMovieVariant());
-        return movieVariants;
-    }
-
-    private MovieVariant createMovieVariant() {
-        return new MovieVariant(
-                ProjectionTechnology._2D,
-                Language.DUBBING
+        return Set.of(
+                new MovieVariant(ProjectionTechnology._2D, Language.DUBBING),
+                new MovieVariant(ProjectionTechnology._3D, Language.SUBTITLES)
         );
     }
+
 
     private ProductionDetails createProductionDetails() {
         final var director = createFilmMember();

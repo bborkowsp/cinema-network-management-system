@@ -31,6 +31,13 @@ class MovieController {
         return ResponseEntity.ok(movies);
     }
 
+    @GetMapping({"/all"})
+    @PreAuthorize("hasAnyRole('CINEMA_NETWORK_MANAGER','CINEMA_MANAGER','ADMIN')")
+    ResponseEntity<ResponseList<MovieResponse>> getAllMovies() {
+        final var movies = movieUseCases.getAllMovies();
+        return ResponseEntity.ok(new ResponseList<>(movies));
+    }
+
     @GetMapping({"/titles"})
     @PreAuthorize("hasAnyRole('CINEMA_NETWORK_MANAGER','CINEMA_MANAGER','ADMIN')")
     ResponseEntity<ResponseList<String>> getMovieTitles() {

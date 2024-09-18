@@ -1,6 +1,7 @@
 package org.example.cinemabackend.cinema.core.domain;
 
 import org.example.cinemabackend.movie.core.domain.Movie;
+import org.example.cinemabackend.movie.core.domain.MovieVariant;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -10,18 +11,21 @@ public class Screening {
     private Movie movie;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
+    private MovieVariant movieVariant;
 
-    public Screening(Long id, Movie movie, LocalDateTime startTime, LocalDateTime endTime) {
+    public Screening(Long id, Movie movie, LocalDateTime startTime, LocalDateTime endTime, MovieVariant movieVariant) {
         this.id = id;
         this.movie = movie;
         this.startTime = startTime;
         this.endTime = endTime;
+        this.movieVariant = movieVariant;
     }
 
-    public Screening(Movie movie, LocalDateTime startTime, LocalDateTime endTime) {
+    public Screening(Movie movie, LocalDateTime startTime, LocalDateTime endTime, MovieVariant movieVariant) {
         this.movie = movie;
         this.startTime = startTime;
         this.endTime = endTime;
+        this.movieVariant = movieVariant;
     }
 
     public Long getId() {
@@ -56,6 +60,13 @@ public class Screening {
         this.endTime = endTime;
     }
 
+    public MovieVariant getMovieVariant() {
+        return movieVariant;
+    }
+
+    public void setMovieVariant(MovieVariant movieVariant) {
+        this.movieVariant = movieVariant;
+    }
 
     @Override
     public int hashCode() {

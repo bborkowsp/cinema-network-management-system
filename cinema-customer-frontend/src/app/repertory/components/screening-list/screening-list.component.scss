@@ -24,10 +24,10 @@
 }
 
 .poster {
-  max-width: 12.75rem;
+  width: 11rem;
+  height: 15rem;
   border-radius: 8px;
   overflow: hidden;
-  height: auto;
   display: block;
 }
 
@@ -62,6 +62,7 @@
 
 .screening-hours {
   margin-right: 1rem;
+  margin-bottom: 4px;
 }
 
 .more-info {
@@ -104,4 +105,8 @@
 .mat-divider {
   border-top-width: 4px;
   margin-bottom: 22px;
+}
+
+h3 {
+  margin: 0 0 8px;
 }

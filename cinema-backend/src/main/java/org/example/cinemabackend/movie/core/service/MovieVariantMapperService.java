@@ -20,6 +20,7 @@ public class MovieVariantMapperService implements MovieVariantMapper {
     @Override
     public MovieVariantResponse mapMovieVariantToMovieVariantResponse(MovieVariant movieVariant) {
         return new MovieVariantResponse(
+                movieVariant.getId(),
                 movieVariant.getProjectionTechnology(),
                 movieVariant.getLanguage()
         );

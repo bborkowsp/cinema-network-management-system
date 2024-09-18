@@ -16,6 +16,7 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {
   RepertoryTableComponent
 } from "./components/manage-repertory/components/repertory-table/repertory-table.component";
+import {MatSelect} from "@angular/material/select";
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import {
     ReactiveFormsModule,
     MatInputModule,
     MatDatepickerModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatSelect
   ],
 })
 export class RepertoryModule {

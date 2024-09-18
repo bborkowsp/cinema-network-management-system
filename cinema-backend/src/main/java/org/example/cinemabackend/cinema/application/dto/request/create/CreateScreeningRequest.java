@@ -1,6 +1,7 @@
 package org.example.cinemabackend.cinema.application.dto.request.create;
 
 import lombok.Builder;
+import org.example.cinemabackend.movie.application.dto.response.MovieVariantResponse;
 
 import java.time.LocalDateTime;
 
@@ -10,6 +11,7 @@ public record CreateScreeningRequest(
         LocalDateTime startTime,
         LocalDateTime endTime,
         String screeningRoom,
-        String email
+        String email,
+        MovieVariantResponse movieVariant
 ) {
 }

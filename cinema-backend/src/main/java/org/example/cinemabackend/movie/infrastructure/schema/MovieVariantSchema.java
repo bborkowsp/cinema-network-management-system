@@ -34,6 +34,10 @@ public class MovieVariantSchema {
     }
 
     public MovieVariant toMovieVariant() {
-        return new MovieVariant(id, projectionTechnology, language);
+        return new MovieVariant(
+                this.id,
+                this.projectionTechnology,
+                this.language
+        );
     }
 }

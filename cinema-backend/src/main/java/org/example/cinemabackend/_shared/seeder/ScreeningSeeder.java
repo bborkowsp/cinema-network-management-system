@@ -6,8 +6,12 @@ import org.example.cinemabackend.cinema.core.domain.Screening;
 import org.example.cinemabackend.cinema.core.domain.ScreeningRoom;
 import org.example.cinemabackend.cinema.core.port.secondary.CinemaRepository;
 import org.example.cinemabackend.cinema.core.port.secondary.ScreeningRoomRepository;
+import org.example.cinemabackend.movie.core.domain.Language;
 import org.example.cinemabackend.movie.core.domain.Movie;
+import org.example.cinemabackend.movie.core.domain.MovieVariant;
+import org.example.cinemabackend.movie.core.domain.ProjectionTechnology;
 import org.example.cinemabackend.movie.core.port.secondary.MovieRepository;
+import org.example.cinemabackend.movie.core.port.secondary.MovieVariantRepository;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -23,6 +27,7 @@ class ScreeningSeeder implements Seeder {
     private final CinemaRepository cinemaRepository;
     private final MovieRepository movieRepository;
     private final ScreeningRoomRepository screeningRoomRepository;
+    private final MovieVariantRepository movieVariantRepository;
 
     @Override
     public void seedDatabase(int objectsToSeed) {
@@ -52,7 +57,14 @@ class ScreeningSeeder implements Seeder {
         final var movie = getMovie(i, movies);
         final var startTime = LocalDateTime.now().plusDays(1);
         final var endTime = startTime.plusHours(2);
-        return new Screening(movie, startTime, endTime);
+        final var movieVariant = createMovieVariant();
+        return new Screening(movie, startTime, endTime, movieVariant);
+    }
+
+    private MovieVariant createMovieVariant() {
+        return new MovieVariant(
+                ProjectionTechnology._2D, Language.DUBBING
+        );
     }
 
     private Movie getMovie(int i, List<Movie> movies) {
