@@ -1,25 +1,26 @@
-<div class="group">
-  <div class="group__left-column">
-    <div class="screen-and-seats">
-      <div class="image-container">
-        <div class="text-over-img">SCREEN</div>
-        <img alt="Screen" class="screen-svg" height="70" src="assets/screen.svg" width="200"/>
-      </div>
-      <div *ngFor="let rows of data.screeningRoom.seats; let rowIndex = index" class="seat-row">
-        <!-- Row number -->
-        <div class="row-number">{{ rowIndex + 1 }}</div>
+<form [formGroup]="createBuyTicketForm">
+  <div class="group">
+    <div class="group__left-column">
+      <div class="screen-and-seats">
+        <div class="image-container">
+          <div class="text-over-img">SCREEN</div>
+          <img alt="Screen" class="screen-svg" height="70" src="assets/screen.svg" width="200"/>
+        </div>
+        <div *ngFor="let rows of data.screeningRoom.seats; let rowIndex = index" class="seat-row">
+          <!-- Row number -->
+          <div class="row-number">{{ rowIndex + 1 }}</div>
 
-        <!-- Seats -->
-        <div *ngFor="let seat of rows" class="seat">
-          <ng-container *ngIf="seat.seatZone !== SeatZone.CORRIDOR; else corridorSpace">
-            <button
-              (click)="selectSeat(seat)"
-              [disabled]="seat.seatStatus === SeatStatus.UNAVAILABLE || seat.seatStatus === SeatStatus.RESERVED || seat.seatStatus === SeatStatus.SOLD"
-              [matTooltip]="seat.seatZone === SeatZone.STANDARD ? SeatPrices[seat.seatZone] :
+          <!-- Seats -->
+          <div *ngFor="let seat of rows" class="seat">
+            <ng-container *ngIf="seat.seatZone !== SeatZone.CORRIDOR; else corridorSpace">
+              <button
+                (click)="selectSeat(seat)"
+                [disabled]="seat.seatStatus === SeatStatus.UNAVAILABLE || seat.seatStatus === SeatStatus.RESERVED || seat.seatStatus === SeatStatus.SOLD"
+                [matTooltip]="seat.seatZone === SeatZone.STANDARD ? SeatPrices[seat.seatZone] :
            seat.seatZone === SeatZone.VIP ? SeatPrices[seat.seatZone] :
            seat.seatZone === SeatZone.PROMO ? SeatPrices[seat.seatZone] :
            seat.seatZone === SeatZone.WHEELCHAIR ? SeatPrices[seat.seatZone] : ''"
-              [ngClass]="{
+                [ngClass]="{
       'btn': true,
       'selected-standard': seat.seatZone === SeatZone.STANDARD,
       'selected-vip': seat.seatZone === SeatZone.VIP,
@@ -27,78 +28,79 @@
       'selected-wheelchair': seat.seatZone === SeatZone.WHEELCHAIR,
       'reserved': seat.seatStatus === (SeatStatus.RESERVED || SeatStatus.SOLD),
     }"
-              [ngStyle]="{
+                [ngStyle]="{
       'background-color': getSeatBackgroundColor(seat),
       'border-color': seat.seatStatus === (SeatStatus.RESERVED || SeatStatus.SOLD) ? 'rgba(0, 0, 0, 0.4)' : ''
     }"
-              mat-mini-fab
-            >
-              <mat-icon>
-                {{ seat.seatStatus === SeatStatus.UNAVAILABLE ? 'block' : '' }}
-              </mat-icon>
-            </button>
-          </ng-container>
+                mat-mini-fab
+              >
+                <mat-icon>
+                  {{ seat.seatStatus === SeatStatus.UNAVAILABLE ? 'block' : '' }}
+                </mat-icon>
+              </button>
+            </ng-container>
 
-          <!-- Placeholder for CORRIDOR to maintain spacing -->
-          <ng-template #corridorSpace>
-            <div class="corridor-space"></div>
-          </ng-template>
+            <!-- Placeholder for CORRIDOR to maintain spacing -->
+            <ng-template #corridorSpace>
+              <div class="corridor-space"></div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+
+      <div class="legend">
+        <div class="legend-item">
+          <button class="size no-click reserved selected-legen" mat-mini-fab>
+            <mat-icon class=""></mat-icon>
+          </button>
+          <span class="legend-text">Reserved</span>
+        </div>
+        <div class="legend-item">
+          <mat-icon class="legend-icon">block</mat-icon>
+          <span class="legend-text">Unavailable</span>
+        </div>
+        <div class="legend-item">
+          <button class="size no-click reserved standard" mat-mini-fab>
+            <mat-icon class=""></mat-icon>
+          </button>
+          <span class="legend-text">Standard</span>
+        </div>
+        <div class="legend-item">
+          <button class="size no-click reserved vip" mat-mini-fab>
+            <mat-icon class=""></mat-icon>
+          </button>
+          <span class="legend-text">VIP</span>
+        </div>
+        <div class="legend-item">
+          <button class="size no-click reserved promo" mat-mini-fab>
+            <mat-icon class=""></mat-icon>
+          </button>
+          <span class="legend-text">Promo</span>
+        </div>
+        <div class="legend-item">
+          <button class="size no-click reserved wheelchair" mat-mini-fab>
+            <mat-icon class=""></mat-icon>
+          </button>
+          <span class="legend-text">Wheelchair</span>
         </div>
       </div>
     </div>
 
-    <div class="legend">
-      <div class="legend-item">
-        <button class="size no-click reserved selected-legen" mat-mini-fab>
-          <mat-icon class=""></mat-icon>
-        </button>
-        <span class="legend-text">Reserved</span>
+    <div class="group__right-column">
+      <h2>Summary</h2>
+      <hr/>
+      <div class="selected-seats">
+        <div *ngFor="let seat of selectedSeats" class="selected-seat">
+          <button [ngStyle]="{ 'background-color': getSeatBackgroundColor(seat) }" class="selected-seat" mat-mini-fab>
+            R:{{ seat.seatRow + 1 }} C:{{ seat.seatColumn }}
+          </button>
+        </div>
       </div>
-      <div class="legend-item">
-        <mat-icon class="legend-icon">block</mat-icon>
-        <span class="legend-text">Unavailable</span>
-      </div>
-      <div class="legend-item">
-        <button class="size no-click reserved standard" mat-mini-fab>
-          <mat-icon class=""></mat-icon>
-        </button>
-        <span class="legend-text">Standard</span>
-      </div>
-      <div class="legend-item">
-        <button class="size no-click reserved vip" mat-mini-fab>
-          <mat-icon class=""></mat-icon>
-        </button>
-        <span class="legend-text">VIP</span>
-      </div>
-      <div class="legend-item">
-        <button class="size no-click reserved promo" mat-mini-fab>
-          <mat-icon class=""></mat-icon>
-        </button>
-        <span class="legend-text">Promo</span>
-      </div>
-      <div class="legend-item">
-        <button class="size no-click reserved wheelchair" mat-mini-fab>
-          <mat-icon class=""></mat-icon>
-        </button>
-        <span class="legend-text">Wheelchair</span>
+
+      <div class="total">
+        <h4>Total cost: <strong>{{ totalCost }} ZŁ</strong></h4>
+        <span></span>
       </div>
     </div>
   </div>
-
-  <div class="group__right-column">
-    <h2>Summary</h2>
-    <hr/>
-    <div class="selected-seats">
-      <div *ngFor="let seat of selectedSeats" class="selected-seat">
-        <button [ngStyle]="{ 'background-color': getSeatBackgroundColor(seat) }" class="selected-seat" mat-mini-fab>
-          R:{{ seat.seatRow + 1 }} C:{{ seat.seatColumn }}
-        </button>
-      </div>
-    </div>
-
-    <div class="total">
-      <h4>Total cost: <strong>{{ totalCost }} ZŁ</strong></h4>
-      <span></span>
-    </div>
-  </div>
-</div>
+</form>

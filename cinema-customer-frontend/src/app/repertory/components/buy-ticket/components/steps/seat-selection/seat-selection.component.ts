@@ -5,7 +5,7 @@ import {SeatResponse} from "../../../../../dtos/response/seat.response";
 import "../../../../../../_shared/styles/_colors.scss";
 import {SeatLimitDialogComponent} from "./seat-limit-dialog/seat-limit-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
-import {FormArray, FormControl, FormGroupDirective, NgForm} from "@angular/forms";
+import {FormArray, FormControl, FormGroup, FormGroupDirective, NgForm} from "@angular/forms";
 import {SeatStatus} from "../../../enums/seat-status";
 import {SeatPrices, SeatZone} from "../../../enums/seat-zone";
 
@@ -16,14 +16,14 @@ import {SeatPrices, SeatZone} from "../../../enums/seat-zone";
 })
 export class SeatSelectionComponent {
   @Input({required: true}) seatSelectionFormGroup!: FormGroupDirective | NgForm;
-  @Input({required: true}) createBuyTicketForm!: FormArray;
+  @Input({required: true}) createBuyTicketForm!: FormGroup;
   data!: ScreeningResponse;
   selectedSeats: SeatResponse[] = [];
   totalCost: number = 0;
   protected readonly SeatStatus = SeatStatus;
   protected readonly SeatZone = SeatZone;
   protected readonly SeatPrices = SeatPrices;
- 
+
   constructor(
     private readonly router: Router,
     private dialogRef: MatDialog,

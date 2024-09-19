@@ -1,5 +1,5 @@
 <mat-stepper #stepper linear>
-  <mat-step>
+  <mat-step [stepControl]="seatSelectionFormGroup">
     <ng-template matStepLabel>Seat selection</ng-template>
     <app-seat-selection
       [createBuyTicketForm]="seatSelectionFormGroup"
@@ -10,7 +10,7 @@
     </div>
   </mat-step>
 
-  <mat-step>
+  <mat-step [stepControl]="customerDataFormGroup">
     <ng-template matStepLabel>Order form</ng-template>
     <app-order-form
       [createBuyTicketForm]="customerDataFormGroup"

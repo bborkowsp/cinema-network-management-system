@@ -1,7 +1,7 @@
 <div class="center">
   <h1><strong>ORDER FORM</strong></h1>
 </div>
-<form class="form">
+<form [formGroup]="createBuyTicketForm" class="form">
   <mat-form-field class="custom-form-field">
     <mat-label>First name</mat-label>
     <input [formControl]="firstNameControl" matInput required>
