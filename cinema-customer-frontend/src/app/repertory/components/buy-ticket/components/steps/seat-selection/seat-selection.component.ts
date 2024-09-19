@@ -6,6 +6,8 @@ import "../../../../../../_shared/styles/_colors.scss";
 import {SeatLimitDialogComponent} from "./seat-limit-dialog/seat-limit-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {FormArray, FormControl, FormGroupDirective, NgForm} from "@angular/forms";
+import {SeatStatus} from "../../../enums/seat-status";
+import {SeatPrices, SeatZone} from "../../../enums/seat-zone";
 
 @Component({
   selector: 'app-seat-selection',
@@ -18,7 +20,10 @@ export class SeatSelectionComponent {
   data!: ScreeningResponse;
   selectedSeats: SeatResponse[] = [];
   totalCost: number = 0;
-
+  protected readonly SeatStatus = SeatStatus;
+  protected readonly SeatZone = SeatZone;
+  protected readonly SeatPrices = SeatPrices;
+ 
   constructor(
     private readonly router: Router,
     private dialogRef: MatDialog,
@@ -54,7 +59,7 @@ export class SeatSelectionComponent {
   }
 
   getSeatBackgroundColor(seat: SeatResponse): string {
-    if (seat.seatStatus === "RESERVED") {
+    if (seat.seatStatus === SeatStatus.RESERVED || seat.seatStatus === SeatStatus.SOLD) {
       switch (seat.seatZone) {
         case 'STANDARD':
           return 'rgba(194,141,255,0.4)';
@@ -84,7 +89,6 @@ export class SeatSelectionComponent {
     }
     return 'white';
   }
-
 
   private getPrice(seat: SeatResponse) {
     switch (seat.seatZone) {

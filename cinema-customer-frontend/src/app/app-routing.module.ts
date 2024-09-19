@@ -22,7 +22,7 @@ import {
 } from "./auth/components/reset-password/reset-password-form/reset-password-form.component";
 
 const routes: Routes = [
-  {path: '', component: RepertoryComponent},
+  {path: '', redirectTo: '/repertory', pathMatch: 'full'},
   {path: 'repertory', component: RepertoryComponent},
   {path: 'buy-ticket/:id', component: BuyTicketComponent},
   {path: 'login', component: LoginComponent},

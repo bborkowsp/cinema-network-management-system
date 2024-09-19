@@ -47,6 +47,7 @@ export class RepertoryComponent implements OnInit {
   }
 
   handleBuyTicket(screening: ScreeningResponse) {
+    console.log(screening)
     if (this.authService.isLoggedIn()) {
       this.saveScreeningToLocalStorage(screening);
       this.router.navigateByUrl(`buy-ticket/${screening.id}`, {state: {data: screening}});

@@ -49,10 +49,12 @@ export class ScreeningListComponent implements OnInit, OnChanges {
 
   // Pobierz seanse dla danego wariantu
   getScreeningsByVariant(screenings: ScreeningResponse[], variant: MovieVariantResponse): ScreeningResponse[] {
-    return screenings.filter(screening =>
-      screening.movieVariant.projectionTechnology === variant.projectionTechnology &&
-      screening.movieVariant.language === variant.language
-    );
+    return screenings
+      .filter(screening =>
+        screening.movieVariant.projectionTechnology === variant.projectionTechnology &&
+        screening.movieVariant.language === variant.language
+      )
+      .sort((a, b) => new Date(a.startTime).getTime() - new Date(b.startTime).getTime());
   }
 
   getFirstTenWords(description: string): string {

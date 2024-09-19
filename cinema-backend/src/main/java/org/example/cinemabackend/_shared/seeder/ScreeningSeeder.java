@@ -55,8 +55,8 @@ class ScreeningSeeder implements Seeder {
 
     private Screening createScreening(int i, List<Movie> movies) {
         final var movie = getMovie(i, movies);
-        final var startTime = LocalDateTime.now().plusDays(1);
-        final var endTime = startTime.plusHours(2);
+        final var startTime = LocalDateTime.now().plusHours(i + 1);
+        final var endTime = startTime.plusHours(1);
         final var movieVariant = createMovieVariant();
         return new Screening(movie, startTime, endTime, movieVariant);
     }

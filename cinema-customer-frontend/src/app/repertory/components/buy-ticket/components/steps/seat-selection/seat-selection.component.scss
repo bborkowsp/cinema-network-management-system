@@ -200,3 +200,7 @@ hr {
   height: 25px;
   margin-right: 5px;
 }
+
+.no-click {
+  pointer-events: none;
+}

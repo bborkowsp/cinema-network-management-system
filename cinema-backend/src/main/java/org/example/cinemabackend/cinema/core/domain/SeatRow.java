@@ -3,7 +3,6 @@ package org.example.cinemabackend.cinema.core.domain;
 import java.util.List;
 
 public class SeatRow {
-
     private Long id;
     private List<Seat> seats;
 

@@ -11,30 +11,30 @@
 
         <!-- Seats -->
         <div *ngFor="let seat of rows" class="seat">
-          <ng-container *ngIf="seat.seatZone !== 'CORRIDOR'; else corridorSpace">
-            <button (click)="selectSeat(seat)"
-                    [disabled]="seat.seatStatus === 'UNAVAILABLE' || seat.seatStatus === 'RESERVED'"
-                    [matTooltip]="seat.seatZone === 'STANDARD' ? '27,90 ZŁ' :
-           seat.seatZone === 'VIP' ? '35,90 ZŁ' :
-           seat.seatZone === 'PROMO' ? '19,90 ZŁ' :
-           seat.seatZone === 'WHEELCHAIR' ? '19,90 ZŁ' : ''"
-                    [ngClass]="{
+          <ng-container *ngIf="seat.seatZone !== SeatZone.CORRIDOR; else corridorSpace">
+            <button
+              (click)="selectSeat(seat)"
+              [disabled]="seat.seatStatus === SeatStatus.UNAVAILABLE || seat.seatStatus === SeatStatus.RESERVED || seat.seatStatus === SeatStatus.SOLD"
+              [matTooltip]="seat.seatZone === SeatZone.STANDARD ? SeatPrices[seat.seatZone] :
+           seat.seatZone === SeatZone.VIP ? SeatPrices[seat.seatZone] :
+           seat.seatZone === SeatZone.PROMO ? SeatPrices[seat.seatZone] :
+           seat.seatZone === SeatZone.WHEELCHAIR ? SeatPrices[seat.seatZone] : ''"
+              [ngClass]="{
       'btn': true,
-      'selected-standard': seat.seatZone === 'STANDARD' && seat.seatStatus !== 'RESERVED',
-      'selected-vip': seat.seatZone === 'VIP' && seat.seatStatus !== 'RESERVED',
-      'selected-promo': seat.seatZone === 'PROMO' && seat.seatStatus !== 'RESERVED',
-      'selected-wheelchair': seat.seatZone === 'WHEELCHAIR' && seat.seatStatus !== 'RESERVED',
-      'reserved': seat.seatStatus === 'RESERVED'
+      'selected-standard': seat.seatZone === SeatZone.STANDARD,
+      'selected-vip': seat.seatZone === SeatZone.VIP,
+      'selected-promo': seat.seatZone === SeatZone.PROMO,
+      'selected-wheelchair': seat.seatZone === SeatZone.WHEELCHAIR,
+      'reserved': seat.seatStatus === (SeatStatus.RESERVED || SeatStatus.SOLD),
     }"
-                    [ngStyle]="{
+              [ngStyle]="{
       'background-color': getSeatBackgroundColor(seat),
-      'border-color': seat.seatStatus === 'RESERVED' ? 'rgba(0, 0, 0, 0.4)' : ''
+      'border-color': seat.seatStatus === (SeatStatus.RESERVED || SeatStatus.SOLD) ? 'rgba(0, 0, 0, 0.4)' : ''
     }"
-                    mat-mini-fab>
+              mat-mini-fab
+            >
               <mat-icon>
-                {{
-                  seat.seatStatus === 'UNAVAILABLE' ? 'block' : ''
-                }}
+                {{ seat.seatStatus === SeatStatus.UNAVAILABLE ? 'block' : '' }}
               </mat-icon>
             </button>
           </ng-container>
@@ -49,7 +49,7 @@
 
     <div class="legend">
       <div class="legend-item">
-        <button class=" size reserved selected-legen" mat-mini-fab>
+        <button class="size no-click reserved selected-legen" mat-mini-fab>
           <mat-icon class=""></mat-icon>
         </button>
         <span class="legend-text">Reserved</span>
@@ -58,27 +58,47 @@
         <mat-icon class="legend-icon">block</mat-icon>
         <span class="legend-text">Unavailable</span>
       </div>
+      <div class="legend-item">
+        <button class="size no-click reserved standard" mat-mini-fab>
+          <mat-icon class=""></mat-icon>
+        </button>
+        <span class="legend-text">Standard</span>
+      </div>
+      <div class="legend-item">
+        <button class="size no-click reserved vip" mat-mini-fab>
+          <mat-icon class=""></mat-icon>
+        </button>
+        <span class="legend-text">VIP</span>
+      </div>
+      <div class="legend-item">
+        <button class="size no-click reserved promo" mat-mini-fab>
+          <mat-icon class=""></mat-icon>
+        </button>
+        <span class="legend-text">Promo</span>
+      </div>
+      <div class="legend-item">
+        <button class="size no-click reserved wheelchair" mat-mini-fab>
+          <mat-icon class=""></mat-icon>
+        </button>
+        <span class="legend-text">Wheelchair</span>
+      </div>
     </div>
   </div>
 
   <div class="group__right-column">
     <h2>Summary</h2>
-    <hr>
+    <hr/>
     <div class="selected-seats">
       <div *ngFor="let seat of selectedSeats" class="selected-seat">
-        <button [ngStyle]="{ 'background-color': getSeatBackgroundColor(seat) }" class="selected-seat"
-                mat-mini-fab>
+        <button [ngStyle]="{ 'background-color': getSeatBackgroundColor(seat) }" class="selected-seat" mat-mini-fab>
           R:{{ seat.seatRow + 1 }} C:{{ seat.seatColumn }}
         </button>
       </div>
     </div>
 
     <div class="total">
-      <H4>Total cost: <strong>{{ totalCost }} ZŁ</strong></H4>
+      <h4>Total cost: <strong>{{ totalCost }} ZŁ</strong></h4>
       <span></span>
     </div>
   </div>
 </div>
-
-
-

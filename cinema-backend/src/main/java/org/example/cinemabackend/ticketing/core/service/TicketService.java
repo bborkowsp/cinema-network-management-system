@@ -102,7 +102,7 @@ class TicketService implements TicketUseCases {
                     .orElseThrow(() -> new IllegalStateException("Seat not found"));
 
             if (seat.getSeatStatus() != SeatStatus.AVAILABLE) {
-                throw new IllegalStateException("Seat is not available");
+                throw new IllegalStateException("Selected seats have been sold out!");
             }
         }
     }

@@ -40,16 +40,16 @@ public class TicketSchema {
     @Column(nullable = false)
     private byte[] qrCode;
 
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany
     private List<SeatSchema> bookedSeats;
 
-    @OneToOne
+    @ManyToOne
     private ScreeningSchema screening;
 
-    @OneToOne
+    @ManyToOne
     private ScreeningRoomSchema screeningRoom;
 
-    @OneToOne
+    @ManyToOne
     private CinemaSchema cinema;
 
     @OneToOne
