@@ -10,7 +10,6 @@ import org.example.cinemabackend.cinema.core.port.primary.ScreeningRoomMapper;
 import org.example.cinemabackend.movie.core.port.primary.MovieMapper;
 import org.example.cinemabackend.movie.core.port.primary.MovieVariantMapper;
 import org.example.cinemabackend.movie.core.port.secondary.MovieRepository;
-import org.example.cinemabackend.movie.core.port.secondary.MovieVariantRepository;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,7 +19,6 @@ class ScreeningMapperService implements ScreeningMapper {
     private final ScreeningRoomMapper screeningRoomMapper;
     private final MovieVariantMapper movieVariantMapper;
     private final MovieRepository movieRepository;
-    private final MovieVariantRepository movieVariantRepository;
 
     @Override
     public ScreeningResponse mapScreeningToScreeningResponse(Screening screening, ScreeningRoom screeningRoom) {

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {ScreeningResponse} from "../../dtos/response/screening.response";
 import {images} from "../../../../assets/environment";
 import {MovieVariantResponse} from "../../dtos/response/movie-variant.response";
@@ -9,7 +9,7 @@ import {getEnumValueByKey} from "../../enums/projection-technology";
   templateUrl: './screening-list.component.html',
   styleUrls: ['./screening-list.component.scss']
 })
-export class ScreeningListComponent implements OnInit {
+export class ScreeningListComponent implements OnInit, OnChanges {
   readonly POSTERS_SERVER_DIRECTORY_URL = `${images.IMAGES_SERVER_DIRECTORY_URL}/posters/`;
   @Input() repertory: { [movieTitle: string]: ScreeningResponse[] } = {};
   @Input() isLoading: boolean = false;
@@ -22,6 +22,12 @@ export class ScreeningListComponent implements OnInit {
 
   ngOnInit() {
     this.formatDate();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['date']) {
+      this.formatDate();
+    }
   }
 
   handleBuyTicket(screening: ScreeningResponse) {
@@ -47,6 +53,14 @@ export class ScreeningListComponent implements OnInit {
       screening.movieVariant.projectionTechnology === variant.projectionTechnology &&
       screening.movieVariant.language === variant.language
     );
+  }
+
+  getFirstTenWords(description: string): string {
+    if (!description) {
+      return '';
+    }
+    const words = description.split(' ');
+    return words.slice(0, 10).join(' ') + (words.length > 10 ? ' ...' : '');
   }
 
   private formatDate() {

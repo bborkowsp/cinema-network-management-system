@@ -14,7 +14,7 @@
                 </a>
                 <p>| {{ repertory[movieTitle][0].movie.duration }} min</p>
               </div>
-              <p>{{ repertory[movieTitle][0].movie.description }}</p>
+              <p>{{ getFirstTenWords(repertory[movieTitle][0].movie.description) }}</p>
 
               <div *ngFor="let variant of getMovieVariants(repertory[movieTitle])">
                 <h3><strong>{{ getEnumValueByKey(variant.projectionTechnology) }}</strong>

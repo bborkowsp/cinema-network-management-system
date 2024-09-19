@@ -1,17 +1,36 @@
+@import "../../../../../_shared/styles/_colors.scss";
+
+.background {
+  background-color: $screening-list-background;
+  width: 100%;
+  padding: 20px;
+}
+
 .container {
   margin: 0 auto;
   display: block;
-  text-align: left;
   max-width: 70em;
+  text-align: left;
 }
 
-.content {
+.screening-container {
   display: flex;
-  align-items: flex-start;
-  margin-bottom: 22px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  background-color: #fff;
+  flex-direction: column;
+  overflow: hidden;
   padding: 16px;
-  max-width: 70em;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.screening-hours-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.screening-hours {
+  margin-right: 1rem;
+  margin-bottom: 1rem;
 }

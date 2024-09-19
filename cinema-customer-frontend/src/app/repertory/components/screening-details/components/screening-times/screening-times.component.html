@@ -1,8 +1,26 @@
-<div *ngFor="let cinema of getCinemas()">
+<div class="background">
   <div class="container">
-    <div class="content">
-      <p>{{ cinema }}</p>
+    <div *ngFor="let cinema of getCinemas()">
+      <div class="screening-container">
+        <div class="screening-details">
+          <div class="screening-details__header">
+            <h2>{{ cinema }}</h2>
+          </div>
+          <div *ngFor="let variant of getMovieVariants(screeningTimes[cinema])">
+            <h3><strong>{{ getEnumValueByKey(variant.projectionTechnology) }}</strong>
+              |<strong> {{ variant.language }}</strong></h3>
+            <div class="screening-hours-container">
+              <div *ngFor="let screening of getScreeningsByVariant(screeningTimes[cinema], variant) "
+                   class="screening-hours">
+                <button (click)="handleBuyTicket(screening)" color="accent" mat-flat-button>
+                  {{ screening.startTime | date:'HH:mm' }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
     </div>
   </div>
-  <mat-divider></mat-divider>
 </div>

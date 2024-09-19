@@ -149,7 +149,7 @@ class ScreeningService implements ScreeningUseCases {
     private Stream<ScreeningResponse> mapScreeningsFromScreeningRoomForTitleAndDate(ScreeningRoom screeningRoom, String title, LocalDate date) {
         return screeningRoom.getRepertory().stream()
                 .filter(screening -> screening.getMovie().getTitle().equals(title) &&
-                        screening.getStartTime().toLocalDate().equals(date))
+                        screening.getStartTime().toLocalDate().isEqual(date))
                 .map(screening -> screeningMapper.mapScreeningToScreeningResponse(screening, screeningRoom));
     }
 
