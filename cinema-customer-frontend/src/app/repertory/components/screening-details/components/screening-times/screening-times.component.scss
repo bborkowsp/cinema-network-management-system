@@ -8,7 +8,6 @@
 
 .container {
   margin: 0 auto;
-  display: block;
   max-width: 70em;
   text-align: left;
 }
@@ -16,21 +15,27 @@
 .screening-container {
   display: flex;
   flex-direction: column;
-  overflow: hidden;
   padding: 16px;
   border-radius: 8px;
   margin-bottom: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: $screening-background;
 }
 
 .screening-hours-container {
   display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
-  align-items: center;
+  gap: 1rem;
 }
 
-.screening-hours {
-  margin-right: 1rem;
-  margin-bottom: 1rem;
+button {
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+mat-divider {
+  border-top-width: 4px;
+  margin-bottom: 22px;
 }
