@@ -9,6 +9,7 @@ import {UserService} from "../../../user/services/user.service";
 import {UserResponse} from "../../../user/dtos/response/user.response";
 import {BuyTicketRequest} from "../../dtos/request/buy-ticket.request";
 import {PaypalResponse} from "../../dtos/response/paypal.response";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 
 @Component({
@@ -25,7 +26,8 @@ export class BuyTicketComponent implements OnInit {
     private formBuilder: FormBuilder,
     private ticketingService: TicketingService,
     private readonly authService: AuthService,
-    private readonly userService: UserService
+    private readonly userService: UserService,
+    private snackBar: MatSnackBar
   ) {
   }
 
@@ -55,9 +57,13 @@ export class BuyTicketComponent implements OnInit {
     this.ticketingService.payWithPayPal(buyTicketForm).subscribe({
       next: (paypalResponse: PaypalResponse) => {
         console.log(paypalResponse);
-        this.openSafeWindow(paypalResponse.redirectUrl)
-      }, error: () => {
-
+        this.openSafeWindow(paypalResponse.redirectUrl);
+      },
+      error: (error) => {
+        console.log(error);
+        this.snackBar.open(error.error.errors[0], 'Close', {
+          duration: 3000, // Show the snackbar for 3 seconds
+        });
       }
     });
   }
