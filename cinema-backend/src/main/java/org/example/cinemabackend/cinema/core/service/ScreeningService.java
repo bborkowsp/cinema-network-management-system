@@ -38,14 +38,14 @@ class ScreeningService implements ScreeningUseCases {
     private final AuthUseCases authUseCases;
 
     @Override
-    public List<ScreeningResponse> getScreenings(String email) {
+    public List<ScreeningResponse> getScreenings() {
+        final var email = authUseCases.getCurrentLoggedInUserEmail();
         validateCinemaExistsByCinemaManager(email);
-        authUseCases.validateIfEmailFromRequestMatchesEmailInJWT(email);
         return getScreeningsForCinemaManager(email);
     }
 
     @Override
-    public List<ScreeningResponse> getRepertoryAtSpecificDate(String cinema, LocalDate date) {
+    public List<ScreeningResponse> getRepertoryByCinemaAndDate(String cinema, LocalDate date) {
         return cinemaRepository.findByName(cinema)
                 .map(cinemaSchema -> mapScreeningsFromCinemaAtSpecificDate(cinemaSchema, date))
                 .orElse(Collections.emptyList());

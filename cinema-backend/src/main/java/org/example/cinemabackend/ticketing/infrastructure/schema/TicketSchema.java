@@ -52,7 +52,7 @@ public class TicketSchema {
     @ManyToOne
     private CinemaSchema cinema;
 
-    @OneToOne
+    @ManyToOne
     private UserSchema user;
 
     public static TicketSchema fromTicket(Ticket ticket) {

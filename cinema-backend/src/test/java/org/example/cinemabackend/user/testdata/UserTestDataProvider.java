@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserTestDataProvider {
-    private static final int NUMBER_OF_USERS_TO_GENERATE = 10;
+    private static final int NUMBER_OF_USERS_TO_GENERATE = 15;
     private static final String EMAIL = "email@example.com";
     private static final String FIRST_NAME = "First Name";
     private static final String LAST_NAME = "Last Name";
     private static final String PASSWORD = "Password";
-    private static int userCounter = 0;
+    public static int USER_COUNTER = 0;
 
     public static List<User> generateSampleCinemaManagers() {
         List<User> users = new ArrayList<>();
@@ -24,11 +24,11 @@ public class UserTestDataProvider {
     }
 
     public static User generateSampleCinemaManager() {
-        userCounter++;
+        USER_COUNTER++;
         return new User(
                 FIRST_NAME,
                 LAST_NAME,
-                EMAIL + userCounter,
+                EMAIL + USER_COUNTER,
                 PASSWORD,
                 Role.CINEMA_MANAGER
         );

@@ -6,6 +6,7 @@ import org.example.cinemabackend.cinema.application.dto.request.create.CreateScr
 import org.example.cinemabackend.cinema.application.dto.response.ScreeningDetailsResponse;
 import org.example.cinemabackend.cinema.application.dto.response.ScreeningResponse;
 import org.example.cinemabackend.cinema.core.port.primary.ScreeningUseCases;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +20,8 @@ class ScreeningController {
     private final ScreeningUseCases screeningUseCases;
 
     @GetMapping("/repertory/{cinema}/{date}")
-    ResponseEntity<ResponseList<ScreeningResponse>> getRepertoryAtSpecificDate(@PathVariable String cinema, @PathVariable LocalDate date) {
-        final var screenings = screeningUseCases.getRepertoryAtSpecificDate(cinema, date);
+    ResponseEntity<ResponseList<ScreeningResponse>> getRepertoryByCinemaAndDate(@PathVariable String cinema, @PathVariable LocalDate date) {
+        final var screenings = screeningUseCases.getRepertoryByCinemaAndDate(cinema, date);
         return ResponseEntity.ok(new ResponseList<>(screenings));
     }
 
@@ -30,10 +31,10 @@ class ScreeningController {
         return ResponseEntity.ok(screeningDetails);
     }
 
-    @GetMapping("/{email}")
+    @GetMapping
     @PreAuthorize("hasAnyRole('CINEMA_MANAGER','ADMIN')")
-    ResponseEntity<ResponseList<ScreeningResponse>> getScreenings(@PathVariable("email") String email) {
-        final var screenings = screeningUseCases.getScreenings(email);
+    ResponseEntity<ResponseList<ScreeningResponse>> getScreenings() {
+        final var screenings = screeningUseCases.getScreenings();
         return ResponseEntity.ok(new ResponseList<>(screenings));
     }
 
@@ -48,7 +49,7 @@ class ScreeningController {
     @PreAuthorize("hasAnyRole('CINEMA_MANAGER','ADMIN')")
     ResponseEntity<Void> createScreening(@RequestBody CreateScreeningRequest createScreeningRequest) {
         screeningUseCases.createScreening(createScreeningRequest);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PatchMapping("/{id}")

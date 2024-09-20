@@ -4,9 +4,11 @@ import org.example.cinemabackend.movie.application.dto.response.MovieVariantResp
 import org.example.cinemabackend.movie.core.domain.Language;
 import org.example.cinemabackend.movie.core.domain.MovieVariant;
 import org.example.cinemabackend.movie.core.domain.ProjectionTechnology;
+import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
+@Service
 public class MovieVariantTestDataProvider {
     public static Set<MovieVariant> generateMovieVariants() {
         return Set.of(
@@ -18,5 +20,9 @@ public class MovieVariantTestDataProvider {
         return Set.of(
                 new MovieVariantResponse(ProjectionTechnology._2D, Language.DUBBING)
         );
+    }
+
+    public MovieVariantResponse generateMovieVariantResponse() {
+        return new MovieVariantResponse(ProjectionTechnology._2D, Language.DUBBING);
     }
 }

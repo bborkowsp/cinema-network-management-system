@@ -3,7 +3,6 @@ import {ScreeningResponse} from "../dtos/screening.response";
 import {HttpClient} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {map, Observable} from "rxjs";
-import {AuthService} from "../../auth/services/auth.service";
 import {CreateScreeningRequest} from "../dtos/create-screening-request";
 
 @Injectable({
@@ -14,20 +13,16 @@ export class ScreeningService {
 
   constructor(
     private readonly httpClient: HttpClient,
-    private readonly authService: AuthService,
   ) {
   }
 
   getRepertory() {
-    const email = this.authService.getLoggedInUserEmail();
-    const url = `${ScreeningService.SCREENINGS_API_URL}/${email}`;
-    return this.httpClient.get<{ content: ScreeningResponse[] }>(url)
+    return this.httpClient.get<{ content: ScreeningResponse[] }>(ScreeningService.SCREENINGS_API_URL)
       .pipe(map((response) => response.content));
   }
 
   getScreening(id: number): Observable<ScreeningResponse> {
     const url = `${ScreeningService.SCREENINGS_API_URL}/id/${id}`;
-    console.log(url)
     return this.httpClient.get<ScreeningResponse>(url);
   }
 
