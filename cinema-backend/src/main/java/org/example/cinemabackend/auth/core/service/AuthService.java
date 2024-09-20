@@ -46,11 +46,17 @@ class AuthService implements AuthUseCases, UserDetailsService {
 
     @Override
     public void validateIfEmailFromRequestMatchesEmailInJWT(String email) {
-        final var currentUserEmail = getCurrentUserEmail();
+        final var currentUserEmail = getCurrentLoggedInUserEmail();
         final var user = userRepository.findByEmail(currentUserEmail).orElseThrow();
         if (!currentUserEmail.isEmpty() && !currentUserEmail.equals(email) && !user.getRole().equals(Role.ADMIN)) {
             throw new IllegalStateException("Email from request does not match email in JWT");
         }
+    }
+
+    @Override
+    public String getCurrentLoggedInUserEmail() {
+        Authentication authenticationToken = SecurityContextHolder.getContext().getAuthentication();
+        return (String) authenticationToken.getPrincipal();
     }
 
     @Override
@@ -141,11 +147,6 @@ class AuthService implements AuthUseCases, UserDetailsService {
                 .expiration(new Date(System.currentTimeMillis() + jwtConfig.getExpiration()))
                 .signWith(jwtConfig.getSecretKey())
                 .compact();
-    }
-
-    private String getCurrentUserEmail() {
-        Authentication authenticationToken = SecurityContextHolder.getContext().getAuthentication();
-        return (String) authenticationToken.getPrincipal();
     }
 
     @Override

@@ -9,6 +9,8 @@ public interface AuthUseCases {
 
     void validateIfEmailFromRequestMatchesEmailInJWT(String email);
 
+    String getCurrentLoggedInUserEmail();
+
     JwtDto login(LoginUserRequest loginUserRequest);
 
     void register(RegisterUserRequest registerUserRequest);
@@ -18,5 +20,4 @@ public interface AuthUseCases {
     void resetPassword(ResetPasswordRequest resetPasswordRequest);
 
     void verifyAccount(String email);
-
 }

@@ -30,13 +30,11 @@ export class ScreeningFormBuilder {
   }
 
   screeningRequestFromForm(): CreateScreeningRequest {
-    const email = this.authService.getLoggedInUserEmail();
     return new CreateScreeningRequest(
       this.mainFormGroup.get('movieTitle')!.value,
       this.mainFormGroup.get('startTime')!.value,
       this.mainFormGroup.get('endTime')!.value,
       this.mainFormGroup.get('screeningRoom')!.value,
-      email,
       this.mainFormGroup.get('movieVariant')!.value,
     )
   }

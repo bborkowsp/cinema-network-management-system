@@ -11,7 +11,6 @@ public record CreateScreeningRequest(
         LocalDateTime startTime,
         LocalDateTime endTime,
         String screeningRoom,
-        String email,
         MovieVariantResponse movieVariant
 ) {
 }

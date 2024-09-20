@@ -71,9 +71,10 @@ class ScreeningService implements ScreeningUseCases {
 
     @Override
     public void createScreening(CreateScreeningRequest createScreeningRequest) {
-        validateCinemaExistsByCinemaManager(createScreeningRequest.email());
+        final var email = authUseCases.getCurrentLoggedInUserEmail();
+        validateCinemaExistsByCinemaManager(email);
         final var newScreening = screeningMapper.mapScreeningRequestToScreening(createScreeningRequest);
-        final var screeningRoom = getNewScreeningRoom(createScreeningRequest);
+        final var screeningRoom = getNewScreeningRoom(createScreeningRequest, email);
         validateNoScreeningIsPlayedAtTheSameTime(screeningRoom, newScreening);
         screeningRoom.addScreening(newScreening);
         screeningRoomRepository.save(screeningRoom);
@@ -81,10 +82,11 @@ class ScreeningService implements ScreeningUseCases {
 
     @Override
     public void updateScreening(Long id, CreateScreeningRequest createScreeningRequest) {
-        validateCinemaExistsByCinemaManager(createScreeningRequest.email());
+        final var email = authUseCases.getCurrentLoggedInUserEmail();
+        validateCinemaExistsByCinemaManager(email);
         final var screeningToUpdate = getScreeningById(id);
         final var oldScreeningRoom = screeningRoomRepository.findByScreeningId(id).orElseThrow();
-        final var newScreeningRoom = getNewScreeningRoom(createScreeningRequest);
+        final var newScreeningRoom = getNewScreeningRoom(createScreeningRequest, email);
         if (!oldScreeningRoom.equals(newScreeningRoom)) {
             oldScreeningRoom.getRepertory().remove(screeningToUpdate);
             updateScreeningDetails(screeningToUpdate, createScreeningRequest);
@@ -132,8 +134,8 @@ class ScreeningService implements ScreeningUseCases {
         return start1.isBefore(end2) && end1.isAfter(start2);
     }
 
-    private ScreeningRoom getNewScreeningRoom(CreateScreeningRequest createScreeningRequest) {
-        final var cinema = cinemaRepository.findByUserEmail(createScreeningRequest.email()).orElseThrow();
+    private ScreeningRoom getNewScreeningRoom(CreateScreeningRequest createScreeningRequest, String email) {
+        final var cinema = cinemaRepository.findByUserEmail(email).orElseThrow();
         return cinema.getScreeningRooms().stream()
                 .filter(screeningRoom -> screeningRoom.getName().equals(createScreeningRequest.screeningRoom()))
                 .findFirst()
