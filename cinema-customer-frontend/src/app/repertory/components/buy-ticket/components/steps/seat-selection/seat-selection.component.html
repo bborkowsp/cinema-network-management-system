@@ -92,7 +92,7 @@
       <div class="selected-seats">
         <div *ngFor="let seat of selectedSeats" class="selected-seat">
           <button [ngStyle]="{ 'background-color': getSeatBackgroundColor(seat) }" class="selected-seat" mat-mini-fab>
-            R:{{ seat.seatRow + 1 }} C:{{ seat.seatColumn }}
+            R:{{ seat.seatRow + 1 }} C:{{ seat.seatColumn + 1 }}
           </button>
         </div>
       </div>
