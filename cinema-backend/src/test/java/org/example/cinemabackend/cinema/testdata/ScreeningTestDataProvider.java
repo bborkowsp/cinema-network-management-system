@@ -2,6 +2,9 @@ package org.example.cinemabackend.cinema.testdata;
 
 import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.core.domain.Screening;
+import org.example.cinemabackend.movie.core.domain.Language;
+import org.example.cinemabackend.movie.core.domain.MovieVariant;
+import org.example.cinemabackend.movie.core.domain.ProjectionTechnology;
 import org.example.cinemabackend.movie.core.port.secondary.MovieRepository;
 import org.springframework.stereotype.Component;
 
@@ -30,7 +33,8 @@ public class ScreeningTestDataProvider {
         return new Screening(
                 movieRepository.findAll().getFirst(),
                 startTime,
-                endTime
+                endTime,
+                new MovieVariant(ProjectionTechnology._2D, Language.SUBTITLES)
         );
     }
 }

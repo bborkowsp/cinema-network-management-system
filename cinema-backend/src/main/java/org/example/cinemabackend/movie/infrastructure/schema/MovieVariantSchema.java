@@ -1,21 +1,20 @@
 package org.example.cinemabackend.movie.infrastructure.schema;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.*;
 import org.example.cinemabackend.movie.core.domain.Language;
 import org.example.cinemabackend.movie.core.domain.MovieVariant;
 import org.example.cinemabackend.movie.core.domain.ProjectionTechnology;
 
 @Data
-@Entity
+@Embeddable
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MovieVariantSchema {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -27,7 +26,6 @@ public class MovieVariantSchema {
 
     public static MovieVariantSchema fromMovieVariant(MovieVariant movieVariant) {
         return MovieVariantSchema.builder()
-                .id(movieVariant.getId())
                 .projectionTechnology(movieVariant.getProjectionTechnology())
                 .language(movieVariant.getLanguage())
                 .build();
@@ -35,7 +33,6 @@ public class MovieVariantSchema {
 
     public MovieVariant toMovieVariant() {
         return new MovieVariant(
-                this.id,
                 this.projectionTechnology,
                 this.language
         );

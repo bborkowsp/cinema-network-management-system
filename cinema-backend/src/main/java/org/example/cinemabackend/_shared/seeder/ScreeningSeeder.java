@@ -11,7 +11,6 @@ import org.example.cinemabackend.movie.core.domain.Movie;
 import org.example.cinemabackend.movie.core.domain.MovieVariant;
 import org.example.cinemabackend.movie.core.domain.ProjectionTechnology;
 import org.example.cinemabackend.movie.core.port.secondary.MovieRepository;
-import org.example.cinemabackend.movie.core.port.secondary.MovieVariantRepository;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -27,7 +26,6 @@ class ScreeningSeeder implements Seeder {
     private final CinemaRepository cinemaRepository;
     private final MovieRepository movieRepository;
     private final ScreeningRoomRepository screeningRoomRepository;
-    private final MovieVariantRepository movieVariantRepository;
 
     @Override
     public void seedDatabase(int objectsToSeed) {

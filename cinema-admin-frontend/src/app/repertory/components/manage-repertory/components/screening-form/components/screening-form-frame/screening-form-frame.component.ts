@@ -87,7 +87,19 @@ export class ScreeningFormFrameComponent implements OnInit {
   private updateMovieVariants(selectedTitle: string) {
     const selectedMovie = this.allMovies.find(movie => movie.title === selectedTitle);
     if (selectedMovie) {
-      this.filteredMovieVariants = selectedMovie.movieVariants;
+      const currentMovieVariant = this.movieVariantControl.value;
+      const movieVariants = selectedMovie.movieVariants;
+      if (currentMovieVariant) {
+        const index = movieVariants.findIndex(variant =>
+          variant.projectionTechnology === currentMovieVariant.projectionTechnology &&
+          variant.language === currentMovieVariant.language
+        );
+        if (index !== -1) {
+          const [selectedVariant] = movieVariants.splice(index, 1);
+          movieVariants.unshift(selectedVariant);
+        }
+      }
+      this.filteredMovieVariants = movieVariants;
     } else {
       this.filteredMovieVariants = [];
     }

@@ -53,7 +53,7 @@ public class MovieSchema {
     @OneToOne(cascade = CascadeType.ALL, optional = false, orphanRemoval = true, fetch = FetchType.EAGER)
     private ProductionDetailsSchema productionDetails;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<MovieVariantSchema> movieVariants;
 
     public static MovieSchema fromMovie(Movie movie) {

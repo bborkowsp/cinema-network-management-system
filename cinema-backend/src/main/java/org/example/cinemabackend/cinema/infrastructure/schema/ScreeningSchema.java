@@ -29,7 +29,7 @@ public class ScreeningSchema {
     @Column(nullable = false)
     private LocalDateTime endTime;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Embedded
     private MovieVariantSchema movieVariant;
 
     public static ScreeningSchema fromScreening(Screening screening) {
