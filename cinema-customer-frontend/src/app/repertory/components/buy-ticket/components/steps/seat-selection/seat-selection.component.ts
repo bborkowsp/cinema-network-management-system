@@ -7,7 +7,7 @@ import {SeatLimitDialogComponent} from "./seat-limit-dialog/seat-limit-dialog.co
 import {MatDialog} from "@angular/material/dialog";
 import {FormArray, FormControl, FormGroup, FormGroupDirective, NgForm} from "@angular/forms";
 import {SeatStatus} from "../../../enums/seat-status";
-import {SeatPrices, SeatZone} from "../../../enums/seat-zone";
+import {SeatPrices, SeatPricesAsNumbers, SeatZone} from "../../../enums/seat-zone";
 
 @Component({
   selector: 'app-seat-selection',
@@ -90,19 +90,8 @@ export class SeatSelectionComponent {
     return 'white';
   }
 
-  private getPrice(seat: SeatResponse) {
-    switch (seat.seatZone) {
-      case 'STANDARD':
-        return 10;
-      case 'VIP':
-        return 20;
-      case 'PROMO':
-        return 5;
-      case 'WHEELCHAIR':
-        return 19.90;
-      default:
-        return 0;
-    }
+  private getPrice(seat: SeatResponse): number {
+    return SeatPricesAsNumbers[seat.seatZone];
   }
 
   private open() {

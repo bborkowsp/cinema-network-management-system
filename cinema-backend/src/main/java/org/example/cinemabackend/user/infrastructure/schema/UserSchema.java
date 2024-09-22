@@ -39,7 +39,7 @@ public class UserSchema implements UserDetails {
     @Column(nullable = false)
     private Role role;
 
-    @Column()
+    @Column
     private Boolean isAccountVerified = false;
 
     public static UserSchema fromUser(User user) {
