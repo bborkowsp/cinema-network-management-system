@@ -2,10 +2,10 @@ package org.example.cinemabackend.auth.core.service;
 
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.example.cinemabackend.auth.core.port.primary.EmailUseCases;
 import org.example.cinemabackend.ticketing.core.domain.Ticket;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -27,8 +27,7 @@ public class EmailService implements EmailUseCases {
     private static final String PATH_TO_ACCOUNT_VERIFICATION_EMAIL_TEMPLATE = "src/main/resources/email-templates/account-verification.html";
     private static final String PATH_TO_RESET_PASSWORD_EMAIL_TEMPLATE = "src/main/resources/email-templates/reset-password.html";
     private static final String PATH_TO_TICKET_EMAIL_TEMPLATE = "src/main/resources/email-templates/ticket.html";
-    private static final String HREF_PLACEHOLDER = "{{link}}";
-    private final Logger logger = LoggerFactory.getLogger(EmailService.class);
+    private static final Logger LOGGER = LogManager.getLogger(EmailService.class);
     private final JavaMailSender mailSender;
 
     @Override
@@ -83,10 +82,10 @@ public class EmailService implements EmailUseCases {
             mimeMessageHelper.setText(htmlContent, true);
             mimeMessageHelper.setFrom("pamiwpw@gmail.com");
         } catch (Exception e) {
-            logger.error("Failed to send email, to: " + to + ", subject: " + subject);
+            LOGGER.error("Failed to send email, to: " + to + ", subject: " + subject);
             throw new RuntimeException(e);
         }
-        logger.info("Sending email to: " + to + ", subject: " + subject);
+        LOGGER.info("Sending email to: " + to + ", subject: " + subject);
         mailSender.send(message);
     }
 

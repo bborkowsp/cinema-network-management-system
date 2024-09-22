@@ -1,8 +1,8 @@
 package org.example.cinemabackend._shared.seeder;
 
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +14,7 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 class DatabaseSeeder implements CommandLineRunner {
     static final int OBJECTS_TO_SEED = 20;
-    private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseSeeder.class);
+    private static final Logger LOGGER = LogManager.getLogger(DatabaseSeeder.class);
     private static final String SEED_FLAG = "--seed";
     private final CinemaSeeder cinemaSeeder;
     private final UserSeeder userSeeder;
@@ -28,7 +28,7 @@ class DatabaseSeeder implements CommandLineRunner {
             LOGGER.info("Movies seeded");
 
             userSeeder.seedDatabase(OBJECTS_TO_SEED / 2);
-            LOGGER.info("Users seeded");
+            LOGGER.debug("Users seeded");
 
             cinemaSeeder.seedDatabase(OBJECTS_TO_SEED);
             LOGGER.info("Cinemas seeded");
