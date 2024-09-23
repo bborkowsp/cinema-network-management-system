@@ -4,7 +4,6 @@ import {map, Observable, tap} from "rxjs";
 import {PaginatorRequestParams} from "../../../_shared/dtos/paginator-request-params";
 import {LogResponse} from "../../dto/log.response";
 import {LogsService} from "../../services/logs.service";
-import {MatTableDataSource} from "@angular/material/table";
 
 @Component({
   selector: 'app-logs-table',
@@ -14,22 +13,15 @@ import {MatTableDataSource} from "@angular/material/table";
 export class LogsTableComponent {
   @ViewChild(MatPaginator) readonly paginator!: MatPaginator;
   displayedColumns = ['timestamp', 'level', 'logger', 'message'];
-  logs$!: Observable<LogResponse[]>;
-  dataLength = 0;
   paginatorRequestParams = new PaginatorRequestParams(0, 10);
+  logs$!: Observable<LogResponse[]>;
   isLoading = true;
-  dataSource: MatTableDataSource<LogResponse>;
+  dataLength = 0;
 
   constructor(
     private readonly logsService: LogsService,
   ) {
     this.logs$ = this.getData();
-    this.dataSource = new MatTableDataSource();
-    this.logs$.subscribe(logs => {
-      this.dataSource.data = logs;
-      this.dataLength = logs.length;
-      this.isLoading = false;
-    });
   }
 
   handlePageEvent(event: PageEvent): void {
@@ -38,15 +30,6 @@ export class LogsTableComponent {
       event.pageSize,
     );
     this.logs$ = this.getData();
-  }
-
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
   }
 
   private getData(): Observable<LogResponse[]> {
