@@ -3,8 +3,12 @@
   [isLoading]="isLoading"
   pageTitle="Logs">
   <ng-container content>
+    <mat-form-field>
+      <mat-label>Filter</mat-label>
+      <input #input (keyup)="applyFilter($event)" matInput>
+    </mat-form-field>
     <div class="mat-elevation-z8 table-container">
-      <table [dataSource]="logs$" class="table" mat-table>
+      <table [dataSource]="dataSource" class="table" mat-table matSort>
 
         <ng-container matColumnDef="timestamp">
           <th *matHeaderCellDef class="column-header" mat-header-cell>Timestamp</th>

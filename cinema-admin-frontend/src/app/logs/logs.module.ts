@@ -21,6 +21,8 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatSelectModule} from "@angular/material/select";
 import {MatNativeDateModule} from "@angular/material/core";
 import {MatList, MatListItem} from "@angular/material/list";
+import {MatInput} from "@angular/material/input";
+import {MatSort} from "@angular/material/sort";
 
 @NgModule({
   declarations: [
@@ -48,6 +50,8 @@ import {MatList, MatListItem} from "@angular/material/list";
     MatNativeDateModule,
     MatListItem,
     MatList,
+    MatInput,
+    MatSort,
   ]
 })
 export class LogsModule {
