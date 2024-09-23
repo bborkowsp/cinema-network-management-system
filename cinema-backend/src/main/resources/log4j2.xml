@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+        <Console name="CONSOLE">
+            <PatternLayout pattern="%d [%t] %p %c - %m%n"/>
+        </Console>
+        <JDBC name="DB" tableName="logs">
+            <PoolingDriver connectionString="jdbc:postgresql://localhost:5432/cinema" userName="cinema"
+                           password="qH7Yb3tgbzQG"/>
+            <Column name="timestamp" isEventTimestamp="true"/>
+            <Column name="level" pattern="%level" isUnicode="false"/>
+            <Column name="logger" pattern="%logger" isUnicode="false"/>
+            <Column name="message" pattern="%message%n%ex{full}" isUnicode="false"/>
+        </JDBC>
+        <Async name="Async">
+            <AppenderRef ref="DB"/>
+        </Async>
+    </Appenders>
+
+    <Loggers>
+        <Root level="INFO">
+            <AppenderRef ref="Async"/>
+            <AppenderRef ref="CONSOLE"/>
+        </Root>
+    </Loggers>
+</Configuration>

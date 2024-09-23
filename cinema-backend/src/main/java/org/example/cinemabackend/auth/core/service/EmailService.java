@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class EmailService implements EmailUseCases {
-
     private static final String ACCOUNT_VERIFICATION_EMAIL_SUBJECT = "Account Verification";
     private static final String RESET_PASSWORD_EMAIL_SUBJECT = "Reset Password";
     private static final String PATH_TO_ACCOUNT_VERIFICATION_EMAIL_TEMPLATE = "src/main/resources/email-templates/account-verification.html";

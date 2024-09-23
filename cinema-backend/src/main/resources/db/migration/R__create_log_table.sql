@@ -1,0 +1,7 @@
+-- CREATE TABLE logs
+-- (
+--     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--     level   VARCHAR(50),
+--     logger   VARCHAR(255),
+--     message TEXT
+-- );
