@@ -48,6 +48,7 @@ class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/v1/paypal/capture").permitAll()
                         .requestMatchers(HttpMethod.GET, "/v1/users/customer/{email}").permitAll()
                         .requestMatchers(HttpMethod.GET, "/v1/screenings/details/{title}/{date}").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/v1/logs").permitAll()
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())
