@@ -26,12 +26,15 @@ import {UserModule} from "./user/user.module";
 import {RepertoryModule} from "./repertory/repertory.module";
 import {AuthService} from "./auth/services/auth.service";
 import {AuthModule} from "./auth/auth.module";
+import {LogsModule} from "./logs/logs.module";
 
 @NgModule({
   declarations: [
     AppComponent,
   ],
-  bootstrap: [AppComponent], imports: [BrowserModule,
+  bootstrap: [AppComponent],
+  imports: [
+    BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatTableModule,
@@ -52,7 +55,9 @@ import {AuthModule} from "./auth/auth.module";
     MovieModule,
     UserModule,
     RepertoryModule,
-    AuthModule], providers: [
+    AuthModule,
+    LogsModule,
+  ], providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorHandlerInterceptor,

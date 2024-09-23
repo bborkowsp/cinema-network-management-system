@@ -13,7 +13,7 @@ import {images} from "../../../../assets/environment";
 @Component({
   selector: 'app-movie-table',
   templateUrl: './movie-table.component.html',
-  styleUrls: ['./movie-table.component.scss']
+  styleUrl: './movie-table.component.scss'
 })
 export class MovieTableComponent implements OnInit {
   readonly POSTERS_SERVER_DIRECTORY_URL = `${images.IMAGES_SERVER_DIRECTORY_URL}/posters/`;

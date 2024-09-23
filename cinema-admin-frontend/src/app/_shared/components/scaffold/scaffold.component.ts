@@ -105,6 +105,11 @@ export class ScaffoldComponent {
         label: 'Users',
         path: '/users',
         icon: 'people'
+      },
+      {
+        label: 'Logs',
+        path: '/logs',
+        icon: 'description'
       }
     ];
   }

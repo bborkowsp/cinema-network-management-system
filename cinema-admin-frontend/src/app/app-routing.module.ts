@@ -18,6 +18,7 @@ import {UserFormComponent} from "./user/components/user-form/user-form.component
 import {UserTableComponent} from "./user/components/user-table/user-table.component";
 import {CinemaManagerTableComponent} from "./user/components/cinema-manager-table/cinema-manager-table.component";
 import {CinemaManagerFormComponent} from "./user/components/cinema-manager-form/cinema-manager-form.component";
+import {LogsTableComponent} from "./logs/components/logs-table/logs-table.component";
 
 const routes: Routes = [
   {
@@ -121,6 +122,12 @@ const routes: Routes = [
     component: ScreeningFormComponent,
     canActivate: [AuthGuard],
     data: {roles: [Role.ROLE_CINEMA_MANAGER]}
+  },
+  {
+    path: 'logs',
+    component: LogsTableComponent,
+    canActivate: [AuthGuard],
+    data: {roles: [Role.ROLE_ADMIN]}
   },
   {
     path: 'home', component: HomeComponent, canActivate: [AuthGuard],
