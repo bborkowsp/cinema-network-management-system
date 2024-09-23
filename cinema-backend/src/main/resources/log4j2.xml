@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration>
     <Appenders>
-        <Console name="CONSOLE">
-            <PatternLayout pattern="%d [%t] %p %c - %m%n"/>
-        </Console>
+        <Console name="CONSOLE" target="SYSTEM_OUT" follow="true">
+            <PatternLayout disableAnsi="false" pattern="%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}} %highlight{${LOG_LEVEL_PATTERN:-%5p}}{FATAL=red blink, ERROR=red, WARN=yellow bold, INFO=green, DEBUG=green bold, TRACE=blue} %style{}{magenta} [%M] %style{%40C}{cyan} : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%xEx}" />        </Console>
         <JDBC name="DB" tableName="logs">
             <PoolingDriver connectionString="jdbc:postgresql://localhost:5432/cinema" userName="cinema"
                            password="qH7Yb3tgbzQG"/>
