@@ -60,16 +60,15 @@ export class BuyTicketComponent implements OnInit {
         this.openSafeWindow(paypalResponse.redirectUrl);
       },
       error: (error) => {
-        console.log(error);
         this.snackBar.open(error.error.errors[0], 'Close', {
-          duration: 3000, // Show the snackbar for 3 seconds
+          duration: 3000,
         });
       }
     });
   }
 
   private getCustomerData() {
-    const customer$ = this.userService.getCustomer(this.getLoggedInUserEmail());
+    const customer$ = this.userService.getCustomer();
     customer$.subscribe({
       next: (customer: UserResponse) => {
         this.buyTicketFormBuilder.fillFormWithCustomerData(customer);

@@ -1,11 +1,9 @@
 package org.example.cinemabackend.user.core.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.cinemabackend.auth.core.port.primary.AuthUseCases;
 import org.example.cinemabackend.cinema.core.port.secondary.CinemaRepository;
-import org.example.cinemabackend.user.application.dto.request.CreateCinemaManagerRequest;
-import org.example.cinemabackend.user.application.dto.request.CreateUserRequest;
-import org.example.cinemabackend.user.application.dto.request.UpdateCinemaManagerRequest;
-import org.example.cinemabackend.user.application.dto.request.UpdateUserRequest;
+import org.example.cinemabackend.user.application.dto.request.*;
 import org.example.cinemabackend.user.application.dto.response.CinemaManagerResponse;
 import org.example.cinemabackend.user.application.dto.response.CinemaManagerTableResponse;
 import org.example.cinemabackend.user.application.dto.response.UserResponse;
@@ -23,11 +21,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 class UserService implements UserUseCases {
-
     private final UserRepository userRepository;
     private final CinemaRepository cinemaRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+    private final AuthUseCases authUseCases;
 
     @Override
     @Transactional(readOnly = true)
@@ -53,7 +51,8 @@ class UserService implements UserUseCases {
     }
 
     @Override
-    public UserResponse getCustomerProfile(String email) {
+    public UserResponse getCustomerProfile() {
+        final var email = authUseCases.getCurrentLoggedInUserEmail();
         final var user = userRepository.findByEmail(email).orElseThrow();
         return userMapper.mapUserToUserResponse(user);
     }
@@ -91,6 +90,32 @@ class UserService implements UserUseCases {
     }
 
     @Override
+    public void updateCustomerProfile(UpdateCustomerProfileRequest updateCustomerProfileRequest) {
+        final var email = authUseCases.getCurrentLoggedInUserEmail();
+        final var userToUpdate = userRepository.findByEmail(email).orElseThrow();
+        updateUserFields(userToUpdate, updateCustomerProfileRequest);
+        userRepository.save(userToUpdate);
+    }
+
+    private void updateUserFields(User userToUpdate, UpdateCustomerProfileRequest updateCustomerProfileRequest) {
+        userToUpdate.setFirstName(updateCustomerProfileRequest.firstName());
+        userToUpdate.setLastName(updateCustomerProfileRequest.lastName());
+        if (!updateCustomerProfileRequest.email().equals(userToUpdate.getEmail())) {
+            validateUserDoesNotExist(updateCustomerProfileRequest.email());
+            userToUpdate.setEmail(updateCustomerProfileRequest.email());
+        }
+    }
+
+    @Override
+    public void updatePassword(UpdatePasswordRequest updateCustomerProfileRequest) {
+        final var email = authUseCases.getCurrentLoggedInUserEmail();
+        final var userToUpdate = userRepository.findByEmail(email).orElseThrow();
+        validateCurrentPasswordIsCorrect(userToUpdate, updateCustomerProfileRequest.currentPassword());
+        userToUpdate.setPassword(passwordEncoder.encode(updateCustomerProfileRequest.newPassword()));
+        userRepository.save(userToUpdate);
+    }
+
+    @Override
     public void deleteCinemaManager(String email) {
         final var user = userRepository.findCinemaManagerByEmail(email).orElseThrow();
         validateUserIsNotAssignedToCinema(user);
@@ -104,7 +129,6 @@ class UserService implements UserUseCases {
         validateUserIsNotAdmin(user);
         userRepository.deleteUser(user);
     }
-
 
     private void validateUserIsNotAdmin(User user) {
         if (user.getRole().equals(Role.ADMIN)) {

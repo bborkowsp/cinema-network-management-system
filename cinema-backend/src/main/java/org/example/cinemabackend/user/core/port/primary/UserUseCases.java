@@ -1,9 +1,6 @@
 package org.example.cinemabackend.user.core.port.primary;
 
-import org.example.cinemabackend.user.application.dto.request.CreateCinemaManagerRequest;
-import org.example.cinemabackend.user.application.dto.request.CreateUserRequest;
-import org.example.cinemabackend.user.application.dto.request.UpdateCinemaManagerRequest;
-import org.example.cinemabackend.user.application.dto.request.UpdateUserRequest;
+import org.example.cinemabackend.user.application.dto.request.*;
 import org.example.cinemabackend.user.application.dto.response.CinemaManagerResponse;
 import org.example.cinemabackend.user.application.dto.response.CinemaManagerTableResponse;
 import org.example.cinemabackend.user.application.dto.response.UserResponse;
@@ -20,7 +17,7 @@ public interface UserUseCases {
 
     CinemaManagerResponse getCinemaManager(String email);
 
-    UserResponse getCustomerProfile(String email);
+    UserResponse getCustomerProfile();
 
     void createCinemaManager(CreateCinemaManagerRequest createCinemaManagerRequest);
 
@@ -30,8 +27,11 @@ public interface UserUseCases {
 
     void updateCinemaNetworkManager(String email, UpdateUserRequest updateCinemaManagerRequest);
 
+    void updateCustomerProfile(UpdateCustomerProfileRequest updateCustomerProfileRequest);
+
+    void updatePassword(UpdatePasswordRequest updateCustomerProfileRequest);
+
     void deleteCinemaManager(String email);
 
     void deleteUser(String email);
-
 }
