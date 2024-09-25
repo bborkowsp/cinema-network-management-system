@@ -1,0 +1,17 @@
+<div class="ticket">
+  <div class="ticket__qrcode">
+    <qrcode [errorCorrectionLevel]="'M'" [qrdata]="ticket.qrCode" [width]="256"></qrcode>
+  </div>
+  <div class="ticket__details">
+    <h3 class="ticket__title">Movie title: {{ ticket.screening.movie.title }}</h3>
+    <h3 class="ticket__cinema">Cinema: {{ ticket.cinemaName }}</h3>
+    <p class="ticket__date">Screening date: {{ ticket.screening.startTime | date:'dd.MM.yyyy HH:mm' }}</p>
+
+    <div *ngFor="let seat of ticket.bookedSeats" class="ticket__seat">
+      <h4 class="ticket__seat-title">Seat</h4>
+      <p class="ticket__seat-row">Row: {{ seat.seatRow }}, Column: {{ seat.seatColumn }}</p>
+      <p class="ticket__seat-zone">Seat zone: {{ seat.seatRow }}</p>
+    </div>
+  </div>
+</div>
+<mat-divider></mat-divider>

@@ -9,12 +9,15 @@ import {MatListModule} from "@angular/material/list";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {PageBottomSectionComponent} from './components/page-bottom-section/page-bottom-section.component';
 import {ToolbarComponent} from "./components/toolbar/toolbar.component";
+import {SnackBarComponent} from "./components/snackbar/snack-bar.component";
+import {MatSnackBarAction, MatSnackBarActions, MatSnackBarLabel} from "@angular/material/snack-bar";
 
 
 @NgModule({
   declarations: [
     ToolbarComponent,
     PageBottomSectionComponent,
+    SnackBarComponent
   ],
   imports: [
     CommonModule,
@@ -25,6 +28,9 @@ import {ToolbarComponent} from "./components/toolbar/toolbar.component";
     RouterLink,
     MatSidenavModule,
     MatMenuModule,
+    MatSnackBarLabel,
+    MatSnackBarActions,
+    MatSnackBarAction,
   ],
   exports: [
     ToolbarComponent,

@@ -7,12 +7,19 @@ import org.example.cinemabackend.ticketing.infrastructure.schema.TicketSchema;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 class TicketDatabaseGateway implements TicketRepository {
     private final TicketJpaRepository ticketJpaRepository;
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Ticket> findAllByEmail(String email) {
+        return ticketJpaRepository.findAllByEmail(email).stream().map(TicketSchema::toTicket).toList();
+    }
 
     @Override
     @Transactional(readOnly = true)

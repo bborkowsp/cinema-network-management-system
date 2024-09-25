@@ -20,11 +20,18 @@ import {MatTabsModule} from "@angular/material/tabs";
 import {RouterLink} from "@angular/router";
 import {MatCardModule} from "@angular/material/card";
 import {MyProfileComponent} from './components/account-page/tabs/my-profile/my-profile.component';
+import {TicketsComponent} from "./components/account-page/tabs/tickets/tickets.component";
+import {
+  TicketDetailsComponent
+} from "./components/account-page/tabs/tickets/components/ticket-list/ticket-details.component";
+import {QRCodeModule} from "angularx-qrcode";
 
 @NgModule({
   declarations: [
     AccountPageComponent,
-    MyProfileComponent
+    MyProfileComponent,
+    TicketsComponent,
+    TicketDetailsComponent
   ],
   imports: [
     CommonModule,
@@ -46,7 +53,8 @@ import {MyProfileComponent} from './components/account-page/tabs/my-profile/my-p
     SharedModule,
     MatTabsModule,
     RouterLink,
-    MatCardModule
+    MatCardModule,
+    QRCodeModule
   ],
 })
 export class UserModule {

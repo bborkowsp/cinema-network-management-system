@@ -4,11 +4,14 @@ import org.example.cinemabackend.cinema.application.dto.response.SeatResponse;
 import org.example.cinemabackend.cinema.core.domain.Seat;
 import org.example.cinemabackend.cinema.core.domain.SeatStatus;
 import org.example.cinemabackend.ticketing.application.dto.request.BuyTicketRequest;
+import org.example.cinemabackend.ticketing.application.dto.response.TicketResponse;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 public interface TicketUseCases {
+    List<TicketResponse> getTickets();
+
     void generateTickets(BuyTicketRequest buyTicketRequest, String orderId);
 
     void changeSeatStatus(List<Seat> seatResponses, SeatStatus seatStatus);

@@ -9,15 +9,16 @@ import java.util.List;
 
 public interface SeatMapper {
 
+    List<SeatResponse> mapSeatsToSeatResponses(List<Seat> bookedSeats);
+
+    List<Seat> mapSeatResponsesToSeat(List<SeatResponse> seatResponses);
+
+
     SeatResponse[][] mapSeatRowsToSeatResponses(List<SeatRow> seatRows);
 
     Seat mapCreateSeatRequestToSeat(CreatSeatRequest seatRequest);
 
-    List<Seat> mapSeatResponsesToSeat(List<SeatResponse> seatResponses);
-
     Seat mapSeatResponseToSeat(SeatResponse seatResponse);
-
-    Seat mapCreateSeatToSeat(CreatSeatRequest seat);
 
     SeatResponse mapSeatToSeatResponse(Seat seat);
 }

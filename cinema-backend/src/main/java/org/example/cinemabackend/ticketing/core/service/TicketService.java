@@ -1,6 +1,7 @@
 package org.example.cinemabackend.ticketing.core.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.cinemabackend.auth.core.port.primary.AuthUseCases;
 import org.example.cinemabackend.cinema.application.dto.response.SeatResponse;
 import org.example.cinemabackend.cinema.core.domain.*;
 import org.example.cinemabackend.cinema.core.port.primary.SeatMapper;
@@ -9,8 +10,10 @@ import org.example.cinemabackend.cinema.core.port.secondary.ScreeningRepository;
 import org.example.cinemabackend.cinema.core.port.secondary.ScreeningRoomRepository;
 import org.example.cinemabackend.cinema.core.port.secondary.SeatRepository;
 import org.example.cinemabackend.ticketing.application.dto.request.BuyTicketRequest;
+import org.example.cinemabackend.ticketing.application.dto.response.TicketResponse;
 import org.example.cinemabackend.ticketing.core.domain.Ticket;
 import org.example.cinemabackend.ticketing.core.port.primary.QrCodeUseCases;
+import org.example.cinemabackend.ticketing.core.port.primary.TicketMapper;
 import org.example.cinemabackend.ticketing.core.port.primary.TicketUseCases;
 import org.example.cinemabackend.ticketing.core.port.secondary.TicketRepository;
 import org.example.cinemabackend.user.core.domain.User;
@@ -32,6 +35,14 @@ class TicketService implements TicketUseCases {
     private final ScreeningRoomRepository screeningRoomRepository;
     private final CinemaRepository cinemaRepository;
     private final TicketRepository ticketRepository;
+    private final AuthUseCases authUseCases;
+    private final TicketMapper ticketMapper;
+
+    @Override
+    public List<TicketResponse> getTickets() {
+        final var email = authUseCases.getCurrentLoggedInUserEmail();
+        return ticketRepository.findAllByEmail(email).stream().map(ticketMapper::mapTicketToTicketResponse).toList();
+    }
 
     @Override
     public void generateTickets(BuyTicketRequest buyTicketRequest, String orderId) {

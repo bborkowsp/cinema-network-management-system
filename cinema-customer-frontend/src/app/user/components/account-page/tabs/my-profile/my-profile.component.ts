@@ -5,6 +5,9 @@ import {UserResponse} from "../../../../dtos/response/user.response";
 import {UpdateCustomerProfileRequest} from "../../../../dtos/request/update-customer-profile.request";
 import {UpdatePasswordRequest} from "../../../../dtos/request/update-password.request";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {SnackBarType} from "../../../../../_shared/components/snackbar/snackbar-type.enum";
+import {SnackBarComponent} from "../../../../../_shared/components/snackbar/snack-bar.component";
+import {SnackBarData} from "../../../../../_shared/components/snackbar/snackbar-data.interface";
 
 @Component({
   selector: 'app-my-profile',
@@ -66,10 +69,10 @@ export class MyProfileComponent implements OnInit {
       const updateCustomerProfileRequest = this.createUpdateCustomerProfileRequest();
       this.userService.updateCustomerProfile(updateCustomerProfileRequest).subscribe({
         next: () => {
-          this.openSnackBar("Profile updated successfully!");
+          this.openSnackBar("Profile updated successfully!", SnackBarType.SUCCESS);
         },
         error: (error) => {
-          this.openSnackBar(error.error.errors[0])
+          this.openSnackBar(error.error.errors[0], SnackBarType.ERROR);
         }
       });
     }
@@ -80,10 +83,10 @@ export class MyProfileComponent implements OnInit {
       const updatePasswordRequest = this.createUpdatePasswordRequest();
       this.userService.updatePassword(updatePasswordRequest).subscribe({
         next: (response) => {
-          this.openSnackBar("Password updated successfully!");
+          this.openSnackBar("Profile updated successfully!", SnackBarType.SUCCESS);
         },
         error: (error) => {
-          this.openSnackBar(error.error.errors[0])
+          this.openSnackBar(error.error.errors[0], SnackBarType.ERROR);
         }
       });
     }
@@ -112,9 +115,13 @@ export class MyProfileComponent implements OnInit {
     )
   }
 
-  private openSnackBar(message: string) {
-    this.snackBar.open(message, 'Close', {
+  private openSnackBar(message: string, snackBarType: SnackBarType) {
+    this.snackBar.openFromComponent(SnackBarComponent, {
       duration: 5000,
+      data: {
+        message,
+        snackBarType,
+      } as SnackBarData,
     });
   }
 }

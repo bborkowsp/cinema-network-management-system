@@ -32,6 +32,11 @@ class QrCodeService implements QrCodeUseCases {
     }
 
     @Override
+    public String encodeByteArrayToBase64(byte[] qrCodeImage) {
+        return java.util.Base64.getEncoder().encodeToString(qrCodeImage);
+    }
+
+    @Override
     public BufferedImage generateQrCodeImage(StringBuilder text) {
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
         Map<EncodeHintType, Object> hints = new HashMap<>();

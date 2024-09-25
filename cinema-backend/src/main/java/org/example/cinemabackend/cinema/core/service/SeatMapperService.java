@@ -16,6 +16,20 @@ import java.util.stream.Collectors;
 class SeatMapperService implements SeatMapper {
 
     @Override
+    public List<SeatResponse> mapSeatsToSeatResponses(List<Seat> bookedSeats) {
+        return bookedSeats.stream()
+                .map(this::mapSeatToSeatResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Seat> mapSeatResponsesToSeat(List<SeatResponse> seatResponses) {
+        return seatResponses.stream()
+                .map(this::mapSeatResponseToSeat)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public SeatResponse[][] mapSeatRowsToSeatResponses(List<SeatRow> seatRows) {
         SeatResponse[][] seatResponses = new SeatResponse[seatRows.size()][seatRows.getFirst().getSeats().size()];
         for (int i = 0; i < seatRows.size(); i++) {
@@ -39,13 +53,6 @@ class SeatMapperService implements SeatMapper {
     }
 
     @Override
-    public List<Seat> mapSeatResponsesToSeat(List<SeatResponse> seatResponses) {
-        return seatResponses.stream()
-                .map(this::mapSeatResponseToSeat)
-                .collect(Collectors.toList());
-    }
-
-    @Override
     public Seat mapSeatResponseToSeat(SeatResponse seatResponse) {
         return new Seat(
                 seatResponse.id(),
@@ -53,16 +60,6 @@ class SeatMapperService implements SeatMapper {
                 seatResponse.seatColumn(),
                 seatResponse.seatZone(),
                 seatResponse.seatStatus()
-        );
-    }
-
-    @Override
-    public Seat mapCreateSeatToSeat(CreatSeatRequest seat) {
-        return new Seat(
-                seat.seatRow(),
-                seat.seatColumn(),
-                seat.seatZone(),
-                seat.seatStatus()
         );
     }
 

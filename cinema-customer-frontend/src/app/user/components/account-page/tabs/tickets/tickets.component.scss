@@ -1,0 +1,17 @@
+.no-tickets-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+
+.no-tickets-text {
+  font-size: 18px;
+  font-weight: bold;
+  color: #6c757d;
+  margin: 0;
+  text-align: center;
+}

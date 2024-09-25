@@ -1,0 +1,20 @@
+<h2>Your tickets</h2>
+<div *ngIf="tickets as tickets; else spinner">
+  <div *ngIf="tickets.length; else noTickets">
+    <div *ngFor="let ticket of tickets">
+      <app-ticket-details [ticket]="ticket"></app-ticket-details>
+    </div>
+  </div>
+</div>
+
+<ng-template #spinner>
+  <div class="spinner">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>
+
+<ng-template #noTickets>
+  <div class="no-tickets-message">
+    <p class="no-tickets-text">You have no tickets yet.</p>
+  </div>
+</ng-template>

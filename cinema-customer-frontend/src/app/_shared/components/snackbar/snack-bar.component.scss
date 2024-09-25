@@ -1,0 +1,19 @@
+:host {
+  display: flex;
+}
+
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.error {
+  color: #f30909;
+}
+
+.success {
+  color: #0f9d58;
+}
+

@@ -12,6 +12,7 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {UserModule} from "./user/user.module";
 import {JwtInterceptor} from "./_shared/interceptors/jwt.interceptor";
 import {AuthModule} from "./auth/auth.module";
+import {QRCodeModule} from "angularx-qrcode";
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import {AuthModule} from "./auth/auth.module";
     MatDialogModule,
     UserModule,
     AuthModule,
+    QRCodeModule,
   ],
   providers: [
     DatePipe,
