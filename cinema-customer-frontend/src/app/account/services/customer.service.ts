@@ -9,26 +9,25 @@ import {UpdatePasswordRequest} from "../dtos/request/update-password.request";
 @Injectable({
   providedIn: 'root',
 })
-export class UserService {
-  static readonly USERS_API_URL = `${environment.API_BASE_URL}/users`;
+export class CustomerService {
+  static readonly CUSTOMERS_ENDPOINT_URL = `${environment.API_BASE_URL}/users/customers`;
 
-  constructor(
-    private httpClient: HttpClient
-  ) {
+  constructor(private httpClient: HttpClient) {
   }
 
   getCustomer(): Observable<UserResponse> {
-    const url = `${UserService.USERS_API_URL}/customer`;
+    const url = `${CustomerService.CUSTOMERS_ENDPOINT_URL}`;
     return this.httpClient.get<UserResponse>(url);
   }
 
   updateCustomerProfile(updateCustomerProfile: UpdateCustomerProfileRequest) {
-    const url = `${UserService.USERS_API_URL}/customer`;
+    const url = `${CustomerService.CUSTOMERS_ENDPOINT_URL}`;
     return this.httpClient.patch(url, updateCustomerProfile);
   }
 
   updatePassword(updatePassword: UpdatePasswordRequest) {
-    const url = `${UserService.USERS_API_URL}/customer/update-password`;
+    const url = `${CustomerService.CUSTOMERS_ENDPOINT_URL}/update-password`;
     return this.httpClient.patch(url, updatePassword);
   }
 }
+

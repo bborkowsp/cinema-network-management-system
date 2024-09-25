@@ -2,7 +2,6 @@ import {RouterModule, Routes} from "@angular/router";
 import {NgModule} from "@angular/core";
 import {RepertoryComponent} from "./repertory/components/repertory.component";
 import {BuyTicketComponent} from "./repertory/components/buy-ticket/buy-ticket.component";
-import {AccountPageComponent} from "./user/components/account-page/account-page.component";
 import {AuthGuard} from "./auth/service/permission.service";
 import {
   CancelPaypalPaymentComponent
@@ -20,6 +19,7 @@ import {ActivateAccountComponent} from "./auth/components/register/activate-acco
 import {
   ResetPasswordFormComponent
 } from "./auth/components/reset-password/reset-password-form/reset-password-form.component";
+import {AccountPageComponent} from "./account/components/account-page/account-page.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/repertory', pathMatch: 'full'},

@@ -5,11 +5,11 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {PaymentMethod} from "./enums/payment-method";
 import {TicketingService} from "../../services/ticketing.service";
 import {AuthService} from "../../../auth/service/auth.service";
-import {UserService} from "../../../user/services/user.service";
-import {UserResponse} from "../../../user/dtos/response/user.response";
 import {BuyTicketRequest} from "../../dtos/request/buy-ticket.request";
 import {PaypalResponse} from "../../dtos/response/paypal.response";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {CustomerService} from "../../../account/services/customer.service";
+import {UserResponse} from "../../../account/dtos/response/user.response";
 
 
 @Component({
@@ -26,7 +26,7 @@ export class BuyTicketComponent implements OnInit {
     private formBuilder: FormBuilder,
     private ticketingService: TicketingService,
     private readonly authService: AuthService,
-    private readonly userService: UserService,
+    private readonly customerService: CustomerService,
     private snackBar: MatSnackBar
   ) {
   }
@@ -68,7 +68,7 @@ export class BuyTicketComponent implements OnInit {
   }
 
   private getCustomerData() {
-    const customer$ = this.userService.getCustomer();
+    const customer$ = this.customerService.getCustomer();
     customer$.subscribe({
       next: (customer: UserResponse) => {
         this.buyTicketFormBuilder.fillFormWithCustomerData(customer);

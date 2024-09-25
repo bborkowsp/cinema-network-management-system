@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {UserService} from "../../../../services/user.service";
+import {CustomerService} from "../../../../services/customer.service";
 import {UserResponse} from "../../../../dtos/response/user.response";
 import {UpdateCustomerProfileRequest} from "../../../../dtos/request/update-customer-profile.request";
 import {UpdatePasswordRequest} from "../../../../dtos/request/update-password.request";
@@ -29,7 +29,7 @@ export class MyProfileComponent implements OnInit {
   });
 
   constructor(
-    private readonly userService: UserService,
+    private readonly userService: CustomerService,
     private snackBar: MatSnackBar
   ) {
   }

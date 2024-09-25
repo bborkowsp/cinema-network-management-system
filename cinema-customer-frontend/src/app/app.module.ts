@@ -9,10 +9,10 @@ import {AppRoutingModule} from "./app-routing.module";
 import {HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi} from "@angular/common/http";
 import {DatePipe} from "@angular/common";
 import {MatDialogModule} from "@angular/material/dialog";
-import {UserModule} from "./user/user.module";
 import {JwtInterceptor} from "./_shared/interceptors/jwt.interceptor";
 import {AuthModule} from "./auth/auth.module";
 import {QRCodeModule} from "angularx-qrcode";
+import {AccountModule} from "./account/account.module";
 
 @NgModule({
   declarations: [
@@ -26,7 +26,7 @@ import {QRCodeModule} from "angularx-qrcode";
     SharedModule,
     RepertoryModule,
     MatDialogModule,
-    UserModule,
+    AccountModule,
     AuthModule,
     QRCodeModule,
   ],

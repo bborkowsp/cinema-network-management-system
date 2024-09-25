@@ -57,5 +57,5 @@ import {QRCodeModule} from "angularx-qrcode";
     QRCodeModule
   ],
 })
-export class UserModule {
+export class AccountModule {
 }

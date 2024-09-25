@@ -10,26 +10,26 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/v1/users")
+@RequestMapping("/v1/users/customers")
 @RequiredArgsConstructor
 public class CustomerController {
     private final UserUseCases userUseCases;
 
-    @GetMapping("/customer")
+    @GetMapping
     @PreAuthorize("hasRole('CUSTOMER')")
     ResponseEntity<UserResponse> getCustomerProfile() {
         final var customerProfile = userUseCases.getCustomerProfile();
         return ResponseEntity.ok(customerProfile);
     }
 
-    @PatchMapping("/customer")
+    @PatchMapping
     @PreAuthorize("hasRole('CUSTOMER')")
     ResponseEntity<Void> updateCustomerProfile(@RequestBody UpdateCustomerProfileRequest updateCustomerProfileRequest) {
         userUseCases.updateCustomerProfile(updateCustomerProfileRequest);
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("/customer/update-password")
+    @PatchMapping("/update-password")
     @PreAuthorize("hasRole('CUSTOMER')")
     ResponseEntity<Void> updateCustomerProfile(@RequestBody UpdatePasswordRequest updateCustomerProfileRequest) {
         userUseCases.updatePassword(updateCustomerProfileRequest);
