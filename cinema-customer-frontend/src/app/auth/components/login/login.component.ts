@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {AuthService} from "../../../auth/service/auth.service";
-import {LoginUserRequest} from "../../../auth/dto/login-user.request";
+import {AuthService} from "../../service/auth.service";
+import {LoginUserRequest} from "../../dto/login-user.request";
 
 @Component({
   selector: 'app-login',
@@ -9,14 +9,10 @@ import {LoginUserRequest} from "../../../auth/dto/login-user.request";
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  emailControl = new FormControl('', [Validators.required, Validators.email]);
-  passwordControl = new FormControl('', [Validators.required]);
-
   hidePassword: boolean = true;
-
-  form = new FormGroup({
-    email: this.emailControl,
-    password: this.passwordControl,
+  loginForm = new FormGroup({
+    email: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', [Validators.required]),
   });
 
   constructor(
@@ -24,13 +20,27 @@ export class LoginComponent {
   ) {
   }
 
+  get emailControl() {
+    return this.loginForm.get('email') as FormControl;
+  }
+
+  get passwordControl() {
+    return this.loginForm.get('password') as FormControl;
+  }
+
   togglePasswordVisibility() {
     this.hidePassword = !this.hidePassword;
   }
 
-  submit() {
-    const {email, password} = this.form.value;
-    const loginUserRequest = new LoginUserRequest(email ?? '', password ?? '');
+  login() {
+    const loginUserRequest = this.createLoginUserRequest();
     this.authService.login(loginUserRequest);
+  }
+
+  private createLoginUserRequest() {
+    return new LoginUserRequest(
+      this.loginForm.value.email as string,
+      this.loginForm.value.password as string
+    );
   }
 }

@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {environment} from "../../../assets/environment";
-import { HttpClient } from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {map} from "rxjs";
 
 @Injectable({
@@ -8,7 +8,7 @@ import {map} from "rxjs";
 })
 
 export class CinemaService {
-  static readonly CINEMAS_API_URL = `${environment.API_BASE_URL}/cinemas`;
+  static readonly CINEMAS_ENDPOINT_URL = `${environment.API_BASE_URL}/cinemas`;
 
   constructor(
     private readonly httpClient: HttpClient,
@@ -16,7 +16,7 @@ export class CinemaService {
   }
 
   getAllCinemaNames() {
-    const url = `${CinemaService.CINEMAS_API_URL}/names`;
+    const url = `${CinemaService.CINEMAS_ENDPOINT_URL}/names`;
     return this.httpClient.get<{ content: string[] }>(url).pipe(
       map((response) => response.content),
     );

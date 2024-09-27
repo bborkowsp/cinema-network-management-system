@@ -1,9 +1,14 @@
-import {Component} from '@angular/core';
+import {Component, signal} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
-import {RegisterUserRequest} from "../../../auth/dto/register-user.request";
-import {AuthService} from "../../../auth/service/auth.service";
-import {Role} from "../../../auth/enums/role";
+import {RegisterUserRequest} from "../../dto/register-user.request";
+import {AuthService} from "../../service/auth.service";
+import {Role} from "../../enums/role";
+import {passwordsMatchValidator} from "../../../_shared/validators/passwords-match.validator";
+import {SnackBarType} from "../../../_shared/components/snackbar/snackbar-type.enum";
+import {SnackBarComponent} from "../../../_shared/components/snackbar/snack-bar.component";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {SnackBarData} from "../../../_shared/components/snackbar/snackbar-data.interface";
 
 @Component({
   selector: 'app-register',
@@ -11,50 +16,85 @@ import {Role} from "../../../auth/enums/role";
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent {
-  firstNameControl = new FormControl('', [Validators.required]);
-  lastNameControl = new FormControl('', [Validators.required]);
-  emailControl = new FormControl('', [Validators.required, Validators.email]);
-  emailConfirmationControl = new FormControl('', [Validators.required, Validators.email]);
-  passwordControl = new FormControl('', [Validators.required]);
-  hidePassword: boolean = true;
-  accountAlreadyExistsError: boolean = false;
+  hidePassword = signal(true);
+  hidePasswordConfirmation = signal(true);
 
-  form = new FormGroup({
-    firstName: this.firstNameControl,
-    lastName: this.lastNameControl,
-    email: this.emailControl,
-    password: this.passwordControl,
-    emailConfirmation: this.emailConfirmationControl,
-  });
-
+  registerForm = new FormGroup({
+    firstName: new FormControl('', [Validators.required]),
+    lastName: new FormControl('', [Validators.required]),
+    email: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', [Validators.required]),
+    passwordConfirmation: new FormControl('', [Validators.required]),
+  }, {validators: passwordsMatchValidator('password', 'passwordConfirmation')});
 
   constructor(
     private readonly authService: AuthService,
     private readonly router: Router,
+    private snackBar: MatSnackBar,
   ) {
   }
 
-  togglePasswordVisibility() {
-    this.hidePassword = !this.hidePassword;
+  get firstNameControl() {
+    return this.registerForm.get('firstName') as FormControl;
+  }
+
+  get lastNameControl() {
+    return this.registerForm.get('lastName') as FormControl;
+  }
+
+  get emailControl() {
+    return this.registerForm.get('email') as FormControl;
+  }
+
+  get passwordControl() {
+    return this.registerForm.get('password') as FormControl;
+  }
+
+  get passwordConfirmationControl() {
+    return this.registerForm.get('passwordConfirmation') as FormControl;
+  }
+
+  showPasswordEvent(event: MouseEvent) {
+    this.hidePassword.set(!this.hidePassword());
+    event.stopPropagation();
+  }
+
+  showPasswordConfirmationEvent(event: MouseEvent) {
+    this.hidePasswordConfirmation.set(!this.hidePasswordConfirmation());
+    event.stopPropagation();
   }
 
   submit() {
     const registerUserRequest = this.createRegisterUserRequest();
     this.authService.register(registerUserRequest).subscribe({
       next: () => {
-        console.log('User registered')
         this.router.navigate(['/activate-account']);
       },
       error: (error) => {
         if (error.error.errors[0] === 'User already exists') {
-          this.accountAlreadyExistsError = true;
+          this.openSnackBar(error.error.errors[0], SnackBarType.ERROR);
         }
       }
     })
   }
 
+  private openSnackBar(message: string, snackBarType: SnackBarType) {
+    this.snackBar.openFromComponent(SnackBarComponent, {
+      duration: 5000,
+      data: {
+        message,
+        snackBarType,
+      } as SnackBarData,
+    });
+  }
+
   private createRegisterUserRequest(): RegisterUserRequest {
-    const {firstName, lastName, email, password} = this.form.value;
-    return new RegisterUserRequest(firstName!, lastName!, email!, password!, Role.CUSTOMER);
+    return new RegisterUserRequest(
+      this.firstNameControl.value,
+      this.lastNameControl.value,
+      this.emailControl.value,
+      this.passwordControl.value,
+      Role.CUSTOMER
+    );
   }
 }

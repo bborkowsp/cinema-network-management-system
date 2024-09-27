@@ -3,7 +3,7 @@ import {BuyTicketFormBuilder} from "./buy-ticket-form-builder";
 import {FormBuilder} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {PaymentMethod} from "./enums/payment-method";
-import {TicketingService} from "../../services/ticketing.service";
+import {PayPalService} from "../../services/pay-pal.service";
 import {AuthService} from "../../../auth/service/auth.service";
 import {BuyTicketRequest} from "../../dtos/request/buy-ticket.request";
 import {PaypalResponse} from "../../dtos/response/paypal.response";
@@ -24,7 +24,7 @@ export class BuyTicketComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private ticketingService: TicketingService,
+    private payPalService: PayPalService,
     private readonly authService: AuthService,
     private readonly customerService: CustomerService,
     private snackBar: MatSnackBar
@@ -54,7 +54,7 @@ export class BuyTicketComponent implements OnInit {
 
   private payWithPayPal(buyTicketForm: BuyTicketRequest) {
     this.saveReturnLinkToCurrentPageInLocalStorage();
-    this.ticketingService.payWithPayPal(buyTicketForm).subscribe({
+    this.payPalService.payWithPayPal(buyTicketForm).subscribe({
       next: (paypalResponse: PaypalResponse) => {
         console.log(paypalResponse);
         this.openSafeWindow(paypalResponse.redirectUrl);
@@ -76,10 +76,6 @@ export class BuyTicketComponent implements OnInit {
       error: () => {
       }
     });
-  }
-
-  private getLoggedInUserEmail(): string {
-    return this.authService.getLoggedInUserEmail();
   }
 
   private openSafeWindow(redirectUrl: string) {

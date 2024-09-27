@@ -33,6 +33,7 @@ import {
 } from "./components/screening-details/components/screening-times/screening-times.component";
 import {CancelPaypalPaymentComponent} from "./components/cancel-paypal-payment/cancel-paypal-payment.component";
 import {MatCard, MatCardContent, MatCardHeader, MatCardImage, MatCardTitle} from "@angular/material/card";
+import {CapturePaypalPaymentComponent} from "./components/capture-paypal-payment/capture-paypal-payment.component";
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import {MatCard, MatCardContent, MatCardHeader, MatCardImage, MatCardTitle} from
     ScreeningListComponent,
     ScreeningDetailsComponent,
     CancelPaypalPaymentComponent,
+    CapturePaypalPaymentComponent,
     MovieDetailsComponent,
     ScreeningTimesComponent,
   ],

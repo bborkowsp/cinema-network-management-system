@@ -9,7 +9,7 @@ import {ScreeningResponse} from "../dtos/response/screening.response";
   providedIn: 'root',
 })
 export class ScreeningService {
-  static readonly SCREENINGS_API_URL = `${environment.API_BASE_URL}/screenings`;
+  static readonly SCREENINGS_ENDPOINT_URL = `${environment.API_BASE_URL}/screenings`;
 
   constructor(
     private readonly httpClient: HttpClient
@@ -17,19 +17,21 @@ export class ScreeningService {
   }
 
   getScreeningDetails(title: string, date: string): Observable<ScreeningDetailsResponse> {
-    const url = `${ScreeningService.SCREENINGS_API_URL}/details/${title}/${date}`;
+    const url = `${ScreeningService.SCREENINGS_ENDPOINT_URL}/details/${title}/${date}`;
     return this.httpClient.get<ScreeningDetailsResponse>(url);
   }
 
   getRepertoryAtSpecificDate(cinema: string | null, date: Date): Observable<ScreeningResponse[]> {
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const day = date.getDate().toString().padStart(2, '0');
-    const formattedDate = `${year}-${month}-${day}`;
-    const url = `${ScreeningService.SCREENINGS_API_URL}/repertory/${cinema}/${formattedDate}`;
-    console.log(url);
+    const url = `${ScreeningService.SCREENINGS_ENDPOINT_URL}/repertory/${cinema}/${this.formatDate(date)}`;
     return this.httpClient.get<{ content: ScreeningResponse[] }>(url).pipe(
       map((response) => response.content),
     );
+  }
+
+  private formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
   }
 }

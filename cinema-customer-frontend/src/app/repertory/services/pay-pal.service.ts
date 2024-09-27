@@ -7,9 +7,9 @@ import {BuyTicketRequest} from "../dtos/request/buy-ticket.request";
 @Injectable({
   providedIn: 'root',
 })
-export class TicketingService {
-  static readonly TICKETING_API_URL = `${environment.API_BASE_URL}`;
-  static readonly PAYPAL_PAYMENT_METHOD_URL = `${TicketingService.TICKETING_API_URL}/paypal`;
+export class PayPalService {
+  static readonly TICKETING_ENDPOINT_URL = `${environment.API_BASE_URL}`;
+  static readonly PAYPAL_ENDPOINT_URL = `${PayPalService.TICKETING_ENDPOINT_URL}/paypal`;
 
   constructor(
     private readonly httpClient: HttpClient
@@ -17,12 +17,12 @@ export class TicketingService {
   }
 
   payWithPayPal(buyTicketForm: BuyTicketRequest) {
-    const url = `${TicketingService.PAYPAL_PAYMENT_METHOD_URL}/init-payment`;
+    const url = `${PayPalService.PAYPAL_ENDPOINT_URL}/init-payment`;
     return this.httpClient.post<PaypalResponse>(url, buyTicketForm);
   }
 
   sendCompletePayPalPaymentRequest(token: string) {
-    const url = `${TicketingService.PAYPAL_PAYMENT_METHOD_URL}/capture?token=${encodeURIComponent(token)}`;
+    const url = `${PayPalService.PAYPAL_ENDPOINT_URL}/capture?token=${encodeURIComponent(token)}`;
     return this.httpClient.post<void>(url, {});
   }
 }

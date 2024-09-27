@@ -13,7 +13,9 @@ export class MovieDetailsComponent {
   @Input({required: true}) movie!: MovieResponse;
   readonly POSTERS_SERVER_DIRECTORY_URL = `${images.IMAGES_SERVER_DIRECTORY_URL}/posters/`;
 
-  constructor(public dialog: MatDialog) {
+  constructor(
+    public dialog: MatDialog
+  ) {
   }
 
   openTrailer(): void {

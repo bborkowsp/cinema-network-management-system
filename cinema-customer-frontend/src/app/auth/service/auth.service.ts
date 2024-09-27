@@ -14,7 +14,7 @@ import {ResetPasswordRequest} from "../dto/reset-password.request";
 })
 
 export class AuthService {
-  static readonly authUrl = `${environment.API_BASE_URL}/auth`;
+  private static readonly AUTH_ENDPOINT_URL = `${environment.API_BASE_URL}/auth`;
   loggedInUserSubject: BehaviorSubject<string> = new BehaviorSubject<string>('');
   loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.isLoggedIn());
 
@@ -25,7 +25,7 @@ export class AuthService {
   }
 
   login(loginUserRequest: LoginUserRequest) {
-    const url = `${AuthService.authUrl}/login`;
+    const url = `${AuthService.AUTH_ENDPOINT_URL}/login`;
     this.removeTokenFromLocalStorage();
     return this.httpClient.post<any>(url, loginUserRequest).subscribe({
       next: (response) => {
@@ -44,7 +44,7 @@ export class AuthService {
 
   register(registerUserRequest: RegisterUserRequest) {
     this.removeTokenFromLocalStorage();
-    const url = `${AuthService.authUrl}/register`;
+    const url = `${AuthService.AUTH_ENDPOINT_URL}/register`;
     return this.httpClient.post<any>(url, registerUserRequest);
   }
 
@@ -60,12 +60,12 @@ export class AuthService {
   }
 
   requestForPasswordReset(email: string) {
-    const url = `${AuthService.authUrl}/reset-password-request?email=${encodeURIComponent(email)}`;
+    const url = `${AuthService.AUTH_ENDPOINT_URL}/reset-password-request?email=${encodeURIComponent(email)}`;
     return this.httpClient.post<void>(url, {});
   }
 
   resetPassword(resetPasswordRequest: ResetPasswordRequest) {
-    const url = `${AuthService.authUrl}/reset-password`;
+    const url = `${AuthService.AUTH_ENDPOINT_URL}/reset-password`;
     return this.httpClient.post<void>(url, resetPasswordRequest);
   }
 

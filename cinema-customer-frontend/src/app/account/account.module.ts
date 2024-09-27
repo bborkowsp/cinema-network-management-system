@@ -25,13 +25,21 @@ import {
   TicketDetailsComponent
 } from "./components/account-page/tabs/tickets/components/ticket-list/ticket-details.component";
 import {QRCodeModule} from "angularx-qrcode";
+import {
+  ChangePasswordComponent
+} from "./components/account-page/tabs/my-profile/components/change-password/change-password.component";
+import {
+  PersonalDataComponent
+} from "./components/account-page/tabs/my-profile/components/personal-data/personal-data.component";
 
 @NgModule({
   declarations: [
     AccountPageComponent,
     MyProfileComponent,
     TicketsComponent,
-    TicketDetailsComponent
+    TicketDetailsComponent,
+    ChangePasswordComponent,
+    PersonalDataComponent
   ],
   imports: [
     CommonModule,

@@ -7,9 +7,11 @@ import {Router} from "@angular/router";
   styleUrl: './cancel-paypal-payment.component.scss'
 })
 export class CancelPaypalPaymentComponent implements OnInit {
-  returnLink: string = '/repertory';
+  private returnLink: string = '/repertory';
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router
+  ) {
   }
 
   ngOnInit() {

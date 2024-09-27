@@ -23,7 +23,7 @@
   justify-content: center;
   align-items: center;
   width: 50%;
-  margin: 0 auto; /* Center horizontally */
+  margin: 0 auto;
   padding: 20px;
 }
 
@@ -60,25 +60,23 @@ mat-list-option {
   align-items: center;
 }
 
-
 h1 {
   font-size: 48px;
   margin-bottom: 20px;
 }
 
-
 .account-link-container {
   display: flex;
-  align-items: center; /* Align items vertically */
+  align-items: center;
 }
 
 .account-text {
   margin: 0;
-  font-size: 14px; /* Adjust as needed */
+  font-size: 14px;
 }
 
 .account-link {
-  text-decoration: none; /* Remove underline */
+  text-decoration: none;
   font-weight: bold;
 }
 

@@ -1,7 +1,7 @@
 <div class="container">
   <h1 class="center-text">Register</h1>
   <mat-divider></mat-divider>
-  <form (ngSubmit)="submit()" [formGroup]="form" class="form">
+  <form (ngSubmit)="submit()" [formGroup]="registerForm" class="form">
     <div class="items-together">
       <mat-form-field class="custom-form-field ">
         <mat-label>First name</mat-label>
@@ -27,28 +27,42 @@
     </mat-form-field>
 
     <mat-form-field class="custom-form-field">
-      <mat-label>Confirm E-Mail</mat-label>
-      <input [formControl]="emailConfirmationControl" matInput required>
-      <mat-error *ngIf="emailConfirmationControl.hasError('required')">
-        Confirm your email!
-      </mat-error>
+      <mat-label>Password</mat-label>
+      <input [formControl]="passwordControl" [type]="hidePassword() ? 'password' : 'text'" matInput required>
+      <button
+        (click)="showPasswordEvent($event)"
+        [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hidePassword()"
+        mat-icon-button
+        matSuffix
+        type="button"
+      >
+        <mat-icon>{{ hidePassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
     </mat-form-field>
 
     <mat-form-field class="custom-form-field">
-      <mat-label>Password</mat-label>
-      <div class="password-input-container">
-        <input [type]="hidePassword ? 'password' : 'text'" formControlName="password" matInput maxlength="255"
-               required>
-        <button (click)="togglePasswordVisibility()" mat-icon-button matSuffix type="button">
-          <mat-icon matSuffix>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
-        </button>
-      </div>
+      <mat-label>Confirm new password</mat-label>
+      <input [formControl]="passwordConfirmationControl" [type]="hidePasswordConfirmation() ? 'password' : 'text'"
+             matInput
+             required>
+      <button
+        (click)="showPasswordConfirmationEvent($event)"
+        [attr.aria-label]="'Hide passwordConfirmation'"
+        [attr.aria-pressed]="hidePasswordConfirmation()"
+        mat-icon-button
+        matSuffix
+        type="button"
+      >
+        <mat-icon>{{ hidePasswordConfirmation() ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
     </mat-form-field>
-    <button [disabled]="form.invalid" color="primary" mat-raised-button type="submit">Create an account</button>
-    <div *ngIf="accountAlreadyExistsError" class="error-message">
-      <mat-icon color="warn">error</mat-icon>
-      <span>Email is already in use. Please use a different email address.</span>
-    </div>
+
+    <mat-error *ngIf="registerForm.hasError('mismatch') && passwordConfirmationControl.dirty" class="error-message">
+      Passwords do not match
+    </mat-error>
+    <button [disabled]="registerForm.invalid" color="primary" mat-raised-button type="submit">Create new account
+    </button>
   </form>
 </div>
 <app-page-bottom-section></app-page-bottom-section>

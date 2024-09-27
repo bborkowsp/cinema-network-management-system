@@ -47,7 +47,6 @@ export class ScreeningListComponent implements OnInit, OnChanges {
     return Array.from(uniqueVariants.values());
   }
 
-  // Pobierz seanse dla danego wariantu
   getScreeningsByVariant(screenings: ScreeningResponse[], variant: MovieVariantResponse): ScreeningResponse[] {
     return screenings
       .filter(screening =>

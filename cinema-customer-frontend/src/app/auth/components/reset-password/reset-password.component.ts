@@ -9,9 +9,8 @@ import {AuthService} from "../../service/auth.service";
   styleUrls: ['./reset-password.component.scss']
 })
 export class ResetPasswordComponent {
-  emailControl = new FormControl('', [Validators.required, Validators.email]);
   form = new FormGroup({
-    email: this.emailControl,
+    email: new FormControl('', [Validators.required, Validators.email])
   });
 
   constructor(
@@ -20,8 +19,12 @@ export class ResetPasswordComponent {
   ) {
   }
 
-  submit() {
-    const email = this.form.value.email as string;
+  get emailControl() {
+    return this.form.get('email') as FormControl;
+  }
+
+  requestForResetPassword() {
+    const email = this.getEmail();
     this.authService.requestForPasswordReset(email).subscribe({
       next: () => {
         this.router.navigate(['/check-email']);
@@ -30,5 +33,9 @@ export class ResetPasswordComponent {
         this.router.navigate(['/check-email']);
       }
     })
+  }
+
+  private getEmail() {
+    return this.form.get('email')?.value as string;
   }
 }
