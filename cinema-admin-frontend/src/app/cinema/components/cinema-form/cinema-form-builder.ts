@@ -1,11 +1,11 @@
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import FormValidatorLengths from "../../../_shared/validators/form-validators-lengths";
-import FormValidatorPatterns from "../../../_shared/validators/form-validators-patterns";
 import {CinemaResponse} from "../../dtos/response/cinema.response";
 import {CreateAddressRequest} from "../../dtos/request/create-address.request";
 import {UserResponse} from "../../../user/dtos/response/user.response";
 import {UpdateCinemaRequest} from "../../dtos/request/update-cinema.request";
 import {CreateCinemaRequest} from "../../dtos/request/create-cinema.request";
+import {FormValidatorPatterns} from "../../../_shared/validators/form-validators-patterns";
+import {FormValidatorLengths} from "../../../_shared/validators/form-validators-lengths";
 
 export class CinemaFormBuilder {
   form: FormGroup;

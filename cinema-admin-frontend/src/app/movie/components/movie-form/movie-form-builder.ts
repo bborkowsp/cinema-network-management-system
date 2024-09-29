@@ -4,9 +4,9 @@ import {UpdateMovieRequest} from "../../dtos/request/update-movie.request";
 import {ProductionDetailsRequest} from "../../dtos/request/production-details.request";
 import {FilmMemberRequest} from "../../dtos/request/film-member.request";
 import {CreateMovieRequest} from "../../dtos/request/create-movie.request";
-import FormValidatorPatterns from "../../../_shared/validators/form-validators-patterns";
 import {getEnumKeyByValue, getEnumValueByKey} from "../../dtos/response/projection-technology";
 import {MovieVariantResponse} from "../../dtos/response/movie-variant.response";
+import {FormValidatorPatterns} from "../../../_shared/validators/form-validators-patterns";
 
 export class MovieFormBuilder {
   form: FormGroup;
@@ -98,7 +98,7 @@ export class MovieFormBuilder {
   getCreateMovieRequestFromForm() {
     return this.getMovieRequestFromForm(CreateMovieRequest);
   }
- 
+
   private createForm() {
     return this.formBuilder.group({
       title: this.formBuilder.group({
