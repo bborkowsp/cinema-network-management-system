@@ -13,6 +13,7 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
   private static readonly SERVER_ERROR_MESSAGE = 'Unrecognized error';
   private static readonly UNAUTHORIZED_MESSAGE = 'Authentication error';
   private static readonly FORBIDDEN_MESSAGE = 'Forbidden access error';
+  private static readonly ERROR_REDIRECT_URL = '/login';
 
   constructor(
     private readonly errorNotificationService: ErrorNotificationService,
@@ -20,10 +21,7 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
   ) {
   }
 
-  intercept(
-    request: HttpRequest<unknown>,
-    next: HttpHandler,
-  ): Observable<HttpEvent<unknown>> {
+  intercept(request: HttpRequest<unknown>, next: HttpHandler,): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
         this.showErrorNotification(error);
@@ -38,15 +36,15 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
         return this.showBadRequestNotification(httpErrorResponse);
 
       case ErrorHandlerInterceptor.UNAUTHORIZED_STATUS:
-        this.router.navigate(['/login']);
+        this.router.navigate([ErrorHandlerInterceptor.ERROR_REDIRECT_URL]);
         return this.showUnauthorizedNotification();
 
       case ErrorHandlerInterceptor.NOT_FOUND_STATUS:
-        this.router.navigate(['/login']);
+        this.router.navigate([ErrorHandlerInterceptor.ERROR_REDIRECT_URL]);
         return this.showBadRequestNotification(httpErrorResponse);
 
       case ErrorHandlerInterceptor.FORBIDDEN_STATUS:
-        this.router.navigate(['/login']);
+        this.router.navigate([ErrorHandlerInterceptor.ERROR_REDIRECT_URL]);
         this.showForbiddenNotification();
         return
 
@@ -75,5 +73,4 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
   private showForbiddenNotification() {
     this.errorNotificationService.showDialog(ErrorHandlerInterceptor.FORBIDDEN_MESSAGE);
   }
-
 }

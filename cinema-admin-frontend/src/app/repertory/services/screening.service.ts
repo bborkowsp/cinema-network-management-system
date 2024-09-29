@@ -9,7 +9,7 @@ import {CreateScreeningRequest} from "../dtos/create-screening-request";
   providedIn: 'root',
 })
 export class ScreeningService {
-  static readonly SCREENINGS_API_URL = `${environment.API_BASE_URL}/screenings`;
+  static readonly SCREENINGS_ENDPOINT_URL = `${environment.API_BASE_URL}/screenings`;
 
   constructor(
     private readonly httpClient: HttpClient,
@@ -17,26 +17,26 @@ export class ScreeningService {
   }
 
   getRepertory() {
-    return this.httpClient.get<{ content: ScreeningResponse[] }>(ScreeningService.SCREENINGS_API_URL)
+    return this.httpClient.get<{ content: ScreeningResponse[] }>(ScreeningService.SCREENINGS_ENDPOINT_URL)
       .pipe(map((response) => response.content));
   }
 
   getScreening(id: number): Observable<ScreeningResponse> {
-    const url = `${ScreeningService.SCREENINGS_API_URL}/id/${id}`;
+    const url = `${ScreeningService.SCREENINGS_ENDPOINT_URL}/id/${id}`;
     return this.httpClient.get<ScreeningResponse>(url);
   }
 
   createScreening(screening: CreateScreeningRequest) {
-    return this.httpClient.post<void>(ScreeningService.SCREENINGS_API_URL, screening);
+    return this.httpClient.post<void>(ScreeningService.SCREENINGS_ENDPOINT_URL, screening);
   }
 
   updateScreening(id: number, screening: CreateScreeningRequest) {
-    const url = `${ScreeningService.SCREENINGS_API_URL}/${id}`;
+    const url = `${ScreeningService.SCREENINGS_ENDPOINT_URL}/${id}`;
     return this.httpClient.patch(url, screening);
   }
 
   deleteScreening(id: number) {
-    const url = `${ScreeningService.SCREENINGS_API_URL}/${id}`;
+    const url = `${ScreeningService.SCREENINGS_ENDPOINT_URL}/${id}`;
     return this.httpClient.delete<void>(url);
   }
 }

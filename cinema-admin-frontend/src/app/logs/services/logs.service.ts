@@ -9,7 +9,7 @@ import {Injectable} from "@angular/core";
   providedIn: 'root',
 })
 export class LogsService {
-  static readonly LOGS_API_URL = `${environment.API_BASE_URL}/logs`;
+  static readonly LOGS_ENDPOINT_URL = `${environment.API_BASE_URL}/logs`;
 
   constructor(
     private readonly httpClient: HttpClient
@@ -26,7 +26,7 @@ export class LogsService {
     }
 
     return this.httpClient
-      .get<LogPageResponse>(LogsService.LOGS_API_URL, {params})
+      .get<LogPageResponse>(LogsService.LOGS_ENDPOINT_URL, {params})
       .pipe(map((response) => response));
   }
 }

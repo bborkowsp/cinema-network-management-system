@@ -7,7 +7,7 @@
   routerLink="/movies/create">
   <ng-container content>
     <div class="mat-elevation-z8 table-container">
-      <table [dataSource]="movies$" class="table" mat-table>
+      <table [dataSource]="movies$" mat-table>
         <ng-container matColumnDef="options">
           <th *matHeaderCellDef class="column-header" mat-header-cell>
             Options
@@ -44,7 +44,7 @@
           <th *matHeaderCellDef class="column-header" mat-header-cell>
             Original Title
           </th>
-          <td *matCellDef="let row" class="options-cell" mat-cell>{{ row.originalTitle }}</td>
+          <td *matCellDef="let row" mat-cell>{{ row.originalTitle }}</td>
         </ng-container>
 
         <ng-container matColumnDef="releaseDate">

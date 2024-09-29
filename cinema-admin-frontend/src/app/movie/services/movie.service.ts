@@ -11,7 +11,7 @@ import {MovieResponse} from "../dtos/response/movie.response";
 })
 
 export class MovieService {
-  static readonly MOVIES_API_URL = `${environment.API_BASE_URL}/movies`;
+  static readonly MOVIES_ENDPOINT_URL = `${environment.API_BASE_URL}/movies`;
 
   constructor(
     private readonly httpClient: HttpClient
@@ -28,55 +28,55 @@ export class MovieService {
     }
 
     return this.httpClient
-      .get<MoviePageResponse>(MovieService.MOVIES_API_URL, {params})
+      .get<MoviePageResponse>(MovieService.MOVIES_ENDPOINT_URL, {params})
       .pipe(map((response) => response));
   }
 
   getAllMovies() {
-    const url = `${MovieService.MOVIES_API_URL}/all`;
+    const url = `${MovieService.MOVIES_ENDPOINT_URL}/all`;
     return this.httpClient.get<{ content: MovieResponse[] }>(url).pipe(
       map((response) => response.content),
     );
   }
 
   getAllMovieTitles() {
-    const url = `${MovieService.MOVIES_API_URL}/titles`;
+    const url = `${MovieService.MOVIES_ENDPOINT_URL}/titles`;
     return this.httpClient.get<{ content: string[] }>(url).pipe(
       map((response) => response.content),
     );
   }
 
   getGenres(): Observable<string[]> {
-    const url = `${MovieService.MOVIES_API_URL}/genres`;
+    const url = `${MovieService.MOVIES_ENDPOINT_URL}/genres`;
     return this.httpClient.get<{ content: string[] }>(url).pipe(
       map((response) => response.content),
     );
   }
 
   getAgeRestrictions() {
-    const url = `${MovieService.MOVIES_API_URL}/age-restrictions`;
+    const url = `${MovieService.MOVIES_ENDPOINT_URL}/age-restrictions`;
     return this.httpClient.get<{ content: string[] }>(url).pipe(
       map((response) => response.content),
     );
   }
 
   getMovie(title: string): Observable<MovieResponse> {
-    const url = `${MovieService.MOVIES_API_URL}/${title}`;
+    const url = `${MovieService.MOVIES_ENDPOINT_URL}/${title}`;
     return this.httpClient.get<MovieResponse>(url);
   }
 
 
   createMovie(createMovieRequest: FormData) {
-    return this.httpClient.post<void>(MovieService.MOVIES_API_URL, createMovieRequest);
+    return this.httpClient.post<void>(MovieService.MOVIES_ENDPOINT_URL, createMovieRequest);
   }
 
   updateMovie(title: string, movie: FormData) {
-    const url = `${MovieService.MOVIES_API_URL}/${title}`;
+    const url = `${MovieService.MOVIES_ENDPOINT_URL}/${title}`;
     return this.httpClient.patch<void>(url, movie);
   }
 
   deleteMovie(title: string) {
-    const url = `${MovieService.MOVIES_API_URL}/${title}`;
+    const url = `${MovieService.MOVIES_ENDPOINT_URL}/${title}`;
     return this.httpClient.delete<void>(url);
   }
 }

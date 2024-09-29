@@ -1,5 +1,5 @@
 import {map, Observable} from "rxjs";
-import { HttpClient, HttpParams } from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {environment} from "../../../assets/environment";
 import {PaginatorRequestParams} from "../../_shared/dtos/paginator-request-params";
 import {Injectable} from "@angular/core";
@@ -16,9 +16,9 @@ import {UpdateCinemaManagerRequest} from "../dtos/request/update-cinema-manager.
   providedIn: 'root',
 })
 export class UserService {
-  static readonly USERS_API_URL = `${environment.API_BASE_URL}/users`;
-  static readonly CINEMA_MANAGERS_ENDPOINT_PREFIX = `${UserService.USERS_API_URL}/cinema-managers`;
-  static readonly CINEMA_NETWORK_MANAGERS_ENDPOINT_PREFIX = `${UserService.USERS_API_URL}/cinema-network-managers`;
+  static readonly USERS_ENDPOINT_URL = `${environment.API_BASE_URL}/users`;
+  static readonly CINEMA_MANAGERS_ENDPOINT_PREFIX = `${UserService.USERS_ENDPOINT_URL}/cinema-managers`;
+  static readonly CINEMA_NETWORK_MANAGERS_ENDPOINT_PREFIX = `${UserService.USERS_ENDPOINT_URL}/cinema-network-managers`;
 
   constructor(
     private httpClient: HttpClient
@@ -35,7 +35,7 @@ export class UserService {
     }
 
     return this.httpClient
-      .get<UserPageResponse>(UserService.USERS_API_URL, {params})
+      .get<UserPageResponse>(UserService.USERS_ENDPOINT_URL, {params})
       .pipe(map((response) => response));
   }
 
@@ -55,7 +55,8 @@ export class UserService {
 
 
   getCinemaManagersList() {
-    return this.httpClient.get<{ content: CinemaManagerResponse[] }>(`${UserService.USERS_API_URL}/cinema-managers`)
+    const url = `${UserService.USERS_ENDPOINT_URL}/cinema-managers`;
+    return this.httpClient.get<{ content: CinemaManagerResponse[] }>(url)
       .pipe(map((response) => response.content));
   }
 
@@ -65,7 +66,7 @@ export class UserService {
   }
 
   getCinemaNetworkManager(email: string) {
-    const url = `${UserService.USERS_API_URL}/${email}`;
+    const url = `${UserService.USERS_ENDPOINT_URL}/${email}`;
     return this.httpClient.get<UserResponse>(url);
   }
 
@@ -79,7 +80,6 @@ export class UserService {
 
   updateCinemaManager(cinemaManagerEmail: string, updateCinemaManagerRequest: UpdateCinemaManagerRequest) {
     const url = `${UserService.CINEMA_MANAGERS_ENDPOINT_PREFIX}/${cinemaManagerEmail}`;
-    console.log(updateCinemaManagerRequest)
     return this.httpClient.patch<void>(url, updateCinemaManagerRequest);
   }
 
@@ -94,7 +94,7 @@ export class UserService {
   }
 
   deleteUser(email: string) {
-    const url = `${UserService.USERS_API_URL}/${email}`;
+    const url = `${UserService.USERS_ENDPOINT_URL}/${email}`;
     return this.httpClient.delete<void>(url);
   }
 }

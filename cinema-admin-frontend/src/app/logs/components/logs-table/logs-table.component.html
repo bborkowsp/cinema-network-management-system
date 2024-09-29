@@ -1,7 +1,8 @@
 <app-page-content-container
   [hasCreateNewButton]="false"
   [isLoading]="isLoading"
-  pageTitle="Logs">
+  pageTitle="Logs"
+>
   <ng-container content>
     <div class="mat-elevation-z8 table-container">
       <table [dataSource]="logs$" class="table" mat-table matSort>

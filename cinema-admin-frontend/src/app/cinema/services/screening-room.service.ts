@@ -8,7 +8,7 @@ import {map} from "rxjs";
 })
 
 export class ScreeningRoomService {
-  private static readonly SCREENING_ROOM_API_URL = `${environment.API_BASE_URL}/screening-rooms`;
+  private static readonly SCREENING_ROOM_ENDPOINT_URL = `${environment.API_BASE_URL}/screening-rooms`;
 
   constructor(
     private readonly httpClient: HttpClient,
@@ -16,7 +16,7 @@ export class ScreeningRoomService {
   }
 
   getAllScreeningRoomNames() {
-    return this.httpClient.get<{ content: string[] }>(ScreeningRoomService.SCREENING_ROOM_API_URL).pipe(
+    return this.httpClient.get<{ content: string[] }>(ScreeningRoomService.SCREENING_ROOM_ENDPOINT_URL).pipe(
       map((response) => response.content),
     );
   }

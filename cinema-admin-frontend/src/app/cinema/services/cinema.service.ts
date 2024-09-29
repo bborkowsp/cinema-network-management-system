@@ -4,52 +4,46 @@ import {CinemaListResponse} from "../dtos/response/cinema-list.response";
 import {map, Observable} from "rxjs";
 import {Injectable} from "@angular/core";
 import {CinemaResponse} from "../dtos/response/cinema.response";
-import {AuthService} from "../../auth/services/auth.service";
 
 @Injectable({
   providedIn: 'root',
 })
 
 export class CinemaService {
-  static readonly CINEMAS_API_URL = `${environment.API_BASE_URL}/cinemas`;
+  static readonly CINEMAS_ENDPOINT_URL = `${environment.API_BASE_URL}/cinemas`;
 
   constructor(
     private readonly httpClient: HttpClient,
-    private readonly authService: AuthService,
   ) {
   }
 
   getCinemas(): Observable<CinemaListResponse[]> {
-    return this.httpClient
-      .get<{ content: CinemaListResponse[] }>(CinemaService.CINEMAS_API_URL)
-      .pipe(
-        map((response) => response.content),
-      );
+    return this.httpClient.get<{ content: CinemaListResponse[] }>(CinemaService.CINEMAS_ENDPOINT_URL)
+      .pipe(map((response) => response.content));
   }
 
   getAllCinemaNames() {
-    const url = `${CinemaService.CINEMAS_API_URL}/names`;
-    return this.httpClient.get<{ content: string[] }>(url).pipe(
-      map((response) => response.content),
-    );
+    const url = `${CinemaService.CINEMAS_ENDPOINT_URL}/names`;
+    return this.httpClient.get<{ content: string[] }>(url)
+      .pipe(map((response) => response.content));
   }
 
   getCinema(name: string): Observable<CinemaResponse> {
-    const url = `${CinemaService.CINEMAS_API_URL}/${name}`;
+    const url = `${CinemaService.CINEMAS_ENDPOINT_URL}/${name}`;
     return this.httpClient.get<CinemaResponse>(url);
   }
 
   createCinema(cinema: FormData) {
-    return this.httpClient.post<void>(CinemaService.CINEMAS_API_URL, cinema);
+    return this.httpClient.post<void>(CinemaService.CINEMAS_ENDPOINT_URL, cinema);
   }
 
   updateCinema(cinemaName: string, cinema: FormData) {
-    const url = `${CinemaService.CINEMAS_API_URL}/${cinemaName}`;
+    const url = `${CinemaService.CINEMAS_ENDPOINT_URL}/${cinemaName}`;
     return this.httpClient.patch<void>(url, cinema);
   }
 
   deleteCinema(name: string) {
-    const url = `${CinemaService.CINEMAS_API_URL}/${name}`;
+    const url = `${CinemaService.CINEMAS_ENDPOINT_URL}/${name}`;
     return this.httpClient.delete<void>(url);
   }
 }
