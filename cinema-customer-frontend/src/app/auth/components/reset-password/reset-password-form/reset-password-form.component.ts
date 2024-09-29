@@ -5,6 +5,8 @@ import {AuthService} from "../../../service/auth.service";
 import {ResetPasswordRequest} from "../../../dto/reset-password.request";
 import {passwordsMatchValidator} from "../../../../_shared/validators/passwords-match.validator";
 import {PasswordType} from "../../../../_shared/enums/password-type.enum";
+import {OpenSnackBar} from "../../../../_shared/components/snackbar/open-snack-bar";
+import {SnackBarType} from "../../../../_shared/components/snackbar/snackbar-type.enum";
 
 @Component({
   selector: 'app-reset-password-form',
@@ -12,6 +14,8 @@ import {PasswordType} from "../../../../_shared/enums/password-type.enum";
   styleUrls: ['./reset-password-form.component.scss']
 })
 export class ResetPasswordFormComponent {
+  private static readonly PASSWORD_RESET_SUCCESSFULLY_MESSAGE = "Password reset successfully!";
+  private static readonly PASSWORD_RESET_FAILED_MESSAGE = "Password reset failed!";
   hideNewPassword = signal(true);
   hideNewPasswordConfirmation = signal(true);
 
@@ -25,6 +29,7 @@ export class ResetPasswordFormComponent {
     private readonly authService: AuthService,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
+    private readonly openSnackBar: OpenSnackBar
   ) {
   }
 
@@ -49,14 +54,21 @@ export class ResetPasswordFormComponent {
   }
 
   resetPassword() {
-    const newPassword = this.resetPasswordForm.value.newPassword as string;
-    const token = this.route.snapshot.queryParamMap.get('token') as string;
-    this.authService.resetPassword(new ResetPasswordRequest(newPassword, token)).subscribe({
+    const resetPasswordRequest = this.createResetPasswordRequest();
+    this.authService.resetPassword(resetPasswordRequest).subscribe({
       next: () => {
+        this.openSnackBar.openSnackBar(ResetPasswordFormComponent.PASSWORD_RESET_SUCCESSFULLY_MESSAGE, SnackBarType.SUCCESS);
         this.router.navigate(['/login']);
       },
       error: () => {
+        this.openSnackBar.openSnackBar(ResetPasswordFormComponent.PASSWORD_RESET_FAILED_MESSAGE, SnackBarType.ERROR);
       }
     })
+  }
+
+  private createResetPasswordRequest() {
+    const newPassword = this.resetPasswordForm.value.newPassword as string;
+    const token = this.route.snapshot.queryParamMap.get('token') as string;
+    return new ResetPasswordRequest(newPassword, token);
   }
 }

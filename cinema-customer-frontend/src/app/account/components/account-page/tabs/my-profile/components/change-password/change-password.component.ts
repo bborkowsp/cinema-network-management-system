@@ -3,9 +3,9 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {SnackBarType} from "../../../../../../../_shared/components/snackbar/snackbar-type.enum";
 import {UpdatePasswordRequest} from "../../../../../../dtos/request/update-password.request";
 import {CustomerService} from "../../../../../../services/customer.service";
-import {MyProfileComponent} from "../../my-profile.component";
 import {passwordsMatchValidator} from "../../../../../../../_shared/validators/passwords-match.validator";
 import {PasswordType} from "../../../../../../../_shared/enums/password-type.enum";
+import {OpenSnackBar} from "../../../../../../../_shared/components/snackbar/open-snack-bar";
 
 
 @Component({
@@ -28,7 +28,7 @@ export class ChangePasswordComponent {
 
   constructor(
     private readonly customerService: CustomerService,
-    private myProfileComponent: MyProfileComponent
+    private readonly openSnackBar: OpenSnackBar,
   ) {
   }
 
@@ -64,10 +64,10 @@ export class ChangePasswordComponent {
       const updatePasswordRequest = this.createUpdatePasswordRequest();
       this.customerService.updatePassword(updatePasswordRequest).subscribe({
         next: () => {
-          this.myProfileComponent.openSnackBar(ChangePasswordComponent.PASSWORD_UPDATED_SUCCESSFULLY_MESSAGE, SnackBarType.SUCCESS);
+          this.openSnackBar.openSnackBar(ChangePasswordComponent.PASSWORD_UPDATED_SUCCESSFULLY_MESSAGE, SnackBarType.SUCCESS);
         },
         error: (error) => {
-          this.myProfileComponent.openSnackBar(error.error.errors[0], SnackBarType.ERROR);
+          this.openSnackBar.openSnackBar(error.error.errors[0], SnackBarType.ERROR);
         }
       });
     }

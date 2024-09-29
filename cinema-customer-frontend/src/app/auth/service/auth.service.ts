@@ -8,6 +8,8 @@ import {environment} from "../../../assets/environment";
 import {LoginUserRequest} from "../dto/login-user.request";
 import {RegisterUserRequest} from "../dto/register-user.request";
 import {ResetPasswordRequest} from "../dto/reset-password.request";
+import {OpenSnackBar} from "../../_shared/components/snackbar/open-snack-bar";
+import {SnackBarType} from "../../_shared/components/snackbar/snackbar-type.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -15,31 +17,24 @@ import {ResetPasswordRequest} from "../dto/reset-password.request";
 
 export class AuthService {
   private static readonly AUTH_ENDPOINT_URL = `${environment.API_BASE_URL}/auth`;
+  private static readonly SUCCESS_LOGIN_REDIRECT_URL = '/account';
+  private static readonly LOGIN_PAGE_REDIRECT_URL = '/login';
+  private static readonly TOKEN_KEY = 'token';
+  private static readonly EXPIRATION_KEY = 'expires_at';
   loggedInUserSubject: BehaviorSubject<string> = new BehaviorSubject<string>('');
   loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.isLoggedIn());
 
   constructor(
     private httpClient: HttpClient,
-    private router: Router
+    private router: Router,
+    private readonly openSnackBar: OpenSnackBar
   ) {
   }
 
   login(loginUserRequest: LoginUserRequest) {
     const url = `${AuthService.AUTH_ENDPOINT_URL}/login`;
     this.removeTokenFromLocalStorage();
-    return this.httpClient.post<any>(url, loginUserRequest).subscribe({
-      next: (response) => {
-        const token = response.token;
-        this.setToken(token);
-        this.loggedIn.next(true);
-        this.loggedInUserSubject.next(loginUserRequest.email);
-        this.router.navigate(['/account']);
-      },
-      error: (error) => {
-        this.loggedIn.next(false);
-        this.router.navigate(['/login']);
-      }
-    });
+    this.createLoginHttpRequest(url, loginUserRequest);
   }
 
   register(registerUserRequest: RegisterUserRequest) {
@@ -51,7 +46,7 @@ export class AuthService {
   logout() {
     this.removeTokenFromLocalStorage();
     this.loggedIn.next(false);
-    this.router.navigate(['/login']);
+    this.router.navigate([AuthService.LOGIN_PAGE_REDIRECT_URL]);
   }
 
   isLoggedIn(): boolean {
@@ -69,13 +64,28 @@ export class AuthService {
     return this.httpClient.post<void>(url, resetPasswordRequest);
   }
 
-  getLoggedInUserEmail(): string {
-    const token = localStorage.getItem('token');
-    if (token) {
-      const decodedToken = this.getDecodedAccessToken(token);
-      return decodedToken.sub;
-    }
-    return '';
+  private createLoginHttpRequest(url: string, loginUserRequest: LoginUserRequest) {
+    return this.httpClient.post<any>(url, loginUserRequest).subscribe({
+      next: (response) => {
+        this.handleSuccessfulLogin(loginUserRequest, response);
+      },
+      error: (error) => {
+        this.handleFailedLogin(error);
+      }
+    });
+  }
+
+  private handleSuccessfulLogin(loginUserRequest: LoginUserRequest, response: any) {
+    this.setToken(response.token);
+    this.loggedIn.next(true);
+    this.loggedInUserSubject.next(loginUserRequest.email);
+    this.router.navigate([AuthService.SUCCESS_LOGIN_REDIRECT_URL]);
+  }
+
+  private handleFailedLogin(error: any) {
+    this.loggedIn.next(false);
+    this.router.navigate([AuthService.LOGIN_PAGE_REDIRECT_URL]);
+    this.openSnackBar.openSnackBar(error.error.errors[0], SnackBarType.ERROR);
   }
 
   private getExpiration(): moment.Moment {
@@ -84,8 +94,17 @@ export class AuthService {
   }
 
   private removeTokenFromLocalStorage() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('expires_at');
+    localStorage.removeItem(AuthService.TOKEN_KEY);
+    localStorage.removeItem(AuthService.EXPIRATION_KEY);
+  }
+
+  private setToken(token: string) {
+    const decodedToken = this.getDecodedAccessToken(token);
+    if (decodedToken) {
+      const expiresAt = decodedToken.exp * 1000;
+      localStorage.setItem(AuthService.TOKEN_KEY, token);
+      localStorage.setItem(AuthService.EXPIRATION_KEY, JSON.stringify(expiresAt));
+    }
   }
 
   private getDecodedAccessToken(token: string): any {
@@ -93,15 +112,6 @@ export class AuthService {
       return jwtDecode(token);
     } catch (Error) {
       return null;
-    }
-  }
-
-  private setToken(token: string) {
-    const decodedToken = this.getDecodedAccessToken(token);
-    if (decodedToken) {
-      const expiresAt = decodedToken.exp * 1000;
-      localStorage.setItem('token', token);
-      localStorage.setItem('expires_at', JSON.stringify(expiresAt));
     }
   }
 }

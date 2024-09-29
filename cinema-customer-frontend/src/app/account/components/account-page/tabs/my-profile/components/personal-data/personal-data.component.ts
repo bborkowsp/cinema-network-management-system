@@ -4,7 +4,7 @@ import {CustomerService} from "../../../../../../services/customer.service";
 import {SnackBarType} from "../../../../../../../_shared/components/snackbar/snackbar-type.enum";
 import {UserResponse} from "../../../../../../dtos/response/user.response";
 import {UpdateCustomerProfileRequest} from "../../../../../../dtos/request/update-customer-profile.request";
-import {MyProfileComponent} from "../../my-profile.component";
+import {OpenSnackBar} from "../../../../../../../_shared/components/snackbar/open-snack-bar";
 
 @Component({
   selector: 'app-personal-data',
@@ -22,7 +22,7 @@ export class PersonalDataComponent implements OnInit {
 
   constructor(
     private readonly customerService: CustomerService,
-    private myProfileComponent: MyProfileComponent
+    private readonly openSnackBar: OpenSnackBar
   ) {
   }
 
@@ -49,10 +49,11 @@ export class PersonalDataComponent implements OnInit {
       const updateCustomerProfileRequest = this.createUpdateCustomerProfileRequest();
       this.customerService.updateCustomerProfile(updateCustomerProfileRequest).subscribe({
         next: () => {
-          this.myProfileComponent.openSnackBar(PersonalDataComponent.PROFILE_UPDATED_SUCCESSFULLY_MESSAGE, SnackBarType.SUCCESS);
+          this.openSnackBar.openSnackBar(PersonalDataComponent.PROFILE_UPDATED_SUCCESSFULLY_MESSAGE, SnackBarType.SUCCESS);
+
         },
         error: (error) => {
-          this.myProfileComponent.openSnackBar(error.error.errors[0], SnackBarType.ERROR);
+          this.openSnackBar.openSnackBar(error.error.errors[0], SnackBarType.ERROR);
         }
       });
     }

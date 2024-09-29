@@ -6,9 +6,7 @@ import {AuthService} from "../../service/auth.service";
 import {Role} from "../../enums/role";
 import {passwordsMatchValidator} from "../../../_shared/validators/passwords-match.validator";
 import {SnackBarType} from "../../../_shared/components/snackbar/snackbar-type.enum";
-import {SnackBarComponent} from "../../../_shared/components/snackbar/snack-bar.component";
-import {MatSnackBar} from "@angular/material/snack-bar";
-import {SnackBarData} from "../../../_shared/components/snackbar/snackbar-data.interface";
+import {OpenSnackBar} from "../../../_shared/components/snackbar/open-snack-bar";
 
 @Component({
   selector: 'app-register',
@@ -30,7 +28,7 @@ export class RegisterComponent {
   constructor(
     private readonly authService: AuthService,
     private readonly router: Router,
-    private snackBar: MatSnackBar,
+    private readonly openSnackBar: OpenSnackBar
   ) {
   }
 
@@ -72,20 +70,10 @@ export class RegisterComponent {
       },
       error: (error) => {
         if (error.error.errors[0] === 'User already exists') {
-          this.openSnackBar(error.error.errors[0], SnackBarType.ERROR);
+          this.openSnackBar.openSnackBar(error.error.errors[0], SnackBarType.ERROR);
         }
       }
     })
-  }
-
-  private openSnackBar(message: string, snackBarType: SnackBarType) {
-    this.snackBar.openFromComponent(SnackBarComponent, {
-      duration: 5000,
-      data: {
-        message,
-        snackBarType,
-      } as SnackBarData,
-    });
   }
 
   private createRegisterUserRequest(): RegisterUserRequest {
