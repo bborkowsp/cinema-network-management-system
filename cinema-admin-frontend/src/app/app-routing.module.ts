@@ -13,12 +13,12 @@ import {CinemaFormComponent} from "./cinema/components/cinema-form/cinema-form.c
 import {MovieFormComponent} from "./movie/components/movie-form/movie-form.component";
 import {LoginFormComponent} from "./auth/components/login-form/login-form.component";
 import {AuthGuard} from "./auth/services/permission.service";
-import {Role} from "./auth/services/roles";
 import {UserFormComponent} from "./user/components/user-form/user-form.component";
 import {UserTableComponent} from "./user/components/user-table/user-table.component";
 import {CinemaManagerTableComponent} from "./user/components/cinema-manager-table/cinema-manager-table.component";
 import {CinemaManagerFormComponent} from "./user/components/cinema-manager-form/cinema-manager-form.component";
 import {LogsTableComponent} from "./logs/components/logs-table/logs-table.component";
+import {Role} from "./auth/enums/role";
 
 const routes: Routes = [
   {

@@ -4,8 +4,8 @@ import {MovieService} from "../../services/movie.service";
 import {map, Observable, switchMap, tap} from "rxjs";
 import {MovieResponse} from "../../dtos/response/movie.response";
 import {DomSanitizer} from '@angular/platform-browser';
-import {AuthService} from "../../../auth/services/auth.service";
 import {images} from "../../../../assets/environment";
+import {UserRoleService} from "../../../auth/services/user-role.service";
 
 
 @Component({
@@ -26,12 +26,12 @@ export class MovieDetailsComponent implements OnInit {
     private readonly router: Router,
     private readonly changeDetectorRef: ChangeDetectorRef,
     private readonly sanitizer: DomSanitizer,
-    private readonly authService: AuthService
+    private readonly userRoleService: UserRoleService
   ) {
   }
 
   ngOnInit(): void {
-    this.isUserRoleCinemaManager = this.authService.checkIfLoggedInUserIsCinemaManager()
+    this.isUserRoleCinemaManager = this.userRoleService.isCinemaManager()
     this.getMovie();
   }
 

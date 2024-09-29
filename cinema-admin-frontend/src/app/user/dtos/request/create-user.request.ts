@@ -1,4 +1,4 @@
-import {Role} from "../../../auth/services/roles";
+import {Role} from "../../../auth/enums/role";
 
 export class CreateUserRequest {
   constructor(

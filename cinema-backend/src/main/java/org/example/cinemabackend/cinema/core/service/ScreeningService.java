@@ -39,7 +39,7 @@ class ScreeningService implements ScreeningUseCases {
 
     @Override
     public List<ScreeningResponse> getScreenings() {
-        final var email = authUseCases.getCurrentLoggedInUserEmail();
+        final var email = authUseCases.getCurrentUserEmail();
         validateCinemaExistsByCinemaManager(email);
         return getScreeningsForCinemaManager(email);
     }
@@ -71,7 +71,7 @@ class ScreeningService implements ScreeningUseCases {
 
     @Override
     public void createScreening(CreateScreeningRequest createScreeningRequest) {
-        final var email = authUseCases.getCurrentLoggedInUserEmail();
+        final var email = authUseCases.getCurrentUserEmail();
         validateCinemaExistsByCinemaManager(email);
         final var newScreening = screeningMapper.mapScreeningRequestToScreening(createScreeningRequest);
         final var screeningRoom = getNewScreeningRoom(createScreeningRequest, email);
@@ -82,7 +82,7 @@ class ScreeningService implements ScreeningUseCases {
 
     @Override
     public void updateScreening(Long id, CreateScreeningRequest createScreeningRequest) {
-        final var email = authUseCases.getCurrentLoggedInUserEmail();
+        final var email = authUseCases.getCurrentUserEmail();
         validateCinemaExistsByCinemaManager(email);
         final var screeningToUpdate = getScreeningById(id);
         final var oldScreeningRoom = screeningRoomRepository.findByScreeningId(id).orElseThrow();

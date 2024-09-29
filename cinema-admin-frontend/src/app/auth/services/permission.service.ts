@@ -1,7 +1,8 @@
 import {ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot} from "@angular/router";
 import {inject, Injectable} from "@angular/core";
 import {AuthService} from "./auth.service";
-import {Role} from "./roles";
+import {Role} from "../enums/role";
+import {UserRoleService} from "./user-role.service";
 
 
 export const AuthGuard: CanActivateFn = (next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean => {
@@ -14,17 +15,19 @@ export const AuthGuard: CanActivateFn = (next: ActivatedRouteSnapshot, state: Ro
 class PermissionService {
   constructor(
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private userRoleService: UserRoleService
   ) {
   }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    const userActualRole = this.authService.getUserRoleAsEnum();
+    const currentUserRole = this.userRoleService.getUserRoleAsEnum();
+    console.log(currentUserRole);
     const expectedRoles: Role[] = next.data['roles'];
     if (
-      userActualRole == null ||
+      currentUserRole == null ||
       !this.authService.isLoggedIn() ||
-      !this.checkIfUserHasExpectedRole(expectedRoles, userActualRole)
+      !this.checkIfUserHasExpectedRole(expectedRoles, currentUserRole)
     ) {
       this.router.navigate(['/login']);
       return false;

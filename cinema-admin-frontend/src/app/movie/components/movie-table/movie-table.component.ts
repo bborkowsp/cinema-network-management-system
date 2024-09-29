@@ -9,6 +9,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDeletionMovieDialog} from "../confirm-deletion-movie-dialog/confirm-deletion-movie-dialog.component";
 import {AuthService} from "../../../auth/services/auth.service";
 import {images} from "../../../../assets/environment";
+import {UserRoleService} from "../../../auth/services/user-role.service";
 
 @Component({
   selector: 'app-movie-table',
@@ -29,13 +30,14 @@ export class MovieTableComponent implements OnInit {
     private readonly movieService: MovieService,
     private readonly router: Router,
     private readonly dialog: MatDialog,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly userRoleService: UserRoleService
   ) {
     this.movies$ = this.getData();
   }
 
   ngOnInit() {
-    this.isUserRoleCinemaManager = this.authService.checkIfLoggedInUserIsCinemaManager()
+    this.isUserRoleCinemaManager = this.userRoleService.isCinemaManager()
   }
 
   handlePageEvent(event: PageEvent): void {

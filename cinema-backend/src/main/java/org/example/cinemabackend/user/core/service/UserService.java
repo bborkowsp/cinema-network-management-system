@@ -52,7 +52,7 @@ class UserService implements UserUseCases {
 
     @Override
     public UserResponse getCustomerProfile() {
-        final var email = authUseCases.getCurrentLoggedInUserEmail();
+        final var email = authUseCases.getCurrentUserEmail();
         final var user = userRepository.findByEmail(email).orElseThrow();
         return userMapper.mapUserToUserResponse(user);
     }
@@ -91,7 +91,7 @@ class UserService implements UserUseCases {
 
     @Override
     public void updateCustomerProfile(UpdateCustomerProfileRequest updateCustomerProfileRequest) {
-        final var email = authUseCases.getCurrentLoggedInUserEmail();
+        final var email = authUseCases.getCurrentUserEmail();
         final var userToUpdate = userRepository.findByEmail(email).orElseThrow();
         updateUserFields(userToUpdate, updateCustomerProfileRequest);
         userRepository.save(userToUpdate);
@@ -108,7 +108,7 @@ class UserService implements UserUseCases {
 
     @Override
     public void updatePassword(UpdatePasswordRequest updateCustomerProfileRequest) {
-        final var email = authUseCases.getCurrentLoggedInUserEmail();
+        final var email = authUseCases.getCurrentUserEmail();
         final var userToUpdate = userRepository.findByEmail(email).orElseThrow();
         validateCurrentPasswordIsCorrect(userToUpdate, updateCustomerProfileRequest.currentPassword());
         userToUpdate.setPassword(passwordEncoder.encode(updateCustomerProfileRequest.newPassword()));

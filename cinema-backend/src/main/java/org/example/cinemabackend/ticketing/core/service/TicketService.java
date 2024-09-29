@@ -40,7 +40,7 @@ class TicketService implements TicketUseCases {
 
     @Override
     public List<TicketResponse> getTickets() {
-        final var email = authUseCases.getCurrentLoggedInUserEmail();
+        final var email = authUseCases.getCurrentUserEmail();
         return ticketRepository.findAllByEmail(email).stream().map(ticketMapper::mapTicketToTicketResponse).toList();
     }
 

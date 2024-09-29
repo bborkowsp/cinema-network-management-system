@@ -45,7 +45,7 @@ class AuthService implements AuthUseCases, UserDetailsService {
     private final JwtConfig jwtConfig;
 
     @Override
-    public String getCurrentLoggedInUserEmail() {
+    public String getCurrentUserEmail() {
         Authentication authenticationToken = SecurityContextHolder.getContext().getAuthentication();
         return (String) authenticationToken.getPrincipal();
     }

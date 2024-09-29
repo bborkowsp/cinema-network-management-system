@@ -2,6 +2,8 @@ import {Component} from '@angular/core';
 import {Router} from "@angular/router";
 import {NavigationLink} from "./components/drawer/drawer.component";
 import {AuthService} from "../../../auth/services/auth.service";
+import {UserRoleService} from "../../../auth/services/user-role.service";
+import {Role} from "../../../auth/enums/role";
 
 @Component({
   selector: 'app-scaffold',
@@ -14,7 +16,8 @@ export class ScaffoldComponent {
 
   constructor(
     private readonly router: Router,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly userRoleService: UserRoleService
   ) {
     this.setUpNavLinks();
   }
@@ -37,16 +40,16 @@ export class ScaffoldComponent {
   }
 
   private setUpNavLinks() {
-    const userRole = this.authService.getUserRole();
+    const userRole = this.userRoleService.getCurrentUserRole();
     this.navigationLinks = this.getCommonLinks();
     switch (userRole) {
-      case 'ROLE_CINEMA_MANAGER':
+      case Role.ROLE_CINEMA_MANAGER:
         this.navigationLinks.push(...this.getCinemaManagerLinks());
         break;
-      case 'ROLE_CINEMA_NETWORK_MANAGER':
+      case Role.ROLE_CINEMA_NETWORK_MANAGER:
         this.navigationLinks.push(...this.getCinemaNetworkManagerLinks());
         break;
-      case 'ROLE_ADMIN':
+      case Role.ROLE_ADMIN:
         this.navigationLinks.push(...this.getAdminLinks());
         break;
       default:

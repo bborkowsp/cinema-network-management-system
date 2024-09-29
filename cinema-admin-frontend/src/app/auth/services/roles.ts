@@ -1,5 +1,0 @@
-export enum Role {
-  ROLE_CINEMA_MANAGER,
-  ROLE_CINEMA_NETWORK_MANAGER,
-  ROLE_ADMIN,
-}
