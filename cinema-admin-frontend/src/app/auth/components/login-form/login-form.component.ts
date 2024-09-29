@@ -20,8 +20,14 @@ export class LoginFormComponent {
   }
 
   protected onSubmit(): void {
-    const {email, password} = this.loginFormGroup.value;
-    const loginUserRequest = new LoginUserRequest(email ?? '', password ?? '');
+    const loginUserRequest = this.createLoginUserRequest();
     this.authService.login(loginUserRequest);
+  }
+
+  private createLoginUserRequest() {
+    return new LoginUserRequest(
+      this.loginFormGroup.value.email as string,
+      this.loginFormGroup.value.password as string
+    );
   }
 }

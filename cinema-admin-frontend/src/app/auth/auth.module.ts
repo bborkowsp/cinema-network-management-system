@@ -4,15 +4,13 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
-import {
-  LoginMainFormFrameComponent
-} from "./components/login-form/login-main-form-frame/login-main-form-frame.component";
+import {LoginFormFieldsComponent} from "./components/login-form/login-main-form-frame/login-form-fields.component";
 import {LoginFormComponent} from "./components/login-form/login-form.component";
 
 @NgModule({
   declarations: [
     LoginFormComponent,
-    LoginMainFormFrameComponent
+    LoginFormFieldsComponent
   ],
   imports: [
     CommonModule,

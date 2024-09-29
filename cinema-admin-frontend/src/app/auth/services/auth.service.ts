@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject} from "rxjs";
 import {environment} from "../../../assets/environment";
 import * as moment from "moment";
@@ -13,7 +13,11 @@ import {LoginUserRequest} from "../../user/dtos/request/login-user.request";
 })
 
 export class AuthService {
-  static readonly usersUrl = `${environment.API_BASE_URL}/auth`;
+  private static readonly AUTH_ENDPOINT_URL = `${environment.API_BASE_URL}/auth`;
+  private static readonly TOKEN_LOCALSTORAGE_KEY = 'token';
+  private static readonly EXPIRATION_LOCALSTORAGE_KEY = 'expires_at';
+  private static readonly LOGIN_PAGE_REDIRECT_URL = '/login';
+  private static readonly SUCCESS_LOGIN_REDIRECT_URL = '/home';
   loggedInUserSubject: BehaviorSubject<string> = new BehaviorSubject<string>('');
   private loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
@@ -24,27 +28,15 @@ export class AuthService {
   }
 
   login(loginUserRequest: LoginUserRequest) {
-    const url = `${AuthService.usersUrl}/login`;
+    const url = `${AuthService.AUTH_ENDPOINT_URL}/login`;
     this.removeTokenFromLocalStorage();
-    return this.httpClient.post<any>(url, loginUserRequest).subscribe({
-      next: (response) => {
-        const token = response.token;
-        this.setToken(token);
-        this.loggedIn.next(true);
-        this.loggedInUserSubject.next(loginUserRequest.email);
-        this.router.navigate(['/home']);
-      },
-      error: (error) => {
-        this.loggedIn.next(false);
-        this.router.navigate(['/login']);
-      }
-    });
+    this.createLoginHttpRequest(url, loginUserRequest);
   }
 
   logout() {
     this.loggedIn.next(false);
     this.removeTokenFromLocalStorage();
-    this.router.navigate(['/login']);
+    this.router.navigate([AuthService.LOGIN_PAGE_REDIRECT_URL]);
   }
 
   isLoggedIn(): boolean {
@@ -53,7 +45,7 @@ export class AuthService {
   }
 
   getUserRole(): string {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem(AuthService.TOKEN_LOCALSTORAGE_KEY);
     if (token) {
       const decodedToken = this.getDecodedAccessToken(token);
       const authorities = decodedToken.authorities;
@@ -83,7 +75,7 @@ export class AuthService {
   }
 
   getLoggedInUserEmail(): string {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem(AuthService.TOKEN_LOCALSTORAGE_KEY);
     if (token) {
       const decodedToken = this.getDecodedAccessToken(token);
       return decodedToken.sub;
@@ -91,8 +83,32 @@ export class AuthService {
     return '';
   }
 
+  private createLoginHttpRequest(url: string, loginUserRequest: LoginUserRequest) {
+    return this.httpClient.post<any>(url, loginUserRequest).subscribe({
+      next: (response) => {
+        this.handleSuccessfulLogin(loginUserRequest, response);
+      },
+      error: () => {
+        this.handleFailedLogin();
+      }
+    });
+  }
+
+  private handleSuccessfulLogin(loginUserRequest: LoginUserRequest, response: any) {
+    const token = response.token;
+    this.setToken(token);
+    this.loggedIn.next(true);
+    this.loggedInUserSubject.next(loginUserRequest.email);
+    this.router.navigate([AuthService.SUCCESS_LOGIN_REDIRECT_URL]);
+  }
+
+  private handleFailedLogin() {
+    this.loggedIn.next(false);
+    this.router.navigate([AuthService.LOGIN_PAGE_REDIRECT_URL]);
+  }
+
   private getExpiration(): moment.Moment {
-    const expiration = localStorage.getItem('expires_at');
+    const expiration = localStorage.getItem(AuthService.EXPIRATION_LOCALSTORAGE_KEY);
     return expiration ? moment(JSON.parse(expiration)) : moment();
   }
 
@@ -105,16 +121,16 @@ export class AuthService {
   }
 
   private removeTokenFromLocalStorage() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('expires_at');
+    localStorage.removeItem(AuthService.TOKEN_LOCALSTORAGE_KEY);
+    localStorage.removeItem(AuthService.EXPIRATION_LOCALSTORAGE_KEY);
   }
 
   private setToken(token: string) {
     const decodedToken = this.getDecodedAccessToken(token);
     if (decodedToken) {
       const expiresAt = decodedToken.exp * 1000;
-      localStorage.setItem('token', token);
-      localStorage.setItem('expires_at', JSON.stringify(expiresAt));
+      localStorage.setItem(AuthService.TOKEN_LOCALSTORAGE_KEY, token);
+      localStorage.setItem(AuthService.EXPIRATION_LOCALSTORAGE_KEY, JSON.stringify(expiresAt));
     }
   }
 }

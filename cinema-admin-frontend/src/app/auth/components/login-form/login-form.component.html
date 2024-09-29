@@ -7,11 +7,11 @@
     <div class="content-container">
       <div class="background-container">
         <h1 class="title">Sign in</h1>
-        <app-login-main-form-frame
+        <app-login-form-fields
           [emailControl]="loginFormGroup.controls.email"
           [form]="loginForm"
           [passwordControl]="loginFormGroup.controls.password"
-        ></app-login-main-form-frame>
+        ></app-login-form-fields>
         <div class="button-container">
           <button [disabled]="loginFormGroup.invalid" color="primary" mat-flat-button type="submit">Sign in
           </button>

@@ -19,8 +19,8 @@ export class AuthService {
   private static readonly AUTH_ENDPOINT_URL = `${environment.API_BASE_URL}/auth`;
   private static readonly SUCCESS_LOGIN_REDIRECT_URL = '/account';
   private static readonly LOGIN_PAGE_REDIRECT_URL = '/login';
-  private static readonly TOKEN_KEY = 'token';
-  private static readonly EXPIRATION_KEY = 'expires_at';
+  private static readonly TOKEN_LOCALSTORAGE_KEY = 'token';
+  private static readonly EXPIRATION_LOCALSTORAGE_KEY = 'expires_at';
   loggedInUserSubject: BehaviorSubject<string> = new BehaviorSubject<string>('');
   loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.isLoggedIn());
 
@@ -94,16 +94,16 @@ export class AuthService {
   }
 
   private removeTokenFromLocalStorage() {
-    localStorage.removeItem(AuthService.TOKEN_KEY);
-    localStorage.removeItem(AuthService.EXPIRATION_KEY);
+    localStorage.removeItem(AuthService.TOKEN_LOCALSTORAGE_KEY);
+    localStorage.removeItem(AuthService.EXPIRATION_LOCALSTORAGE_KEY);
   }
 
   private setToken(token: string) {
     const decodedToken = this.getDecodedAccessToken(token);
     if (decodedToken) {
       const expiresAt = decodedToken.exp * 1000;
-      localStorage.setItem(AuthService.TOKEN_KEY, token);
-      localStorage.setItem(AuthService.EXPIRATION_KEY, JSON.stringify(expiresAt));
+      localStorage.setItem(AuthService.TOKEN_LOCALSTORAGE_KEY, token);
+      localStorage.setItem(AuthService.EXPIRATION_LOCALSTORAGE_KEY, JSON.stringify(expiresAt));
     }
   }
 
