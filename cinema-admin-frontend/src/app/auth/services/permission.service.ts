@@ -13,6 +13,8 @@ export const AuthGuard: CanActivateFn = (next: ActivatedRouteSnapshot, state: Ro
   providedIn: 'root'
 })
 class PermissionService {
+  private static readonly CAN_ACTIVATE_DENIED_REDIRECT_URL = '/login';
+
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -27,15 +29,15 @@ class PermissionService {
     if (
       currentUserRole == null ||
       !this.authService.isLoggedIn() ||
-      !this.checkIfUserHasExpectedRole(expectedRoles, currentUserRole)
+      !this.hasExpectedRole(expectedRoles, currentUserRole)
     ) {
-      this.router.navigate(['/login']);
+      this.router.navigate([PermissionService.CAN_ACTIVATE_DENIED_REDIRECT_URL]);
       return false;
     }
     return true;
   }
 
-  private checkIfUserHasExpectedRole(expectedRoles: Role[], userActualRole: Role): boolean {
-    return expectedRoles.some((role) => userActualRole === role);
+  private hasExpectedRole(expectedRoles: Role[], currentUserRole: Role): boolean {
+    return expectedRoles.some((role) => currentUserRole === role);
   }
 }
