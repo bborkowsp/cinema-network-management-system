@@ -8,12 +8,12 @@
     [pageTitle]="pageTitle"
   >
     <ng-container content>
-      <app-cinema-manager-form-frame
+      <app-cinema-manager-form-fields
+        [cinemaNames]="cinemaNames"
         [formGroup]="cinemaManagerFormBuilder.mainFormGroup"
         [form]="cinemaManagerForm"
-        [cinemaNames]="cinemaNames"
         [isEditMode]="isEditMode"
-      ></app-cinema-manager-form-frame>
+      ></app-cinema-manager-form-fields>
     </ng-container>
   </app-page-content-container>
 

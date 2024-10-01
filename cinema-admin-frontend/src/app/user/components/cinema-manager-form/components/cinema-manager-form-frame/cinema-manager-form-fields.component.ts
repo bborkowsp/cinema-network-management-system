@@ -3,11 +3,11 @@ import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from "@a
 import {Observable} from "rxjs";
 
 @Component({
-  selector: 'app-cinema-manager-form-frame',
-  templateUrl: './cinema-manager-form-frame.component.html',
-  styleUrls: ['./cinema-manager-form-frame.component.scss']
+  selector: 'app-cinema-manager-form-fields',
+  templateUrl: './cinema-manager-form-fields.component.html',
+  styleUrls: ['./cinema-manager-form-fields.component.scss']
 })
-export class CinemaManagerFormFrameComponent implements OnInit {
+export class CinemaManagerFormFieldsComponent implements OnInit {
   @Input({required: true}) form!: FormGroupDirective | NgForm;
   @Input({required: true}) formGroup!: FormGroup;
   @Input({required: true}) cinemaNames!: Observable<string[]>;

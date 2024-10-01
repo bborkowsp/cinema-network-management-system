@@ -1,16 +1,16 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {UserFormFrameComponent} from './user-form-frame.component';
+import {CinemaManagerFormFieldsComponent} from './cinema-manager-form-fields.component';
 
 describe('CinemaManagerFormFrameComponent', () => {
-  let component: UserFormFrameComponent;
-  let fixture: ComponentFixture<UserFormFrameComponent>;
+  let component: CinemaManagerFormFieldsComponent;
+  let fixture: ComponentFixture<CinemaManagerFormFieldsComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [UserFormFrameComponent]
+      declarations: [CinemaManagerFormFieldsComponent]
     });
-    fixture = TestBed.createComponent(UserFormFrameComponent);
+    fixture = TestBed.createComponent(CinemaManagerFormFieldsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

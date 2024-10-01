@@ -3,11 +3,11 @@ import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from "@a
 import {Observable} from "rxjs";
 
 @Component({
-  selector: 'app-user-form-frame',
-  templateUrl: './user-form-frame.component.html',
-  styleUrls: ['./user-form-frame.component.scss']
+  selector: 'app-user-form-fields',
+  templateUrl: './user-form-fields.component.html',
+  styleUrls: ['./user-form-fields.component.scss']
 })
-export class UserFormFrameComponent implements OnInit {
+export class UserFormFieldsComponent implements OnInit {
   @Input({required: true}) form!: FormGroupDirective | NgForm;
   @Input({required: true}) formGroup!: FormGroup;
   @Input({required: true}) cinemaNames!: Observable<string[]>;
