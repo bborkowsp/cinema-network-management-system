@@ -3,10 +3,10 @@ import {FormControl, FormGroup, FormGroupDirective, NgForm} from "@angular/forms
 
 @Component({
   selector: 'app-create-title-form-frame-component',
-  templateUrl: './create-title-form-frame-component.component.html',
-  styleUrls: ['./create-title-form-frame-component.component.scss']
+  templateUrl: './create-title-form-fields.component.html',
+  styleUrls: ['./create-title-form-fields.component.scss']
 })
-export class CreateTitleFormFrameComponentComponent {
+export class CreateTitleFormFieldsComponent {
   @Input({required: true}) form!: FormGroupDirective | NgForm;
   @Input({required: true}) formGroup!: FormGroup;
 

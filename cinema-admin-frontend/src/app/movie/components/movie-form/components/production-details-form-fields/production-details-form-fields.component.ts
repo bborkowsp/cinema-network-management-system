@@ -2,11 +2,11 @@ import {Component, Input} from '@angular/core';
 import {FormControl, FormGroup, FormGroupDirective, NgForm} from "@angular/forms";
 
 @Component({
-  selector: 'app-production-details-form-frame-component',
-  templateUrl: './production-details-form-frame-component.component.html',
-  styleUrls: ['./production-details-form-frame-component.component.scss']
+  selector: 'app-production-details-form-fields-component',
+  templateUrl: './production-details-form-fields.component.html',
+  styleUrls: ['./production-details-form-fields.component.scss']
 })
-export class ProductionDetailsFormFrameComponentComponent {
+export class ProductionDetailsFormFieldsComponent {
   @Input({required: true}) form!: FormGroupDirective | NgForm;
   @Input({required: true}) formGroup!: FormGroup;
 

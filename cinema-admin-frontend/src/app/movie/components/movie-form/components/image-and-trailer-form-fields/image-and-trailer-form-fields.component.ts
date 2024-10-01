@@ -2,11 +2,11 @@ import {Component, Input, OnInit} from '@angular/core';
 import {FormControl, FormGroup, FormGroupDirective, NgForm} from "@angular/forms";
 
 @Component({
-  selector: 'app-image-and-trailer-form-frame-component',
-  templateUrl: './image-and-trailer-form-frame-component.component.html',
-  styleUrls: ['./image-and-trailer-form-frame-component.component.scss']
+  selector: 'app-image-and-trailer-form-fields-component',
+  templateUrl: './image-and-trailer-form-fields.component.html',
+  styleUrls: ['./image-and-trailer-form-fields.component.scss']
 })
-export class ImageAndTrailerFormFrameComponentComponent implements OnInit {
+export class ImageAndTrailerFormFieldsComponent implements OnInit {
   @Input({required: true}) form!: FormGroupDirective | NgForm;
   @Input({required: true}) formGroup!: FormGroup;
   selectedFileName: string | null = null;

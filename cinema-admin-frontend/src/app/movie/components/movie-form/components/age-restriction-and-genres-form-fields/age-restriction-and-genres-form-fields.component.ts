@@ -4,11 +4,11 @@ import {MovieService} from "../../../../services/movie.service";
 import {Observable} from "rxjs";
 
 @Component({
-  selector: 'app-age-restriction-and-genres-form-frame-component',
-  templateUrl: './age-restriction-and-genres-form-frame-component.component.html',
-  styleUrls: ['./age-restriction-and-genres-form-frame-component.component.scss']
+  selector: 'app-age-restriction-and-genres-form-fields-component',
+  templateUrl: './age-restriction-and-genres-form-fields.component.html',
+  styleUrls: ['./age-restriction-and-genres-form-fields.component.scss']
 })
-export class AgeRestrictionAndGenresFormFrameComponentComponent implements OnInit {
+export class AgeRestrictionAndGenresFormFieldsComponent implements OnInit {
   @Input({required: true}) form!: FormGroupDirective | NgForm;
   @Input({required: true}) formGroup!: FormGroup;
   genres!: Observable<string[]>;

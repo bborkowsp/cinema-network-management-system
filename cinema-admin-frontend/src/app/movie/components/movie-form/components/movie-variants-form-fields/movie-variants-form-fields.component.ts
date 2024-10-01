@@ -4,11 +4,11 @@ import {ProjectionTechnology} from "../../../../dtos/response/projection-technol
 import {Language} from "../../../../dtos/response/language";
 
 @Component({
-  selector: 'app-movie-variants-form-frame-component',
-  templateUrl: './movie-variants-form-frame-component.component.html',
-  styleUrl: './movie-variants-form-frame-component.component.scss'
+  selector: 'app-movie-variants-form-fields-component',
+  templateUrl: './movie-variants-form-fields.component.html',
+  styleUrl: './movie-variants-form-fields.component.scss'
 })
-export class MovieVariantsFormFrameComponentComponent {
+export class MovieVariantsFormFieldsComponent {
   @Input({required: true}) form!: FormGroupDirective | NgForm;
   @Input({required: true}) formGroup!: FormGroup;
   projectionTechnologies = Object.values(ProjectionTechnology);
