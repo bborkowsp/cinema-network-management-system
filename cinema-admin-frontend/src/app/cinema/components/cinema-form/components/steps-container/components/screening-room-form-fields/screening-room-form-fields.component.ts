@@ -4,11 +4,11 @@ import {ScreeningRoomResponse} from "../../../../../../../repertory/dtos/screeni
 import {SeatResponse} from "../../../../../../dtos/response/seat.response";
 
 @Component({
-  selector: 'app-screening-room',
-  templateUrl: './screening-room.component.html',
-  styleUrls: ['./screening-room.component.scss']
+  selector: 'app-screening-room-form-fields',
+  templateUrl: './screening-room-form-fields.component.html',
+  styleUrls: ['./screening-room-form-fields.component.scss']
 })
-export class ScreeningRoomComponent implements OnInit, OnChanges {
+export class ScreeningRoomFormFieldsComponent implements OnInit, OnChanges {
   @Input({required: true}) form!: FormGroupDirective | NgForm;
   @Input({required: true}) formArray!: FormArray;
 

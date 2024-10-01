@@ -5,11 +5,11 @@ import {CinemaManagerResponse} from "../../../../../../../user/dtos/response/cin
 import {UserService} from "../../../../../../../user/services/user.service";
 
 @Component({
-  selector: 'app-cinema-manager',
-  templateUrl: './cinema-manager.component.html',
-  styleUrls: ['./cinema-manager.component.scss']
+  selector: 'app-cinema-manager-form-fields',
+  templateUrl: './cinema-manager-form-fields.component.html',
+  styleUrls: ['./cinema-manager-form-fields.component.scss']
 })
-export class CinemaManagerComponent implements OnInit {
+export class CinemaManagerFormFieldsComponent implements OnInit {
   @Input({required: true}) form!: FormGroupDirective | NgForm;
   @Input({required: true}) formGroup!: FormGroup;
   cinemaManagers!: Observable<CinemaManagerResponse[]>;

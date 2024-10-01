@@ -2,11 +2,11 @@ import {Component, Input} from '@angular/core';
 import {FormControl, FormGroup, FormGroupDirective, NgForm} from "@angular/forms";
 
 @Component({
-  selector: 'app-address',
-  templateUrl: './address.component.html',
-  styleUrls: ['./address.component.scss']
+  selector: 'app-address-form-fields',
+  templateUrl: './address-form-fields.component.html',
+  styleUrls: ['./address-form-fields.component.scss']
 })
-export class AddressComponent {
+export class AddressFormFieldsComponent {
   @Input({required: true}) form!: FormGroupDirective | NgForm;
   @Input({required: true}) formGroup!: FormGroup;
 

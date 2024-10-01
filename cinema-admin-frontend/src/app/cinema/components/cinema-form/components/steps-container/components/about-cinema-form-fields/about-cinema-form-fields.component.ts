@@ -2,11 +2,11 @@ import {Component, Input, OnInit} from '@angular/core';
 import {FormControl, FormGroup, FormGroupDirective, NgForm} from "@angular/forms";
 
 @Component({
-  selector: 'app-about-cinema',
-  templateUrl: './about-cinema.component.html',
-  styleUrls: ['./about-cinema.component.scss']
+  selector: 'app-about-cinema-form-fields',
+  templateUrl: './about-cinema-form-fields.component.html',
+  styleUrls: ['./about-cinema-form-fields.component.scss']
 })
-export class AboutCinemaComponent implements OnInit {
+export class AboutCinemaFormFieldsComponent implements OnInit {
   @Input({required: true}) form!: FormGroupDirective | NgForm;
   @Input({required: true}) formGroup!: FormGroup;
   selectedFileName: string | null = null;

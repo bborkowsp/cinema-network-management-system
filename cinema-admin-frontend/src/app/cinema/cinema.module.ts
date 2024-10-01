@@ -22,48 +22,48 @@ import {MatSortModule} from "@angular/material/sort";
 import {MatStepperModule} from "@angular/material/stepper";
 import {CinemaFormComponent} from './components/cinema-form/cinema-form.component';
 import {StepsContainerComponent} from './components/cinema-form/components/steps-container/steps-container.component';
-import {
-  ScreeningRoomComponent
-} from "./components/cinema-form/components/steps-container/components/screening-room/screening-room.component";
-import {
-  AddressComponent
-} from "./components/cinema-form/components/steps-container/components/address/address.component";
-import {
-  AboutCinemaComponent
-} from "./components/cinema-form/components/steps-container/components/about-cinema/about-cinema.component";
-import {StepOneComponent} from "./components/cinema-form/components/steps-container/steps/step-one/step-one.component";
 import {StepTwoComponent} from "./components/cinema-form/components/steps-container/steps/step-two/step-two.component";
 import {
   StepThreeComponent
 } from "./components/cinema-form/components/steps-container/steps/step-three/step-three.component";
 import {
-  ContactDetailsComponent
-} from "./components/cinema-form/components/steps-container/components/contact-details/contact-details.component";
-import {
   StepFourComponent
 } from "./components/cinema-form/components/steps-container/steps/step-four/step-four.component";
-import {
-  CinemaManagerComponent
-} from "./components/cinema-form/components/steps-container/components/cinema-manager/cinema-manager.component";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {
   ConfirmDeletionCinemaDialog
 } from "./components/confirm-deletion-cinema-dialog/confirm-deletion-cinema-dialog.component";
 import {SharedModule} from "../_shared/shared.module";
+import {
+  CinemaManagerFormFieldsComponent
+} from "./components/cinema-form/components/steps-container/components/cinema-manager-form-fields/cinema-manager-form-fields.component";
+import {
+  ContactDetailsFormFieldsComponent
+} from "./components/cinema-form/components/steps-container/components/contact-details-form-fields/contact-details-form-fields.component";
+import {
+  ScreeningRoomFormFieldsComponent
+} from "./components/cinema-form/components/steps-container/components/screening-room-form-fields/screening-room-form-fields.component";
+import {StepOneComponent} from "./components/cinema-form/components/steps-container/steps/step-one/step-one.component";
+import {
+  AddressFormFieldsComponent
+} from "./components/cinema-form/components/steps-container/components/address-form-fields/address-form-fields.component";
+import {
+  AboutCinemaFormFieldsComponent
+} from "./components/cinema-form/components/steps-container/components/about-cinema-form-fields/about-cinema-form-fields.component";
 
 @NgModule({
   declarations: [
     CinemaTableComponent,
     CinemaDetailsComponent,
-    AboutCinemaComponent,
-    AddressComponent,
-    ScreeningRoomComponent,
+    AboutCinemaFormFieldsComponent,
+    AddressFormFieldsComponent,
+    ScreeningRoomFormFieldsComponent,
     StepOneComponent,
     StepTwoComponent,
     StepThreeComponent,
-    ContactDetailsComponent,
+    ContactDetailsFormFieldsComponent,
     StepFourComponent,
-    CinemaManagerComponent,
+    CinemaManagerFormFieldsComponent,
     CinemaFormComponent,
     StepsContainerComponent,
     ConfirmDeletionCinemaDialog,

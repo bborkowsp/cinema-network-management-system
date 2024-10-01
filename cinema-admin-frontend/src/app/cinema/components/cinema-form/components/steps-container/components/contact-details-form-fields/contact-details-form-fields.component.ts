@@ -3,27 +3,16 @@ import {FormArray, FormControl, FormGroup, FormGroupDirective, NgForm} from "@an
 import {ContactDetailsResponse} from "../../../../../../dtos/response/contact-details.response";
 
 @Component({
-  selector: 'app-contact-details',
-  templateUrl: './contact-details.component.html',
-  styleUrls: ['./contact-details.component.scss']
+  selector: 'app-contact-details-form-fields',
+  templateUrl: './contact-details-form-fields.component.html',
+  styleUrls: ['./contact-details-form-fields.component.scss']
 })
-export class ContactDetailsComponent implements OnInit, OnChanges {
+export class ContactDetailsFormFieldsComponent implements OnInit, OnChanges {
   @Input({required: true}) form!: FormGroupDirective | NgForm;
   @Input({required: true}) formArray!: FormArray;
   allContactDetails: ContactDetailsResponse[] = [];
   createContactDetailFormGroup!: FormGroup;
   currentEditedContactDetailIndex: number = -1;
-
-  ngOnInit() {
-    this.updateContactDetails();
-    this.createContactDetailFormGroup = this.createFormGroup();
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['formArray']) {
-      this.updateContactDetails();
-    }
-  }
 
   get departmentControl(): FormControl {
     return this.getFormControl('department');
@@ -37,14 +26,14 @@ export class ContactDetailsComponent implements OnInit, OnChanges {
     return this.getFormControl('contactType', 'phoneNumber');
   }
 
-  private getFormControl(controlName: string, secondControlName?: string): FormControl {
-    const formGroup = this.currentEditedContactDetailIndex >= 0 ?
-      this.formArray.at(this.currentEditedContactDetailIndex) : this.createContactDetailFormGroup;
+  ngOnInit() {
+    this.updateContactDetails();
+    this.createContactDetailFormGroup = this.createFormGroup();
+  }
 
-    if (secondControlName) {
-      return formGroup.get(controlName)?.get(secondControlName) as FormControl;
-    } else {
-      return formGroup.get(controlName) as FormControl;
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['formArray']) {
+      this.updateContactDetails();
     }
   }
 
@@ -69,6 +58,17 @@ export class ContactDetailsComponent implements OnInit, OnChanges {
     }
     this.updateContactDetails();
     this.currentEditedContactDetailIndex = -1;
+  }
+
+  private getFormControl(controlName: string, secondControlName?: string): FormControl {
+    const formGroup = this.currentEditedContactDetailIndex >= 0 ?
+      this.formArray.at(this.currentEditedContactDetailIndex) : this.createContactDetailFormGroup;
+
+    if (secondControlName) {
+      return formGroup.get(controlName)?.get(secondControlName) as FormControl;
+    } else {
+      return formGroup.get(controlName) as FormControl;
+    }
   }
 
   private updateContactDetails() {
