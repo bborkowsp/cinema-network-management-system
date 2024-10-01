@@ -66,11 +66,12 @@ export class UserFormComponent implements OnInit {
   private setUpEditUserPage(emailAndRoleParam: string) {
     this.isEditMode = true;
     [this.userEmail, this.role] = emailAndRoleParam.split('+');
-    if (this.role === 'ROLE_CINEMA_NETWORK_MANAGER') {
+    if (this.role === 'CINEMA_NETWORK_MANAGER') {
       this.pageTitle = 'Edit Cinema Network Manager';
       this.isLoading = false;
-    } else if (this.role === 'ROLE_CINEMA_MANAGER') {
+    } else if (this.role === 'CINEMA_MANAGER') {
       this.pageTitle = 'Edit Cinema Manager';
+      this.isLoading = false;
     } else {
       this.pageTitle = 'Edit Admin';
       this.isLoading = false;
