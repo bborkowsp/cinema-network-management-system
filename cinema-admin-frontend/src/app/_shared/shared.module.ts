@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
@@ -31,6 +31,20 @@ import {DrawerComponent} from "./components/scaffold/components/drawer/drawer.co
 import {NavigationListComponent} from "./components/scaffold/components/navigation-list/navigation-list.component";
 import {ToolbarComponent} from "./components/scaffold/components/toolbar/toolbar.component";
 import {MatSidenavModule} from "@angular/material/sidenav";
+import {GenericTableComponent} from "./components/generic-table/generic-table.component";
+import {
+  MatCell,
+  MatCellDef,
+  MatColumnDef,
+  MatHeaderCell,
+  MatHeaderCellDef,
+  MatHeaderRow,
+  MatHeaderRowDef,
+  MatRow,
+  MatRowDef,
+  MatTable
+} from "@angular/material/table";
+import {MatPaginator} from "@angular/material/paginator";
 
 const sharedModules = [
   CommonModule,
@@ -63,6 +77,7 @@ const declarations = [
     DrawerComponent,
     NavigationListComponent,
     ToolbarComponent,
+    GenericTableComponent,
   ],
   imports: [
     ...sharedModules,
@@ -76,6 +91,18 @@ const declarations = [
     MatDialogModule,
     MatListModule,
     MatSidenavModule,
+    MatCellDef,
+    MatRowDef,
+    MatHeaderRowDef,
+    MatHeaderRow,
+    MatRow,
+    MatHeaderCell,
+    MatTable,
+    MatHeaderCellDef,
+    MatColumnDef,
+    MatCell,
+    MatPaginator,
+    NgOptimizedImage,
   ],
   exports: [
     declarations,
@@ -84,7 +111,8 @@ const declarations = [
     GenericDetailsFieldComponent,
     ConfirmDeletionDialogComponent,
     DetailsSectionContainerComponent,
-    ScaffoldComponent
+    ScaffoldComponent,
+    GenericTableComponent
   ],
 })
 export class SharedModule {

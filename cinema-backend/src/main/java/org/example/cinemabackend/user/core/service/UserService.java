@@ -60,8 +60,11 @@ class UserService implements UserUseCases {
     @Override
     public void createCinemaManager(CreateCinemaManagerRequest createCinemaManagerRequest) {
         validateUserDoesNotExist(createCinemaManagerRequest.email());
+        validateCinemaHasNoManager(createCinemaManagerRequest.managedCinemaName(), createCinemaManagerRequest.email());
         final var cinemaManager = userMapper.mapCreateCinemaManagerRequestToUser(createCinemaManagerRequest);
-        userRepository.save(cinemaManager);
+        final var cinema = cinemaRepository.findByName(createCinemaManagerRequest.managedCinemaName()).orElseThrow();
+        cinema.setCinemaManager(cinemaManager);
+        cinemaRepository.save(cinema);
     }
 
     @Override
@@ -74,7 +77,7 @@ class UserService implements UserUseCases {
     @Override
     public void updateCinemaManager(String email, UpdateCinemaManagerRequest updateCinemaManagerRequest) {
         validateEmailIsNotTaken(email, updateCinemaManagerRequest.email());
-        validateCinemaHasNoManager(updateCinemaManagerRequest);
+        validateCinemaHasNoManager(updateCinemaManagerRequest.managedCinemaName(), updateCinemaManagerRequest.email());
         final var cinemaManagerToUpdate = userRepository.findCinemaManagerByEmail(email).orElseThrow();
         userMapper.mapUpdateCinemaManagerRequestToUser(cinemaManagerToUpdate, updateCinemaManagerRequest);
         userRepository.save(cinemaManagerToUpdate);
@@ -168,12 +171,12 @@ class UserService implements UserUseCases {
         }
     }
 
-    private void validateCinemaHasNoManager(UpdateCinemaManagerRequest updateCinemaManagerRequest) {
-        if (updateCinemaManagerRequest.managedCinemaName() == null) {
+    private void validateCinemaHasNoManager(String managedCinemaName, String email) {
+        if (managedCinemaName == null) {
             return;
         }
-        final var cinema = cinemaRepository.findByName(updateCinemaManagerRequest.managedCinemaName()).orElseThrow();
-        if (cinema.getCinemaManager() != null && !cinema.getCinemaManager().getEmail().equals(updateCinemaManagerRequest.email())) {
+        final var cinema = cinemaRepository.findByName(managedCinemaName).orElseThrow();
+        if (cinema.getCinemaManager() != null && !cinema.getCinemaManager().getEmail().equals(email)) {
             throw new IllegalStateException("Cinema already has a manager");
         }
     }

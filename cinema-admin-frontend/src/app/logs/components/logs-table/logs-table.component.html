@@ -4,45 +4,20 @@
   pageTitle="Logs"
 >
   <ng-container content>
-    <div class="mat-elevation-z8 table-container">
-      <table [dataSource]="logs$" class="table" mat-table matSort>
+    <app-generic-table
+      [columns]="displayedColumns"
+      [dataSource]="logs"
+    ></app-generic-table>
 
-        <ng-container matColumnDef="timestamp">
-          <th *matHeaderCellDef class="column-header" mat-header-cell>Timestamp</th>
-          <td *matCellDef="let row" class="options-cell" mat-cell>
-            {{ row.timestamp | date: 'yyyy-MM-dd HH:mm:ss' }}
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="level">
-          <th *matHeaderCellDef class="column-header" mat-header-cell>Level</th>
-          <td *matCellDef="let row" class="options-cell" mat-cell>{{ row.level }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="logger">
-          <th *matHeaderCellDef class="column-header" mat-header-cell>Logger</th>
-          <td *matCellDef="let row" class="options-cell" mat-cell>{{ row.logger }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="message">
-          <th *matHeaderCellDef class="column-header" mat-header-cell>Message</th>
-          <td *matCellDef="let row" class="options-cell" mat-cell>{{ row.message }}</td>
-        </ng-container>
-
-        <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
-        <tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
-      </table>
-
-      <mat-paginator
-        (page)="handlePageEvent($event)"
-        [length]="dataLength"
-        [pageIndex]="paginatorRequestParams.page"
-        [pageSizeOptions]="[5, 10, 25, 50]"
-        [pageSize]="paginatorRequestParams.size"
-        aria-label="Select page"
-        class="mat-paginator"
-      >
-      </mat-paginator>
-    </div>
+    <mat-paginator
+      (page)="handlePageEvent($event)"
+      [length]="dataLength"
+      [pageIndex]="paginatorRequestParams.page"
+      [pageSizeOptions]="[5, 10, 25, 50]"
+      [pageSize]="paginatorRequestParams.size"
+      aria-label="Select page"
+      class="mat-paginator"
+    >
+    </mat-paginator>
   </ng-container>
 </app-page-content-container>

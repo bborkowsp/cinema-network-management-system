@@ -1,0 +1,43 @@
+<div class="mat-elevation-z8 table-container">
+  <table
+    [dataSource]="dataSource"
+    class="table"
+    mat-table
+  >
+    <ng-container *ngFor="let column of columns" [matColumnDef]="column.columnDefinition">
+      <th *matHeaderCellDef class="column-header" mat-header-cell>{{ column.header }}</th>
+
+      <div *ngIf="!column.isOptionsColumn && !column.isPosterColumn">
+        <td *matCellDef="let row" mat-cell>
+          <ng-container *ngIf="column.nestedValue; else simpleValue">
+            {{ row[column.columnDefinition][column.nestedValue] }}
+          </ng-container>
+          <ng-template #simpleValue>
+            {{ row[column.columnDefinition] }}
+          </ng-template>
+        </td>
+      </div>
+
+      <div *ngIf="column.isOptionsColumn">
+        <td *matCellDef="let row" mat-cell>
+          <app-options-table-button
+            (delete)="onDelete(row)"
+            (edit)="onEdit(row)"
+            (showDetails)="onShowDetails(row)"
+            [isUserRoleCinemaManager]="isUserRoleCinemaManager"
+            [row]="row"
+          ></app-options-table-button>
+        </td>
+      </div>
+
+      <div *ngIf="column.isPosterColumn">
+        <td *matCellDef="let row" class="column-cell" mat-cell>
+          <img [src]="POSTERS_SERVER_DIRECTORY_URL + row[column.columnDefinition]"
+               alt="movie" class="movie-image-list"/>
+        </td>
+      </div>
+    </ng-container>
+    <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+    <tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
+  </table>
+</div>

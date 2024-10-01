@@ -1,10 +1,11 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component} from '@angular/core';
 import {map, Observable, tap} from "rxjs";
-import {MatPaginator, PageEvent} from "@angular/material/paginator";
+import {PageEvent} from "@angular/material/paginator";
 import {PaginatorRequestParams} from "../../../_shared/dtos/paginator-request-params";
 import {UserService} from "../../services/user.service";
 import {Router} from "@angular/router";
 import {UserResponse} from "../../dtos/response/user.response";
+import {TableColumn} from "../../../_shared/components/generic-table/generic-table.component";
 
 @Component({
   selector: 'app-user-table',
@@ -12,18 +13,23 @@ import {UserResponse} from "../../dtos/response/user.response";
   styleUrls: ['./user-table.component.scss']
 })
 export class UserTableComponent {
-  @ViewChild(MatPaginator) readonly paginator!: MatPaginator;
-  displayedColumns = ['options', 'firstName', 'lastName', 'email', 'role'];
-  users$!: Observable<UserResponse[]>;
-  dataLength = 0;
-  paginatorRequestParams = new PaginatorRequestParams(0, 10);
-  isLoading = true;
+  protected isLoading = true;
+  protected dataLength = 0;
+  protected users: UserResponse[] = [];
+  protected paginatorRequestParams = new PaginatorRequestParams(0, 10);
+  protected displayedColumns: TableColumn[] = [
+    {columnDefinition: 'options', header: 'Options', isOptionsColumn: true},
+    {columnDefinition: 'firstName', header: 'First Name'},
+    {columnDefinition: 'lastName', header: 'Last Name'},
+    {columnDefinition: 'email', header: 'Email'},
+    {columnDefinition: 'role', header: 'Role'},
+  ]
 
   constructor(
     private readonly userService: UserService,
     private readonly router: Router,
   ) {
-    this.users$ = this.getAllUsers();
+    this.getAllUsers().subscribe();
   }
 
   handlePageEvent(event: PageEvent): void {
@@ -31,7 +37,7 @@ export class UserTableComponent {
       event.pageIndex,
       event.pageSize,
     );
-    this.users$ = this.getAllUsers();
+    this.getAllUsers().subscribe();
   }
 
   handleEdit(userResponse: UserResponse): void {
@@ -41,7 +47,7 @@ export class UserTableComponent {
 
   handleDelete(userResponse: UserResponse): void {
     this.userService.deleteUser(userResponse.email).subscribe(() => {
-      this.users$ = this.getAllUsers();
+      this.getAllUsers().subscribe();
     });
   }
 
@@ -54,6 +60,7 @@ export class UserTableComponent {
       tap({
         next: (userPage) => {
           this.dataLength = userPage.totalElements;
+          this.users = userPage.content;
           this.isLoading = false;
         },
         error: (err) => console.log(err),

@@ -1,15 +1,14 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {map, Observable, tap} from "rxjs";
-import {MatPaginator, PageEvent} from "@angular/material/paginator";
+import {PageEvent} from "@angular/material/paginator";
 import {PaginatorRequestParams} from "../../../_shared/dtos/paginator-request-params";
 import {Router} from "@angular/router";
 import {MovieListResponse} from "../../dtos/response/movie-list.response";
 import {MovieService} from "../../services/movie.service";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDeletionMovieDialog} from "../confirm-deletion-movie-dialog/confirm-deletion-movie-dialog.component";
-import {AuthService} from "../../../auth/services/auth.service";
-import {images} from "../../../../assets/environment";
 import {UserRoleService} from "../../../auth/services/user-role.service";
+import {TableColumn} from "../../../_shared/components/generic-table/generic-table.component";
 
 @Component({
   selector: 'app-movie-table',
@@ -17,23 +16,26 @@ import {UserRoleService} from "../../../auth/services/user-role.service";
   styleUrl: './movie-table.component.scss'
 })
 export class MovieTableComponent implements OnInit {
-  readonly POSTERS_SERVER_DIRECTORY_URL = `${images.IMAGES_SERVER_DIRECTORY_URL}/posters/`;
-  @ViewChild(MatPaginator) readonly paginator!: MatPaginator;
-  displayedColumns = ['options', 'poster', 'title', 'originalTitle', 'releaseDate', 'director'];
-  movies$!: Observable<MovieListResponse[]>;
-  dataLength = 0;
-  paginatorRequestParams = new PaginatorRequestParams(0, 10);
-  isLoading = true;
-  isUserRoleCinemaManager = true;
+  protected isLoading = true;
+  protected dataLength = 0;
+  protected movies: MovieListResponse[] = [];
+  protected paginatorRequestParams = new PaginatorRequestParams(0, 10);
+  protected isUserRoleCinemaManager = true;
+  protected displayedColumns: TableColumn[] = [
+    {columnDefinition: 'options', header: 'Options', isOptionsColumn: true},
+    {columnDefinition: 'poster', header: 'Poster', isPosterColumn: true},
+    {columnDefinition: 'title', header: 'Title'},
+    {columnDefinition: 'originalTitle', header: 'Original Title'},
+    {columnDefinition: 'releaseDate', header: 'Release Date'},
+  ]
 
   constructor(
     private readonly movieService: MovieService,
     private readonly router: Router,
     private readonly dialog: MatDialog,
-    private readonly authService: AuthService,
     private readonly userRoleService: UserRoleService
   ) {
-    this.movies$ = this.getData();
+    this.getData().subscribe();
   }
 
   ngOnInit() {
@@ -45,7 +47,7 @@ export class MovieTableComponent implements OnInit {
       event.pageIndex,
       event.pageSize,
     );
-    this.movies$ = this.getData();
+    this.getData().subscribe();
   }
 
   goToCreate(): void {
@@ -67,7 +69,9 @@ export class MovieTableComponent implements OnInit {
       next: (result) => {
         if (result) {
           this.movieService.deleteMovie(movie.title).subscribe({
-            next: () => (this.movies$ = this.getData()),
+            next: () => (
+              this.getData().subscribe()
+            ),
           });
         }
       },
@@ -84,6 +88,7 @@ export class MovieTableComponent implements OnInit {
       tap({
         next: (moviePage) => {
           this.dataLength = moviePage.totalElements;
+          this.movies = moviePage.content;
           this.isLoading = false;
         },
         error: (err) => console.log(err),

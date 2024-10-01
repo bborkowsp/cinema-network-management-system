@@ -1,10 +1,11 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component} from '@angular/core';
 import {map, Observable, tap} from "rxjs";
-import {MatPaginator, PageEvent} from "@angular/material/paginator";
+import {PageEvent} from "@angular/material/paginator";
 import {PaginatorRequestParams} from "../../../_shared/dtos/paginator-request-params";
 import {Router} from "@angular/router";
 import {UserService} from "../../services/user.service";
 import {CinemaManagerTableResponse} from "../../dtos/response/cinema-manager-table.response";
+import {TableColumn} from "../../../_shared/components/generic-table/generic-table.component";
 
 @Component({
   selector: 'app-cinema-manager-table',
@@ -12,26 +13,31 @@ import {CinemaManagerTableResponse} from "../../dtos/response/cinema-manager-tab
   styleUrls: ['./cinema-manager-table.component.scss']
 })
 export class CinemaManagerTableComponent {
-  @ViewChild(MatPaginator) readonly paginator!: MatPaginator;
-  displayedColumns = ['options', 'firstName', 'lastName', 'email', 'managedCinema'];
-  cinemaManagers$!: Observable<CinemaManagerTableResponse[]>;
-  dataLength = 0;
-  paginatorRequestParams = new PaginatorRequestParams(0, 10);
-  isLoading = true;
+  protected isLoading = true;
+  protected dataLength = 0;
+  protected cinemaManagers: CinemaManagerTableResponse[] = [];
+  protected paginatorRequestParams = new PaginatorRequestParams(0, 10);
+  protected displayedColumns: TableColumn[] = [
+    {columnDefinition: 'options', header: 'Options', isOptionsColumn: true},
+    {columnDefinition: 'firstName', header: 'First Name'},
+    {columnDefinition: 'lastName', header: 'Last Name'},
+    {columnDefinition: 'email', header: 'Email'},
+    {columnDefinition: 'managedCinema', header: 'Managed Cinema', nestedValue: 'name'},
+  ]
 
   constructor(
     private readonly userService: UserService,
     private readonly router: Router,
   ) {
-    this.cinemaManagers$ = this.getData();
+    this.getData().subscribe();
   }
- 
+
   handlePageEvent(event: PageEvent): void {
     this.paginatorRequestParams = new PaginatorRequestParams(
       event.pageIndex,
       event.pageSize,
     );
-    this.cinemaManagers$ = this.getData();
+    this.getData().subscribe();
   }
 
   handleEdit(cinemaManager: CinemaManagerTableResponse): void {
@@ -41,7 +47,7 @@ export class CinemaManagerTableComponent {
 
   handleDelete(cinemaManager: CinemaManagerTableResponse): void {
     this.userService.deleteCinemaManager(cinemaManager.email).subscribe({
-      next: () => (this.cinemaManagers$ = this.getData()),
+      next: () => (this.getData().subscribe()),
     });
   }
 
@@ -54,6 +60,8 @@ export class CinemaManagerTableComponent {
       tap({
         next: (cinemaManagerPage) => {
           this.dataLength = cinemaManagerPage.totalElements;
+          this.cinemaManagers = cinemaManagerPage.content;
+          console.log(this.cinemaManagers);
           this.isLoading = false;
         },
         error: (err) => console.log(err),
