@@ -1,6 +1,5 @@
 import {ScreeningResponse} from "../../../../dtos/screening.response";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {AuthService} from "../../../../../auth/services/auth.service";
 import {CreateScreeningRequest} from "src/app/repertory/dtos/create-screening-request";
 
 export class ScreeningFormBuilder {
@@ -8,7 +7,6 @@ export class ScreeningFormBuilder {
 
   constructor(
     private readonly formBuilder: FormBuilder,
-    private readonly authService: AuthService
   ) {
     this.form = this.createForm();
   }

@@ -7,11 +7,11 @@ import {MovieResponse} from "../../../../../../../movie/dtos/response/movie.resp
 import {MovieVariantResponse} from "../../../../../../../movie/dtos/response/movie-variant.response";
 
 @Component({
-  selector: 'app-screening-form-frame',
-  templateUrl: './screening-form-frame.component.html',
-  styleUrls: ['./screening-form-frame.component.scss']
+  selector: 'app-screening-form-fields',
+  templateUrl: './screening-form-fields.component.html',
+  styleUrls: ['./screening-form-fields.component.scss']
 })
-export class ScreeningFormFrameComponent implements OnInit {
+export class ScreeningFormFieldsComponent implements OnInit {
   @Input({required: true}) form!: FormGroupDirective | NgForm;
   @Input({required: true}) formGroup!: FormGroup;
   movieTitles !: string[];

@@ -3,7 +3,6 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {FormBuilder} from "@angular/forms";
 import {ScreeningService} from "../../../../services/screening.service";
 import {ScreeningFormBuilder} from "./screening-form-builder";
-import {AuthService} from "../../../../../auth/services/auth.service";
 
 @Component({
   selector: 'app-screening-form',
@@ -22,7 +21,6 @@ export class ScreeningFormComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
     private screeningService: ScreeningService,
-    private readonly authService: AuthService
   ) {
   }
 
@@ -71,12 +69,12 @@ export class ScreeningFormComponent implements OnInit {
   }
 
   private setUpEditScreeningForm() {
-    this.screeningFormBuilder = new ScreeningFormBuilder(this.formBuilder, this.authService);
+    this.screeningFormBuilder = new ScreeningFormBuilder(this.formBuilder);
     this.loadScreening();
   }
 
   private setUpScreeningForm() {
-    this.screeningFormBuilder = new ScreeningFormBuilder(this.formBuilder, this.authService);
+    this.screeningFormBuilder = new ScreeningFormBuilder(this.formBuilder);
     this.isLoading = false;
   }
 
