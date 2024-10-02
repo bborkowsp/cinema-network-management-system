@@ -3,12 +3,15 @@ package org.example.cinemabackend.cinema;
 import org.example.cinemabackend.cinema.core.domain.Cinema;
 import org.example.cinemabackend.cinema.core.port.secondary.CinemaRepository;
 import org.example.cinemabackend.cinema.testdata.CinemaTestDataProvider;
+import org.example.cinemabackend.user.core.domain.User;
 import org.example.cinemabackend.user.core.port.secondary.UserRepository;
 import org.example.cinemabackend.user.testdata.UserTestDataProvider;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
@@ -64,10 +67,19 @@ public class ScreeningRoomControllerTest {
     void givenScreeningRoomsInDb_whenGetScreeningRooms_thenStatusIsOkAndScreeningRoomsAreReturned() throws Exception {
         //Given
         final var cinema = cinemaRepository.findAll().getFirst();
+        final var cinemaManager = cinema.getCinemaManager();
+        loginAsCinemaManager(cinemaManager);
+
         //When, Then
-        final var url = SCREENING_ROOM_ENDPOINT_URL + "/" + cinema.getCinemaManager().getEmail();
-        mockMvc.perform(get(url))
+        mockMvc.perform(get(SCREENING_ROOM_ENDPOINT_URL))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content").isNotEmpty());
+    }
+
+    private void loginAsCinemaManager(User cinemaManager) {
+        final var username = cinemaManager.getUsername();
+        final var authorities = cinemaManager.getAuthorities();
+        final var authentication = new UsernamePasswordAuthenticationToken(username, null, authorities);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 }

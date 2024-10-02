@@ -1,6 +1,8 @@
 package org.example.cinemabackend.user.core.service;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.example.cinemabackend.auth.core.port.primary.AuthUseCases;
 import org.example.cinemabackend.cinema.core.port.secondary.CinemaRepository;
 import org.example.cinemabackend.user.application.dto.request.*;
@@ -18,9 +20,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 class UserService implements UserUseCases {
+    private static final Logger LOGGER = LogManager.getLogger(UserService.class);
     private final UserRepository userRepository;
     private final CinemaRepository cinemaRepository;
     private final UserMapper userMapper;
@@ -71,6 +76,8 @@ class UserService implements UserUseCases {
     public void createUser(CreateUserRequest createUserRequest) {
         validateUserDoesNotExist(createUserRequest.email());
         final var user = userMapper.mapCreateUserRequestToUser(createUserRequest);
+        user.setCreatedAt(LocalDateTime.now());
+        LOGGER.info("User " + user.getEmail() + " with role " + user.getRole() + " created");
         userRepository.save(user);
     }
 

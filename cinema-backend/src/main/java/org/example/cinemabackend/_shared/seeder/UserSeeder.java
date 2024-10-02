@@ -45,11 +45,6 @@ public class UserSeeder implements Seeder {
         increment = 0;
     }
 
-    private void createAdmin() {
-        final var user = createUser(Role.ADMIN, ADMIN_EMAIL);
-        userRepository.save(user);
-    }
-
     private User createUser(Role role, String email) {
         final var encodedPassword = passwordEncoder.encode(PASSWORD);
         return new User(
@@ -59,5 +54,10 @@ public class UserSeeder implements Seeder {
                 encodedPassword,
                 role
         );
+    }
+
+    private void createAdmin() {
+        final var user = createUser(Role.ADMIN, ADMIN_EMAIL);
+        userRepository.save(user);
     }
 }

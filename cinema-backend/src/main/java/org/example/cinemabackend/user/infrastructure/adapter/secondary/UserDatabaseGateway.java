@@ -25,14 +25,14 @@ class UserDatabaseGateway implements UserRepository {
     }
 
     @Override
-    public Page<User> findAllCinemaNetworkManagers(Pageable pageable) {
-        return this.userJpaRepository.findAllByRoleCinemaNetworkManager(pageable).map(UserSchema::toUser);
-    }
-
-    @Override
     @Transactional(readOnly = true)
     public List<User> findAllCinemaManagers() {
         return this.userJpaRepository.findAllByRoleCinemaManager().stream().map(UserSchema::toUser).toList();
+    }
+
+    @Override
+    public List<User> findAllUnverifiedCustomers() {
+        return this.userJpaRepository.findAllByRoleCustomerAndIsAccountVerifiedFalse().stream().map(UserSchema::toUser).toList();
     }
 
     @Override

@@ -11,9 +11,9 @@ public interface UserRepository {
 
     Page<User> findAllCinemaManagers(Pageable pageable);
 
-    Page<User> findAllCinemaNetworkManagers(Pageable pageable);
-
     List<User> findAllCinemaManagers();
+
+    List<User> findAllUnverifiedCustomers();
 
     Optional<User> findByEmail(String email);
 

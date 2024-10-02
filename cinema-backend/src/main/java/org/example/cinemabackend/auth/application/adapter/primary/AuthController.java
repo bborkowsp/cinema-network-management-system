@@ -31,7 +31,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<JwtDto> register(@RequestBody @Valid RegisterUserRequest registerUserRequest) {
         authUseCases.register(registerUserRequest);
-        LOGGER.info("User: " + registerUserRequest.email() + "requested for registration.");
+        LOGGER.info("User: " + registerUserRequest.email() + " requested for registration.");
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

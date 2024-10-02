@@ -17,11 +17,11 @@ public interface UserJpaRepository extends JpaRepository<UserSchema, Long> {
     @Query("SELECT u FROM UserSchema u WHERE u.role = 'CINEMA_MANAGER'")
     Page<UserSchema> findAllByRoleCinemaManager(Pageable pageable);
 
-    @Query("SELECT u FROM UserSchema u WHERE u.role = 'CINEMA_NETWORK_MANAGER'")
-    Page<UserSchema> findAllByRoleCinemaNetworkManager(Pageable pageable);
-
     @Query("SELECT u FROM UserSchema u WHERE u.role = 'CINEMA_MANAGER'")
     List<UserSchema> findAllByRoleCinemaManager();
+
+    @Query("SELECT u FROM UserSchema u WHERE u.role = 'CUSTOMER' AND u.isAccountVerified = false")
+    List<UserSchema> findAllByRoleCustomerAndIsAccountVerifiedFalse();
 
     Optional<UserSchema> findByEmail(String email);
 

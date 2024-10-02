@@ -24,6 +24,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.NoSuchElementException;
 
@@ -64,17 +65,27 @@ class AuthService implements AuthUseCases, UserDetailsService {
         checkIfUserAlreadyExists(registerUserRequest.email());
         checkIfUserRoleIsCustomer(registerUserRequest.role());
         final var encodedPassword = passwordEncoder.encode(registerUserRequest.password());
-        final var user = new User(
+        final var user = createNewUser(registerUserRequest, encodedPassword);
+        userRepository.save(user);
+        LOGGER.info("User " + user.getEmail() + " with role " + user.getRole() + " created");
+        sendVerificationEmail(user);
+    }
+
+    private void sendVerificationEmail(User user) {
+        final String verificationUrl = ACCOUNT_VERIFICATION_URL_PREFIX + tokenUseCases.generateToken(user);
+        LOGGER.info("Sending email to: " + user.getEmail() + " with verification url: " + verificationUrl);
+        emailUseCases.sendEmailToConfirmAccount(user.getEmail(), verificationUrl);
+    }
+
+    private User createNewUser(RegisterUserRequest registerUserRequest, String encodedPassword) {
+        return new User(
                 registerUserRequest.firstName(),
                 registerUserRequest.lastName(),
                 registerUserRequest.email(),
                 encodedPassword,
-                registerUserRequest.role()
+                registerUserRequest.role(),
+                LocalDateTime.now()
         );
-        userRepository.save(user);
-        final String verificationUrl = ACCOUNT_VERIFICATION_URL_PREFIX + tokenUseCases.generateToken(user);
-        LOGGER.info("Sending email to: " + user.getEmail() + " with verification url: " + verificationUrl);
-        emailUseCases.sendEmailToConfirmAccount(user.getEmail(), verificationUrl);
     }
 
     @Override
