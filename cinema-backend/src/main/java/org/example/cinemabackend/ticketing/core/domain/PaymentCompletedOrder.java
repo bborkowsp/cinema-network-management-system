@@ -1,23 +1,23 @@
 package org.example.cinemabackend.ticketing.core.domain;
 
-public class PayPalCompletedOrder {
-    private PayPalPaymentStatus status;
+public class PaymentCompletedOrder {
+    private PaymentStatus status;
     private String token;
 
-    public PayPalCompletedOrder(PayPalPaymentStatus status, String token) {
+    public PaymentCompletedOrder(PaymentStatus status, String token) {
         this.status = status;
         this.token = token;
     }
 
-    public PayPalCompletedOrder(PayPalPaymentStatus status) {
+    public PaymentCompletedOrder(PaymentStatus status) {
         this.status = status;
     }
 
-    public PayPalPaymentStatus getStatus() {
+    public PaymentStatus getStatus() {
         return status;
     }
 
-    public void setStatus(PayPalPaymentStatus status) {
+    public void setStatus(PaymentStatus status) {
         this.status = status;
     }
 

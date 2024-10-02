@@ -1,4 +1,4 @@
-package org.example.cinemabackend.ticketing.core.service;
+package org.example.cinemabackend.ticketing.infrastructure.adapter.secondary;
 
 import com.paypal.core.PayPalHttpClient;
 import com.paypal.http.HttpResponse;
@@ -10,11 +10,8 @@ import org.example.cinemabackend.auth.core.port.primary.EmailUseCases;
 import org.example.cinemabackend.cinema.core.domain.SeatStatus;
 import org.example.cinemabackend.cinema.core.port.primary.SeatMapper;
 import org.example.cinemabackend.ticketing.application.dto.request.BuyTicketRequest;
-import org.example.cinemabackend.ticketing.core.domain.PayPalCompletedOrder;
-import org.example.cinemabackend.ticketing.core.domain.PayPalPaymentOrder;
-import org.example.cinemabackend.ticketing.core.domain.PayPalPaymentStatus;
-import org.example.cinemabackend.ticketing.core.domain.Ticket;
-import org.example.cinemabackend.ticketing.core.port.primary.PayPalUseCases;
+import org.example.cinemabackend.ticketing.application.dto.request.FinalizePaymentRequest;
+import org.example.cinemabackend.ticketing.core.domain.*;
 import org.example.cinemabackend.ticketing.core.port.primary.TicketUseCases;
 import org.example.cinemabackend.ticketing.core.port.secondary.TicketRepository;
 import org.springframework.stereotype.Service;
@@ -26,19 +23,20 @@ import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
-class PayPalService implements PayPalUseCases {
+public class PayPalPaymentStrategy implements PaymentStrategy {
     private final static String FRONTEND_BASE_URL = "http://localhost:4200";
     private final static String CANCEL_URL = FRONTEND_BASE_URL + "/cancel-paypal-payment";
     private final static String RETURN_URL = FRONTEND_BASE_URL + "/capture-paypal-payment";
-    private final Logger LOGGER = LogManager.getLogger(PayPalService.class);
+    private final Logger LOGGER = LogManager.getLogger(PayPalPaymentStrategy.class);
     private final PayPalHttpClient payPalHttpClient;
     private final TicketUseCases ticketUseCases;
     private final TicketRepository ticketRepository;
     private final EmailUseCases emailUseCases;
     private final SeatMapper seatMapper;
 
+
     @Override
-    public PayPalPaymentOrder createPayment(BuyTicketRequest buyTicketRequest) {
+    public PaymentOrder initPayment(BuyTicketRequest buyTicketRequest) {
         ticketUseCases.validateSeatsAreAvailable(buyTicketRequest.selectedSeats());
 
         final var bookedSeats = seatMapper.mapSeatResponsesToSeat(buyTicketRequest.selectedSeats());
@@ -52,16 +50,17 @@ class PayPalService implements PayPalUseCases {
             Order order = orderHttpResponse.result();
             String redirectUrl = getRedirectUrl(order);
             ticketUseCases.generateTickets(buyTicketRequest, order.id());
-            return new PayPalPaymentOrder(PayPalPaymentStatus.SUCCESS, order.id(), redirectUrl);
+            return new PaymentOrder(PaymentStatus.SUCCESS, order.id(), redirectUrl);
         } catch (IOException e) {
             LOGGER.error("Failed to create payment for user with email " + buyTicketRequest.email());
             ticketUseCases.changeSeatStatus(bookedSeats, SeatStatus.AVAILABLE);
-            return new PayPalPaymentOrder(PayPalPaymentStatus.FAILED);
+            return new PaymentOrder(PaymentStatus.FAILED);
         }
     }
 
     @Override
-    public PayPalCompletedOrder completePayment(String token) {
+    public PaymentCompletedOrder finalizePayment(FinalizePaymentRequest finalizePaymentRequest) {
+        final var token = finalizePaymentRequest.token();
         OrdersCaptureRequest ordersCaptureRequest = new OrdersCaptureRequest(token);
         try {
             HttpResponse<Order> httpResponse = payPalHttpClient.execute(ordersCaptureRequest);
@@ -69,12 +68,12 @@ class PayPalService implements PayPalUseCases {
                 final var ticket = findTicket(token);
                 emailUseCases.sendTicketToUser(ticket);
                 ticketUseCases.changeSeatStatus(ticket.getBookedSeats(), SeatStatus.SOLD);
-                return new PayPalCompletedOrder(PayPalPaymentStatus.SUCCESS, token);
+                return new PaymentCompletedOrder(PaymentStatus.SUCCESS, token);
             }
         } catch (IOException e) {
             throw new IllegalStateException("Failed to capture payment");
         }
-        return new PayPalCompletedOrder(PayPalPaymentStatus.FAILED);
+        return new PaymentCompletedOrder(PaymentStatus.FAILED);
     }
 
     private Ticket findTicket(String token) {

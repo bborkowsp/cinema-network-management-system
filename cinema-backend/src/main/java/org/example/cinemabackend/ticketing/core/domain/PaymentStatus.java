@@ -1,5 +1,5 @@
 package org.example.cinemabackend.ticketing.core.domain;
 
-public enum PayPalPaymentStatus {
+public enum PaymentStatus {
     SUCCESS, FAILED
 }

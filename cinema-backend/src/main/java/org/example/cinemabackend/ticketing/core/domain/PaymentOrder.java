@@ -1,25 +1,25 @@
 package org.example.cinemabackend.ticketing.core.domain;
 
-public class PayPalPaymentOrder {
-    private PayPalPaymentStatus status;
+public class PaymentOrder {
+    private PaymentStatus status;
     private String orderId;
     private String redirectUrl;
 
-    public PayPalPaymentOrder(PayPalPaymentStatus status, String orderId, String redirectUrl) {
+    public PaymentOrder(PaymentStatus status, String orderId, String redirectUrl) {
         this.status = status;
         this.orderId = orderId;
         this.redirectUrl = redirectUrl;
     }
 
-    public PayPalPaymentOrder(PayPalPaymentStatus status) {
+    public PaymentOrder(PaymentStatus status) {
         this.status = status;
     }
 
-    public PayPalPaymentStatus getStatus() {
+    public PaymentStatus getStatus() {
         return status;
     }
 
-    public void setStatus(PayPalPaymentStatus status) {
+    public void setStatus(PaymentStatus status) {
         this.status = status;
     }
 

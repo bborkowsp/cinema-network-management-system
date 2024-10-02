@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {PayPalService} from "../../services/pay-pal.service";
+import {FinalizePaymentRequest} from "../../dtos/request/finalize-payment.request";
+import {PaymentMethod} from "../buy-ticket/enums/payment-method";
 
 @Component({
   selector: 'app-capture-paypal-payment',
@@ -17,10 +19,15 @@ export class CapturePaypalPaymentComponent implements OnInit {
 
   ngOnInit() {
     const token = this.activatedRoute.snapshot.queryParams['token'];
-    this.ticketingService.sendCompletePayPalPaymentRequest(token).subscribe({
+    const finalizePaymentRequest = this.createFinalizePaymentRequest(token);
+    this.ticketingService.sendCompletePayPalPaymentRequest(finalizePaymentRequest).subscribe({
       next: () => {
       }, error: () => {
       }
     });
+  }
+
+  private createFinalizePaymentRequest(token: any) {
+    return new FinalizePaymentRequest(token, PaymentMethod.PAYPAL);
   }
 }
