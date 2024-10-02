@@ -48,6 +48,7 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean {
+    console.log(!this.jwtService.isJwtExpired());
     return !this.jwtService.isJwtExpired();
   }
 

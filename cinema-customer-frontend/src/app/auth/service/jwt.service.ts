@@ -10,9 +10,9 @@ export class JwtService {
   private static readonly TOKEN_LOCALSTORAGE_KEY = 'token';
   private static readonly EXPIRATION_LOCALSTORAGE_KEY = 'expires_at';
 
-  getJwtExpiration(): moment.Moment {
+  getJwtExpiration(): moment.Moment | null {
     const expiration = localStorage.getItem(JwtService.EXPIRATION_LOCALSTORAGE_KEY);
-    return expiration ? moment(JSON.parse(expiration)) : moment();
+    return expiration != null ? moment(JSON.parse(expiration)) : null;
   }
 
   removeJwtFromLocalStorage() {
@@ -39,6 +39,6 @@ export class JwtService {
 
   isJwtExpired(): boolean {
     const expiration = this.getJwtExpiration();
-    return expiration ? moment().isAfter(expiration) : true;
+    return expiration != null ? moment().isAfter(expiration) : true;
   }
 }
