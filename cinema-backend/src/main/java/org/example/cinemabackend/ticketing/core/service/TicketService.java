@@ -1,6 +1,8 @@
 package org.example.cinemabackend.ticketing.core.service;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.example.cinemabackend.auth.core.port.primary.AuthUseCases;
 import org.example.cinemabackend.cinema.application.dto.response.SeatResponse;
 import org.example.cinemabackend.cinema.core.domain.*;
@@ -27,6 +29,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 class TicketService implements TicketUseCases {
+    private final Logger LOGGER = LogManager.getLogger(TicketService.class);
     private final SeatRepository seatRepository;
     private final UserRepository userRepository;
     private final QrCodeUseCases qrCodeService;
@@ -40,6 +43,7 @@ class TicketService implements TicketUseCases {
 
     @Override
     public List<TicketResponse> getTickets() {
+        LOGGER.info("User with email " + authUseCases.getCurrentUserEmail() + " requested all tickets.");
         final var email = authUseCases.getCurrentUserEmail();
         return ticketRepository.findAllByEmail(email).stream().map(ticketMapper::mapTicketToTicketResponse).toList();
     }

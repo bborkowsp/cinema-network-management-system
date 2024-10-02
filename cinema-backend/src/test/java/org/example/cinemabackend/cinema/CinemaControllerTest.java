@@ -6,7 +6,10 @@ import org.example.cinemabackend.cinema.core.port.secondary.CinemaRepository;
 import org.example.cinemabackend.cinema.testdata.CinemaTestDataProvider;
 import org.example.cinemabackend.movie.core.port.secondary.MovieRepository;
 import org.example.cinemabackend.movie.testdata.MovieTestDataProvider;
+import org.example.cinemabackend.user.core.domain.Role;
 import org.example.cinemabackend.user.core.port.secondary.UserRepository;
+import org.example.cinemabackend.user.infrastructure.adapter.secondary.UserJpaRepository;
+import org.example.cinemabackend.user.infrastructure.schema.UserSchema;
 import org.example.cinemabackend.user.testdata.UserTestDataProvider;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +17,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -32,7 +36,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@WithMockUser(roles = "CINEMA_NETWORK_MANAGER")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CinemaControllerTest {
 
@@ -59,10 +62,22 @@ class CinemaControllerTest {
     @Autowired
     private MovieRepository movieRepository;
 
+    @Autowired
+    private UserTestDataProvider userTestDataProvider;
+
+    @Autowired
+    private UserJpaRepository userJpaRepository;
+
     @BeforeAll
     void setUp() {
         saveCinemaManagersToDatabase();
         saveMoviesToDatabase();
+        saveCinemaNetworkManagerToDb();
+    }
+
+    private void saveCinemaNetworkManagerToDb() {
+        final var cinemaNetworkManager = userTestDataProvider.generateSampleCinemaNetworkManager();
+        userRepository.save(cinemaNetworkManager);
     }
 
     private void saveCinemaManagersToDatabase() {
@@ -79,6 +94,8 @@ class CinemaControllerTest {
     @Order(1)
     void givenCinemasInDatabase_whenGetCinemas_thenReturnCinemasList() throws Exception {
         //Given
+        loginAsCinemaNetworkManager();
+
         List<Cinema> cinemas = cinemaTestDataProvider.generateCinemas();
         cinemas.forEach(cinemaRepository::save);
 
@@ -115,9 +132,27 @@ class CinemaControllerTest {
                 );
     }
 
+    private void loginAsCinemaNetworkManager() {
+        final var cinemaManager = userJpaRepository.findAll();
+        cinemaManager.stream()
+                .filter(user -> user.getRole().equals(Role.CINEMA_NETWORK_MANAGER))
+                .findFirst()
+                .ifPresent(this::login);
+    }
+
+    private void login(UserSchema userSchema) {
+        final var username = userSchema.getUsername();
+        final var authorities = userSchema.getAuthorities();
+        final var authentication = new UsernamePasswordAuthenticationToken(username, null, authorities);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+    }
+
     @Test
     @Order(2)
     void givenCinemasInDatabase_whenGetCinema_thenReturnCinema() throws Exception {
+        //Given
+        loginAsCinemaNetworkManager();
+
         // When, Then
         final Cinema cinema = cinemaRepository.findAll().getFirst();
         final var url = CINEMAS_ENDPOINT_PATH + "/" + cinema.getName();
@@ -144,6 +179,8 @@ class CinemaControllerTest {
     @Order(3)
     void givenCinemasInDatabase_whenCreateCinema_thenCinemaIsInDatabase() throws Exception {
         // Given
+        loginAsCinemaNetworkManager();
+
         final var createCinemaRequest = cinemaTestDataProvider.generateCreateCinemaRequest();
         final var image = createImageFile("cinema.jpg", "image data");
         final var cinemaRequest = createCinemaRequestFile(createCinemaRequest);
@@ -192,6 +229,8 @@ class CinemaControllerTest {
     @Order(4)
     void givenCinemasInDatabase_whenCreateCinemaWithExistingName_thenBadRequest() throws Exception {
         // Given
+        loginAsCinemaNetworkManager();
+
         final var createCinemaRequest = cinemaTestDataProvider.generateCreateCinemaRequest();
         final var image = createImageFile("poster.jpg", "image data");
         final var cinemaRequest = createCinemaRequestFile(createCinemaRequest);
@@ -208,6 +247,8 @@ class CinemaControllerTest {
     @Order(5)
     void givenCinemasInDatabase_whenUpdateCinema_thenCinemaIsUpdatedInDatabase() throws Exception {
         // Given
+        loginAsCinemaNetworkManager();
+
         final var cinemaToUpdate = cinemaRepository.findAll().getFirst();
         final var updateCinemaRequest = cinemaTestDataProvider.generateUpdateCinemaRequest(cinemaToUpdate.getName());
         final var image = createImageFile("updated_poster.jpg", "updated image data");
@@ -248,6 +289,7 @@ class CinemaControllerTest {
     @Order(6)
     void givenCinemasInDatabase_whenDeleteCinema_thenCinemaIsNotPresentInDatabase() throws Exception {
         // Given
+        loginAsCinemaNetworkManager();
         final var cinema = cinemaRepository.findAll().getFirst();
 
         // When
@@ -262,6 +304,9 @@ class CinemaControllerTest {
     @Test
     @Order(7)
     void givenCinemasInDatabase_whenGetCinemasNames_thenReturnCinemasNames() throws Exception {
+        //Given
+        loginAsCinemaNetworkManager();
+
         // When, Then
         mockMvc.perform(get(CINEMAS_ENDPOINT_PATH + "/names"))
                 .andExpectAll(

@@ -2,10 +2,12 @@ package org.example.cinemabackend.user.testdata;
 
 import org.example.cinemabackend.user.core.domain.Role;
 import org.example.cinemabackend.user.core.domain.User;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class UserTestDataProvider {
     private static final int NUMBER_OF_USERS_TO_GENERATE = 15;
     private static final String EMAIL = "email@example.com";
@@ -31,6 +33,17 @@ public class UserTestDataProvider {
                 EMAIL + USER_COUNTER,
                 PASSWORD,
                 Role.CINEMA_MANAGER
+        );
+    }
+
+    public User generateSampleCinemaNetworkManager() {
+        USER_COUNTER++;
+        return new User(
+                FIRST_NAME,
+                LAST_NAME,
+                EMAIL + USER_COUNTER,
+                PASSWORD,
+                Role.CINEMA_NETWORK_MANAGER
         );
     }
 }

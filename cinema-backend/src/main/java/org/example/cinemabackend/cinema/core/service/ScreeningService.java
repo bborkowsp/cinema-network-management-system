@@ -1,6 +1,8 @@
 package org.example.cinemabackend.cinema.core.service;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.example.cinemabackend.auth.core.port.primary.AuthUseCases;
 import org.example.cinemabackend.cinema.application.dto.request.create.CreateScreeningRequest;
 import org.example.cinemabackend.cinema.application.dto.response.ScreeningDetailsResponse;
@@ -28,6 +30,7 @@ import java.util.stream.Stream;
 @Service
 @RequiredArgsConstructor
 class ScreeningService implements ScreeningUseCases {
+    private static final Logger LOGGER = LogManager.getLogger(CinemaService.class);
     private final MovieMapper movieMapper;
     private final ScreeningMapper screeningMapper;
     private final MovieVariantMapper movieVariantMapper;
@@ -38,13 +41,6 @@ class ScreeningService implements ScreeningUseCases {
     private final AuthUseCases authUseCases;
 
     @Override
-    public List<ScreeningResponse> getScreenings() {
-        final var email = authUseCases.getCurrentUserEmail();
-        validateCinemaExistsByCinemaManager(email);
-        return getScreeningsForCinemaManager(email);
-    }
-
-    @Override
     public List<ScreeningResponse> getRepertoryByCinemaAndDate(String cinema, LocalDate date) {
         return cinemaRepository.findByName(cinema)
                 .map(cinemaSchema -> mapScreeningsFromCinemaAtSpecificDate(cinemaSchema, date))
@@ -52,9 +48,18 @@ class ScreeningService implements ScreeningUseCases {
     }
 
     @Override
+    public List<ScreeningResponse> getScreenings() {
+        final var email = authUseCases.getCurrentUserEmail();
+        LOGGER.info("User with email" + email + " requested all screenings.");
+        validateCinemaExistsByCinemaManager(email);
+        return getScreeningsForCinemaManager(email);
+    }
+
+    @Override
     public ScreeningResponse getScreening(Long id) {
         final var screening = getScreeningById(id);
         final var screeningRoom = getScreeningRoomWhichContainsScreening(screening);
+        LOGGER.info("User with email" + authUseCases.getCurrentUserEmail() + " requested screening with id " + id + ".");
         return screeningMapper.mapScreeningToScreeningResponse(screening, screeningRoom);
     }
 
@@ -163,18 +168,6 @@ class ScreeningService implements ScreeningUseCases {
         return screeningRoomRepository.findByRepertoryContains(screening).orElseThrow();
     }
 
-    private List<ScreeningResponse> mapScreeningsFromCinemaAtSpecificDate(Cinema cinema, LocalDate date) {
-        return cinema.getScreeningRooms().stream()
-                .flatMap(screeningRoom -> mapScreeningsFromScreeningRoomAtSpecificDate(screeningRoom, date))
-                .collect(Collectors.toList());
-    }
-
-    private Stream<ScreeningResponse> mapScreeningsFromScreeningRoomAtSpecificDate(ScreeningRoom screeningRoom, LocalDate date) {
-        return screeningRoom.getRepertory().stream()
-                .filter(screening -> screening.getStartTime().toLocalDate().equals(date))
-                .map(screening -> screeningMapper.mapScreeningToScreeningResponse(screening, screeningRoom));
-    }
-
     private void validateCinemaExistsByCinemaManager(String email) {
         if (!cinemaRepository.existsByCinemaManagerEmail(email)) {
             throw new IllegalStateException("You are not assigned to any cinema");
@@ -195,6 +188,18 @@ class ScreeningService implements ScreeningUseCases {
 
     private Stream<ScreeningResponse> mapScreeningsFromScreeningRoom(ScreeningRoom screeningRoom) {
         return screeningRoom.getRepertory().stream()
+                .map(screening -> screeningMapper.mapScreeningToScreeningResponse(screening, screeningRoom));
+    }
+
+    private List<ScreeningResponse> mapScreeningsFromCinemaAtSpecificDate(Cinema cinema, LocalDate date) {
+        return cinema.getScreeningRooms().stream()
+                .flatMap(screeningRoom -> mapScreeningsFromScreeningRoomAtSpecificDate(screeningRoom, date))
+                .collect(Collectors.toList());
+    }
+
+    private Stream<ScreeningResponse> mapScreeningsFromScreeningRoomAtSpecificDate(ScreeningRoom screeningRoom, LocalDate date) {
+        return screeningRoom.getRepertory().stream()
+                .filter(screening -> screening.getStartTime().toLocalDate().equals(date))
                 .map(screening -> screeningMapper.mapScreeningToScreeningResponse(screening, screeningRoom));
     }
 }

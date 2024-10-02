@@ -6,16 +6,19 @@ import org.example.cinemabackend.movie.core.domain.Genre;
 import org.example.cinemabackend.movie.core.domain.Movie;
 import org.example.cinemabackend.movie.core.port.secondary.MovieRepository;
 import org.example.cinemabackend.movie.testdata.MovieTestDataProvider;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.example.cinemabackend.user.core.domain.Role;
+import org.example.cinemabackend.user.core.port.secondary.UserRepository;
+import org.example.cinemabackend.user.infrastructure.adapter.secondary.UserJpaRepository;
+import org.example.cinemabackend.user.infrastructure.schema.UserSchema;
+import org.example.cinemabackend.user.testdata.UserTestDataProvider;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
@@ -32,13 +35,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@WithMockUser(roles = "CINEMA_NETWORK_MANAGER")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class MovieControllerTest {
 
     private static final String MOVIES_ENDPOINT_PATH = "/v1/movies";
 
     @Autowired
     private MovieRepository movieRepository;
+
+    @Autowired
+    private UserJpaRepository userJpaRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private MockMvc mockMvc;
@@ -49,10 +58,26 @@ public class MovieControllerTest {
     @Autowired
     private MovieTestDataProvider movieTestDataProvider;
 
+    @Autowired
+    private UserTestDataProvider userTestDataProvider;
+
+    @BeforeAll
+    void setUp() {
+        saveCinemaNetworkManagerToDb();
+    }
+
+    private void saveCinemaNetworkManagerToDb() {
+        final var cinemaNetworkManager = userTestDataProvider.generateSampleCinemaNetworkManager();
+        userRepository.save(cinemaNetworkManager);
+    }
+
 
     @Test
     @Order(1)
     void givenNoMoviesInDatabase_whenGetMoviesPage_thenStatusIsOkAndEmptyPageIsReturned() throws Exception {
+        //Given
+        loginAsCinemaNetworkManager();
+
         //When, Then
         mockMvc.perform(get(MOVIES_ENDPOINT_PATH))
                 .andExpectAll(
@@ -63,10 +88,26 @@ public class MovieControllerTest {
                 );
     }
 
+    private void loginAsCinemaNetworkManager() {
+        final var cinemaManager = userJpaRepository.findAll();
+        cinemaManager.stream()
+                .filter(user -> user.getRole().equals(Role.CINEMA_NETWORK_MANAGER))
+                .findFirst()
+                .ifPresent(this::login);
+    }
+
+    private void login(UserSchema userSchema) {
+        final var username = userSchema.getUsername();
+        final var authorities = userSchema.getAuthorities();
+        final var authentication = new UsernamePasswordAuthenticationToken(username, null, authorities);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+    }
+
     @Test
     @Order(2)
     void givenMoviesInDatabase_whenGetMoviesPage_thenStatusIsOkAndPageWithMoviesIsReturned() throws Exception {
         //Given
+        loginAsCinemaNetworkManager();
         final var movies = movieTestDataProvider.generateMovies();
         movies.forEach(movieRepository::save);
 
@@ -97,6 +138,7 @@ public class MovieControllerTest {
     @Order(3)
     public void givenMoviesInDatabase_whenGetMovie_thenStatusIsOkAndMovieIsReturned() throws Exception {
         // Given
+        loginAsCinemaNetworkManager();
         final var movie = movieRepository.findAll().stream().findFirst().orElseThrow();
 
         // When, Then
@@ -137,6 +179,8 @@ public class MovieControllerTest {
     @Order(4)
     public void givenMoviesInDatabase_whenCreateMovie_thenStatusIsCreatedAndMovieIsInDatabase() throws Exception {
         // Given
+        loginAsCinemaNetworkManager();
+
         final var createMovieRequest = movieTestDataProvider.generateCreateMovieRequest();
         MockMultipartFile image = new MockMultipartFile(
                 "image", "poster-test.jpg", MediaType.IMAGE_JPEG_VALUE, "image data".getBytes());
@@ -189,6 +233,7 @@ public class MovieControllerTest {
     @Order(5)
     public void givenMovieInDatabase_whenDeleteMovie_thenStatusIsNoContentAndMovieIsDeleted() throws Exception {
         // Given
+        loginAsCinemaNetworkManager();
         Movie movieToDelete = movieRepository.findAll().stream().findFirst().orElseThrow();
         final int movieRepositorySize = movieRepository.findAll().size();
 
@@ -205,6 +250,9 @@ public class MovieControllerTest {
     @Test
     @Order(6)
     public void givenMoviesInDatabase_WhenGetMovieTitles_ThenStatusIsOkAndMovieTitlesAreReturned() throws Exception {
+        //Given
+        loginAsCinemaNetworkManager();
+
         // When, Then
         mockMvc.perform(get(MOVIES_ENDPOINT_PATH + "/titles"))
                 .andExpectAll(
@@ -220,6 +268,9 @@ public class MovieControllerTest {
     @Test
     @Order(7)
     public void givenMoviesInDatabase_WhenGetAgeRestrictions_ThenStatusIsOkAndMovieTitlesAreReturned() throws Exception {
+        //Given
+        loginAsCinemaNetworkManager();
+
         // When, Then
         mockMvc.perform(get(MOVIES_ENDPOINT_PATH + "/age-restrictions"))
                 .andExpectAll(
@@ -233,8 +284,12 @@ public class MovieControllerTest {
 
     @Test
     @Order(7)
-    @DirtiesContext
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.BEFORE_METHOD)
     public void givenMoviesInDatabase_WhenGetGenres_ThenStatusIsOkAndMovieTitlesAreReturned() throws Exception {
+        //Given
+        saveCinemaNetworkManagerToDb();
+        loginAsCinemaNetworkManager();
+
         // When, Then
         mockMvc.perform(get(MOVIES_ENDPOINT_PATH + "/genres"))
                 .andExpectAll(
@@ -248,9 +303,12 @@ public class MovieControllerTest {
 
     @Test
     @Order(8)
-    @DirtiesContext
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.BEFORE_METHOD)
     public void givenNoMoviesInDatabase_whenCreateMovieWithTheSameTitleTwice_thenBadRequestIsReturned() throws Exception {
         // Given
+        saveCinemaNetworkManagerToDb();
+        loginAsCinemaNetworkManager();
+
         movieTestDataProvider.generateMovies().forEach(movieRepository::save);
         final var createMovieRequest = movieTestDataProvider.generateCreateMovieRequest();
         MockMultipartFile image = new MockMultipartFile(
@@ -277,9 +335,12 @@ public class MovieControllerTest {
 
     @Test
     @Order(9)
-    @DirtiesContext
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.BEFORE_METHOD)
     public void givenMoviesInDatabase_whenUpdateMovie_thenStatusIsNoContentAndMovieIsUpdated() throws Exception {
         // Given
+        saveCinemaNetworkManagerToDb();
+        loginAsCinemaNetworkManager();
+
         final var movies = movieTestDataProvider.generateMovies();
         movies.forEach(movieRepository::save);
 
@@ -323,9 +384,12 @@ public class MovieControllerTest {
 
     @Test
     @Order(10)
-    @DirtiesContext
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.BEFORE_METHOD)
     public void whenMoviesInDatabase_whenDeleteSameMovieTwice_thenStatusIsNotFound() throws Exception {
         // Given
+        saveCinemaNetworkManagerToDb();
+        loginAsCinemaNetworkManager();
+
         final var movies = movieTestDataProvider.generateMovies();
         movies.forEach(movieRepository::save);
 

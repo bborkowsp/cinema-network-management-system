@@ -1,7 +1,10 @@
 package org.example.cinemabackend.cinema.core.service;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.example.cinemabackend._shared.service.FileService;
+import org.example.cinemabackend.auth.core.port.primary.AuthUseCases;
 import org.example.cinemabackend.cinema.application.dto.request.create.CreateCinemaRequest;
 import org.example.cinemabackend.cinema.application.dto.request.update.UpdateCinemaRequest;
 import org.example.cinemabackend.cinema.application.dto.response.CinemaListResponse;
@@ -19,23 +22,28 @@ import java.util.Objects;
 @Service
 @RequiredArgsConstructor
 class CinemaService implements CinemaUseCases {
+    private static final Logger LOGGER = LogManager.getLogger(CinemaService.class);
     private static final String CINEMA_IMAGES_DIRECTORY = "images\\cinemas-images\\";
     private final CinemaRepository cinemaRepository;
     private final CinemaMapper cinemaMapper;
+    private final AuthUseCases authUseCases;
     private final FileService fileService;
 
     @Override
     public List<CinemaListResponse> getCinemas() {
+        LOGGER.info("User with email " + authUseCases.getCurrentUserEmail() + " requested all cinemas.");
         return cinemaRepository.findAll().stream().map(cinemaMapper::mapCinemaToCinemaListResponse).toList();
     }
 
     @Override
     public List<String> getCinemaNames() {
+        LOGGER.info("User with email " + authUseCases.getCurrentUserEmail() + " requested all cinema names.");
         return cinemaRepository.findAllCinemaNames();
     }
 
     @Override
     public CinemaResponse getCinema(String name) {
+        LOGGER.info("User with email " + authUseCases.getCurrentUserEmail() + " requested cinema with name " + name + ".");
         final var cinema = cinemaRepository.findByName(name).orElseThrow();
         return cinemaMapper.mapCinemaToCinemaResponse(cinema);
     }
@@ -47,6 +55,7 @@ class CinemaService implements CinemaUseCases {
         final var cinema = cinemaMapper.mapCreateCinemaRequestToCinema(createCinemaRequest);
         cinema.setImage(fileService.saveImageToFileSystem(image, CINEMA_IMAGES_DIRECTORY));
         cinemaRepository.save(cinema);
+        LOGGER.info("User with email " + authUseCases.getCurrentUserEmail() + " created cinema with name " + createCinemaRequest.name() + ".");
     }
 
     @Override
@@ -57,12 +66,14 @@ class CinemaService implements CinemaUseCases {
         cinemaMapper.updateCinemaFromUpdateCinemaRequest(updateCinemaRequest, cinema);
         handleImageUpdate(image, cinema);
         cinemaRepository.save(cinema);
+        LOGGER.info("User with email " + authUseCases.getCurrentUserEmail() + " updated cinema with name " + name + ".");
     }
 
     @Override
     public void deleteCinema(String name) {
         validateCinemaExists(name);
         cinemaRepository.deleteByName(name);
+        LOGGER.info("User with email " + authUseCases.getCurrentUserEmail() + " deleted cinema with name " + name + ".");
     }
 
     private void validateCinemaExists(String name) {

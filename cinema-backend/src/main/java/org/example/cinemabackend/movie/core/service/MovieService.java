@@ -2,7 +2,10 @@ package org.example.cinemabackend.movie.core.service;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.example.cinemabackend._shared.service.FileService;
+import org.example.cinemabackend.auth.core.port.primary.AuthUseCases;
 import org.example.cinemabackend.cinema.core.port.secondary.ScreeningRepository;
 import org.example.cinemabackend.movie.application.dto.request.CreateMovieRequest;
 import org.example.cinemabackend.movie.application.dto.request.UpdateMovieRequest;
@@ -27,41 +30,49 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 class MovieService implements MovieUseCases {
+    private static final Logger LOGGER = LogManager.getLogger(MovieService.class);
     private static final String POSTERS_UPLOAD_DIRECTORY = "images\\posters\\";
     private final MovieRepository movieRepository;
     private final MovieMapper movieMapper;
     private final ScreeningRepository screeningRepository;
+    private final AuthUseCases authUseCases;
     private final FileService fileService;
 
     @Override
     public Page<MovieListResponse> getMovies(Pageable pageable) {
+        LOGGER.info("User with email " + authUseCases.getCurrentUserEmail() + " performed getMovies operation.");
         return movieRepository.findAll(pageable).map(movieMapper::mapMovieToMovieListResponse);
     }
 
     @Override
     public List<MovieResponse> getAllMovies() {
+        LOGGER.info("User with email " + authUseCases.getCurrentUserEmail() + " requested all movies.");
         final var movies = movieRepository.findAll();
         return movies.stream().map(movieMapper::mapMovieToMovieResponse).collect(Collectors.toList());
     }
 
     @Override
     public List<Genre> getGenres() {
+        LOGGER.info("User with email " + authUseCases.getCurrentUserEmail() + " requested all genres.");
         return List.of(Genre.values());
     }
 
     @Override
     public List<AgeRestriction> getAgeRestrictions() {
+        LOGGER.info("User with email " + authUseCases.getCurrentUserEmail() + " requested all age restrictions.");
         return List.of(AgeRestriction.values());
     }
 
     @Override
     public List<String> getMovieTitles() {
+        LOGGER.info("User with email " + authUseCases.getCurrentUserEmail() + " requested all movie titles.");
         final var movies = movieRepository.findAll();
         return movies.stream().map(Movie::getTitle).collect(Collectors.toList());
     }
 
     @Override
     public MovieResponse getMovie(String title) {
+        LOGGER.info("User with email " + authUseCases.getCurrentUserEmail() + " requested movie with title " + title + ".");
         final var movie = movieRepository.findByTitle(title).orElseThrow();
         return movieMapper.mapMovieToMovieResponse(movie);
     }
@@ -72,6 +83,7 @@ class MovieService implements MovieUseCases {
         final var movie = movieMapper.mapCreateMovieRequestToMovie(createMovieRequest);
         movie.setPoster(fileService.saveImageToFileSystem(image, POSTERS_UPLOAD_DIRECTORY));
         movieRepository.save(movie);
+        LOGGER.info("User with email " + authUseCases.getCurrentUserEmail() + " created movie with title " + createMovieRequest.title() + ".");
     }
 
     @Override
@@ -81,6 +93,7 @@ class MovieService implements MovieUseCases {
         movieMapper.updateMovieFromUpdateMovieRequest(updateMovieRequest, movie);
         handleImageUpdate(image, movie);
         movieRepository.save(movie);
+        LOGGER.info("User with email " + authUseCases.getCurrentUserEmail() + " updated movie with title " + title + ".");
     }
 
     @Override
@@ -89,6 +102,7 @@ class MovieService implements MovieUseCases {
         validateMovieExists(title);
         validateMovieIsNotUsedInScreenings(title);
         movieRepository.deleteByTitle(title);
+        LOGGER.info("User with email " + authUseCases.getCurrentUserEmail() + " deleted movie with title " + title + ".");
     }
 
     private void validateMovieExists(String title) {

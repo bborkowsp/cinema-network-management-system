@@ -15,9 +15,10 @@ import java.time.LocalDateTime;
 class UnverifiedCustomerRemovalScheduler {
     private static final Logger LOGGER = LogManager.getLogger(UnverifiedCustomerRemovalScheduler.class);
     private static final Long TIME_FOR_VERIFICATION = 24L;
+    private static final long INTERVAL_FOR_CHECKING_UNVERIFIED_CUSTOMERS = 1000L * 60 * 60 * 24;
     private final UserRepository userRepository;
 
-    @Scheduled(fixedRate = (3000L))
+    @Scheduled(fixedRate = INTERVAL_FOR_CHECKING_UNVERIFIED_CUSTOMERS)
     public void cleanUpDbFromUnverifiedCustomers() {
         LOGGER.info("Checking for unverified customers to delete.");
         final var unverifiedCustomers = userRepository.findAllUnverifiedCustomers();
@@ -28,7 +29,7 @@ class UnverifiedCustomerRemovalScheduler {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime createdAt = user.getCreatedAt();
 
-        if (createdAt.isBefore(now.minusSeconds(TIME_FOR_VERIFICATION))) {
+        if (createdAt.isBefore(now.minusHours(TIME_FOR_VERIFICATION))) {
             userRepository.deleteUser(user);
             LOGGER.info("User " + user.getEmail() + " deleted for not verifying their account.");
         }

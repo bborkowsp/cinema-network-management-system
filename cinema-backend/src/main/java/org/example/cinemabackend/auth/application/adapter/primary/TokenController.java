@@ -25,11 +25,9 @@ public class TokenController {
     public ResponseEntity<?> verifyAccount(@RequestParam("token") String token) {
         AccountVerificationToken accountVerificationToken = tokenRepository.findByToken(token);
         if (accountVerificationToken == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(Map.of("status", "failed", "reason", "invalid"));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("status", "failed", "reason", "invalid"));
         } else if (accountVerificationToken.getExpiryDate().isBefore(LocalDateTime.now())) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(Map.of("status", "failed", "reason", "expired"));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("status", "failed", "reason", "expired"));
         }
         authUseCases.verifyAccount(accountVerificationToken.getEmail());
         return ResponseEntity.ok(Map.of("status", "success"));

@@ -9,9 +9,9 @@ import java.util.List;
 
 public interface ScreeningUseCases {
 
-    List<ScreeningResponse> getScreenings();
-
     List<ScreeningResponse> getRepertoryByCinemaAndDate(String cinema, LocalDate date);
+
+    List<ScreeningResponse> getScreenings();
 
     ScreeningResponse getScreening(Long id);
 

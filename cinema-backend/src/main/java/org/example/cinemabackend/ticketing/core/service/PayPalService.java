@@ -4,6 +4,8 @@ import com.paypal.core.PayPalHttpClient;
 import com.paypal.http.HttpResponse;
 import com.paypal.orders.*;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.example.cinemabackend.auth.core.port.primary.EmailUseCases;
 import org.example.cinemabackend.cinema.core.domain.SeatStatus;
 import org.example.cinemabackend.cinema.core.port.primary.SeatMapper;
@@ -28,11 +30,35 @@ class PayPalService implements PayPalUseCases {
     private final static String FRONTEND_BASE_URL = "http://localhost:4200";
     private final static String CANCEL_URL = FRONTEND_BASE_URL + "/cancel-paypal-payment";
     private final static String RETURN_URL = FRONTEND_BASE_URL + "/capture-paypal-payment";
+    private final Logger LOGGER = LogManager.getLogger(PayPalService.class);
     private final PayPalHttpClient payPalHttpClient;
     private final TicketUseCases ticketUseCases;
     private final TicketRepository ticketRepository;
     private final EmailUseCases emailUseCases;
     private final SeatMapper seatMapper;
+
+    @Override
+    public PayPalPaymentOrder createPayment(BuyTicketRequest buyTicketRequest) {
+        ticketUseCases.validateSeatsAreAvailable(buyTicketRequest.selectedSeats());
+
+        final var bookedSeats = seatMapper.mapSeatResponsesToSeat(buyTicketRequest.selectedSeats());
+        ticketUseCases.changeSeatStatus(bookedSeats, SeatStatus.RESERVED);
+
+        OrderRequest orderRequest = createOrderRequest(buyTicketRequest);
+        OrdersCreateRequest ordersCreateRequest = new OrdersCreateRequest().requestBody(orderRequest);
+
+        try {
+            HttpResponse<Order> orderHttpResponse = payPalHttpClient.execute(ordersCreateRequest);
+            Order order = orderHttpResponse.result();
+            String redirectUrl = getRedirectUrl(order);
+            ticketUseCases.generateTickets(buyTicketRequest, order.id());
+            return new PayPalPaymentOrder(PayPalPaymentStatus.SUCCESS, order.id(), redirectUrl);
+        } catch (IOException e) {
+            LOGGER.error("Failed to create payment for user with email " + buyTicketRequest.email());
+            ticketUseCases.changeSeatStatus(bookedSeats, SeatStatus.AVAILABLE);
+            return new PayPalPaymentOrder(PayPalPaymentStatus.FAILED);
+        }
+    }
 
     @Override
     public PayPalCompletedOrder completePayment(String token) {
@@ -53,26 +79,6 @@ class PayPalService implements PayPalUseCases {
 
     private Ticket findTicket(String token) {
         return ticketRepository.findByOrderId(token).orElseThrow();
-    }
- 
-    @Override
-    public PayPalPaymentOrder createPayment(BuyTicketRequest buyTicketRequest) {
-        ticketUseCases.validateSeatsAreAvailable(buyTicketRequest.selectedSeats());
-        final var bookedSeats = seatMapper.mapSeatResponsesToSeat(buyTicketRequest.selectedSeats());
-        ticketUseCases.changeSeatStatus(bookedSeats, SeatStatus.RESERVED);
-        OrderRequest orderRequest = createOrderRequest(buyTicketRequest);
-        OrdersCreateRequest ordersCreateRequest = new OrdersCreateRequest().requestBody(orderRequest);
-
-        try {
-            HttpResponse<Order> orderHttpResponse = payPalHttpClient.execute(ordersCreateRequest);
-            Order order = orderHttpResponse.result();
-            String redirectUrl = getRedirectUrl(order);
-            ticketUseCases.generateTickets(buyTicketRequest, order.id());
-            return new PayPalPaymentOrder(PayPalPaymentStatus.SUCCESS, order.id(), redirectUrl);
-        } catch (IOException e) {
-            ticketUseCases.changeSeatStatus(bookedSeats, SeatStatus.AVAILABLE);
-            return new PayPalPaymentOrder(PayPalPaymentStatus.FAILED);
-        }
     }
 
     private OrderRequest createOrderRequest(BuyTicketRequest buyTicketRequest) {
