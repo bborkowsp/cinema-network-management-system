@@ -3,9 +3,11 @@ package org.example.cinemabackend.user.core.service;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.cinemabackend.auth.core.port.primary.AuthUseCases;
 import org.example.cinemabackend.cinema.core.port.secondary.CinemaRepository;
-import org.example.cinemabackend.user.application.dto.request.*;
+import org.example.cinemabackend.user.application.dto.request.CreateCinemaManagerRequest;
+import org.example.cinemabackend.user.application.dto.request.CreateUserRequest;
+import org.example.cinemabackend.user.application.dto.request.UpdateCinemaManagerRequest;
+import org.example.cinemabackend.user.application.dto.request.UpdateUserRequest;
 import org.example.cinemabackend.user.application.dto.response.CinemaManagerResponse;
 import org.example.cinemabackend.user.application.dto.response.CinemaManagerTableResponse;
 import org.example.cinemabackend.user.application.dto.response.UserResponse;
@@ -20,17 +22,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-
 @Service
 @RequiredArgsConstructor
 class UserService implements UserUseCases {
     private static final Logger LOGGER = LogManager.getLogger(UserService.class);
+    private static final String USER_ALREADY_EXISTS_ERROR_MESSAGE = "User already exists";
     private final UserRepository userRepository;
     private final CinemaRepository cinemaRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
-    private final AuthUseCases authUseCases;
 
     @Override
     @Transactional(readOnly = true)
@@ -56,10 +56,10 @@ class UserService implements UserUseCases {
     }
 
     @Override
-    public UserResponse getCustomerProfile() {
-        final var email = authUseCases.getCurrentUserEmail();
-        final var user = userRepository.findByEmail(email).orElseThrow();
-        return userMapper.mapUserToUserResponse(user);
+    public void checkIfUserExists(String email) {
+        if (userRepository.existsByEmail(email)) {
+            throw new IllegalStateException(USER_ALREADY_EXISTS_ERROR_MESSAGE);
+        }
     }
 
     @Override
@@ -76,7 +76,6 @@ class UserService implements UserUseCases {
     public void createUser(CreateUserRequest createUserRequest) {
         validateUserDoesNotExist(createUserRequest.email());
         final var user = userMapper.mapCreateUserRequestToUser(createUserRequest);
-        user.setCreatedAt(LocalDateTime.now());
         LOGGER.info("User " + user.getEmail() + " with role " + user.getRole() + " created");
         userRepository.save(user);
     }
@@ -97,32 +96,6 @@ class UserService implements UserUseCases {
         checkIfCurrentPasswordIsEmpty(cinemaNetworkManagerToUpdate, updateCinemaManagerRequest);
         userMapper.mapUpdateCinemaNetworkManagerRequestToUser(cinemaNetworkManagerToUpdate, updateCinemaManagerRequest);
         userRepository.save(cinemaNetworkManagerToUpdate);
-    }
-
-    @Override
-    public void updateCustomerProfile(UpdateCustomerProfileRequest updateCustomerProfileRequest) {
-        final var email = authUseCases.getCurrentUserEmail();
-        final var userToUpdate = userRepository.findByEmail(email).orElseThrow();
-        updateUserFields(userToUpdate, updateCustomerProfileRequest);
-        userRepository.save(userToUpdate);
-    }
-
-    private void updateUserFields(User userToUpdate, UpdateCustomerProfileRequest updateCustomerProfileRequest) {
-        userToUpdate.setFirstName(updateCustomerProfileRequest.firstName());
-        userToUpdate.setLastName(updateCustomerProfileRequest.lastName());
-        if (!updateCustomerProfileRequest.email().equals(userToUpdate.getEmail())) {
-            validateUserDoesNotExist(updateCustomerProfileRequest.email());
-            userToUpdate.setEmail(updateCustomerProfileRequest.email());
-        }
-    }
-
-    @Override
-    public void updatePassword(UpdatePasswordRequest updateCustomerProfileRequest) {
-        final var email = authUseCases.getCurrentUserEmail();
-        final var userToUpdate = userRepository.findByEmail(email).orElseThrow();
-        validateCurrentPasswordIsCorrect(userToUpdate, updateCustomerProfileRequest.currentPassword());
-        userToUpdate.setPassword(passwordEncoder.encode(updateCustomerProfileRequest.newPassword()));
-        userRepository.save(userToUpdate);
     }
 
     @Override

@@ -36,9 +36,10 @@ class SecurityConfig {
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/v1/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/v1/auth/register").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/v1/auth/reset-password-request").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/v1/auth/reset-password").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/v1/auth-customer/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/v1/auth-customer/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/v1/auth-customer/reset-password-request").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/v1/auth-customer/reset-password").permitAll()
                         .requestMatchers(HttpMethod.GET, "/v1/cinemas/names").permitAll()
                         .requestMatchers(HttpMethod.GET, "/v1/screenings/repertory/{cinema}").permitAll()
                         .requestMatchers(HttpMethod.GET, "/v1/screenings/repertory/{cinema}/{date}").permitAll()

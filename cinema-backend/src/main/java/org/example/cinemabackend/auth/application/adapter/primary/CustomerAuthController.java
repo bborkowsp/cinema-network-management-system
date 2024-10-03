@@ -8,42 +8,49 @@ import org.example.cinemabackend.auth.application.dto.JwtDto;
 import org.example.cinemabackend.auth.application.dto.request.LoginUserRequest;
 import org.example.cinemabackend.auth.application.dto.request.RegisterUserRequest;
 import org.example.cinemabackend.auth.application.dto.request.ResetPasswordRequest;
-import org.example.cinemabackend.auth.core.port.primary.AuthUseCases;
+import org.example.cinemabackend.auth.core.port.primary.CustomerAuthUseCases;
+import org.example.cinemabackend.user.application.dto.request.UpdatePasswordRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-
 @RestController
-@RequestMapping("/v1/auth")
+@RequestMapping("/v1/auth-customer")
 @RequiredArgsConstructor
-public class AuthController {
+public class CustomerAuthController {
+    private final Logger LOGGER = LogManager.getLogger(CustomerAuthController.class);
+    private final CustomerAuthUseCases customerAuthUseCases;
 
-    private static final Logger LOGGER = LogManager.getLogger(AuthController.class);
-    private final AuthUseCases authUseCases;
+    @PatchMapping("/update-password")
+    @PreAuthorize("hasRole('CUSTOMER')")
+    ResponseEntity<Void> updatePassword(@RequestBody UpdatePasswordRequest updateCustomerProfileRequest) {
+        customerAuthUseCases.updatePassword(updateCustomerProfileRequest);
+        return ResponseEntity.noContent().build();
+    }
 
     @PostMapping("/login")
     public ResponseEntity<JwtDto> login(@RequestBody @Valid LoginUserRequest loginUserRequest) {
-        final var jwt = authUseCases.login(loginUserRequest);
+        final var jwt = customerAuthUseCases.login(loginUserRequest);
         return ResponseEntity.ok(jwt);
     }
 
     @PostMapping("/register")
     public ResponseEntity<JwtDto> register(@RequestBody @Valid RegisterUserRequest registerUserRequest) {
-        authUseCases.register(registerUserRequest);
+        customerAuthUseCases.register(registerUserRequest);
         LOGGER.info("User: " + registerUserRequest.email() + " requested for registration.");
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PostMapping("/reset-password-request")
-    public ResponseEntity<Void> resetPassword(@RequestParam("email") String email) {
-        authUseCases.processRequestForPasswordReset(email);
+    public ResponseEntity<Void> processRequestForPasswordReset(@RequestParam("email") String email) {
+        customerAuthUseCases.processRequestForPasswordReset(email);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/reset-password")
     public ResponseEntity<Void> resetPassword(@RequestBody @Valid ResetPasswordRequest resetPasswordRequest) {
-        authUseCases.resetPassword(resetPasswordRequest);
+        customerAuthUseCases.resetPassword(resetPasswordRequest);
         return ResponseEntity.ok().build();
     }
 }

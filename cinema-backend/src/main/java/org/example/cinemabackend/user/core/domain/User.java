@@ -4,7 +4,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Set;
 
@@ -16,16 +15,14 @@ public class User implements UserDetails {
     private String lastName;
     private String email;
     private String passwordHash;
-    private boolean isAccountVerified = false;
-    private LocalDateTime createdAt;
 
-    public User(String firstName, String lastName, String email, String passwordHash, Role role, LocalDateTime createdAt) {
+
+    public User(String firstName, String lastName, String email, String passwordHash, Role role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.passwordHash = passwordHash;
         this.role = role;
-        this.createdAt = createdAt;
     }
 
     public User(Long id, String firstName, String lastName, String email, String passwordHash, Role role) {
@@ -35,25 +32,6 @@ public class User implements UserDetails {
         this.email = email;
         this.passwordHash = passwordHash;
         this.role = role;
-    }
-
-    public User(Long id, String firstName, String lastName, String email, String passwordHash, Role role, boolean isAccountVerified, LocalDateTime createdAt) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.passwordHash = passwordHash;
-        this.role = role;
-        this.isAccountVerified = isAccountVerified;
-        this.createdAt = createdAt;
-    }
-
-    public User(String firstName, String lastName, String email, String passwordHash, Role role) {
-        this.role = role;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.passwordHash = passwordHash;
     }
 
     public String getFirstName() {
@@ -86,26 +64,6 @@ public class User implements UserDetails {
 
     public Long getId() {
         return id;
-    }
-
-    public boolean getIsAccountVerified() {
-        return isAccountVerified;
-    }
-
-    public void setIsAccountVerified(boolean b) {
-        this.isAccountVerified = b;
-    }
-
-    public void setAccountVerified(boolean accountVerified) {
-        isAccountVerified = accountVerified;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
     }
 
     @Override

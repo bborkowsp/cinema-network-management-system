@@ -31,11 +31,6 @@ class UserDatabaseGateway implements UserRepository {
     }
 
     @Override
-    public List<User> findAllUnverifiedCustomers() {
-        return this.userJpaRepository.findAllByRoleCustomerAndIsAccountVerifiedFalse().stream().map(UserSchema::toUser).toList();
-    }
-
-    @Override
     @Transactional(readOnly = true)
     public Optional<User> findByEmail(String email) {
         return this.userJpaRepository.findByEmail(email).map(UserSchema::toUser);

@@ -9,13 +9,14 @@ import {ResetPasswordRequest} from "../dto/reset-password.request";
 import {OpenSnackBar} from "../../_shared/components/snackbar/open-snack-bar";
 import {SnackBarType} from "../../_shared/components/snackbar/snackbar-type.enum";
 import {JwtService} from "./jwt.service";
+import {UpdatePasswordRequest} from "../../account/dtos/request/update-password.request";
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class AuthService {
-  private static readonly AUTH_ENDPOINT_URL = `${environment.API_BASE_URL}/auth`;
+  private static readonly AUTH_ENDPOINT_URL = `${environment.API_BASE_URL}/auth-customer`;
   private static readonly SUCCESS_LOGIN_REDIRECT_URL = '/account';
   private static readonly LOGIN_PAGE_REDIRECT_URL = '/login';
   loggedInUserSubject: BehaviorSubject<string> = new BehaviorSubject<string>('');
@@ -60,6 +61,11 @@ export class AuthService {
   resetPassword(resetPasswordRequest: ResetPasswordRequest) {
     const url = `${AuthService.AUTH_ENDPOINT_URL}/reset-password`;
     return this.httpClient.post<void>(url, resetPasswordRequest);
+  }
+
+  updatePassword(updatePassword: UpdatePasswordRequest) {
+    const url = `${AuthService.AUTH_ENDPOINT_URL}/update-password`;
+    return this.httpClient.patch(url, updatePassword);
   }
 
   private createLoginHttpRequest(url: string, loginUserRequest: LoginUserRequest) {

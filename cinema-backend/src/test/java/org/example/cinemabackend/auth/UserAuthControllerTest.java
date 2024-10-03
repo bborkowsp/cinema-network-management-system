@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class AuthControllerTest {
+public class UserAuthControllerTest {
     private static final String AUTH_ENDPOINT_URL = "/v1/auth";
     private static final String REGISTER_ENDPOINT_URL = AUTH_ENDPOINT_URL + "/register";
     private static final String LOGIN_ENDPOINT_URL = AUTH_ENDPOINT_URL + "/login";
@@ -46,7 +46,7 @@ public class AuthControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-    
+
     @Autowired
     private ObjectMapper objectMapper;
 

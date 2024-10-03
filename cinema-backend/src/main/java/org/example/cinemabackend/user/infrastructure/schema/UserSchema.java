@@ -8,7 +8,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Set;
 
@@ -17,6 +16,7 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Inheritance(strategy = InheritanceType.JOINED)
 public class UserSchema implements UserDetails {
     private static final String ROLE_AUTHORITY_PREFIX = "ROLE_";
 
@@ -40,12 +40,6 @@ public class UserSchema implements UserDetails {
     @Column(nullable = false)
     private Role role;
 
-    @Column
-    private Boolean isAccountVerified = false;
-
-    @Column
-    private LocalDateTime createdAt;
-
     public static UserSchema fromUser(User user) {
         return UserSchema.builder()
                 .id(user.getId())
@@ -54,8 +48,6 @@ public class UserSchema implements UserDetails {
                 .email(user.getEmail())
                 .passwordHash(user.getPasswordHash())
                 .role(user.getRole())
-                .isAccountVerified(user.getIsAccountVerified())
-                .createdAt(user.getCreatedAt())
                 .build();
     }
 
@@ -67,10 +59,12 @@ public class UserSchema implements UserDetails {
                 this.lastName,
                 this.email,
                 this.passwordHash,
-                this.role,
-                this.isAccountVerified,
-                this.createdAt
+                this.role
         );
+    }
+
+    public Long getId() {
+        return id;
     }
 
     @Override

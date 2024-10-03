@@ -3,7 +3,7 @@ package org.example.cinemabackend.ticketing.core.service;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.cinemabackend.auth.core.port.primary.AuthUseCases;
+import org.example.cinemabackend.auth.core.port.primary.UserSecurityContextUseCases;
 import org.example.cinemabackend.cinema.application.dto.response.SeatResponse;
 import org.example.cinemabackend.cinema.core.domain.*;
 import org.example.cinemabackend.cinema.core.port.primary.SeatMapper;
@@ -38,13 +38,13 @@ class TicketService implements TicketUseCases {
     private final ScreeningRoomRepository screeningRoomRepository;
     private final CinemaRepository cinemaRepository;
     private final TicketRepository ticketRepository;
-    private final AuthUseCases authUseCases;
+    private final UserSecurityContextUseCases userSecurityContextUseCases;
     private final TicketMapper ticketMapper;
 
     @Override
     public List<TicketResponse> getTickets() {
-        LOGGER.info("User with email " + authUseCases.getCurrentUserEmail() + " requested all tickets.");
-        final var email = authUseCases.getCurrentUserEmail();
+        final var email = userSecurityContextUseCases.getCurrentUserEmail();
+        LOGGER.info("User with email " + email + " requested all tickets.");
         return ticketRepository.findAllByEmail(email).stream().map(ticketMapper::mapTicketToTicketResponse).toList();
     }
 

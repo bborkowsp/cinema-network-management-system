@@ -13,8 +13,6 @@ public interface UserRepository {
 
     List<User> findAllCinemaManagers();
 
-    List<User> findAllUnverifiedCustomers();
-
     Optional<User> findByEmail(String email);
 
     Optional<User> findCinemaManagerByEmail(String email);

@@ -3,7 +3,7 @@ package org.example.cinemabackend.cinema.core.service;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.cinemabackend.auth.core.port.primary.AuthUseCases;
+import org.example.cinemabackend.auth.core.port.primary.UserSecurityContextUseCases;
 import org.example.cinemabackend.cinema.application.dto.request.create.CreateScreeningRequest;
 import org.example.cinemabackend.cinema.application.dto.response.ScreeningDetailsResponse;
 import org.example.cinemabackend.cinema.application.dto.response.ScreeningResponse;
@@ -38,7 +38,7 @@ class ScreeningService implements ScreeningUseCases {
     private final CinemaRepository cinemaRepository;
     private final ScreeningRepository screeningRepository;
     private final ScreeningRoomRepository screeningRoomRepository;
-    private final AuthUseCases authUseCases;
+    private final UserSecurityContextUseCases userSecurityContextUseCases;
 
     @Override
     public List<ScreeningResponse> getRepertoryByCinemaAndDate(String cinema, LocalDate date) {
@@ -49,7 +49,7 @@ class ScreeningService implements ScreeningUseCases {
 
     @Override
     public List<ScreeningResponse> getScreenings() {
-        final var email = authUseCases.getCurrentUserEmail();
+        final var email = userSecurityContextUseCases.getCurrentUserEmail();
         LOGGER.info("User with email" + email + " requested all screenings.");
         validateCinemaExistsByCinemaManager(email);
         return getScreeningsForCinemaManager(email);
@@ -59,7 +59,7 @@ class ScreeningService implements ScreeningUseCases {
     public ScreeningResponse getScreening(Long id) {
         final var screening = getScreeningById(id);
         final var screeningRoom = getScreeningRoomWhichContainsScreening(screening);
-        LOGGER.info("User with email" + authUseCases.getCurrentUserEmail() + " requested screening with id " + id + ".");
+        LOGGER.info("User with email" + userSecurityContextUseCases.getCurrentUserEmail() + " requested screening with id " + id + ".");
         return screeningMapper.mapScreeningToScreeningResponse(screening, screeningRoom);
     }
 
@@ -76,7 +76,7 @@ class ScreeningService implements ScreeningUseCases {
 
     @Override
     public void createScreening(CreateScreeningRequest createScreeningRequest) {
-        final var email = authUseCases.getCurrentUserEmail();
+        final var email = userSecurityContextUseCases.getCurrentUserEmail();
         validateCinemaExistsByCinemaManager(email);
         final var newScreening = screeningMapper.mapScreeningRequestToScreening(createScreeningRequest);
         final var screeningRoom = getNewScreeningRoom(createScreeningRequest, email);
@@ -87,7 +87,7 @@ class ScreeningService implements ScreeningUseCases {
 
     @Override
     public void updateScreening(Long id, CreateScreeningRequest createScreeningRequest) {
-        final var email = authUseCases.getCurrentUserEmail();
+        final var email = userSecurityContextUseCases.getCurrentUserEmail();
         validateCinemaExistsByCinemaManager(email);
         final var screeningToUpdate = getScreeningById(id);
         final var oldScreeningRoom = screeningRoomRepository.findByScreeningId(id).orElseThrow();

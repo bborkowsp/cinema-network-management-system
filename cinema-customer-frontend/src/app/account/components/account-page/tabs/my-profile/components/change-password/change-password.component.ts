@@ -6,6 +6,7 @@ import {CustomerService} from "../../../../../../services/customer.service";
 import {passwordsMatchValidator} from "../../../../../../../_shared/validators/passwords-match.validator";
 import {PasswordType} from "../../../../../../../_shared/enums/password-type.enum";
 import {OpenSnackBar} from "../../../../../../../_shared/components/snackbar/open-snack-bar";
+import {AuthService} from "../../../../../../../auth/service/auth.service";
 
 
 @Component({
@@ -29,6 +30,7 @@ export class ChangePasswordComponent {
   constructor(
     private readonly customerService: CustomerService,
     private readonly openSnackBar: OpenSnackBar,
+    private readonly authService: AuthService,
   ) {
   }
 
@@ -62,7 +64,7 @@ export class ChangePasswordComponent {
   changePassword() {
     if (this.changePasswordForm.valid) {
       const updatePasswordRequest = this.createUpdatePasswordRequest();
-      this.customerService.updatePassword(updatePasswordRequest).subscribe({
+      this.authService.updatePassword(updatePasswordRequest).subscribe({
         next: () => {
           this.openSnackBar.openSnackBar(ChangePasswordComponent.PASSWORD_UPDATED_SUCCESSFULLY_MESSAGE, SnackBarType.SUCCESS);
         },
