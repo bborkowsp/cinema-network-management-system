@@ -176,17 +176,17 @@ class ScreeningService implements ScreeningUseCases {
 
     private List<ScreeningResponse> getScreeningsForCinemaManager(String email) {
         return cinemaRepository.findByUserEmail(email)
-                .map(this::mapScreeningsFromCinema)
+                .map(this::getScreeningsFromAllScreeningRooms)
                 .orElse(Collections.emptyList());
     }
 
-    private List<ScreeningResponse> mapScreeningsFromCinema(Cinema cinema) {
+    private List<ScreeningResponse> getScreeningsFromAllScreeningRooms(Cinema cinema) {
         return cinema.getScreeningRooms().stream()
-                .flatMap(this::mapScreeningsFromScreeningRoom)
+                .flatMap(this::getScreeningsFromScreeningRoom)
                 .collect(Collectors.toList());
     }
 
-    private Stream<ScreeningResponse> mapScreeningsFromScreeningRoom(ScreeningRoom screeningRoom) {
+    private Stream<ScreeningResponse> getScreeningsFromScreeningRoom(ScreeningRoom screeningRoom) {
         return screeningRoom.getRepertory().stream()
                 .map(screening -> screeningMapper.mapScreeningToScreeningResponse(screening, screeningRoom));
     }
