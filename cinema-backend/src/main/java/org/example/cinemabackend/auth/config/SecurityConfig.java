@@ -26,6 +26,12 @@ class SecurityConfig {
     private final PasswordEncoder passwordEncoder;
     private final UserDetailsService userDetailsService;
     private final JwtConfig jwtConfig;
+    private final String API_VERSION = "/v1";
+    private final String USER_AUTH_ENDPOINT = API_VERSION + "/auth";
+    private final String AUTH_CUSTOMER_ENDPOINT = API_VERSION + "/auth-customer";
+    private final String PAYMENT_ENDPOINT = API_VERSION + "/payment";
+    private final String CINEMA_ENDPOINT = API_VERSION + "/cinemas";
+    private final String SCREENING_ENDPOINT = API_VERSION + "/screenings";
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -35,21 +41,19 @@ class SecurityConfig {
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/v1/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/v1/auth-customer/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/v1/auth-customer/register").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/v1/auth-customer/reset-password-request").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/v1/auth-customer/reset-password").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/v1/cinemas/names").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/v1/screenings/repertory/{cinema}").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/v1/screenings/repertory/{cinema}/{date}").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/v1/verify-account").permitAll()
+                        .requestMatchers(HttpMethod.POST, USER_AUTH_ENDPOINT + "/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, AUTH_CUSTOMER_ENDPOINT + "/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, AUTH_CUSTOMER_ENDPOINT + "/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, AUTH_CUSTOMER_ENDPOINT + "/reset-password-request").permitAll()
+                        .requestMatchers(HttpMethod.POST, AUTH_CUSTOMER_ENDPOINT + "/reset-password").permitAll()
+                        .requestMatchers(HttpMethod.POST, PAYMENT_ENDPOINT + "/init-payment").permitAll()
+                        .requestMatchers(HttpMethod.POST, PAYMENT_ENDPOINT + "/finalize-payment").permitAll()
+                        .requestMatchers(HttpMethod.GET, API_VERSION + "/verify-account").permitAll()
+                        .requestMatchers(HttpMethod.GET, CINEMA_ENDPOINT + "/names").permitAll()
+                        .requestMatchers(HttpMethod.GET, SCREENING_ENDPOINT + "/repertory/{cinema}/{date}").permitAll()
+                        .requestMatchers(HttpMethod.GET, SCREENING_ENDPOINT + "/details/{title}/{date}").permitAll()
+                        .requestMatchers(HttpMethod.GET, API_VERSION + "/logs").permitAll()
                         .requestMatchers(HttpMethod.GET, "/images/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/v1/payment/init-payment").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/v1/payment/finalize-payment").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/v1/users/customer/{email}").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/v1/screenings/details/{title}/{date}").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/v1/logs").permitAll()
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())
