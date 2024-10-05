@@ -124,11 +124,17 @@ class CinemaControllerTest {
                         jsonPath("$.content[2].numberOfScreeningRooms").value(
                                 cinemas.get(2).getScreeningRooms().size()),
                         jsonPath("$.content[0].numberOfAvailableSeats").isNumber(),
+                        jsonPath("$.content[0].numberOfAvailableSeats").isNotEmpty(),
                         jsonPath("$.content[1].numberOfAvailableSeats").isNumber(),
+                        jsonPath("$.content[1].numberOfAvailableSeats").isNotEmpty(),
                         jsonPath("$.content[2].numberOfAvailableSeats").isNumber(),
+                        jsonPath("$.content[2].numberOfAvailableSeats").isNotEmpty(),
                         jsonPath("$.content[0].numberOfUnavailableSeats").isNumber(),
+                        jsonPath("$.content[1].numberOfUnavailableSeats").isNotEmpty(),
                         jsonPath("$.content[1].numberOfUnavailableSeats").isNumber(),
-                        jsonPath("$.content[2].numberOfUnavailableSeats").isNumber()
+                        jsonPath("$.content[2].numberOfUnavailableSeats").isNotEmpty(),
+                        jsonPath("$.content[2].numberOfUnavailableSeats").isNumber(),
+                        jsonPath("$.content[0].numberOfUnavailableSeats").isNotEmpty()
                 );
     }
 

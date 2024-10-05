@@ -11,8 +11,8 @@ import java.util.Objects;
 
 @Data
 @Entity
-@AllArgsConstructor
 @Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ScreeningSchema {
 

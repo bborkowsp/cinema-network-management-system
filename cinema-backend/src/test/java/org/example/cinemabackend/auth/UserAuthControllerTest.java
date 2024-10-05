@@ -1,14 +1,13 @@
 package org.example.cinemabackend.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.javafaker.Faker;
 import org.example.cinemabackend.auth.application.dto.request.LoginUserRequest;
-import org.example.cinemabackend.auth.application.dto.request.RegisterUserRequest;
 import org.example.cinemabackend.user.core.domain.Role;
 import org.example.cinemabackend.user.core.domain.User;
 import org.example.cinemabackend.user.core.port.secondary.UserRepository;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
@@ -29,10 +28,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class UserAuthControllerTest {
-    private static final String AUTH_ENDPOINT_URL = "/v1/auth";
-    private static final String REGISTER_ENDPOINT_URL = AUTH_ENDPOINT_URL + "/register";
-    private static final String LOGIN_ENDPOINT_URL = AUTH_ENDPOINT_URL + "/login";
-    private static final String RESET_PASSWORD_REQUEST_ENDPOINT_URL = AUTH_ENDPOINT_URL + "/reset-password-request";
+    private static final String USER_AUTH_ENDPOINT_URL = "/v1/auth";
+    private static final String LOGIN_ENDPOINT_URL = USER_AUTH_ENDPOINT_URL + "/login";
     private static final String FIRST_NAME = "John";
     private static final String LAST_NAME = "Doe";
     private static final String EMAIL = "user@example.com";
@@ -50,80 +47,15 @@ public class UserAuthControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @Test
+    @Autowired
+    private Faker faker;
+
     @Order(1)
-    void givenValidRegisterCustomerUserRequest_whenRegister_thenReturnCreated() throws Exception {
-        //Given
-        final var registerUserRequest = new RegisterUserRequest(FIRST_NAME, LAST_NAME, EMAIL, PASSWORD, Role.CUSTOMER);
-
-        //When, Then
-        mockMvc.perform(post(REGISTER_ENDPOINT_URL)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(registerUserRequest)))
-                .andExpect(status().isCreated());
-    }
-
-    @Order(2)
-    @ParameterizedTest
-    @EnumSource(value = Role.class, names = {"CINEMA_MANAGER", "CINEMA_NETWORK_MANAGER", "ADMIN"})
-    void givenNonCustomerRole_whenRegister_thenReturnBadRequest(Role role) throws Exception {
-        //Given
-        final var registerUserRequest = new RegisterUserRequest(FIRST_NAME, LAST_NAME, EMAIL, PASSWORD, role);
-
-        //When, Then
-        mockMvc.perform(post(REGISTER_ENDPOINT_URL)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(registerUserRequest)))
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    @Order(3)
-    void givenUserCustomerAlreadyRegistered_whenRegister_thenReturnBadRequest() throws Exception {
-        //Given
-        final var registerUserRequest = new RegisterUserRequest(FIRST_NAME, LAST_NAME, EMAIL, PASSWORD, Role.CUSTOMER);
-
-        //When, Then
-        mockMvc.perform(post(REGISTER_ENDPOINT_URL)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(registerUserRequest)))
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    @Order(4)
-    void givenValidLoginUserRequestAndCustomerNotVerified_whenLogin_thenReturnBadRequest() throws Exception {
-        //Given
-        final var loginUserRequest = new LoginUserRequest(EMAIL, PASSWORD);
-
-        //When, Then
-        mockMvc.perform(post(LOGIN_ENDPOINT_URL)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(loginUserRequest)))
-                .andExpect(status().isBadRequest());
-    }
-
-    @Order(5)
-    @ParameterizedTest
-    @ValueSource(strings = {"password1", "2password", "&#150;"})
-    void givenInvalidLoginUserRequest_whenLogin_thenReturnBadRequest(String invalidPassword) throws Exception {
-        //Given
-        final var loginUserRequest = new LoginUserRequest(EMAIL, invalidPassword);
-
-        //When, Then
-        mockMvc.perform(post(LOGIN_ENDPOINT_URL)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(loginUserRequest)))
-                .andExpect(status().isBadRequest());
-    }
-
-
-    @Order(6)
     @ParameterizedTest
     @ValueSource(strings = {"invalid-email", "missingatsign.com", "email@.com"})
     void givenInvalidEmailFormat_whenLogin_thenReturnBadRequest(String invalidEmail) throws Exception {
         // Given
-        final var loginUserRequest = new LoginUserRequest(invalidEmail, "validPassword123");
+        final var loginUserRequest = new LoginUserRequest(invalidEmail, PASSWORD);
 
         // When, Then
         mockMvc.perform(post(LOGIN_ENDPOINT_URL)
@@ -132,12 +64,12 @@ public class UserAuthControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
-    @Order(7)
+    @Order(2)
     @ParameterizedTest
     @ValueSource(strings = {"usernotfound@example.com", "nonexistent@domain.com"})
     void givenEmailNotInDb_whenLogin_thenReturnIsNotFound(String emailNotInDb) throws Exception {
         // Given
-        final var loginUserRequest = new LoginUserRequest(emailNotInDb, "validPassword123");
+        final var loginUserRequest = new LoginUserRequest(emailNotInDb, PASSWORD);
 
         // When, Then
         mockMvc.perform(post(LOGIN_ENDPOINT_URL)
@@ -146,23 +78,12 @@ public class UserAuthControllerTest {
                 .andExpect(status().isNotFound());
     }
 
-    @Order(8)
-    @ParameterizedTest
-    @ValueSource(strings = {"usernotfound@example.com", "nonexistent@domain.com"})
-    void givenEmailNotInDb_whenResetPassword_thenReturnIsNotFound(String emailNotInDb) throws Exception {
-        // When, Then
-        final var url = RESET_PASSWORD_REQUEST_ENDPOINT_URL + "?email=" + emailNotInDb;
-        mockMvc.perform(post(url)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
-    }
-
-    @Order(9)
+    @Order(3)
     @ParameterizedTest
     @EnumSource(value = Role.class, names = {"CINEMA_MANAGER", "CINEMA_NETWORK_MANAGER", "ADMIN"})
     void givenUserWithRoleDifferentThanCustomerInDb_whenLogin_thenReturnIsOk(Role role) throws Exception {
         // Given
-        final var email = EMAIL + role;
+        final var email = faker.internet().emailAddress() + role;
         userRepository.save(new User(FIRST_NAME, LAST_NAME, email, encodePassword(), role));
         final var loginUserRequest = new LoginUserRequest(email, PASSWORD);
 

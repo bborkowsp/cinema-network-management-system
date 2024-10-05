@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.example.cinemabackend.cinema.core.domain.Cinema;
 import org.example.cinemabackend.user.infrastructure.schema.UserSchema;
-import org.hibernate.Hibernate;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -57,29 +56,15 @@ public class CinemaSchema {
     }
 
     public Cinema toCinema() {
-        if (cinemaManager != null && Hibernate.isInitialized(cinemaManager)) {
-            final var user = cinemaManager.toUser();
-            return new Cinema(
-                    this.id,
-                    this.name,
-                    this.description,
-                    this.address.toAddress(),
-                    this.image,
-                    this.screeningRooms.stream().map(ScreeningRoomSchema::toScreeningRoom).collect(Collectors.toSet()),
-                    this.contactDetails.stream().map(ContactDetailsSchema::toContactDetails).collect(Collectors.toSet()),
-                    user
-            );
-        } else {
-            return new Cinema(
-                    this.id,
-                    this.name,
-                    this.description,
-                    this.address.toAddress(),
-                    this.image,
-                    this.screeningRooms.stream().map(ScreeningRoomSchema::toScreeningRoom).collect(Collectors.toSet()),
-                    this.contactDetails.stream().map(ContactDetailsSchema::toContactDetails).collect(Collectors.toSet()),
-                    null
-            );
-        }
+        return new Cinema(
+                this.id,
+                this.name,
+                this.description,
+                this.address.toAddress(),
+                this.image,
+                this.screeningRooms.stream().map(ScreeningRoomSchema::toScreeningRoom).collect(Collectors.toSet()),
+                this.contactDetails.stream().map(ContactDetailsSchema::toContactDetails).collect(Collectors.toSet()),
+                this.cinemaManager == null ? null : cinemaManager.toUser()
+        );
     }
 }
