@@ -6,6 +6,9 @@ security:
 spring:
   application:
     name: cinema
+  servlet:
+    multipart:
+      max-file-size: 5MB
   datasource:
     url: jdbc:postgresql://localhost:5432/cinema
     username: cinema

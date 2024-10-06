@@ -37,6 +37,7 @@ export class CinemaFormBuilder {
   }
 
   fillFormWithCinema(cinema: CinemaResponse) {
+    const imageFileName = this.getImageFileNameWithoutUUID(cinema.image);
     this.form.setValue({
       stepOne: {
         address: {
@@ -48,7 +49,7 @@ export class CinemaFormBuilder {
         aboutCinema: {
           name: cinema.name,
           description: cinema.description,
-          image: cinema.image,
+          image: imageFileName,
         }
       },
       stepTwo: {
@@ -96,6 +97,10 @@ export class CinemaFormBuilder {
 
   getCreateCinemaRequestFromForm() {
     return this.getCinemaRequestFromForm(CreateCinemaRequest);
+  }
+
+  private getImageFileNameWithoutUUID(image: string) {
+    return image.slice(37);
   }
 
   private getCinemaRequestFromForm(requestType: any) {

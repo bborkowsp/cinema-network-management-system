@@ -57,7 +57,7 @@ export class MovieFormBuilder {
         language: [variant.language]
       }));
     });
-    console.log(movie);
+    const posterFileName = this.getPosterFileNameWithoutUUID(movie.poster);
     this.form.setValue({
       title: {
         title: movie.title,
@@ -80,7 +80,7 @@ export class MovieFormBuilder {
         genres: movie.genres
       },
       imageAndTrailer: {
-        image: movie.poster,
+        image: posterFileName,
         trailer: movie.trailer
       },
       movieVariants: {
@@ -213,5 +213,9 @@ export class MovieFormBuilder {
       projectionTechnology: getEnumValueByKey(variant.projectionTechnology),
       language: variant.language
     }));
+  }
+
+  private getPosterFileNameWithoutUUID(poster: string) {
+    return poster.slice(37);
   }
 }
