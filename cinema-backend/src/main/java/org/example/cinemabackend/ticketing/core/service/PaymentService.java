@@ -1,12 +1,12 @@
 package org.example.cinemabackend.ticketing.core.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.cinemabackend.ticketing.application.adapter.primary.PaymentStrategyFactory;
 import org.example.cinemabackend.ticketing.application.dto.request.BuyTicketRequest;
 import org.example.cinemabackend.ticketing.application.dto.request.FinalizePaymentRequest;
 import org.example.cinemabackend.ticketing.core.domain.PaymentCompletedOrder;
 import org.example.cinemabackend.ticketing.core.domain.PaymentOrder;
 import org.example.cinemabackend.ticketing.core.domain.PaymentStrategy;
+import org.example.cinemabackend.ticketing.core.domain.PaymentStrategyFactory;
 import org.example.cinemabackend.ticketing.core.port.primary.PaymentUseCases;
 import org.springframework.stereotype.Service;
 

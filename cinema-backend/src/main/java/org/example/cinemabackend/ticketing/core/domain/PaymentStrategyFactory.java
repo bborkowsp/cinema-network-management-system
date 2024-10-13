@@ -1,9 +1,7 @@
-package org.example.cinemabackend.ticketing.application.adapter.primary;
+package org.example.cinemabackend.ticketing.core.domain;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
-import org.example.cinemabackend.ticketing.core.domain.PaymentMethod;
-import org.example.cinemabackend.ticketing.core.domain.PaymentStrategy;
 import org.example.cinemabackend.ticketing.infrastructure.adapter.secondary.PayPalPaymentStrategy;
 import org.springframework.stereotype.Component;
 

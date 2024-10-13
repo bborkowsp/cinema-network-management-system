@@ -1,4 +1,4 @@
-package org.example.cinemabackend.auth.core.service;
+package org.example.cinemabackend.auth.infrastructure.adapter.secondary;
 
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package org.example.cinemabackend.ticketing.core.service;
+package org.example.cinemabackend.ticketing.infrastructure.adapter.secondary;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
