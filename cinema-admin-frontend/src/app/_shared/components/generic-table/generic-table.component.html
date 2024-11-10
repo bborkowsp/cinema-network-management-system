@@ -9,11 +9,11 @@
 
       <div *ngIf="!column.isOptionsColumn && !column.isPosterColumn">
         <td *matCellDef="let row" mat-cell>
-          <ng-container *ngIf="column.nestedValue; else simpleValue">
+          <ng-container *ngIf="column.nestedValue && row[column.columnDefinition]; else simpleValue">
             {{ row[column.columnDefinition][column.nestedValue] }}
           </ng-container>
           <ng-template #simpleValue>
-            {{ row[column.columnDefinition] }}
+            {{ row[column.columnDefinition] || 'N/A' }}
           </ng-template>
         </td>
       </div>

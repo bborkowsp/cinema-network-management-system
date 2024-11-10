@@ -75,6 +75,8 @@ export class UserService {
   }
 
   createUser(createCinemaNetworkManagerRequest: CreateUserRequest) {
+    console.log(createCinemaNetworkManagerRequest);
+    console.log(UserService.CINEMA_NETWORK_MANAGERS_ENDPOINT_PREFIX);
     return this.httpClient.post<void>(UserService.CINEMA_NETWORK_MANAGERS_ENDPOINT_PREFIX, createCinemaNetworkManagerRequest);
   }
 

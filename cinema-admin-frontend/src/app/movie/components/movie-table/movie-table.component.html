@@ -12,6 +12,7 @@
       (showDetails)="handleShowDetails($event)"
       [columns]="displayedColumns"
       [dataSource]="movies"
+      [isUserRoleCinemaManager]="isUserRoleCinemaManager"
     ></app-generic-table>
     <mat-paginator
       (page)="handlePageEvent($event)"

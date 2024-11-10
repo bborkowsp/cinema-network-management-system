@@ -34,6 +34,7 @@ export class ManageRepertoryComponent implements OnInit {
     this.repertoryService.deleteScreening(screening.id).subscribe(() => {
       this.getData().subscribe((repertory) => {
         this.repertory$ = repertory;
+        this.groupScreeningsByScreeningRoom();
         this.isLoading = false;
       });
     });

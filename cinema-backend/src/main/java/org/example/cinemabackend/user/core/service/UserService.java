@@ -67,9 +67,13 @@ class UserService implements UserUseCases {
         validateUserDoesNotExist(createCinemaManagerRequest.email());
         validateCinemaHasNoManager(createCinemaManagerRequest.managedCinemaName(), createCinemaManagerRequest.email());
         final var cinemaManager = userMapper.mapCreateCinemaManagerRequestToUser(createCinemaManagerRequest);
-        final var cinema = cinemaRepository.findByName(createCinemaManagerRequest.managedCinemaName()).orElseThrow();
-        cinema.setCinemaManager(cinemaManager);
-        cinemaRepository.save(cinema);
+        if (createCinemaManagerRequest.managedCinemaName() != null) {
+            final var cinema = cinemaRepository.findByName(createCinemaManagerRequest.managedCinemaName()).orElseThrow();
+            cinema.setCinemaManager(cinemaManager);
+            cinemaRepository.save(cinema);
+        } else {
+            userRepository.save(cinemaManager);
+        }
     }
 
     @Override
@@ -152,7 +156,7 @@ class UserService implements UserUseCases {
     }
 
     private void validateCinemaHasNoManager(String managedCinemaName, String email) {
-        if (managedCinemaName == null) {
+        if (managedCinemaName == null || managedCinemaName.isEmpty()) {
             return;
         }
         final var cinema = cinemaRepository.findByName(managedCinemaName).orElseThrow();

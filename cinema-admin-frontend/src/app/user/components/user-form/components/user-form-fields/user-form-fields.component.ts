@@ -70,9 +70,9 @@ export class UserFormFieldsComponent implements OnInit {
   }
 
   private updateManagedCinemaName(role: string) {
-    if (role === 'ROLE_CINEMA_NETWORK_MANAGER') {
+    if (role === 'CINEMA_NETWORK_MANAGER') {
       this.managedCinemaNameControl.setValue(-1);
-    } else if (role === 'ROLE_CINEMA_MANAGER') {
+    } else if (role === 'CINEMA_MANAGER') {
       this.managedCinemaNameControl.setValue(0);
     }
   }

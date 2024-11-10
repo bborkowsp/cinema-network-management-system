@@ -98,7 +98,7 @@ class UserMapperService implements UserMapper {
         cinemaManagerToUpdate.setLastName(updateCinemaManagerRequest.lastName());
         updatePassword(updateCinemaManagerRequest.newPassword(), cinemaManagerToUpdate);
 
-        if (updateCinemaManagerRequest.managedCinemaName() != null) {
+        if (!updateCinemaManagerRequest.managedCinemaName().isEmpty()) {
             updateCinemaManagerIfUpdatedManagedCinemaIsNotNull(cinemaManagerToUpdate, updateCinemaManagerRequest);
         } else {
             updateCinemaManagerIfUpdatedManagedCinemaIsNull(cinemaManagerToUpdate, updateCinemaManagerRequest);
@@ -131,13 +131,6 @@ class UserMapperService implements UserMapper {
         cinemaRepository.updateCinemaManager(newManagedCinema, cinemaManagerToUpdate.getId());
     }
 
-    private void updateCinemaManagerIfUpdatedManagedCinemaIsNull(User cinemaManagerToUpdate, UpdateCinemaManagerRequest updateCinemaManagerRequest) {
-        final var oldManagedCinema = getCinemaByUserEmail(cinemaManagerToUpdate.getEmail());
-        removeCinemaManagerFromOldManagedCinema(oldManagedCinema);
-        cinemaManagerToUpdate.setEmail(updateCinemaManagerRequest.email());
-        userRepository.save(cinemaManagerToUpdate);
-    }
-
     private Cinema getCinemaByUserEmail(String email) {
         return cinemaRepository.findByUserEmail(email).orElse(null);
     }
@@ -146,6 +139,13 @@ class UserMapperService implements UserMapper {
         if (oldManagedCinema != null) {
             cinemaJpaRepository.updateCinemaManagerToNull(oldManagedCinema.getId());
         }
+    }
+
+    private void updateCinemaManagerIfUpdatedManagedCinemaIsNull(User cinemaManagerToUpdate, UpdateCinemaManagerRequest updateCinemaManagerRequest) {
+        final var oldManagedCinema = getCinemaByUserEmail(cinemaManagerToUpdate.getEmail());
+        removeCinemaManagerFromOldManagedCinema(oldManagedCinema);
+        cinemaManagerToUpdate.setEmail(updateCinemaManagerRequest.email());
+        userRepository.save(cinemaManagerToUpdate);
     }
 
     private Cinema findByCinemaManager(User user) {

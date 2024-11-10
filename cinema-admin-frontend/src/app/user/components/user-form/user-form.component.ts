@@ -80,13 +80,13 @@ export class UserFormComponent implements OnInit {
   }
 
   private setUpCreateUserPage() {
-    this.pageTitle = 'Add new User'
+    this.pageTitle = 'Add new Employee'
     this.setUpCreateUserForm();
   }
 
   private setUpEditUserForm() {
     this.userFormBuilder = new UserFormBuilder(this.formBuilder, this.isEditMode);
-    if (this.role === 'ROLE_CINEMA_MANAGER') {
+    if (this.role === 'CINEMA_MANAGER') {
       this.loadCinemaManager();
     } else {
       this.loadCinemaNetworkManager();
