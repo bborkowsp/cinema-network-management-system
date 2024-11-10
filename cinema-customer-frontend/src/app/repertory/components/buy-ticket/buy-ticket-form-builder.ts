@@ -23,6 +23,7 @@ export class BuyTicketFormBuilder {
 
   getBuyTicketRequestFromForm() {
     const screeningId = this.activatedRoute.snapshot.params['id'];
+    console.log(screeningId);
     const paymentMethod = this.customerDataFormGroup.get('paymentMethod')!.value;
     return new BuyTicketRequest(
       screeningId,

@@ -15,7 +15,7 @@
             <ng-container *ngIf="seat.seatZone !== SeatZone.CORRIDOR; else corridorSpace">
               <button
                 (click)="selectSeat(seat)"
-                [disabled]="seat.seatStatus === SeatStatus.UNAVAILABLE || seat.seatStatus === SeatStatus.RESERVED || seat.seatStatus === SeatStatus.SOLD"
+                [disabled]="getCurrentSeatStatus(seat) === SeatStatus.UNAVAILABLE ||getCurrentSeatStatus(seat) === SeatStatus.RESERVED || getCurrentSeatStatus(seat) === SeatStatus.SOLD"
                 [matTooltip]="seat.seatZone === SeatZone.STANDARD ? SeatPrices[seat.seatZone] :
            seat.seatZone === SeatZone.VIP ? SeatPrices[seat.seatZone] :
            seat.seatZone === SeatZone.PROMO ? SeatPrices[seat.seatZone] :
@@ -26,16 +26,16 @@
       'selected-vip': seat.seatZone === SeatZone.VIP,
       'selected-promo': seat.seatZone === SeatZone.PROMO,
       'selected-wheelchair': seat.seatZone === SeatZone.WHEELCHAIR,
-      'reserved': seat.seatStatus === (SeatStatus.RESERVED || SeatStatus.SOLD),
+      'reserved': getCurrentSeatStatus(seat) === (SeatStatus.RESERVED || SeatStatus.SOLD),
     }"
                 [ngStyle]="{
       'background-color': getSeatBackgroundColor(seat),
-      'border-color': seat.seatStatus === (SeatStatus.RESERVED || SeatStatus.SOLD) ? 'rgba(0, 0, 0, 0.4)' : ''
+      'border-color': getCurrentSeatStatus(seat) === (SeatStatus.RESERVED || SeatStatus.SOLD) ? 'rgba(0, 0, 0, 0.4)' : ''
     }"
                 mat-mini-fab
               >
                 <mat-icon>
-                  {{ seat.seatStatus === SeatStatus.UNAVAILABLE ? 'block' : '' }}
+                  {{ getCurrentSeatStatus(seat) === SeatStatus.UNAVAILABLE ? 'block' : '' }}
                 </mat-icon>
               </button>
             </ng-container>

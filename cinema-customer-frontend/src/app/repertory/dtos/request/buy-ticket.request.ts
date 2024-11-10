@@ -1,6 +1,6 @@
 export class BuyTicketRequest {
   constructor(
-    readonly movieId: number,
+    readonly screeningId: number,
     readonly selectedSeats: string[],
     readonly firstName: string,
     readonly lastName: string,

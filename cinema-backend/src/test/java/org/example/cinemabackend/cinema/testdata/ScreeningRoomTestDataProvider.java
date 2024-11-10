@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.example.cinemabackend.cinema.application.dto.request.create.CreatSeatRequest;
 import org.example.cinemabackend.cinema.application.dto.request.create.CreateScreeningRoomRequest;
 import org.example.cinemabackend.cinema.core.domain.ScreeningRoom;
-import org.example.cinemabackend.cinema.core.domain.SeatStatus;
 import org.example.cinemabackend.cinema.core.domain.SeatZone;
+import org.example.cinemabackend.cinema.core.domain.Status;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
@@ -67,7 +67,7 @@ public class ScreeningRoomTestDataProvider {
                 seatRow,
                 seatColumn,
                 SeatZone.CORRIDOR,
-                SeatStatus.AVAILABLE
+                Status.AVAILABLE
         );
     }
 }

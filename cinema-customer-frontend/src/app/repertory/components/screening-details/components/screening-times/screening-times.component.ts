@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {ScreeningResponse} from 'src/app/repertory/dtos/response/screening.response';
 import {getEnumValueByKey} from "../../../../enums/projection-technology";
 import {MovieVariantResponse} from "../../../../dtos/response/movie-variant.response";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-screening-times',
@@ -12,6 +13,11 @@ export class ScreeningTimesComponent {
   @Input() screeningTimes!: { [cinemaName: string]: ScreeningResponse[] };
   @Output() buyTicket = new EventEmitter<ScreeningResponse>();
   protected readonly getEnumValueByKey = getEnumValueByKey;
+
+  constructor(
+    private readonly router: Router
+  ) {
+  }
 
   getCinemas(): string[] {
     return Object.keys(this.screeningTimes);
@@ -38,6 +44,6 @@ export class ScreeningTimesComponent {
   }
 
   handleBuyTicket(screening: ScreeningResponse) {
-    this.buyTicket.emit(screening);
+    this.router.navigateByUrl(`buy-ticket/${screening.id}`, {state: {data: screening}});
   }
 }

@@ -1,8 +1,8 @@
 package org.example.cinemabackend.cinema.testdata;
 
 import org.example.cinemabackend.cinema.core.domain.Seat;
-import org.example.cinemabackend.cinema.core.domain.SeatStatus;
 import org.example.cinemabackend.cinema.core.domain.SeatZone;
+import org.example.cinemabackend.cinema.core.domain.Status;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,7 @@ public class SeatTestDataProvider {
                 row,
                 column,
                 SeatZone.STANDARD,
-                SeatStatus.AVAILABLE
+                Status.AVAILABLE
         );
     }
 }

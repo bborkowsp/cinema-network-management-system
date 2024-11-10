@@ -6,7 +6,7 @@ import "../../../../../../_shared/styles/_colors.scss";
 import {SeatLimitDialogComponent} from "./seat-limit-dialog/seat-limit-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {FormArray, FormControl, FormGroup, FormGroupDirective, NgForm} from "@angular/forms";
-import {SeatStatus} from "../../../enums/seat-status";
+import {Status} from "../../../enums/status";
 import {SeatPrices, SeatPricesAsNumbers, SeatZone} from "../../../enums/seat-zone";
 
 @Component({
@@ -20,7 +20,7 @@ export class SeatSelectionComponent {
   data!: ScreeningResponse;
   selectedSeats: SeatResponse[] = [];
   totalCost: number = 0;
-  protected readonly SeatStatus = SeatStatus;
+  protected readonly SeatStatus = Status;
   protected readonly SeatZone = SeatZone;
   protected readonly SeatPrices = SeatPrices;
 
@@ -59,7 +59,8 @@ export class SeatSelectionComponent {
   }
 
   getSeatBackgroundColor(seat: SeatResponse): string {
-    if (seat.seatStatus === SeatStatus.RESERVED || seat.seatStatus === SeatStatus.SOLD) {
+    const currentSeatStatus = this.getCurrentSeatStatus(seat);
+    if (currentSeatStatus === Status.RESERVED || currentSeatStatus === Status.SOLD) {
       switch (seat.seatZone) {
         case 'STANDARD':
           return 'rgba(194,141,255,0.4)';
@@ -89,6 +90,35 @@ export class SeatSelectionComponent {
     }
     return 'white';
   }
+
+  getCurrentSeatStatus(seat: SeatResponse) {
+    const screeningStartDate = new Date(this.data.startTime);
+    screeningStartDate.setSeconds(0, 0);
+    console.log("SCREENING START DATE ", screeningStartDate);
+
+    const screeningEndDate = new Date(this.data.endTime);
+    screeningEndDate.setSeconds(0, 0);
+    console.log("SCREENING END DATE ", screeningEndDate);
+
+    for (const status of seat.status) {
+      const statusStart = new Date(status.statusStart);
+      statusStart.setSeconds(0, 0);
+      console.log("STATUS START ", statusStart);
+
+      const statusEnd = new Date(status.statusEnd);
+      statusEnd.setSeconds(0, 0);
+      console.log("STATUS END ", statusEnd);
+
+      if (statusStart.getTime() === screeningStartDate.getTime() && statusEnd.getTime() === screeningEndDate.getTime()) {
+        console.log(status.status);
+        return status.status;
+      }
+    }
+
+    console.log("null");
+    return null;
+  }
+
 
   private getPrice(seat: SeatResponse): number {
     return SeatPricesAsNumbers[seat.seatZone];

@@ -1,8 +1,9 @@
 package org.example.cinemabackend.ticketing.core.port.primary;
 
 import org.example.cinemabackend.cinema.application.dto.response.SeatResponse;
+import org.example.cinemabackend.cinema.core.domain.Screening;
 import org.example.cinemabackend.cinema.core.domain.Seat;
-import org.example.cinemabackend.cinema.core.domain.SeatStatus;
+import org.example.cinemabackend.cinema.core.domain.Status;
 import org.example.cinemabackend.ticketing.application.dto.request.BuyTicketRequest;
 import org.example.cinemabackend.ticketing.application.dto.response.TicketResponse;
 
@@ -14,7 +15,7 @@ public interface TicketUseCases {
 
     void generateTickets(BuyTicketRequest buyTicketRequest, String orderId);
 
-    void changeSeatStatus(List<Seat> seatResponses, SeatStatus seatStatus);
+    void changeSeatStatus(List<Seat> seatResponses, Status status, Screening screeningResponse);
 
     void validateSeatsAreAvailable(List<SeatResponse> seatResponses);
 

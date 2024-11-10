@@ -8,7 +8,7 @@ import java.util.List;
 
 @Builder
 public record BuyTicketRequest(
-        @NotNull Long movieId,
+        @NotNull Long screeningId,
         @NotEmpty List<@NotBlank SeatResponse> selectedSeats,
         @NotBlank @Size(min = 1, max = 50) String firstName,
         @NotBlank @Size(min = 1, max = 50) String lastName,

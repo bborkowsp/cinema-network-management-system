@@ -6,7 +6,7 @@ import org.example.cinemabackend.cinema.application.dto.request.update.UpdateCin
 import org.example.cinemabackend.cinema.application.dto.response.CinemaListResponse;
 import org.example.cinemabackend.cinema.application.dto.response.CinemaResponse;
 import org.example.cinemabackend.cinema.core.domain.Cinema;
-import org.example.cinemabackend.cinema.core.domain.SeatStatus;
+import org.example.cinemabackend.cinema.core.domain.Status;
 import org.example.cinemabackend.cinema.core.port.primary.AddressMapper;
 import org.example.cinemabackend.cinema.core.port.primary.CinemaMapper;
 import org.example.cinemabackend.cinema.core.port.primary.ContactDetailsMapper;
@@ -29,8 +29,8 @@ class CinemaMapperService implements CinemaMapper {
 
     @Override
     public CinemaListResponse mapCinemaToCinemaListResponse(Cinema cinema) {
-        final var numberOfAvailableSeats = getNumberOfSeatsBySeatStatus(cinema, SeatStatus.AVAILABLE);
-        final var numberOfUnavailableSeats = getNumberOfSeatsBySeatStatus(cinema, SeatStatus.UNAVAILABLE);
+        final var numberOfAvailableSeats = getNumberOfSeatsBySeatStatus(cinema, Status.AVAILABLE);
+        final var numberOfUnavailableSeats = getNumberOfSeatsBySeatStatus(cinema, Status.UNAVAILABLE);
         return CinemaListResponse.builder()
                 .name(cinema.getName())
                 .cinemaManager(cinema.getCinemaManager() != null ? cinema.getCinemaManager().getFirstName() + " " + cinema.getCinemaManager().getLastName() : "N/A")
@@ -103,11 +103,11 @@ class CinemaMapperService implements CinemaMapper {
         return userMapper.mapUserToUserResponse(cinema.getCinemaManager());
     }
 
-    private Integer getNumberOfSeatsBySeatStatus(Cinema cinema, SeatStatus seatStatus) {
+    private Integer getNumberOfSeatsBySeatStatus(Cinema cinema, Status status) {
         return cinema.getScreeningRooms().stream()
                 .flatMap(screeningRoom -> screeningRoom.getSeatRows().stream())
                 .flatMap(seatRow -> seatRow.getSeats().stream())
-                .filter(seat -> seat.getSeatStatus() == seatStatus)
+                .filter(seat -> seat.getSeatStatus().stream().anyMatch(seatStatus -> seatStatus.getStatus().equals(status)))
                 .mapToInt(seat -> 1)
                 .sum();
     }

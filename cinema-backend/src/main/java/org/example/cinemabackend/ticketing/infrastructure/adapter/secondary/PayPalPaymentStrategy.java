@@ -7,8 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.cinemabackend.auth.core.port.primary.EmailUseCases;
-import org.example.cinemabackend.cinema.core.domain.SeatStatus;
+import org.example.cinemabackend.cinema.core.domain.Status;
 import org.example.cinemabackend.cinema.core.port.primary.SeatMapper;
+import org.example.cinemabackend.cinema.core.port.secondary.ScreeningRepository;
 import org.example.cinemabackend.ticketing.application.dto.request.BuyTicketRequest;
 import org.example.cinemabackend.ticketing.application.dto.request.FinalizePaymentRequest;
 import org.example.cinemabackend.ticketing.core.domain.*;
@@ -33,14 +34,16 @@ public class PayPalPaymentStrategy implements PaymentStrategy {
     private final TicketRepository ticketRepository;
     private final EmailUseCases emailUseCases;
     private final SeatMapper seatMapper;
+    private final ScreeningRepository screeningRepository;
 
 
     @Override
     public PaymentOrder initPayment(BuyTicketRequest buyTicketRequest) {
-        ticketUseCases.validateSeatsAreAvailable(buyTicketRequest.selectedSeats());
+//        ticketUseCases.validateSeatsAreAvailable(buyTicketRequest.selectedSeats());
 
         final var bookedSeats = seatMapper.mapSeatResponsesToSeat(buyTicketRequest.selectedSeats());
-        ticketUseCases.changeSeatStatus(bookedSeats, SeatStatus.RESERVED);
+        final var screening = screeningRepository.findById(buyTicketRequest.screeningId()).orElseThrow();
+        ticketUseCases.changeSeatStatus(bookedSeats, Status.RESERVED, screening);
 
         OrderRequest orderRequest = createOrderRequest(buyTicketRequest);
         OrdersCreateRequest ordersCreateRequest = new OrdersCreateRequest().requestBody(orderRequest);
@@ -53,7 +56,7 @@ public class PayPalPaymentStrategy implements PaymentStrategy {
             return new PaymentOrder(PaymentStatus.SUCCESS, order.id(), redirectUrl);
         } catch (IOException e) {
             LOGGER.error("Failed to create payment for user with email " + buyTicketRequest.email());
-            ticketUseCases.changeSeatStatus(bookedSeats, SeatStatus.AVAILABLE);
+            ticketUseCases.changeSeatStatus(bookedSeats, Status.AVAILABLE, null); //TODO
             return new PaymentOrder(PaymentStatus.FAILED);
         }
     }
@@ -67,7 +70,7 @@ public class PayPalPaymentStrategy implements PaymentStrategy {
             if (httpResponse.result().status() != null) {
                 final var ticket = findTicket(token);
                 emailUseCases.sendTicketToUser(ticket);
-                ticketUseCases.changeSeatStatus(ticket.getBookedSeats(), SeatStatus.SOLD);
+                ticketUseCases.changeSeatStatus(ticket.getBookedSeats(), Status.SOLD, ticket.getScreening());
                 return new PaymentCompletedOrder(PaymentStatus.SUCCESS, token);
             }
         } catch (IOException e) {

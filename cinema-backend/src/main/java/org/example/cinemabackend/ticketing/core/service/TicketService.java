@@ -58,13 +58,13 @@ class TicketService implements TicketUseCases {
     private StringBuilder createQrCodeText(BuyTicketRequest buyTicketRequest, String orderId) {
         StringBuilder qrCodeText = new StringBuilder();
         qrCodeText.append("Order ID: ").append(orderId)
-                .append(".Movie ID: ").append(buyTicketRequest.movieId());
+                .append(".Movie ID: ").append(buyTicketRequest.screeningId());
         return qrCodeText;
     }
 
     private void handleTicket(BuyTicketRequest buyTicketRequest, User user, BufferedImage qrImage, String orderId) {
         var seats = seatMapper.mapSeatResponsesToSeat(buyTicketRequest.selectedSeats());
-        var screening = findScreening(buyTicketRequest.movieId());
+        var screening = findScreening(buyTicketRequest.screeningId());
         var screeningRoom = findScreeningRoom(screening);
         var cinema = findCinema(screeningRoom);
         var qrImageBytes = qrCodeService.convertBufferedImageToByteArray(qrImage);
@@ -101,13 +101,22 @@ class TicketService implements TicketUseCases {
     }
 
     @Override
-    public void changeSeatStatus(List<Seat> seatResponses, SeatStatus seatStatus) {
+    public void changeSeatStatus(List<Seat> seatResponses, Status status, Screening screeningResponse) {
         seatResponses.forEach(seatResponse ->
                 seatRepository.findById(seatResponse.getId()).ifPresent(seat -> {
-                    seat.setSeatStatus(seatStatus);
+                    deletePreviousStatus(seat, screeningResponse);
+                    seat.getSeatStatus().add(new SeatStatus(status, screeningResponse.getStartTime(), screeningResponse.getEndTime()));
                     seatRepository.save(seat);
                 })
         );
+    }
+
+    private void deletePreviousStatus(Seat seat, Screening screeningResponse) {
+        seat.getSeatStatus().stream()
+                .filter(seatStatus -> seatStatus.getStatusStart().equals(screeningResponse.getStartTime()) &&
+                        seatStatus.getStatusEnd().equals(screeningResponse.getEndTime()))
+                .findFirst()
+                .ifPresent(seat::removeSeatStatus);
     }
 
     @Override
@@ -116,9 +125,9 @@ class TicketService implements TicketUseCases {
             Seat seat = seatRepository.findById(seatResponse.id())
                     .orElseThrow(() -> new IllegalStateException("Seat not found"));
 
-            if (seat.getSeatStatus() != SeatStatus.AVAILABLE) {
-                throw new IllegalStateException("Selected seats have been sold out!");
-            }
+//            if (seat.getSeatStatus() != Status.AVAILABLE) { //TODO
+//                throw new IllegalStateException("Selected seats have been sold out!");
+//            }
         }
     }
 

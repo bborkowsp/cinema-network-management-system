@@ -40,7 +40,7 @@ public class TicketSchema {
     @Column(nullable = false)
     private byte[] qrCode;
 
-    @OneToMany
+    @ManyToMany
     private List<SeatSchema> bookedSeats;
 
     @ManyToOne

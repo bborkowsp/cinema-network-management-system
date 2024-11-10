@@ -9,6 +9,7 @@ import org.example.cinemabackend.user.core.port.secondary.UserRepository;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Component
@@ -16,8 +17,8 @@ import java.util.*;
 @Order(3)
 class CinemaSeeder implements Seeder {
     private static final int NUMBER_OF_SCREENING_ROOMS = 3;
-    private static final int NUMBER_OF_ROWS_IN_SCREENING_ROOM = 4;
-    private static final int NUMBER_OF_COLUMNS_IN_SCREENING_ROOM = 5;
+    private static final int NUMBER_OF_ROWS_IN_SCREENING_ROOM = 1;
+    private static final int NUMBER_OF_COLUMNS_IN_SCREENING_ROOM = 1;
     private final CinemaRepository cinemaRepository;
     private final UserRepository userRepository;
     private final Faker faker;
@@ -111,7 +112,7 @@ class CinemaSeeder implements Seeder {
                 seatRow,
                 seatColumn,
                 getRandomSeatZone(),
-                getRandomSeatStatus()
+                List.of(new SeatStatus(getRandomSeatStatus(), LocalDateTime.now(), LocalDateTime.now().plusHours(1)))
         );
     }
 
@@ -119,8 +120,8 @@ class CinemaSeeder implements Seeder {
         return SeatZone.values()[new Random().nextInt(SeatZone.values().length)];
     }
 
-    private SeatStatus getRandomSeatStatus() {
-        return SeatStatus.values()[new Random().nextInt(SeatStatus.values().length)];
+    private Status getRandomSeatStatus() {
+        return Status.values()[new Random().nextInt(Status.values().length)];
     }
 
     private Set<ContactDetails> createContactDetails() {

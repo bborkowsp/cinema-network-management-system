@@ -1,4 +1,4 @@
-export enum SeatStatus {
+export enum Status {
   AVAILABLE = 'AVAILABLE',
   RESERVED = 'RESERVED',
   UNAVAILABLE = 'UNAVAILABLE',

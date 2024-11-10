@@ -1,5 +1,5 @@
 import {SeatZone} from "../../components/buy-ticket/enums/seat-zone";
-import {SeatStatus} from "../../components/buy-ticket/enums/seat-status";
+import {SeatStatus} from "./seat-status";
 
 export class SeatResponse {
   constructor(
@@ -7,7 +7,7 @@ export class SeatResponse {
     readonly seatRow: number,
     readonly seatColumn: number,
     readonly seatZone: SeatZone,
-    readonly seatStatus: SeatStatus,
+    readonly status: SeatStatus[],
   ) {
   }
 }

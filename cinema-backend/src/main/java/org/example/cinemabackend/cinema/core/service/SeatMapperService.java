@@ -48,7 +48,7 @@ class SeatMapperService implements SeatMapper {
                 seatRequest.seatRow(),
                 seatRequest.seatColumn(),
                 seatRequest.seatZone(),
-                seatRequest.seatStatus()
+                null //TODO
         );
     }
 
@@ -59,7 +59,7 @@ class SeatMapperService implements SeatMapper {
                 seatResponse.seatRow(),
                 seatResponse.seatColumn(),
                 seatResponse.seatZone(),
-                seatResponse.seatStatus()
+                seatResponse.status()
         );
     }
 

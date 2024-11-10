@@ -6,6 +6,7 @@ import lombok.*;
 import org.example.cinemabackend.cinema.core.domain.Cinema;
 import org.example.cinemabackend.user.infrastructure.schema.UserSchema;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -34,7 +35,7 @@ public class CinemaSchema {
     private AddressSchema address;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private Set<ScreeningRoomSchema> screeningRooms;
+    private List<ScreeningRoomSchema> screeningRooms;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<ContactDetailsSchema> contactDetails;
@@ -49,7 +50,7 @@ public class CinemaSchema {
                 .description(cinema.getDescription())
                 .image(cinema.getImage())
                 .address(AddressSchema.fromAddress(cinema.getAddress()))
-                .screeningRooms(cinema.getScreeningRooms().stream().map(ScreeningRoomSchema::fromScreeningRoom).collect(Collectors.toSet()))
+                .screeningRooms(cinema.getScreeningRooms().stream().map(ScreeningRoomSchema::fromScreeningRoom).collect(Collectors.toList()))
                 .contactDetails(cinema.getContactDetails().stream().map(ContactDetailsSchema::fromContactDetails).collect(Collectors.toSet()))
                 .cinemaManager(cinema.getCinemaManager() == null ? null : UserSchema.fromUser(cinema.getCinemaManager()))
                 .build();

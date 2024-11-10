@@ -3,8 +3,10 @@ package org.example.cinemabackend.cinema.infrastructure.schema;
 import jakarta.persistence.*;
 import lombok.*;
 import org.example.cinemabackend.cinema.core.domain.Seat;
-import org.example.cinemabackend.cinema.core.domain.SeatStatus;
 import org.example.cinemabackend.cinema.core.domain.SeatZone;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @Entity
@@ -26,8 +28,8 @@ public class SeatSchema {
     @Column(nullable = false)
     private SeatZone seatZone;
 
-    @Column(nullable = false)
-    private SeatStatus seatStatus;
+    @ElementCollection
+    private List<SeatStatusSchema> status;
 
     public static SeatSchema fromSeat(Seat seat) {
         return SeatSchema.builder()
@@ -35,7 +37,7 @@ public class SeatSchema {
                 .seatRow(seat.getSeatRow())
                 .seatColumn(seat.getSeatColumn())
                 .seatZone(seat.getSeatZone())
-                .seatStatus(seat.getSeatStatus())
+                .status(seat.getSeatStatus().stream().map(SeatStatusSchema::fromStatus).collect(Collectors.toList()))
                 .build();
     }
 
@@ -45,7 +47,7 @@ public class SeatSchema {
                 this.seatRow,
                 this.seatColumn,
                 this.seatZone,
-                this.seatStatus
+                this.status.stream().map(SeatStatusSchema::toStatus).collect(Collectors.toList())
         );
     }
 }
