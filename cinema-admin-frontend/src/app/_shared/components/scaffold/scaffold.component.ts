@@ -105,7 +105,7 @@ export class ScaffoldComponent {
         icon: 'business'
       },
       {
-        label: 'Users',
+        label: 'Employees',
         path: '/users',
         icon: 'people'
       },
