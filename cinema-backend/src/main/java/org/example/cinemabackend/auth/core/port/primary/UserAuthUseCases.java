@@ -7,4 +7,5 @@ public interface UserAuthUseCases {
 
     JwtDto login(LoginUserRequest loginUserRequest);
 
+    JwtDto refreshToken(JwtDto jwtDto);
 }

@@ -48,6 +48,7 @@ class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, AUTH_CUSTOMER_ENDPOINT + "/reset-password").permitAll()
                         .requestMatchers(HttpMethod.POST, PAYMENT_ENDPOINT + "/init-payment").permitAll()
                         .requestMatchers(HttpMethod.POST, PAYMENT_ENDPOINT + "/finalize-payment").permitAll()
+                        .requestMatchers(HttpMethod.POST, USER_AUTH_ENDPOINT + "/refresh-token").permitAll()
                         .requestMatchers(HttpMethod.GET, API_VERSION + "/verify-account").permitAll()
                         .requestMatchers(HttpMethod.GET, CINEMA_ENDPOINT + "/names").permitAll()
                         .requestMatchers(HttpMethod.GET, SCREENING_ENDPOINT + "/repertory/{cinema}/{date}").permitAll()

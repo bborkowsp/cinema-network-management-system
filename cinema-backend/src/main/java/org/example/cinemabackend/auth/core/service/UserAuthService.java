@@ -32,6 +32,14 @@ class UserAuthService implements UserAuthUseCases, UserDetailsService {
         return new JwtDto(jwt);
     }
 
+    @Override
+    public JwtDto refreshToken(JwtDto jwtDto) {
+        return new JwtDto(getRefreshToken(jwtDto.token()));
+    }
+
+    private String getRefreshToken(String token) {
+        return jwtUseCases.createRefreshToken(token);
+    }
 
     private User validateUserExistence(String email) {
         return userRepository.findByEmail(email)

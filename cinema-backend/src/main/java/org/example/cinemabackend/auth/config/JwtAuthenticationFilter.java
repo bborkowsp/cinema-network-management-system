@@ -17,13 +17,11 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Date;
 import java.util.Map;
 
 @RequiredArgsConstructor
 class JwtAuthenticationFilter extends OncePerRequestFilter {
     private static final String EMPTY_STRING = "";
-    private static final String TOKEN_EXPIRED_ERROR_MESSAGE = "Token expired";
     private final JwtConfig jwtConfig;
     private JwtParser jwtParser;
 
@@ -45,10 +43,6 @@ class JwtAuthenticationFilter extends OncePerRequestFilter {
             final var parsedJwt = jwtParser.parseSignedClaims(jwt);
             final var payload = parsedJwt.getPayload();
 
-            if (payload.getExpiration().before(new Date())) {
-                throw new ExpiredJwtException(parsedJwt.getHeader(), payload, TOKEN_EXPIRED_ERROR_MESSAGE);
-            }
-
             final var username = payload.getSubject();
             final var authorities = ((Collection<?>) payload.get("authorities")).stream()
                     .map(authority -> (GrantedAuthority) () -> (String) ((Map<?, ?>) authority).get("authority"))
@@ -56,12 +50,13 @@ class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             final var authentication = new UsernamePasswordAuthenticationToken(username, null, authorities);
             SecurityContextHolder.getContext().setAuthentication(authentication);
+        } catch (ExpiredJwtException e) {
+            // do nothing, because refresh token mechanism is implemented
         } catch (Exception exception) {
             SecurityContextHolder.clearContext();
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
-
         filterChain.doFilter(request, response);
     }
 

@@ -23,4 +23,10 @@ public class UserAuthController {
         final var jwt = userAuthUseCases.login(loginUserRequest);
         return ResponseEntity.ok(jwt);
     }
+
+    @PostMapping("/refresh-token")
+    public ResponseEntity<JwtDto> refreshToken(@RequestBody JwtDto jwtDto) {
+        final var jwt = userAuthUseCases.refreshToken(jwtDto);
+        return ResponseEntity.ok(jwt);
+    }
 }
